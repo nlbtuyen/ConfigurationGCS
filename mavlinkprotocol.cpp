@@ -169,7 +169,9 @@ QString MAVLinkProtocol::getLogfileName()
  **/
 void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: receive
 {
-//    receiveMutex.lock();
+//    qDebug() << "receive";
+
+    receiveMutex.lock();
     mavlink_message_t message;
     mavlink_status_t status;
 
@@ -202,12 +204,12 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
                 // Write message to buffer
                 int len = mavlink_msg_to_send_buffer(buf+sizeof(quint64), &message);
                 QByteArray b((const char*)buf, len);
-                if(m_logfile->write(b) != len)
-                {
-                    emit protocolStatusMessage(tr("MAVLink Logging failed"), tr("Could not write to file %1, disabling logging.").arg(m_logfile->fileName()));
-                    // Stop logging
-                    enableLogging(false);
-                }
+//                if(m_logfile->write(b) != len)
+//                {
+//                    emit protocolStatusMessage(tr("MAVLink Logging failed"), tr("Could not write to file %1, disabling logging.").arg(m_logfile->fileName()));
+//                    // Stop logging
+//                    enableLogging(false);
+//                }
             }
 
             // ORDER MATTERS HERE!
@@ -339,6 +341,8 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
             }
         }
     }
+
+    receiveMutex.unlock();
 }
 
 /**

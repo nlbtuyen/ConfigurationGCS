@@ -7,7 +7,7 @@
 
 SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl, bool parity,
                        int dataBits, int stopBits):
-   // port(0),
+    // port(0),
     portOpenMode(QIODevice::ReadWrite),
     portProductId(0),
     bitsSentTotal(0),
@@ -41,8 +41,8 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
 
     this->id = getNextLinkId();
 
-//    setBaudRate();
-//    setFlowType(QSerialPort::NoFlowControl);
+    //    setBaudRate();
+    //    setFlowType(QSerialPort::NoFlowControl);
 
     int fc = 0;
     int par = 0;
@@ -52,14 +52,14 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
     setParityType(par);
     setDataBitsType(dataBits);
     setStopBitsType(stopBits);
-//    port->setParity(QSerialPort::NoParity);
-//    port->setDataBits(QSerialPort::Data8);
-//    port->setFlowControl(QSerialPort::NoFlowControl);
-//    setTimeoutMillis(-1);
+    //    port->setParity(QSerialPort::NoParity);
+    //    port->setDataBits(QSerialPort::Data8);
+    //    port->setFlowControl(QSerialPort::NoFlowControl);
+    //    setTimeoutMillis(-1);
 
-//    name = this->porthandle.length() ? this->porthandle : tr("Serial Link ") + QString::number(getId());
+    //    name = this->porthandle.length() ? this->porthandle : tr("Serial Link ") + QString::number(getId());
     name = "com7";
-//    port->setPortName("com7");
+    //    port->setPortName("com7");
     setName(name);
     QObject::connect(this, SIGNAL(portError()), this, SLOT(disconnect()));
 
@@ -76,15 +76,16 @@ bool SerialLink::connect()
         this->disconnect();
         this->wait();
     }
-//    qDebug() << "go to connect()";
+    //    qDebug() << "go to connect()";
 
-    // reset the run stop flag
-    //    m_stoppMutex.lock();
-    //    m_stopp = false;
-    //    m_stoppMutex.unlock();
+    //     reset the run stop flag
+    m_stoppMutex.lock();
+    m_stopp = false;
+    m_stoppMutex.unlock();
 
-    //    waitingToReconnect = 0;
-    //    m_linkLossExpected = false;
+//    waitingToReconnect = 0;
+//    m_linkLossExpected = false;
+
     SettingsDialog::Settings p = portSettings->settings();
     this->port->setBaudRate(p.baudRate);
     this->port->setPortName(p.name);
@@ -93,12 +94,12 @@ bool SerialLink::connect()
     this->port->setStopBits(p.stopBits);
     this->port->setFlowControl(p.flowControl);
 
-//    this->port->setBaudRate(QSerialPort::Baud115200);
-//    this->port->setPortName("com7");
-//    this->port->setDataBits(QSerialPort::Data8);
-//    this->port->setParity(QSerialPort::NoParity);
-//    this->port->setStopBits(QSerialPort::OneStop);
-//    this->port->setFlowControl(QSerialPort::NoFlowControl);
+    //    this->port->setBaudRate(QSerialPort::Baud115200);
+    //    this->port->setPortName("com7");
+    //    this->port->setDataBits(QSerialPort::Data8);
+    //    this->port->setParity(QSerialPort::NoParity);
+    //    this->port->setStopBits(QSerialPort::OneStop);
+    //    this->port->setFlowControl(QSerialPort::NoFlowControl);
 
     this->port->open(QSerialPort::ReadWrite);
 
@@ -112,7 +113,7 @@ void SerialLink::run()
     //    if (!hardwareConnect())
     //        return;
 
-//    qDebug() << "go to run()";
+    //    qDebug() << "go to run()";
     while (!m_stopp)
     {
 
@@ -120,7 +121,7 @@ void SerialLink::run()
 
         // Serial data isn't arriving that fast normally, this saves the thread
         // from consuming too much processing time
-         msleep(SerialLink::poll_interval);
+        msleep(SerialLink::poll_interval);
     }
 }
 
@@ -140,40 +141,27 @@ QVector<QString> *SerialLink::getCurrentPorts()
 
 void SerialLink::readBytes() //@Leo
 {
+
     const qint64 maxLength = 2048;
     char data[maxLength];
-    qint64 numBytes = 0, rBytes = 0; //port->bytesAvailable();
+    qint64 numBytes = 0, rBytes = 0;
 
-        dataMutex.lock();
-//    this->port->open(QIODevice::ReadWrite);
+    dataMutex.lock();
 
-//    qDebug() << "here" << this->port->openMode() << " " << this->port->baudRate() << this->port->bytesAvailable();
     while ((numBytes = this->port->bytesAvailable())) {
-//    if (port->open(QSerialPort::ReadWrite)) {
-//    if ( p) {
-    //if(rBytes) {
-//        qDebug() << "numBytes: " << numBytes;
-        /* Read as much data in buffer as possible without overflow */
         rBytes = numBytes;
         if(maxLength < rBytes) rBytes = maxLength;
 
-        if (port->read(data, rBytes) == -1) { // -1 result means error
+        if (port->read(data, rBytes) == -1) {
             emit portError();
 
         }
-
-//        qDebug() << "go to readBytes()";
-
         QByteArray b(data, rBytes);
         emit bytesReceived(this, b); //@Leo signal bytesReceive in LinkInterface
         bitsReceivedTotal += rBytes * 8;
-
-        //        for (int i=0; i<rBytes; i++){
-        //            unsigned int v=data[i];
-        //            fprintf(stderr,"%02x ", v);
-        //        } fprintf(stderr,"\n");
     }
-        dataMutex.unlock();
+
+    dataMutex.unlock();
 }
 
 bool SerialLink::hardwareConnect()
@@ -245,10 +233,10 @@ bool SerialLink::hardwareConnect()
 bool SerialLink::disconnect()
 {
     if(this->isRunning() && !m_stopp) {
-//        m_stoppMutex.lock();
+                m_stoppMutex.lock();
         this->m_stopp = true;
         //m_waitCond.wakeOne();
-//        m_stoppMutex.unlock();
+                m_stoppMutex.unlock();
         this->wait();
     }
 

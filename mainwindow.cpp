@@ -53,16 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     link = new SerialLink();
 
-    //    toolBar = new ToolBar();
-    //    toolBar->setWindowTitle(tr("Main ToolBar"));
-    //    this->addToolBar(toolBar);
-    //    QList<QAction*> actions;
-    //    actions << ui->actionConnect;
-    //    actions << ui->actionDisconnect;
-    //    actions << ui->actionConfigure;
-    //    toolBar->setPerspectiveChangeActions(actions);
-
-
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     ui->actionQuit->setEnabled(true);
