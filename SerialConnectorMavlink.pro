@@ -28,8 +28,7 @@ SOURCES += main.cpp\
     mavlinkuasfactory.cpp \
     seriallink.cpp \
     mavlinkdecoder.cpp \
-    uasinfowidget.cpp \
-    toolbar.cpp
+    uasinfowidget.cpp
 
 HEADERS  += mainwindow.h \
     settingsdialog.h \
@@ -55,7 +54,6 @@ common\* \
     seriallinkinterface.h \
     mavlinkdecoder.h \
     uasinfowidget.h \
-    toolbar.h \
     mg.h
 
 

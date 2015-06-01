@@ -19,12 +19,11 @@
 #include "linkinterface.h"
 #include "seriallink.h"
 #include "uasinfowidget.h"
-#include "toolbar.h"
 
 namespace Ui {
 class MainWindow;
 }
-
+class UASInterface;
 class ToolBar;
 class SerialLink;
 class MAVLinkMessageSender;
@@ -83,8 +82,6 @@ protected:
 
     MAVLinkProtocol* mavlink;
 
-    QLabel* symbolLabel;
-    QLabel* toolBarNameLabel;
     QLabel* toolBarTimeoutLabel;
     QLabel* toolBarSafetyLabel;
     QLabel* toolBarStateLabel;
@@ -100,6 +97,11 @@ protected:
 
 //    QPointer<MAVLinkDecoder> mavlinkDecoder;
 
+    float batteryPercent;
+    float batteryVoltage;
+    bool changed;
+    bool systemArmed;
+
 public slots:
     virtual void readData();
     void showTool(bool visible);
@@ -112,6 +114,11 @@ public slots:
     /** @brief Shows a critical message as popup or as widget */
     void showCriticalMessage(const QString& title, const QString& message);
 
+    /** @brief Set the system that is currently displayed by this widget */
+    void setActiveUAS(UASInterface* active);
+    /** @brief Repaint widgets */
+    void updateView();
+
 private slots:
 //    void openSerialPort();
     void closeSerialPort();
@@ -119,6 +126,13 @@ private slots:
     void handleError(QSerialPort::SerialPortError error);
 //    void updateBattery(double, double);
 
+
+    /** @brief Update connection timeout time */
+    void heartbeatTimeout(bool timeout, unsigned int ms);
+    /** @brief Update battery charge state */
+    void updateBatteryRemaining(UASInterface* uas, double voltage, double percent, int seconds);
+    /** @brief Update arming state */
+    void updateArmingState(bool armed);
 
 private:
     void initActionsConnections();
@@ -128,6 +142,8 @@ private:
     UAVConfig *config;
     SerialLink* link;
     QSettings setting;
+    UASInterface *mav;
+
     //ToolBar* toolBar;
 
 

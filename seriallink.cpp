@@ -144,7 +144,7 @@ void SerialLink::readBytes() //@Leo
     char data[maxLength];
     qint64 numBytes = 0, rBytes = 0; //port->bytesAvailable();
 
-    //    dataMutex.lock();
+        dataMutex.lock();
 //    this->port->open(QIODevice::ReadWrite);
 
 //    qDebug() << "here" << this->port->openMode() << " " << this->port->baudRate() << this->port->bytesAvailable();
@@ -173,7 +173,7 @@ void SerialLink::readBytes() //@Leo
         //            fprintf(stderr,"%02x ", v);
         //        } fprintf(stderr,"\n");
     }
-    //    dataMutex.unlock();
+        dataMutex.unlock();
 }
 
 bool SerialLink::hardwareConnect()

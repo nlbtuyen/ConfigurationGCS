@@ -1,13 +1,13 @@
 #ifndef UAVCONFIG_H
 #define UAVCONFIG_H
 
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
 class UAVConfig;
 }
 
-class UAVConfig : public QWidget
+class UAVConfig : public QDialog
 {
     Q_OBJECT
 
@@ -16,18 +16,17 @@ public:
     ~UAVConfig();
 
 private slots:
-    void on_pushButton_5_clicked();
+    void on_btn_quadx_clicked();
 
-    void on_pushButton_6_clicked();
+    void on_btn_quadplus_clicked();
 
-    void on_pushButton_7_clicked();
+    void on_btn_hex6_clicked();
 
-    void on_pushButton_8_clicked();
-
+    void on_btn_hexy_clicked();
 
 private:
     Ui::UAVConfig *ui;
-    int isSelected =0;
+    int isSelected = 0;
 };
 
 #endif // UAVCONFIG_H

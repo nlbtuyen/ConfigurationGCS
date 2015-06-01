@@ -28,18 +28,23 @@
 #include "qgc.h"
 #include "seriallink.h"
 #include "uasinfowidget.h"
-#include "toolbar.h"
+
 
 //QFile file("datatype.txt");
 //QTextStream out(&file);
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+        mav(NULL),
+        changed(true),
+        batteryPercent(0),
+        batteryVoltage(0),
+        systemArmed(false),
+        QMainWindow(parent),
     sys_mode(MAV_MODE_PREFLIGHT),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    QMainWindow::showFullScreen();
+    //    QMainWindow::showFullScreen();
 
     //    serial = new QSerialPort(this);
     settings = new SettingsDialog();
@@ -48,14 +53,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     link = new SerialLink();
 
-//    toolBar = new ToolBar();
-//    toolBar->setWindowTitle(tr("Main ToolBar"));
-//    this->addToolBar(toolBar);
-//    QList<QAction*> actions;
-//    actions << ui->actionConnect;
-//    actions << ui->actionDisconnect;
-//    actions << ui->actionConfigure;
-//    toolBar->setPerspectiveChangeActions(actions);
+    //    toolBar = new ToolBar();
+    //    toolBar->setWindowTitle(tr("Main ToolBar"));
+    //    this->addToolBar(toolBar);
+    //    QList<QAction*> actions;
+    //    actions << ui->actionConnect;
+    //    actions << ui->actionDisconnect;
+    //    actions << ui->actionConfigure;
+    //    toolBar->setPerspectiveChangeActions(actions);
 
 
     ui->actionConnect->setEnabled(true);
@@ -117,8 +122,8 @@ void MainWindow::closeSerialPort()
         LinkManager::instance()->removeLink(link); //remove link from LinkManager list
         link->deleteLater();
     }
-     link=NULL;
-//    parametersDockWidget->hide();
+    link=NULL;
+    //    parametersDockWidget->hide();
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     ui->actionConfigure->setEnabled(true);
@@ -164,6 +169,58 @@ void MainWindow::handleError(QSerialPort::SerialPortError error)
         closeSerialPort();
     }
 }
+
+void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
+{
+    if (ms>10000)
+    {
+        if (!link || !link->isConnected())
+        {
+            toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: #B40404; }"));
+        }
+    }
+    if (timeout)
+    {
+        if ((ms/1000)%2==0)
+        {
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: #B40404; }"));
+        }
+        else
+        {
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: #B40404; }"));
+        }
+        toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
+    }
+    else
+    {
+//        // Check if loss text is present, reset once
+//        if (toolBarTimeoutLabel->text() != "")
+//        {
+//            toolBarTimeoutLabel->setStyleSheet(QString(" padding: 0;"));
+//            toolBarTimeoutLabel->setText("");
+//        }
+
+
+    }
+}
+
+void MainWindow::updateBatteryRemaining(UASInterface *uas, double voltage, double percent, int seconds)
+{
+    Q_UNUSED(uas);
+    Q_UNUSED(seconds);
+    if (batteryPercent != percent || batteryVoltage != voltage) changed = true;
+    batteryPercent = percent;
+    batteryVoltage = voltage;
+}
+
+void MainWindow::updateArmingState(bool armed)
+{
+    systemArmed = armed;
+    changed = true;
+    /* important, immediately update */
+    updateView();
+}
 void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea area)
 {
     QAction* tempAction = ui->menuTools->addAction(title);
@@ -202,10 +259,6 @@ void MainWindow::initActionsConnections()
 
 
     //===== Toolbar Status =====
-    toolBarNameLabel = new QLabel("------", this);
-    toolBarNameLabel->setToolTip(tr("Currently controlled vehicle"));
-    toolBarNameLabel->setObjectName("toolBarNameLabel");
-    ui->mainToolBar->addWidget(toolBarNameLabel);
 
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status, interval since last message if timed out."));
@@ -219,11 +272,11 @@ void MainWindow::initActionsConnections()
     toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
     ui->mainToolBar->addWidget(toolBarSafetyLabel);
 
-    toolBarStateLabel = new QLabel("------", this);
-    toolBarStateLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #FFFF00; }"));
-    toolBarStateLabel->setToolTip(tr("Vehicle state"));
-    toolBarStateLabel->setObjectName("toolBarStateLabel");
-    ui->mainToolBar->addWidget(toolBarStateLabel);
+    //    toolBarStateLabel = new QLabel("------", this);
+    //    toolBarStateLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #FFFF00; }"));
+    //    toolBarStateLabel->setToolTip(tr("Vehicle state"));
+    //    toolBarStateLabel->setObjectName("toolBarStateLabel");
+    //    ui->mainToolBar->addWidget(toolBarStateLabel);
 
     toolBarBatteryBar = new QProgressBar(this);
     toolBarBatteryBar->setStyleSheet("QProgressBar:horizontal { margin: 0px 4px 0px 0px; border: 1px solid #4A4A4F; border-radius: 4px; text-align: center; padding: 2px; color: #111111; background-color: #111118; height: 10px; } QProgressBar:horizontal QLabel { font-size: 9px; color: #111111; } QProgressBar::chunk { background-color: green; }");
@@ -236,16 +289,17 @@ void MainWindow::initActionsConnections()
     ui->mainToolBar->addWidget(toolBarBatteryBar);
 
     toolBarBatteryVoltageLabel = new QLabel("xx.x V");
-    toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel {  margin: 0px 2px; color: %1; }").arg(QColor(Qt::green).name()));
+    toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel {  margin: 0px 2px; font: 18px; color: %1; }").arg(QColor(Qt::green).name()));
     toolBarBatteryVoltageLabel->setToolTip(tr("Battery voltage"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
     ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
 
-    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
-    toolBarMessageLabel->setToolTip(tr("Most recent system message"));
-    toolBarMessageLabel->setObjectName("toolBarMessageLabel");
-    ui->mainToolBar->addWidget(toolBarMessageLabel);
+    //    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
+    //    toolBarMessageLabel->setToolTip(tr("Most recent system message"));
+    //    toolBarMessageLabel->setObjectName("toolBarMessageLabel");
+    //    ui->mainToolBar->addWidget(toolBarMessageLabel);
 
+    updateView();
 
 }
 
@@ -413,6 +467,11 @@ void MainWindow::addLink()
     ui->actionDisconnect->setEnabled(true);
     ui->actionConfigure->setEnabled(false);
     ui->statusBar->showMessage(tr("Connected"));
+    //connect(active, SIGNAL(heartbeatTimeout(bool, unsigned int)), this, SLOT(heartbeatTimeout(bool,unsigned int)));
+
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
+    toolBarTimeoutLabel->setText(tr("CONNECTION"));
+
 
 }
 
@@ -451,4 +510,55 @@ void MainWindow::showMessage(const QString &title, const QString &message, const
 void MainWindow::showCriticalMessage(const QString& title, const QString& message)
 {
     showMessage(title, message, "", "critical");
+}
+
+void MainWindow::setActiveUAS(UASInterface *active)
+{
+    // Do nothing if system is the same or NULL
+    if ((active == NULL) || mav == active) return;
+
+    if (mav)
+    {
+        // Disconnect old system
+        disconnect(mav, 0, this, 0);
+    }
+
+    // Connect new system
+    mav = active;
+    //connected or not
+    connect(active,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
+    //update battery
+    connect(active, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
+    //update arm or not
+    connect(active, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
+
+    systemArmed = mav->isArmed();
+
+//    toolBarTimeoutLabel->setStyleSheet(QString(" padding: 0;"));
+    //    toolBarTimeoutLabel->setText("");
+}
+
+void MainWindow::updateView()
+{
+    if (!changed) return;
+
+    setActiveUAS(UASManager::instance()->getActiveUAS());
+    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
+
+    toolBarBatteryBar->setValue(batteryPercent);
+    toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
+
+    if (systemArmed)
+    {
+        toolBarSafetyLabel->setStyleSheet(QString("QLabel {margin: 0px 2px; font: 18px; color: %1; background-color: %2; }").arg(QGC::colorRed.name()).arg(QGC::colorYellow.name()));
+        toolBarSafetyLabel->setText(tr("ARMED"));
+    }
+    else
+    {
+        toolBarSafetyLabel->setStyleSheet("QLabel {margin: 0px 2px; font: 18px; color: #14C814; }");
+        toolBarSafetyLabel->setText(tr("SAFE"));
+    }
+
+    changed = false;
+
 }

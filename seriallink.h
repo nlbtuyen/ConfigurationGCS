@@ -86,6 +86,9 @@ public:
     //unsigned char read();
     quint16 reconnectDelayMs() const { return m_reconnectDelayMs; }
 
+    QMutex dataMutex;
+
+
 public slots:
     /** @brief Get a list of the currently available ports */
     QVector<QString>* getCurrentPorts();
@@ -151,7 +154,7 @@ protected:
     quint64 bitsReceivedMax;
     quint64 connectionStartTime;
     QMutex statisticsMutex;
-    QMutex dataMutex;
+//    QMutex dataMutex;
     QVector<QString>* ports;
     quint64 waitingToReconnect;  // msec while waiting to reconnect automatically, zero if not waiting
     quint16 m_reconnectDelayMs;    // msec to wait before reconnecting, after device is discovered
