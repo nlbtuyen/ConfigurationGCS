@@ -169,7 +169,7 @@ QString MAVLinkProtocol::getLogfileName()
  **/
 void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: receive
 {
-    qDebug() << "receive";
+//    qDebug() << "receive";
 
     receiveMutex.lock();
     mavlink_message_t message;
@@ -198,12 +198,12 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
             // Log data
             if (m_loggingEnabled && m_logfile)
             {
-                uint8_t buf[MAVLINK_MAX_PACKET_LEN+sizeof(quint64)];
-                quint64 time = QGC::groundTimeUsecs();
-                memcpy(buf, (void*)&time, sizeof(quint64));
-                // Write message to buffer
-                int len = mavlink_msg_to_send_buffer(buf+sizeof(quint64), &message);
-                QByteArray b((const char*)buf, len);
+//                uint8_t buf[MAVLINK_MAX_PACKET_LEN+sizeof(quint64)];
+//                quint64 time = QGC::groundTimeUsecs();
+//                memcpy(buf, (void*)&time, sizeof(quint64));
+//                // Write message to buffer
+//                int len = mavlink_msg_to_send_buffer(buf+sizeof(quint64), &message);
+//                QByteArray b((const char*)buf, len);
 //                if(m_logfile->write(b) != len)
 //                {
 //                    emit protocolStatusMessage(tr("MAVLink Logging failed"), tr("Could not write to file %1, disabling logging.").arg(m_logfile->fileName()));

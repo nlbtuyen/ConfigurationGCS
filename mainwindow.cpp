@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     batteryPercent(0),
     batteryVoltage(0),
     systemArmed(false),
+    paramaq(NULL),
     QMainWindow(parent),
     sys_mode(MAV_MODE_PREFLIGHT),
     ui(new Ui::MainWindow)
@@ -69,8 +70,6 @@ MainWindow::MainWindow(QWidget *parent) :
     addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
 
 
-
-
     if(setting.contains(getWindowGeometryKey()))
     {
         //REstore the window geometry
@@ -93,8 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     initActionsConnections();
-connectCommonWidgets();
-connectCommonActions();
+    connectCommonWidgets();
 
 }
 
@@ -134,7 +132,7 @@ void MainWindow::closeSerialPort()
         LinkManager::instance()->removeLink(link); //remove link from LinkManager list
         link->deleteLater();
     }
-    link=NULL;
+    link = NULL;
     //    parametersDockWidget->hide();
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
@@ -257,18 +255,10 @@ void MainWindow::connectCommonWidgets()
     {
         connect(mavlink, SIGNAL(receiveLossChanged(int,float)),infoDockWidget->widget(), SLOT(updateSendLoss(int, float)));
     }
-}
-
-void MainWindow::connectCommonActions()
-{
-//  QActionGroup* perspectives = new QActionGroup(ui->menuWidgets);
-    connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(addLink()));
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UAScreated(UASInterface*)));
-//    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
-//    connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
-
 
 }
+
 
 
 void MainWindow::showTool(bool show)
@@ -285,12 +275,9 @@ void MainWindow::initActionsConnections()
     connect(mavlink, SIGNAL(protocolStatusMessage(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
 
     connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(addLink()));
-    //    connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(openSerialPort()));
     connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionConfigure, SIGNAL(triggered()), settings, SLOT(show()));
-
-
 
     //===== Toolbar Status =====
 
@@ -467,7 +454,6 @@ void MainWindow::receiveMessage(mavlink_message_t message)
         break;
     case MAVLINK_MSG_ID_HIL_STATE:
     {
-        qDebug() << "==================================================================hil state \n";
         mavlink_hil_state_t state;
         mavlink_msg_hil_state_decode(&message,&state);
         roll = state.roll;
@@ -496,35 +482,33 @@ void MainWindow::addLink()
     link = tmplink;
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
-    qDebug() << link->getBitsReceived();
-    link->connect();
-    ui->actionConnect->setEnabled(false);
-    ui->actionDisconnect->setEnabled(true);
-    ui->actionConfigure->setEnabled(false);
-    ui->statusBar->showMessage(tr("Connected"));
-    //connect(active, SIGNAL(heartbeatTimeout(bool, unsigned int)), this, SLOT(heartbeatTimeout(bool,unsigned int)));
+    qDebug() << "addlink()" ;
 
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
-    toolBarTimeoutLabel->setText(tr("CONNECTION"));
+    if (link)
+    {
+        link->connect();
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
+        toolBarTimeoutLabel->setText(tr("CONNECTION"));
+        ui->actionConnect->setChecked(true);  // this will be set once actually connected
+        ui->actionConnect->setEnabled(false);
+        ui->actionDisconnect->setEnabled(true);
+        ui->actionConfigure->setEnabled(false);
 
-    QAction* act = getActionByLink(link);
-    if (act)
-        act->trigger();
-
-
+        QAction* act = getActionByLink(link);
+        if (act)
+            act->trigger();
+    }
 }
 
-void MainWindow::addLink(LinkInterface *link)
-{
-    LinkManager::instance()->add(link);
-    LinkManager::instance()->addProtocol(link, mavlink);
-    link->connect();
+//void MainWindow::addLink(LinkInterface *link)
+//{
+//    LinkManager::instance()->add(link);
+//    LinkManager::instance()->addProtocol(link, mavlink);
+//    link->connect();
 
-    ui->actionConnect->setEnabled(false);
-    ui->actionDisconnect->setEnabled(true);
-    ui->actionConfigure->setEnabled(false);
-    ui->statusBar->showMessage(tr("Connected"));
-}
+//    qDebug()<< "addlink(link)";
+
+//}
 
 void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)
 {
@@ -573,8 +557,15 @@ void MainWindow::setActiveUAS(UASInterface *active)
 
     systemArmed = mav->isArmed();
 
-    //    toolBarTimeoutLabel->setStyleSheet(QString(" padding: 0;"));
-    //    toolBarTimeoutLabel->setText("");
+//    connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
+//    connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
+//    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
+
+//    // reset system info of connected AQ
+//    setConnectedSystemInfoDefaults();
+//    paramaq->requestParameterList();
+
+
 }
 
 void MainWindow::updateView()
@@ -600,4 +591,9 @@ void MainWindow::updateView()
 
     changed = false;
 
+}
+
+void MainWindow::loadParametersToUI()
+{
+//    AQParamWidget::load
 }

@@ -85,6 +85,7 @@ protected:
     static void print_one_field(const mavlink_message_t *msg, const mavlink_field_info_t *f, int idx);
 
     MAVLinkProtocol* mavlink;
+    AQParamWidget* paramaq;
 
     QLabel* toolBarTimeoutLabel;
     QLabel* toolBarSafetyLabel;
@@ -99,18 +100,12 @@ protected:
 
     void addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea location=Qt::RightDockWidgetArea);
 
-//    QPointer<MAVLinkDecoder> mavlinkDecoder;
-
     float batteryPercent;
     float batteryVoltage;
     bool changed;
     bool systemArmed;
 
     void connectCommonWidgets();
-    void connectCommonActions();
-
-
-
 
 public slots:
     virtual void readData();
@@ -118,7 +113,7 @@ public slots:
 
     /** @brief Add a communication link */
     void addLink();
-    void addLink(LinkInterface* link);
+//    void addLink(LinkInterface* link);
     /** @brief Shows an info or warning message */
     void showMessage(const QString &title, const QString &message, const QString &details, const QString severity = "info");
     /** @brief Shows a critical message as popup or as widget */
@@ -128,6 +123,8 @@ public slots:
     void setActiveUAS(UASInterface* active);
     /** @brief Repaint widgets */
     void updateView();
+
+    void loadParametersToUI();
 
 public slots:
 //    void openSerialPort();

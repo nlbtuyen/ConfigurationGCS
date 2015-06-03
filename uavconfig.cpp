@@ -39,6 +39,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     ui->btn_quadx->setStyleSheet("background-color : yellow");
     QImage imageObject6;
+    ui->lbl_show_ac->setAlignment(Qt::AlignCenter);
     imageObject6.load(str + "quadx.png");
     ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
 }
