@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tab_aq_setting">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_RC_config">
       <attribute name="title">
@@ -2180,7 +2180,7 @@ padding: 1px 5px;</string>
         <widget class="QLabel" name="lbl_show_ac">
          <property name="minimumSize">
           <size>
-           <width>250</width>
+           <width>335</width>
            <height>250</height>
           </size>
          </property>

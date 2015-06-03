@@ -2,6 +2,7 @@
 #define UAVCONFIG_H
 
 #include <QDialog>
+#include <QDebug>
 
 namespace Ui {
 class UAVConfig;
@@ -26,7 +27,9 @@ private slots:
 
 private:
     Ui::UAVConfig *ui;
-    int isSelected = 0;
+    int isSelected = 1;
+    QString str = ":images/config/";
+
 };
 
 #endif // UAVCONFIG_H

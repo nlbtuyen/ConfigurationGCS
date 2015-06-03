@@ -169,7 +169,7 @@ QString MAVLinkProtocol::getLogfileName()
  **/
 void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: receive
 {
-//    qDebug() << "receive";
+    qDebug() << "receive";
 
     receiveMutex.lock();
     mavlink_message_t message;

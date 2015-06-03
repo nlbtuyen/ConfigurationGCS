@@ -41,8 +41,14 @@
     </property>
     <addaction name="actionConfigure"/>
    </widget>
+   <widget class="QMenu" name="menuWidgets">
+    <property name="title">
+     <string>Widgets</string>
+    </property>
+   </widget>
    <addaction name="menuCalls"/>
    <addaction name="menuTools"/>
+   <addaction name="menuWidgets"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

@@ -34,12 +34,12 @@
 //QTextStream out(&file);
 
 MainWindow::MainWindow(QWidget *parent) :
-        mav(NULL),
-        changed(true),
-        batteryPercent(0),
-        batteryVoltage(0),
-        systemArmed(false),
-        QMainWindow(parent),
+    mav(NULL),
+    changed(true),
+    batteryPercent(0),
+    batteryVoltage(0),
+    systemArmed(false),
+    QMainWindow(parent),
     sys_mode(MAV_MODE_PREFLIGHT),
     ui(new Ui::MainWindow)
 {
@@ -69,6 +69,8 @@ MainWindow::MainWindow(QWidget *parent) :
     addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
 
 
+
+
     if(setting.contains(getWindowGeometryKey()))
     {
         //REstore the window geometry
@@ -91,7 +93,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     initActionsConnections();
-
+connectCommonWidgets();
+connectCommonActions();
 
 }
 
@@ -101,6 +104,25 @@ MainWindow::~MainWindow()
     delete ui;
     serial->close();
     //    file.close();
+}
+
+QList<QAction *> MainWindow::listLinkMenuActions()
+{
+    return ui->menuWidgets->actions();
+}
+
+QAction *MainWindow::getActionByLink(LinkInterface *link)
+{
+    QAction *ret = NULL;
+    int linkIndex = LinkManager::instance()->getLinks().indexOf(link);
+    int linkID = LinkManager::instance()->getLinks().at(linkIndex)->getId();
+
+    foreach (QAction* act, listLinkMenuActions())
+    {
+        if (act->data().toInt() == linkID)
+            return act;
+    }
+    return ret;
 }
 
 void MainWindow::closeSerialPort()
@@ -184,13 +206,6 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
     }
     else
     {
-//        // Check if loss text is present, reset once
-//        if (toolBarTimeoutLabel->text() != "")
-//        {
-//            toolBarTimeoutLabel->setStyleSheet(QString(" padding: 0;"));
-//            toolBarTimeoutLabel->setText("");
-//        }
-
 
     }
 }
@@ -211,9 +226,18 @@ void MainWindow::updateArmingState(bool armed)
     /* important, immediately update */
     updateView();
 }
+
+void MainWindow::UAScreated(UASInterface *uas)
+{
+    if (!uas)
+        return;
+
+
+}
+
 void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea area)
 {
-    QAction* tempAction = ui->menuTools->addAction(title);
+    QAction* tempAction = ui->menuWidgets->addAction(title);
 
     tempAction->setCheckable(true);
     QVariant var;
@@ -226,6 +250,26 @@ void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidg
     widget->setMinimumWidth(250);
     //    widget->hide();
 }
+
+void MainWindow::connectCommonWidgets()
+{
+    if (infoDockWidget && infoDockWidget->widget())
+    {
+        connect(mavlink, SIGNAL(receiveLossChanged(int,float)),infoDockWidget->widget(), SLOT(updateSendLoss(int, float)));
+    }
+}
+
+void MainWindow::connectCommonActions()
+{
+//  QActionGroup* perspectives = new QActionGroup(ui->menuWidgets);
+    connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(addLink()));
+    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UAScreated(UASInterface*)));
+//    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
+//    connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
+
+
+}
+
 
 void MainWindow::showTool(bool show)
 {
@@ -452,6 +496,7 @@ void MainWindow::addLink()
     link = tmplink;
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
+    qDebug() << link->getBitsReceived();
     link->connect();
     ui->actionConnect->setEnabled(false);
     ui->actionDisconnect->setEnabled(true);
@@ -461,6 +506,10 @@ void MainWindow::addLink()
 
     toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
     toolBarTimeoutLabel->setText(tr("CONNECTION"));
+
+    QAction* act = getActionByLink(link);
+    if (act)
+        act->trigger();
 
 
 }
@@ -524,7 +573,7 @@ void MainWindow::setActiveUAS(UASInterface *active)
 
     systemArmed = mav->isArmed();
 
-//    toolBarTimeoutLabel->setStyleSheet(QString(" padding: 0;"));
+    //    toolBarTimeoutLabel->setStyleSheet(QString(" padding: 0;"));
     //    toolBarTimeoutLabel->setText("");
 }
 

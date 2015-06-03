@@ -30,6 +30,7 @@ SOURCES += main.cpp\
     mavlinkdecoder.cpp \
     uasinfowidget.cpp
 
+
 HEADERS  += mainwindow.h \
     settingsdialog.h \
 common\* \

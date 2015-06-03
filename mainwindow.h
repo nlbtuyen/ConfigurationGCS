@@ -45,6 +45,10 @@ public:
     {
         return mavlink;
     }
+    QList<QAction*> listLinkMenuActions(void);
+
+    QAction *getActionByLink(LinkInterface *link);
+
 
 protected:
     QMutex dataMutex;
@@ -102,6 +106,12 @@ protected:
     bool changed;
     bool systemArmed;
 
+    void connectCommonWidgets();
+    void connectCommonActions();
+
+
+
+
 public slots:
     virtual void readData();
     void showTool(bool visible);
@@ -119,7 +129,7 @@ public slots:
     /** @brief Repaint widgets */
     void updateView();
 
-private slots:
+public slots:
 //    void openSerialPort();
     void closeSerialPort();
     void writeData(const QByteArray &data);
@@ -133,6 +143,8 @@ private slots:
     void updateBatteryRemaining(UASInterface* uas, double voltage, double percent, int seconds);
     /** @brief Update arming state */
     void updateArmingState(bool armed);
+
+    void UAScreated(UASInterface* uas);
 
 private:
     void initActionsConnections();

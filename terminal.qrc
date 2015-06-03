@@ -4,5 +4,21 @@
         <file>images/disconnect.png</file>
         <file>images/application-exit.png</file>
         <file>images/settings.png</file>
+        <file>images/config/1.png</file>
+        <file>images/config/2.png</file>
+        <file>images/config/3.png</file>
+        <file>images/config/4.png</file>
+        <file>images/config/command_stick.jpg</file>
+        <file>images/config/display.jpg</file>
+        <file>images/config/firmwares.jpg</file>
+        <file>images/config/graph.png</file>
+        <file>images/config/hex.png</file>
+        <file>images/config/hex6.png</file>
+        <file>images/config/hexY.png</file>
+        <file>images/config/quadplus.png</file>
+        <file>images/config/quadx.png</file>
+        <file>images/config/read.png</file>
+        <file>images/config/Save.png</file>
+        <file>images/config/write.png</file>
     </qresource>
 </RCC>

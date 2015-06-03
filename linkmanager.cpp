@@ -65,7 +65,7 @@ void LinkManager::addProtocol(LinkInterface* link, ProtocolInterface* protocol)
 
         // Protocol is new, add
         connect(link, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), protocol, SLOT(receiveBytes(LinkInterface*, QByteArray)));//@Leo : receivebytes
-        qDebug() << "linkmanager" ;
+//        qDebug() << "linkmanager" ;
 
         // Store the connection information in the protocol links map
         protocolLinks.insertMulti(protocol, link);
