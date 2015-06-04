@@ -28,6 +28,7 @@
 #include "qgc.h"
 #include "seriallink.h"
 #include "uasinfowidget.h"
+#include "aqpramwidget.h"
 
 
 //QFile file("datatype.txt");
@@ -484,6 +485,8 @@ void MainWindow::addLink()
     LinkManager::instance()->addProtocol(link, mavlink);
     qDebug() << "addlink()" ;
 
+    qDebug() << link->getTotalDownstream();
+
     if (link)
     {
         link->connect();
@@ -493,6 +496,7 @@ void MainWindow::addLink()
         ui->actionConnect->setEnabled(false);
         ui->actionDisconnect->setEnabled(true);
         ui->actionConfigure->setEnabled(false);
+
 
         QAction* act = getActionByLink(link);
         if (act)
@@ -557,13 +561,6 @@ void MainWindow::setActiveUAS(UASInterface *active)
 
     systemArmed = mav->isArmed();
 
-//    connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
-//    connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
-//    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
-
-//    // reset system info of connected AQ
-//    setConnectedSystemInfoDefaults();
-//    paramaq->requestParameterList();
 
 
 }

@@ -142,12 +142,14 @@ QVector<QString> *SerialLink::getCurrentPorts()
 void SerialLink::readBytes() //@Leo
 {
 
+//    qDebug() << "readBytes";
     const qint64 maxLength = 2048;
     char data[maxLength];
     qint64 numBytes = 0, rBytes = 0;
 
     dataMutex.lock();
 
+//    qDebug() << this->port->bytesAvailable();
     while ((numBytes = this->port->bytesAvailable())) {
         rBytes = numBytes;
         if(maxLength < rBytes) rBytes = maxLength;
@@ -157,6 +159,7 @@ void SerialLink::readBytes() //@Leo
 
         }
         QByteArray b(data, rBytes);
+//        qDebug() << b;
         emit bytesReceived(this, b); //@Leo signal bytesReceive in LinkInterface
         bitsReceivedTotal += rBytes * 8;
     }
@@ -166,6 +169,7 @@ void SerialLink::readBytes() //@Leo
 
 bool SerialLink::hardwareConnect()
 {
+    qDebug() << "hardware";
     if (!isPortHandleValid()) {
         emit communicationError(this->getName(), tr("Failed to open serial port %1 because it no longer exists in the system.").arg(porthandle));
         return false;

@@ -23,6 +23,7 @@
 namespace Ui {
 class MainWindow;
 }
+
 class UASInterface;
 class ToolBar;
 class SerialLink;
