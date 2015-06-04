@@ -47,30 +47,30 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     //    QMainWindow::showFullScreen();
-
+    
     //    serial = new QSerialPort(this);
     settings = new SettingsDialog();
     config = new UAVConfig();
     setCentralWidget(config);
-
+    
     link = new SerialLink();
-
+    
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     ui->actionQuit->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
-
+    
     infoDockWidget = new QDockWidget(tr("Status Details"), this);
     infoDockWidget->setWidget( new UASInfoWidget(this));
     infoDockWidget->setObjectName("UAS_STATUS_DETAILS_DOCKWIDGET");
     addTool(infoDockWidget, tr("Status Details"), Qt::RightDockWidgetArea);
-
+    
     parametersDockWidget = new QDockWidget(tr("Onboard Parameters"), this);
     parametersDockWidget->setWidget( new ParameterInterface(this) );
     parametersDockWidget->setObjectName("PARAMETER_INTERFACE_DOCKWIDGET");
     addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
-
-
+    
+    
     if(setting.contains(getWindowGeometryKey()))
     {
         //REstore the window geometry
@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
         //Ajust the size
         const int screenWidth = QApplication::desktop()->availableGeometry().width();
         const int screenHeight = QApplication::desktop()->availableGeometry().height();
-
+        
         if (screenWidth <1200 || screenHeight <800) {
             showMaximized();
         }
@@ -91,10 +91,10 @@ MainWindow::MainWindow(QWidget *parent) :
             show();
         }
     }
-
+    
     initActionsConnections();
     connectCommonWidgets();
-
+    
 }
 
 MainWindow::~MainWindow()
@@ -115,7 +115,7 @@ QAction *MainWindow::getActionByLink(LinkInterface *link)
     QAction *ret = NULL;
     int linkIndex = LinkManager::instance()->getLinks().indexOf(link);
     int linkID = LinkManager::instance()->getLinks().at(linkIndex)->getId();
-
+    
     foreach (QAction* act, listLinkMenuActions())
     {
         if (act->data().toInt() == linkID)
@@ -139,7 +139,7 @@ void MainWindow::closeSerialPort()
     ui->actionDisconnect->setEnabled(false);
     ui->actionConfigure->setEnabled(true);
     ui->statusBar->showMessage(tr("Disconnected"));
-
+    
 }
 
 void MainWindow::writeData(const QByteArray &data)
@@ -153,24 +153,24 @@ void MainWindow::readData()
     const qint64 maxLength = 2048;
     char data[maxLength];
     qint64 numBytes = 0, rBytes = 0;
-
+    
     dataMutex.lock();
     while ((numBytes = serial->bytesAvailable())) {
         rBytes = numBytes;
         if(maxLength < rBytes) rBytes = maxLength;
-
+        
         if (serial->read(data, rBytes) == -1) { // -1 result means error
-
+            
             return;
         }
         QByteArray b(data, rBytes);
         bytesReceived(b);
-
+        
         bitsReceivedTotal += rBytes * 8;
-
+        
     }
     dataMutex.unlock();
-
+    
 }
 
 void MainWindow::handleError(QSerialPort::SerialPortError error)
@@ -205,7 +205,7 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
     }
     else
     {
-
+        
     }
 }
 
@@ -230,14 +230,14 @@ void MainWindow::UAScreated(UASInterface *uas)
 {
     if (!uas)
         return;
-
-
+    
+    
 }
 
 void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea area)
 {
     QAction* tempAction = ui->menuWidgets->addAction(title);
-
+    
     tempAction->setCheckable(true);
     QVariant var;
     var.setValue((QWidget*)widget);
@@ -257,7 +257,7 @@ void MainWindow::connectCommonWidgets()
         connect(mavlink, SIGNAL(receiveLossChanged(int,float)),infoDockWidget->widget(), SLOT(updateSendLoss(int, float)));
     }
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UAScreated(UASInterface*)));
-
+    
 }
 
 
@@ -274,32 +274,32 @@ void MainWindow::initActionsConnections()
     //TODO:  move protocol outside UI
     mavlink     = new MAVLinkProtocol();
     connect(mavlink, SIGNAL(protocolStatusMessage(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
-
+    
     connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(addLink()));
     connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionConfigure, SIGNAL(triggered()), settings, SLOT(show()));
-
+    
     //===== Toolbar Status =====
-
+    
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status, interval since last message if timed out."));
     toolBarTimeoutLabel->setObjectName("toolBarTimeoutLabel");
     toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #3C7B9E; }"));
     ui->mainToolBar->addWidget(toolBarTimeoutLabel);
-
+    
     toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
     toolBarSafetyLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #008000; }"));
     toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
     toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
     ui->mainToolBar->addWidget(toolBarSafetyLabel);
-
+    
     //    toolBarStateLabel = new QLabel("------", this);
     //    toolBarStateLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #FFFF00; }"));
     //    toolBarStateLabel->setToolTip(tr("Vehicle state"));
     //    toolBarStateLabel->setObjectName("toolBarStateLabel");
     //    ui->mainToolBar->addWidget(toolBarStateLabel);
-
+    
     toolBarBatteryBar = new QProgressBar(this);
     toolBarBatteryBar->setStyleSheet("QProgressBar:horizontal { margin: 0px 4px 0px 0px; border: 1px solid #4A4A4F; border-radius: 4px; text-align: center; padding: 2px; color: #111111; background-color: #111118; height: 10px; } QProgressBar:horizontal QLabel { font-size: 9px; color: #111111; } QProgressBar::chunk { background-color: green; }");
     toolBarBatteryBar->setMinimum(0);
@@ -309,20 +309,20 @@ void MainWindow::initActionsConnections()
     toolBarBatteryBar->setToolTip(tr("Battery charge level"));
     toolBarBatteryBar->setObjectName("toolBarBatteryBar");
     ui->mainToolBar->addWidget(toolBarBatteryBar);
-
+    
     toolBarBatteryVoltageLabel = new QLabel("xx.x V");
     toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel {  margin: 0px 2px; font: 18px; color: %1; }").arg(QColor(Qt::green).name()));
     toolBarBatteryVoltageLabel->setToolTip(tr("Battery voltage"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
     ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
-
+    
     //    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
     //    toolBarMessageLabel->setToolTip(tr("Most recent system message"));
     //    toolBarMessageLabel->setObjectName("toolBarMessageLabel");
     //    ui->mainToolBar->addWidget(toolBarMessageLabel);
-
+    
     updateView();
-
+    
 }
 
 QString MainWindow::getWindowGeometryKey()
@@ -333,17 +333,17 @@ void MainWindow::bytesReceived(QByteArray data)
 {
     mavlink_message_t message;
     mavlink_status_t status;
-
+    
     for (int position = 0; position < data.size(); position++)
     {
         unsigned int decodeState = mavlink_parse_char(0, (uint8_t)(data[position]), &message, &status);
-
+        
         if (decodeState == 1)
         {
             receiveMessage(message);
         }
     }
-
+    
 }
 
 mavlink_message_info_t message_info[256] = MAVLINK_MESSAGE_INFO;
@@ -400,7 +400,7 @@ void MainWindow::print_field(const mavlink_message_t *msg, const mavlink_field_i
         if (f->type == MAVLINK_TYPE_CHAR) {
             qDebug("'%.*s'", f->array_length,
                    f->wire_offset+(const char *)_MAV_PAYLOAD(msg));
-
+            
         } else {
             qDebug("[ ");
             for (i=0; i<f->array_length; i++) {
@@ -420,10 +420,10 @@ void MainWindow::print_message(const mavlink_message_t *msg)
     const mavlink_message_info_t *m = &message_info[msg->msgid];
     const mavlink_field_info_t *f = m->fields;
     unsigned i;
-
+    
     qDebug("%s { ", m->name);
     //    out << (m->name) << " { \r\n";
-
+    
     for (i=0; i< m->num_fields; i++) {
         print_field(msg, &f[i]);
     }
@@ -434,16 +434,16 @@ void MainWindow::print_message(const mavlink_message_t *msg)
 void MainWindow::receiveMessage(mavlink_message_t message)
 {
     memcpy(receivedMessages+message.msgid, &message, sizeof(mavlink_message_t));
-
+    
     //qDebug() << message.payload64;
     print_message(&message);
-
+    
     switch(message.msgid)
     {
     case MAVLINK_MSG_ID_SYS_STATUS:
         break;
     case MAVLINK_MSG_ID_ATTITUDE:
-
+        
         break;
     case MAVLINK_MSG_ID_SET_MODE:
     {
@@ -466,7 +466,7 @@ void MainWindow::receiveMessage(mavlink_message_t message)
         latitude = state.lat;
         longitude = state.lon;
         altitude = state.alt;
-
+        
         qDebug() << "Roll: " << roll << "\n";
         qDebug() << "Pitch: " << pitch << "\n";
         qDebug() << "Yaw: " << yaw << "\n";
@@ -481,41 +481,49 @@ void MainWindow::receiveMessage(mavlink_message_t message)
 void MainWindow::addLink()
 {
     SerialLink* link = new SerialLink();
-//    link = tmplink;
+    //    link = tmplink;
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
-//    qDebug() << "addlink()" ;
-
-//    qDebug() << link->getTotalDownstream();
-
-//    if (link)
-//    {
-//        link->connect();
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
-        toolBarTimeoutLabel->setText(tr("CONNECTION"));
-        ui->actionConnect->setChecked(true);  // this will be set once actually connected
-        ui->actionConnect->setEnabled(false);
-        ui->actionDisconnect->setEnabled(true);
-        ui->actionConfigure->setEnabled(false);
-
-
-        QAction* act = getActionByLink(link);
-        if (act)
-            act->trigger();
-
-        connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
-
-//    }
+    //    qDebug() << "addlink()" ;
+    
+    //    qDebug() << link->getTotalDownstream();
+    
+    //    if (link)
+    //    {
+    //        link->connect();
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
+    toolBarTimeoutLabel->setText(tr("CONNECTION"));
+    ui->actionConnect->setChecked(true);  // this will be set once actually connected
+    ui->actionConnect->setEnabled(false);
+    ui->actionDisconnect->setEnabled(true);
+    ui->actionConfigure->setEnabled(false);
+    
+    
+    QAction* act = getActionByLink(link);
+    if (act)
+        act->trigger();
+    
+    connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
+    
+    //    }
 }
 
 void MainWindow::addLink(LinkInterface *link)
 {
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
-    link->connect();
+//    link->connect();
+    
+    if (!getActionByLink(link)) {
+//        SettingsDialog* settingWidget = new settingWidget(link, mavlink, this);
+//        QAction* action = commWidget->getAction();
+//        ui.menuNetwork->addAction(action);
 
-    qDebug()<< "addlink(link)";
-
+        // Error handling
+        connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
+    }
+    
+    
 }
 
 void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)
@@ -547,13 +555,13 @@ void MainWindow::setActiveUAS(UASInterface *active)
 {
     // Do nothing if system is the same or NULL
     if ((active == NULL) || mav == active) return;
-
+    
     if (mav)
     {
         // Disconnect old system
         disconnect(mav, 0, this, 0);
     }
-
+    
     // Connect new system
     mav = active;
     //connected or not
@@ -562,23 +570,23 @@ void MainWindow::setActiveUAS(UASInterface *active)
     connect(active, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
     //update arm or not
     connect(active, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
-
+    
     systemArmed = mav->isArmed();
-
-
-
+    
+    
+    
 }
 
 void MainWindow::updateView()
 {
     if (!changed) return;
-
+    
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
-
+    
     toolBarBatteryBar->setValue(batteryPercent);
     toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
-
+    
     if (systemArmed)
     {
         toolBarSafetyLabel->setStyleSheet(QString("QLabel {margin: 0px 2px; font: 18px; color: %1; background-color: %2; }").arg(QGC::colorRed.name()).arg(QGC::colorYellow.name()));
@@ -589,12 +597,12 @@ void MainWindow::updateView()
         toolBarSafetyLabel->setStyleSheet("QLabel {margin: 0px 2px; font: 18px; color: #14C814; }");
         toolBarSafetyLabel->setText(tr("SAFE"));
     }
-
+    
     changed = false;
-
+    
 }
 
 void MainWindow::loadParametersToUI()
 {
-//    AQParamWidget::load
+    //    AQParamWidget::load
 }

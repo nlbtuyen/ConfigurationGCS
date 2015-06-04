@@ -29,7 +29,7 @@ class SerialLink : public SerialLinkInterface
     //Q_INTERFACES(SerialLinkInterface:LinkInterface)
 
 public:
-    SerialLink(QString portname = "com7",
+    SerialLink(QString portname = "",
                int baudrate=115200,
                bool flow=false,
                bool parity=false,
