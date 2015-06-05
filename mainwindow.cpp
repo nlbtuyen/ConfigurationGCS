@@ -29,10 +29,20 @@
 #include "seriallink.h"
 #include "uasinfowidget.h"
 #include "aqpramwidget.h"
+#include "serialconfigurationwindow.h"
+#include "commconfigurationwindow.h"
+
 
 
 //QFile file("datatype.txt");
 //QTextStream out(&file);
+static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
+
+
+MainWindow* MainWindow::instance(void)
+{
+    return _instance;
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     mav(NULL),
@@ -53,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     config = new UAVConfig();
     setCentralWidget(config);
 
-    link = new SerialLink();
+    //link = new SerialLink();
 
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
@@ -94,6 +104,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initActionsConnections();
     connectCommonWidgets();
+
+    connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
+
 
 }
 
@@ -481,30 +494,31 @@ void MainWindow::receiveMessage(mavlink_message_t message)
 void MainWindow::addLink()
 {
     SerialLink* link = new SerialLink();
-//    link = tmplink;
+    //    link = tmplink;
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
-//    qDebug() << "addlink()" ;
 
-//    qDebug() << link->getTotalDownstream();
-
-//    if (link)
-//    {
-//        link->connect();
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
-        toolBarTimeoutLabel->setText(tr("CONNECTION"));
-        ui->actionConnect->setChecked(true);  // this will be set once actually connected
-        ui->actionConnect->setEnabled(false);
-        ui->actionDisconnect->setEnabled(true);
-        ui->actionConfigure->setEnabled(false);
+//    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
+//    toolBarTimeoutLabel->setText(tr("CONNECTION"));
+//    ui->actionConnect->setChecked(true);  // this will be set once actually connected
+//    ui->actionConnect->setEnabled(false);
+//    ui->actionDisconnect->setEnabled(true);
+//    ui->actionConfigure->setEnabled(false);
 
 
-        QAction* act = getActionByLink(link);
-        if (act)
-            act->trigger();
+    QAction* act = getActionByLink(link);
+    if (act)
+        act->trigger();
 
-        connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
+//    SerialLink* serial = dynamic_cast<SerialLink*>(link);
 
+//    if (!getActionByLink(link)) {
+//        CommConfigurationWindow* commWidget = new CommConfigurationWindow(link,mavlink, this);
+//        QAction* action = commWidget->getAction();
+//        ui->menuWidgets->addAction(action);
+
+//        // Error handling
+//        connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
 //    }
 }
 
@@ -512,9 +526,19 @@ void MainWindow::addLink(LinkInterface *link)
 {
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
-    link->connect();
+//    link->connect();
 
-    qDebug()<< "addlink(link)";
+//    SerialLink* serial = dynamic_cast<SerialLink*>(link);
+
+    if (!getActionByLink(link)) {
+        CommConfigurationWindow* commWidget = new CommConfigurationWindow(link,mavlink, this);
+        QAction* action = commWidget->getAction();
+        ui->menuWidgets->addAction(action);
+
+        // Error handling
+        connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
+    }
+
 
 }
 
@@ -596,5 +620,5 @@ void MainWindow::updateView()
 
 void MainWindow::loadParametersToUI()
 {
-//    AQParamWidget::load
+    //    AQParamWidget::load
 }

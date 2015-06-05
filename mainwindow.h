@@ -42,6 +42,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    /// @brief Returns the MainWindow singleton. Will not create the MainWindow if it has not already
+    ///         been created.
+    static MainWindow* instance(void);
+
+    /// @brief Deletes the MainWindow singleton
+//    void deleteInstance(void);
+
+    /// @brief Creates the MainWindow singleton. Should only be called once by QGCApplication.
+//    static MainWindow* _create(QSplashScreen* splashScreen);
+
     MAVLinkProtocol* getMAVLink()
     {
         return mavlink;
@@ -114,7 +124,7 @@ public slots:
 
     /** @brief Add a communication link */
     void addLink();
-//    void addLink(LinkInterface* link);
+    void addLink(LinkInterface* link);
     /** @brief Shows an info or warning message */
     void showMessage(const QString &title, const QString &message, const QString &details, const QString severity = "info");
     /** @brief Shows a critical message as popup or as widget */

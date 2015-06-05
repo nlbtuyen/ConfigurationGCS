@@ -15,14 +15,62 @@
 #define SERIAL_IS_BUGGY_CP210x  (portVendorId == 4292 && portProductId == 60000)
 
 class SettingsDialog;
-/**
- * @brief The SerialLink class provides cross-platform access to serial links.
- * It takes care of the link management and provides a common API to higher
- * level communication layers. It is implemented as a wrapper class for a thread
- * that handles the serial communication. All methods have therefore to be thread-
- * safe.
- *
- */
+
+enum ParityType
+{
+    PAR_NONE,
+    PAR_ODD,
+    PAR_EVEN,
+    PAR_MARK,
+    PAR_SPACE
+};
+enum FlowType
+{
+    FLOW_OFF,
+    FLOW_HARDWARE,
+    FLOW_XONXOFF
+};
+
+enum DataBitsType
+{
+    DATA_5 = 5,
+    DATA_6 = 6,
+    DATA_7 = 7,
+    DATA_8 = 8
+};
+
+enum StopBitsType
+{
+    STOP_1,
+    STOP_1_5,
+    STOP_2
+};
+
+enum BaudRateType
+{
+    BAUD110 = 110,
+    BAUD300 = 300,
+    BAUD600 = 600,
+    BAUD1200 = 1200,
+    BAUD2400 = 2400,
+    BAUD4800 = 4800,
+    BAUD9600 = 9600,
+    BAUD19200 = 19200,
+    BAUD38400 = 38400,
+    BAUD57600 = 57600,
+    BAUD115200 = 115200
+};
+
+struct PortSettings
+{
+    QSerialPort::BaudRate BaudRate;
+    QSerialPort::DataBits DataBits;
+    QSerialPort::Parity Parity;
+    QSerialPort::StopBits StopBits;
+    QSerialPort::FlowControl FlowControl;
+    long Timeout_Millisec;
+};
+
 class SerialLink : public SerialLinkInterface
 {
     Q_OBJECT
@@ -109,9 +157,9 @@ public slots:
     void readBytes();
 
     QSerialPort *getPort();
-    void setEsc32Mode(bool mode);
-    bool getEsc32Mode();
-    void readEsc32Tele();
+//    void setEsc32Mode(bool mode);
+//    bool getEsc32Mode();
+//    void readEsc32Tele();
 
     void linkLossExpected(const bool yes);
     void setReconnectDelayMs(const quint16 &ms);
@@ -135,7 +183,7 @@ protected slots:
 protected:
     QSerialPort * port;
     QSerialPortInfo *portEnum;
-    SettingsDialog *portSettings;
+    PortSettings portSettings;
     QIODevice::OpenMode portOpenMode;
 //    /*QextSerialEnumerator*/ *portEnumerator;
     QString porthandle;

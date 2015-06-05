@@ -61,11 +61,10 @@ void LinkManager::addProtocol(LinkInterface* link, ProtocolInterface* protocol)
     // OR if link has not been added to protocol, add
     if ((linkList.length() > 0 && !linkList.contains(link)) || linkList.length() == 0)
     {
-        qDebug()<<"go to LinkManager";
+//        qDebug()<<"go to LinkManager";
 
         // Protocol is new, add
         connect(link, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), protocol, SLOT(receiveBytes(LinkInterface*, QByteArray)));//@Leo : receivebytes
-//        qDebug() << "linkmanager" ;
 
         // Store the connection information in the protocol links map
         protocolLinks.insertMulti(protocol, link);

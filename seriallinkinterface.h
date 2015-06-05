@@ -1,5 +1,5 @@
-#ifndef SERIALLINKINTERFACE_H_
-#define SERIALLINKINTERFACE_H_
+#ifndef SERIALLINKINTERFACE
+#define SERIALLINKINTERFACE
 
 #include <QObject>
 #include <QString>
@@ -41,4 +41,5 @@ public slots:
 
 };
 
-#endif // SERIALLINKINTERFACE_H_
+#endif // SERIALLINKINTERFACE
+

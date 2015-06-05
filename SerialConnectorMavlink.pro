@@ -28,7 +28,9 @@ SOURCES += main.cpp\
     mavlinkuasfactory.cpp \
     seriallink.cpp \
     mavlinkdecoder.cpp \
-    uasinfowidget.cpp
+    uasinfowidget.cpp \
+    serialconfigurationwindow.cpp \
+    commconfigurationwindow.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -55,15 +57,20 @@ common\* \
     seriallinkinterface.h \
     mavlinkdecoder.h \
     uasinfowidget.h \
-    mg.h
+    mg.h \
+    serialconfigurationwindow.h \
+    commconfigurationwindow.h
 
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \
+    serialsettings.ui \
     uasinfo.ui \
     uavconfig.ui \
     parameterinterface.ui \
-    mavlinkmessagesender.ui
+    mavlinkmessagesender.ui \
+    commsettings.ui \
+
 
 
 RESOURCES += \
