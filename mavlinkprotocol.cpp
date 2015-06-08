@@ -180,7 +180,7 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
     static int mavlink09Count = 0;
     static bool decodedFirstPacket = false;
     static bool warnedUser = false;
-qDebug() << b;
+
     for (int position = 0; position < b.size(); position++) {
         unsigned int decodeState = mavlink_parse_char(link->getId(), (uint8_t)(b[position]), &message, &status);
 

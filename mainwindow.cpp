@@ -619,6 +619,12 @@ void MainWindow::setActiveUAS(UASInterface *active)
 
     systemArmed = mav->isArmed();
 
+    paramaq = new AQParamWidget(active, this);
+//    ui->label_params_no_aq->hide();
+//    ui->tabLayout_paramHandler->addWidget(paramaq);
+    paramaq->requestParameterList();
+
+
 
 
 }

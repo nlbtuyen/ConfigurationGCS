@@ -389,6 +389,7 @@ void UASManager::setActiveUAS(UASInterface* uas)
         emit activeUASSetListIndex(systems.indexOf(uas));
         emit activeUASStatusChanged(uas, true);
         emit activeUASStatusChanged(uas->getUASID(), true);
+
     }
 }
 
