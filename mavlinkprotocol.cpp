@@ -16,6 +16,7 @@
 #include "qgc.h"
 #include "common/mavlink.h"
 #include "mavlinkuasfactory.h"
+#include "mavlinkdecoder.h"
 
 
 Q_DECLARE_METATYPE(mavlink_message_t)
@@ -26,8 +27,9 @@ Q_DECLARE_METATYPE(mavlink_message_t)
  */
 MAVLinkProtocol::MAVLinkProtocol() :
     heartbeatTimer(new QTimer(this)),
-    heartbeatRate(1),
+    heartbeatRate(MAVLINK_HEARTBEAT_DEFAULT_RATE),
     m_heartbeatsEnabled(false),
+    m_multiplexingEnabled(false),
     m_authEnabled(false),
     m_loggingEnabled(false),
     m_logfile(NULL),
@@ -171,14 +173,14 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
 {
 //    qDebug() << "receive";
 
-    receiveMutex.lock();
+//    receiveMutex.lock();
     mavlink_message_t message;
     mavlink_status_t status;
 
     static int mavlink09Count = 0;
     static bool decodedFirstPacket = false;
     static bool warnedUser = false;
-
+qDebug() << b;
     for (int position = 0; position < b.size(); position++) {
         unsigned int decodeState = mavlink_parse_char(link->getId(), (uint8_t)(b[position]), &message, &status);
 
@@ -342,7 +344,7 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
         }
     }
 
-    receiveMutex.unlock();
+//    receiveMutex.unlock();
 }
 
 /**

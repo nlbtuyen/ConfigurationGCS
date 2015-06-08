@@ -7,8 +7,6 @@ MAVLinkDecoder::MAVLinkDecoder(MAVLinkProtocol* protocol, QObject *parent) :
     QThread()
 {
     Q_UNUSED(parent);
-    // We're doing it wrong - because the Qt folks got the API wrong:
-    // http://blog.qt.digia.com/blog/2010/06/17/youre-doing-it-wrong/
     moveToThread(this);
 
     mavlink_message_info_t msg[256] = MAVLINK_MESSAGE_INFO;
@@ -56,7 +54,7 @@ MAVLinkDecoder::MAVLinkDecoder(MAVLinkProtocol* protocol, QObject *parent) :
 
     connect(protocol, SIGNAL(messageReceived(LinkInterface*,mavlink_message_t)), this, SLOT(receiveMessage(LinkInterface*,mavlink_message_t)));
 
-    start(LowPriority);
+    start(QThread::LowPriority);
 }
 
 /**

@@ -11,7 +11,9 @@
 #include "linkinterface.h"
 #include "common/mavlink.h"
 #include "qgc.h"
+#include "mavlinkdecoder.h"
 
+class MAVLinkDecoder;
 
 class MAVLinkProtocol : public ProtocolInterface
 {

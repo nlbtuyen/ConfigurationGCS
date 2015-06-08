@@ -25,7 +25,7 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
     // add link types
     ui.linkType->addItem(tr("Serial"), QGC_LINK_SERIAL);
     ui.linkType->addItem(tr("UDP"), QGC_LINK_UDP);
-    ui.linkType->addItem(tr("Simulation"), QGC_LINK_SIMULATION);
+    //ui.linkType->addItem(tr("Simulation"), QGC_LINK_SIMULATION);
     ui.linkType->setEditable(false);
 
     ui.connectionType->addItem("MAVLink", QGC_PROTOCOL_MAVLINK);
@@ -36,7 +36,7 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
     // Create action to open this menu
     // Create configuration action for this link
     // Connect the current UAS
-    action = new QAction(QIcon(":/files/images/devices/network-wireless.svg"), "", this);
+    action = new QAction(QIcon(":images/network-wireless.png"), "", this);
     LinkManager::instance()->add(link);
     action->setData(link->getId());
     action->setEnabled(true);
@@ -129,14 +129,14 @@ void CommConfigurationWindow::showEvent(QShowEvent* event)
 
 
 void CommConfigurationWindow::saveSettings() {
-    settings.beginGroup("QGC_COMM_CONFIG_WINDOW");
+    settings.beginGroup("COMM_CONFIG_WINDOW");
     settings.setValue("WINDOW_POSITION", this->window()->saveGeometry());
     settings.endGroup();
     settings.sync();
 }
 
 void CommConfigurationWindow::loadSettings() {
-    settings.beginGroup("QGC_COMM_CONFIG_WINDOW");
+    settings.beginGroup("COMM_CONFIG_WINDOW");
     if (settings.contains("WINDOW_POSITION"))
         this->window()->restoreGeometry(settings.value("WINDOW_POSITION").toByteArray());
     settings.endGroup();
@@ -180,14 +180,23 @@ void CommConfigurationWindow::setLinkType(int linktype)
         case 0:
             SerialLink *serial = new SerialLink();
             tmpLink = serial;
+            MainWindow::instance()->addLink(tmpLink);
+
             break;
     }
 
-    MainWindow::instance()->addLink(tmpLink);
-    // trigger new window
-    QAction* act = MainWindow::instance()->getActionByLink(tmpLink);
-    if (act)
-        act->trigger();
+    const int32_t& linkIndex(LinkManager::instance()->getLinks().indexOf(tmpLink));
+    const int32_t& linkID(LinkManager::instance()->getLinks()[linkIndex]->getId());
+
+    QList<QAction*> actions = MainWindow::instance()->listLinkMenuActions();
+    foreach (QAction* act, actions)
+    {
+        if (act->data().toInt() == linkID)
+        {
+            act->trigger();
+            break;
+        }
+    }
 
 }
 

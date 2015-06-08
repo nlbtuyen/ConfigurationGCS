@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     mavlinkdecoder.cpp \
     uasinfowidget.cpp \
     serialconfigurationwindow.cpp \
-    commconfigurationwindow.cpp
+    commconfigurationwindow.cpp \
+    debugconsole.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -59,7 +60,8 @@ common\* \
     uasinfowidget.h \
     mg.h \
     serialconfigurationwindow.h \
-    commconfigurationwindow.h
+    commconfigurationwindow.h \
+    debugconsole.h
 
 
 FORMS    += mainwindow.ui \
@@ -70,6 +72,7 @@ FORMS    += mainwindow.ui \
     parameterinterface.ui \
     mavlinkmessagesender.ui \
     commsettings.ui \
+    debugconsole.ui
 
 
 

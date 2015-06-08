@@ -40,13 +40,13 @@ LinkManager::~LinkManager()
 
 void LinkManager::add(LinkInterface* link)
 {
-    if (!link || links.contains(link))
-        return;
-
-    connect(link, SIGNAL(destroyed(QObject*)), this, SLOT(removeLink(QObject*)));
-    links.append(link);
-    linkTypesMap.insertMulti(link->getLinkType(), link);
-    emit newLink(link);
+    if (!links.contains(link))
+    {
+        if(!link) return;
+        connect(link, SIGNAL(destroyed(QObject*)), this, SLOT(removeLink(QObject*)));
+        links.append(link);
+        emit newLink(link);
+    }
 }
 
 void LinkManager::addProtocol(LinkInterface* link, ProtocolInterface* protocol)
@@ -61,26 +61,19 @@ void LinkManager::addProtocol(LinkInterface* link, ProtocolInterface* protocol)
     // OR if link has not been added to protocol, add
     if ((linkList.length() > 0 && !linkList.contains(link)) || linkList.length() == 0)
     {
-//        qDebug()<<"go to LinkManager";
-
         // Protocol is new, add
-        connect(link, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), protocol, SLOT(receiveBytes(LinkInterface*, QByteArray)));//@Leo : receivebytes
-
+        connect(link, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), protocol, SLOT(receiveBytes(LinkInterface*, QByteArray)));
         // Store the connection information in the protocol links map
         protocolLinks.insertMulti(protocol, link);
     }
     //qDebug() << __FILE__ << __LINE__ << "ADDED LINK TO PROTOCOL" << link->getName() << protocol->getName() << "NEW SIZE OF LINK LIST:" << protocolLinks.size();
 }
 
-QList<LinkInterface *> LinkManager::getLinksForProtocol(ProtocolInterface* protocol)
+QList<LinkInterface*> LinkManager::getLinksForProtocol(ProtocolInterface* protocol)
 {
     return protocolLinks.values(protocol);
 }
 
-QList<LinkInterface *> LinkManager::getLinksForType(const int linkType)
-{
-    return linkTypesMap.values(linkType);
-}
 
 bool LinkManager::connectAll()
 {
@@ -132,24 +125,29 @@ void LinkManager::removeLink(QObject* link)
 
 bool LinkManager::removeLink(LinkInterface* link)
 {
-    if (!link)
-        return false;
-
-    for (int i=0; i < QList<LinkInterface*>(links).size(); i++) {
-        if (link == links.at(i)) {
-            linkTypesMap.remove(linkTypesMap.key(link));
-            links.removeAt(i); //remove from link list
+    if(link)
+    {
+        for (int i=0; i < QList<LinkInterface*>(links).size(); i++)
+        {
+            if(link==links.at(i))
+            {
+                links.removeAt(i); //remove from link list
+            }
         }
-    }
-    // Remove link from protocol map
-    foreach (ProtocolInterface* proto, protocolLinks.keys(link))  {
-        protocolLinks.remove(proto, link);
-    }
+        // Remove link from protocol map
+        QList<ProtocolInterface* > protocols = protocolLinks.keys(link);
+        foreach (ProtocolInterface* proto, protocols)
+        {
+            protocolLinks.remove(proto, link);
+        }
 
-    // Emit removal of link
-    emit linkRemoved(link);
+        // Emit removal of link
+        emit linkRemoved(link);
 
-    return true;
+        return true;
+
+    }
+    return false;
 }
 
 /**
@@ -174,5 +172,3 @@ const QList<LinkInterface*> LinkManager::getLinks()
 {
     return QList<LinkInterface*>(links);
 }
-
-

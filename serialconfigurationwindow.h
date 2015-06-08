@@ -10,13 +10,9 @@
 #include <QHideEvent>
 #include <QMutex>
 
-
-#include "LinkInterface.h"
+#include "linkinterface.h"
+#include "seriallinkinterface.h"
 #include "ui_serialsettings.h"
-
-
-class QSerialPort;
-class SerialLinkInterface;
 
 class SerialConfigurationWindow : public QWidget
 {
@@ -29,22 +25,18 @@ public:
     QAction* getAction();
 
 public slots:
-    void loadSettings();
-    void writeSettings();
-    QString getSettingsKey(bool checkExists);
-    void loadPortSettings();
-    void writePortSettings();
     void configureCommunication();
     void setupPortList();
-    void setFlowControl(int fc);
-    void setParity(int parity);
-    void setBaudRate(QString rate);
+    void setFlowControlNone(bool accept);
+    void setFlowControlHw(bool accept);
+    void setFlowControlSw(bool accept);
+    void setParityNone(bool accept);
+    void setParityOdd(bool accept);
+    void setParityEven(bool accept);
     void setDataBits(QString bits);
     void setStopBits(QString bits);
     void setPortName(QString port);
     void setLinkName(QString name);
-    void setTimeoutMs(int to);
-    void setReconnectDelay(int dly);
 
 protected:
     void showEvent(QShowEvent* event);
@@ -54,17 +46,13 @@ protected:
 protected slots:
     void portError(const QString &err);
 
-private slots:
-    void on_groupBox_advanced_clicked(bool arg1);
-
 private:
 
     Ui::serialSettings ui;
     SerialLinkInterface* link;
-    QSerialPortInfo *portEnumerator;
     QAction* action;
-    QString defaultPortName;
-    //QTimer* portCheckTimer;
+    QTimer* portCheckTimer;
+    bool mtx_portListUpdating;
 
 };
 #endif // SERIALCONFIGURATIONWINDOW_H

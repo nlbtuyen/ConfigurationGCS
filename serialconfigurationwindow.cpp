@@ -1,201 +1,127 @@
-#include "serialconfigurationwindow.h"
-#include "mg.h"
-#include "linkinterface.h"
-#include "seriallinkinterface.h"
-#include "linkmanager.h"
 
 #include <QDebug>
+
+#include "mg.h"
+#include "serialconfigurationwindow.h"
+#include "seriallinkinterface.h"
 #include <QDir>
 #include <QSettings>
 #include <QFileInfoList>
 #include <QMessageBox>
-#include <QSerialPortInfo>
 
-SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidget *parent, Qt::WindowFlags flags) :
-    QWidget(parent, flags),
+SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidget *parent, Qt::WindowFlags flags) : QWidget(parent, flags),
     userConfigured(false)
 {
     SerialLinkInterface* serialLink = dynamic_cast<SerialLinkInterface*>(link);
 
-    if (!serialLink) {
+    if(serialLink != 0)
+    {
+        serialLink->loadSettings();
+        this->link = serialLink;
+
+        // Setup the user interface according to link type
+        ui.setupUi(this);
+
+        // Create action to open this menu
+        // Create configuration action for this link
+        // Connect the current UAS
+        action = new QAction(QIcon(":/files/images/devices/network-wireless.svg"), "", link);
+        setLinkName(link->getName());
+
+        setupPortList();
+
+        // Set up baud rates
+        QList<int> supportedBaudRates = MG::SERIAL::getBaudRates();
+        ui.baudRate->clear();
+        for (int i = 0; i < supportedBaudRates.size(); ++i) {
+            ui.baudRate->addItem(QString::number(supportedBaudRates.at(i)), supportedBaudRates.at(i));
+        }
+
+        // Load current link config
+        // wtf is this supposed to do?
+        //ui.portName->setCurrentIndex(-1);
+
+        connect(action, SIGNAL(triggered()), this, SLOT(configureCommunication()));
+
+        // Make sure that a change in the link name will be reflected in the UI
+        connect(link, SIGNAL(nameChanged(QString)), this, SLOT(setLinkName(QString)));
+
+        // Connect the individual user interface inputs
+        connect(ui.portName, SIGNAL(activated(QString)), this, SLOT(setPortName(QString)));
+        connect(ui.portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
+        connect(ui.baudRate, SIGNAL(activated(QString)), this->link, SLOT(setBaudRateString(QString)));
+        connect(ui.flowControl_none, SIGNAL(toggled(bool)), this, SLOT(setFlowControlNone(bool)));
+        connect(ui.flowControl_hw, SIGNAL(toggled(bool)), this, SLOT(setFlowControlHw(bool)));
+        connect(ui.flowControl_sw, SIGNAL(toggled(bool)), this, SLOT(setFlowControlSw(bool)));
+        connect(ui.parNone, SIGNAL(toggled(bool)), this, SLOT(setParityNone(bool)));
+        connect(ui.parOdd, SIGNAL(toggled(bool)), this, SLOT(setParityOdd(bool)));
+        connect(ui.parEven, SIGNAL(toggled(bool)), this, SLOT(setParityEven(bool)));
+        connect(ui.dataBitsCombo, SIGNAL(editTextChanged(QString)), this, SLOT(setDataBits(QString)));
+        connect(ui.stopBitsCombo, SIGNAL(editTextChanged(QString)), this, SLOT(setStopBits(QString)));
+
+        //connect(this->link, SIGNAL(connected(bool)), this, SLOT());
+        ui.portName->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+        ui.baudRate->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+
+        switch(this->link->getParityType()) {
+        case 3:
+            ui.parOdd->setChecked(true);
+            break;
+        case 2:
+            ui.parEven->setChecked(true);
+            break;
+        case 0:
+        default:
+            ui.parNone->setChecked(true);
+            break;
+        }
+
+        switch(this->link->getFlowType()) {
+        case 1:
+            ui.flowControl_hw->setChecked(true);
+            break;
+        case 2:
+            ui.flowControl_sw->setChecked(true);
+            break;
+        case 0:
+        default:
+            ui.flowControl_none->setChecked(true);
+            break;
+        }
+
+        ui.baudRate->setCurrentIndex(ui.baudRate->findText(QString("%1").arg(this->link->getBaudRate())));
+
+        ui.dataBitsCombo->setEditText(QString::number(this->link->getDataBits()));
+        ui.stopBitsCombo->setEditText(QString::number(this->link->getStopBits()));
+
+        portCheckTimer = new QTimer(this);
+        portCheckTimer->setInterval(2000);
+        connect(portCheckTimer, SIGNAL(timeout()), this, SLOT(setupPortList()));
+
+        // Display the widget
+        this->window()->setWindowTitle(tr("Serial Communication Settings"));
+    }
+    else
+    {
         qDebug() << "Link is NOT a serial link, can't open configuration window";
-        return;
     }
-
-    this->link = serialLink;
-
-    // Setup the user interface according to link type
-    ui.setupUi(this);
-
-//    portEnumerator = new QextSerialEnumerator();
-//    portEnumerator->setUpNotifications();
-//    QObject::connect(portEnumerator, SIGNAL(deviceDiscovered(QextPortInfo)), this, SLOT(setupPortList()));
-//    QObject::connect(portEnumerator, SIGNAL(deviceRemoved(QextPortInfo)), this, SLOT(setupPortList()));
-
-    // Set up baud rates
-    QList<int> supportedBaudRates = MG::SERIAL::getBaudRates();
-    ui.baudRate->clear();
-    for (int i = 0; i < supportedBaudRates.size(); ++i) {
-        ui.baudRate->addItem(QString::number(supportedBaudRates.at(i)), supportedBaudRates.at(i));
-    }
-
-    setupPortList();
-    loadSettings();
-
-    ui.portName->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    ui.baudRate->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    ui.widget_advanced->setVisible(ui.groupBox_advanced->isChecked());
-
-    // connect these before setting the port name since that will trigger a settings load
-    connect(ui.baudRate, SIGNAL(currentIndexChanged(QString)), this, SLOT(setBaudRate(QString)));
-    connect(ui.comboBox_flowControl, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlowControl(int)));
-    connect(ui.comboBox_Parity, SIGNAL(currentIndexChanged(int)), this, SLOT(setParity(int)));
-    connect(ui.dataBitsCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setDataBits(QString)));
-    connect(ui.stopBitsCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setStopBits(QString)));
-    connect(ui.spinBox_timeout, SIGNAL(valueChanged(int)), this, SLOT(setTimeoutMs(int)));
-    connect(ui.spinBox_reconnectDelay, SIGNAL(valueChanged(int)), this, SLOT(setReconnectDelay(int)));
-
-    // only load default port if this is the first serial link being added
-    if (LinkManager::instance()->getLinksForType(LinkInterface::LINK_INTERFACE_TYPE_SERIAL).size() > 1)
-        defaultPortName = ui.portName->currentText();
-
-    ui.portName->setCurrentIndex(ui.portName->findText(defaultPortName, Qt::MatchContains));
-    setPortName(defaultPortName);
-
-    // Create action to open this config dialog
-    action = new QAction(QIcon(":/files/images/devices/network-wireless.svg"), "", this->link);
-    connect(action, SIGNAL(triggered()), this, SLOT(configureCommunication()));
-
-    // Make sure that a change in the link name will be reflected in the UI
-    connect(this->link, SIGNAL(nameChanged(QString)), this, SLOT(setLinkName(QString)));
-    connect(this->link, SIGNAL(connected()), this, SLOT(writePortSettings()));
-
-    // Connect the individual user interface inputs
-    connect(ui.portName, SIGNAL(activated(QString)), this, SLOT(setPortName(QString)));
-    connect(ui.portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
-
-    //connect(this->link, SIGNAL(connected(bool)), this, SLOT());
-    //portCheckTimer = new QTimer(this);
-    //portCheckTimer->setInterval(5000);
-    //connect(portCheckTimer, SIGNAL(timeout()), this, SLOT(setupPortList()));
-
-    // Display the widget
-    setLinkName(this->link->getName());
-    this->window()->setWindowTitle(tr("Serial Communication Settings"));
 }
 
 SerialConfigurationWindow::~SerialConfigurationWindow()
 {
+
 }
 
 void SerialConfigurationWindow::showEvent(QShowEvent* event)
 {
     Q_UNUSED(event);
-    setupPortList();
-    //portCheckTimer->start();
+    portCheckTimer->start();
 }
 
 void SerialConfigurationWindow::hideEvent(QHideEvent* event)
 {
     Q_UNUSED(event);
-    writeSettings();
-    //portCheckTimer->stop();
-}
-
-void SerialConfigurationWindow::loadSettings()
-{
-    // Load defaults from settings
-    QSettings settings;
-    settings.beginGroup("SERIAL_CONFIG_WINDOW");
-    ui.groupBox_advanced->setChecked(settings.value("ADVANCED_VISIBLE", false).toBool());
-    defaultPortName = settings.value("DEFAULT_COMM_PORT", "").toString();
-}
-
-void SerialConfigurationWindow::writeSettings()
-{
-    // Store settings
-    QSettings settings;
-    settings.beginGroup("SERIAL_CONFIG_WINDOW");
-    settings.setValue("ADVANCED_VISIBLE", ui.groupBox_advanced->isChecked());
-    settings.setValue("DEFAULT_COMM_PORT", ui.portName->currentText());
-    settings.sync();
-}
-
-QString SerialConfigurationWindow::getSettingsKey(bool checkExists)
-{
-    QString key;
-    QSettings settings;
-    bool found = false;
-    settings.beginGroup("SERIAL_CONFIG_WINDOW");
-    int idx = ui.portName->currentIndex();
-    if (idx > -1 && ui.portName->itemData(idx).toString() != "[no ports]") {
-        key = QString("SERIALLINK_COMM_" + ui.portName->itemData(idx).toString().replace(QRegExp("[^a-zA-Z0-9_]"), "") + "_%1");
-        if (settings.contains(key.arg("BAUD")) || !checkExists)
-            found = true;
-    }
-    if (!found)
-        key = QString("SERIALLINK_COMM_%1");
-
-    return key;
-}
-
-void SerialConfigurationWindow::loadPortSettings()
-{
-    // Load defaults from settings
-    QString tmp;
-    int itmp;
-    bool ok;
-    QSettings settings;
-    QString key = getSettingsKey(true);
-    settings.beginGroup("SERIAL_CONFIG_WINDOW");
-
-    tmp = settings.value(key.arg("BAUD"),  "115200").toString();
-    if (ui.baudRate->findText(tmp) == -1)
-        tmp = "115200";
-    ui.baudRate->setCurrentIndex(ui.baudRate->findText(tmp));
-
-    tmp = settings.value(key.arg("FLOW_CONTROL"), "None").toString();
-    if (ui.comboBox_flowControl->findText(tmp) == -1)
-        tmp = "None";
-    ui.comboBox_flowControl->setCurrentIndex(ui.comboBox_flowControl->findText(tmp));
-
-    tmp = settings.value(key.arg("PARITY"), "None").toString();
-    if (ui.comboBox_Parity->findText(tmp) == -1)
-        tmp = "None";
-    ui.comboBox_Parity->setCurrentIndex(ui.comboBox_Parity->findText(tmp));
-
-    tmp = settings.value(key.arg("DATABITS"), "8").toString();
-    if (ui.dataBitsCombo->findText(tmp) == -1)
-        tmp = "8";
-    ui.dataBitsCombo->setCurrentIndex(ui.dataBitsCombo->findText(tmp));
-
-    tmp = settings.value(key.arg("STOPBITS"), "1").toString();
-    if (ui.stopBitsCombo->findText(tmp) == -1)
-        tmp = "1";
-    ui.stopBitsCombo->setCurrentIndex(ui.stopBitsCombo->findText(tmp));
-
-    itmp = settings.value(key.arg("TIMEOUT"), -1).toInt(&ok);
-    if (ok)
-        ui.spinBox_timeout->setValue(itmp);
-    itmp = settings.value(key.arg("RECONDELAY"), 10).toInt(&ok);
-    if (ok)
-        ui.spinBox_reconnectDelay->setValue(itmp);
-}
-
-void SerialConfigurationWindow::writePortSettings()
-{
-    // Store settings
-    QSettings settings;
-    QString key = getSettingsKey(false);
-    settings.beginGroup("SERIAL_CONFIG_WINDOW");
-    settings.setValue(key.arg("BAUD"), ui.baudRate->currentText());
-    settings.setValue(key.arg("PARITY"), ui.comboBox_Parity->currentText());
-    settings.setValue(key.arg("STOPBITS"), ui.stopBitsCombo->currentText());
-    settings.setValue(key.arg("DATABITS"), ui.dataBitsCombo->currentText());
-    settings.setValue(key.arg("FLOW_CONTROL"), ui.comboBox_flowControl->currentText());
-    settings.setValue(key.arg("TIMEOUT"), ui.spinBox_timeout->value());
-    settings.setValue(key.arg("RECONDELAY"), ui.spinBox_reconnectDelay->value());
-    settings.sync();
+    portCheckTimer->stop();
 }
 
 QAction* SerialConfigurationWindow::getAction()
@@ -216,64 +142,43 @@ void SerialConfigurationWindow::setupPortList()
     if (!link)
         return;
 
-//    QString selected = ui.portName->currentText();
+    QString selected = ui.portName->currentText();
 
-    QStringList usedPorts;
-    foreach (LinkInterface *li, LinkManager::instance()->getLinksForType(LinkInterface::LINK_INTERFACE_TYPE_SERIAL)) {
-        if (li->getId() != link->getId())
-            usedPorts.append(li->getPortName());
-    }
-
-    ui.portName->blockSignals(true);
     // Get the ports available on this system
-    //QVector<QString>* ports = link->getCurrentPorts();
-//    QList<QSerialPortInfo> ports = portEnumerator->getPorts();
-    QList<QString> portNames;
+    QVector<QString>* ports = link->getCurrentPorts();
     QString txt;
-
-    // add any new ports
-    foreach (const QSerialPortInfo &p, portEnumerator->availablePorts()) {
-        //qDebug() << __FILE__ << __LINE__ << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
-        if (!p.portName().length())
-            continue;
-        portNames.append(p.portName());
-        txt = p.portName();
-
-        if (ui.portName->findData(txt) > -1) {
-            if (usedPorts.contains(p.portName()))
-                ui.portName->removeItem(ui.portName->findData(txt));
-            continue;
-        } else if (usedPorts.contains(p.portName()))
-            continue;
-
-//        if (p.friendName.length())
-//            txt += " - " + p.friendName.split(QRegExp(" ?\\(")).first();
-//        ui.portName->addItem(txt, p.portName);
-        ui.portName->addItem(txt,p.portName());
-    }
     // mark any invalid items in the selector (eg. port was disconnected)
-    bool isval = true, isinv = false;
     for (int i = 0; i < ui.portName->count(); ++i) {
-        isval = portNames.contains(ui.portName->itemData(i).toString());
-        isinv = ui.portName->itemText(i).contains("INVALID PORT");
-        if (!isval && !isinv)
-            ui.portName->setItemText(i, ui.portName->itemText(i) +  " [INVALID PORT]");
-        else if (isval && isinv)
-            ui.portName->setItemText(i, ui.portName->itemText(i).replace(" [INVALID PORT]", ""));
+        txt = ui.portName->itemData(i).toString();
+        if (!ports->contains(txt))
+            txt += " [INVALID PORT]";
+        ui.portName->setItemText(i, txt);
+    }
+    // add any new ports
+    for (int i = 0; i < ports->size(); ++i) {
+        if (ui.portName->findData(ports->at(i)) == -1)
+            ui.portName->addItem(ports->at(i), ports->at(i));
     }
 
-    if (!ui.portName->count())
-        ui.portName->addItem(tr("No ports are available"), "[no ports]");
+    if (!selected.length() && ui.portName->count())
+        selected = ui.portName->itemText(0);
 
-//    if (!selected.length() && ui.portName->count())
-//        selected = ui.portName->itemData(0);
+    selected = selected.split("-").first().remove(" ");
 
-//    selected = selected.split(" - ").first().remove(" ");
+    if (!userConfigured && selected.length() && link->isPortValid(selected))
+        setPortName(selected);
 
-//    if (!userConfigured && selected.length() && link->isPortValid(selected))
-//        setPortName(selected);
-
-    ui.portName->blockSignals(false);
+    // Add the ports in reverse order, because we prepend them to the list
+//    for (int i = ports->size() - 1; i >= 0; --i)
+//    {
+//        // Prepend newly found port to the list
+//        if (ui.portName->findText(ports->at(i)) == -1)
+//        {
+//            ui.portName->insertItem(0, ports->at(i));
+//            if (!userConfigured) ui.portName->setEditText(ports->at(i));
+//        }
+//    }
+//    ui.portName->setEditText(this->link->getPortName());
 }
 
 void SerialConfigurationWindow::portError(const QString &err) {
@@ -286,22 +191,50 @@ void SerialConfigurationWindow::portError(const QString &err) {
     msgBox.exec();
 }
 
-void SerialConfigurationWindow::setFlowControl(int fc)
+void SerialConfigurationWindow::setFlowControlNone(bool accept)
 {
-    if (!link->setFlowType(fc))
-        portError(tr("Flow Control"));
+    if (accept) {
+        if (!link->setFlowType(0))
+            portError(tr("Flow Control None"));
+    }
+}
+void SerialConfigurationWindow::setFlowControlHw(bool accept)
+{
+    if (accept) {
+        if (!link->setFlowType(1))
+            portError(tr("Flow Control Hardware"));
+    }
+}
+void SerialConfigurationWindow::setFlowControlSw(bool accept)
+{
+    if (accept) {
+        if (!link->setFlowType(2))
+            portError(tr("Flow Control Software"));
+    }
 }
 
-void SerialConfigurationWindow::setParity(int parity)
+void SerialConfigurationWindow::setParityNone(bool accept)
 {
-    if (!link->setParityType(parity))
-        portError(tr("Parity Type"));
+    if (accept) {
+        if (!link->setParityType(0))
+            portError(tr("Parity Type None"));
+    }
 }
 
-void SerialConfigurationWindow::setBaudRate(QString rate)
+void SerialConfigurationWindow::setParityOdd(bool accept)
 {
-    if (!this->link->setBaudRateString(rate))
-        portError(tr("Baud rate to %1").arg(rate));
+    if (accept) {
+        if (!link->setParityType(3))
+            portError(tr("Parity Type Odd"));
+    }
+}
+
+void SerialConfigurationWindow::setParityEven(bool accept)
+{
+    if (accept) {
+        if (!link->setParityType(2))
+            portError(tr("Parity Type Even"));
+    }
 }
 
 void SerialConfigurationWindow::setDataBits(QString bits)
@@ -318,20 +251,15 @@ void SerialConfigurationWindow::setStopBits(QString bits)
 
 void SerialConfigurationWindow::setPortName(QString port)
 {
-    // if current text is unedited, then use port name from item data
-    if (ui.portName->currentText() == ui.portName->itemText(ui.portName->currentIndex())) {
-        if (ui.portName->itemData(ui.portName->currentIndex()).toString() == "[no ports]")
-            return;
-        port = ui.portName->itemData(ui.portName->currentIndex()).toString();
+//#ifdef Q_OS_WIN
+    port = port.split("-").first().remove(" ");
+//#endif
+//    port = port.remove(" ");
 
-    } else
-        port = port.split(" - ").first().remove(" ");
-
-    if (link->isPortValid(port) && link->getPortName() != port) {
-        if (link->setPortName(port)){
+    if (link->isPortValid(port) && this->link->getPortName() != port) {
+        if (link->setPortName(port))
             userConfigured = true;
-            loadPortSettings();
-        } else
+        else
             portError(tr("Port to %1").arg(port));
     }
 }
@@ -343,22 +271,5 @@ void SerialConfigurationWindow::setLinkName(QString name)
     action->setText(tr("Configure ") + link->getName());
     action->setStatusTip(tr("Configure ") + link->getName());
     setWindowTitle(tr("Configuration of ") + link->getName());
-}
-
-void SerialConfigurationWindow::setTimeoutMs(int to)
-{
-    if (to)  // zero is bad, will hang whole program
-        link->setTimeoutMillis(to);
-}
-
-void SerialConfigurationWindow::setReconnectDelay(int dly)
-{
-    link->setReconnectDelayMs(dly);
-}
-
-void SerialConfigurationWindow::on_groupBox_advanced_clicked(bool arg1)
-{
-    ui.widget_advanced->setVisible(arg1);
-    writeSettings();
 }
 

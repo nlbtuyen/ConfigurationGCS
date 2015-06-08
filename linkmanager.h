@@ -23,8 +23,7 @@ public:
 
     void run();
 
-    QList<LinkInterface *> getLinksForProtocol(ProtocolInterface* protocol);
-    QList<LinkInterface *> getLinksForType(const int linkType);
+    QList<LinkInterface*> getLinksForProtocol(ProtocolInterface* protocol);
 
     /** @brief Get the link for this id */
     LinkInterface* getLinkForId(int id);
@@ -36,7 +35,6 @@ public:
     const QList<ProtocolInterface*> getProtocols() {
         return protocolLinks.uniqueKeys();
     }
-
 
 public slots:
 
@@ -56,18 +54,15 @@ protected:
     LinkManager();
     QList<LinkInterface*> links;
     QMultiMap<ProtocolInterface*,LinkInterface*> protocolLinks;
-    QMultiMap<int, LinkInterface*> linkTypesMap;
-
-    QString porthandle;
-
 
 private:
-    static LinkManager* _instance;    
+    static LinkManager* _instance;
 
 signals:
     void newLink(LinkInterface* link);
     void linkRemoved(LinkInterface* link);
 
 };
+
 
 #endif // _LINKMANAGER_H_

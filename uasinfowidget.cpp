@@ -1,11 +1,11 @@
 #include "uasinfowidget.h"
 #include "uasmanager.h"
+#include "mg.h"
 
 #include <QTimer>
 #include <QDir>
 #include <cstdlib>
 #include <cmath>
-
 #include <QDebug>
 
 UASInfoWidget::UASInfoWidget(QWidget *parent, QString name) : QWidget(parent)
@@ -19,7 +19,7 @@ UASInfoWidget::UASInfoWidget(QWidget *parent, QString name) : QWidget(parent)
 
     // Set default battery type
     //    setBattery(0, LIPOLY, 3);
-    startTime = 2000;
+    startTime = MG::TIME::getGroundTimeNow();
     //    startVoltage = 0.0f;
 
     //    lastChargeLevel = 0.5f;
@@ -238,8 +238,6 @@ void UASInfoWidget::refresh()
 
         // FIXME
         errorString.replace("IMU:", "");
-
-
     }
     ui.errorLabel->setText(errorString);
 }

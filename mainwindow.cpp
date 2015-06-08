@@ -31,6 +31,8 @@
 #include "aqpramwidget.h"
 #include "serialconfigurationwindow.h"
 #include "commconfigurationwindow.h"
+#include "debugconsole.h"
+#include "mavlinkdecoder.h"
 
 
 
@@ -75,6 +77,17 @@ MainWindow::MainWindow(QWidget *parent) :
     infoDockWidget->setObjectName("UAS_STATUS_DETAILS_DOCKWIDGET");
     addTool(infoDockWidget, tr("Status Details"), Qt::RightDockWidgetArea);
 
+
+
+//    debugConsoleDockWidget = new QDockWidget(tr("Communication Console"), this);
+//    debugConsoleDockWidget->setWidget( new DebugConsole(this) );
+//    debugConsoleDockWidget->setObjectName("COMMUNICATION_DEBUG_CONSOLE_DOCKWIDGET");
+//    DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(debugConsoleDockWidget->widget());
+//    connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), debugConsole, SLOT(receiveTextMessage(int, int, int, const QString)));
+//    connect(debugConsoleDockWidget, SIGNAL(dockLocationChanged(Qt::DockWidgetArea)), debugConsole, SLOT(dockEvent(Qt::DockWidgetArea)));
+//    addTool(debugConsoleDockWidget, tr("Communication Console"), Qt::RightDockWidgetArea);
+
+
     parametersDockWidget = new QDockWidget(tr("Onboard Parameters"), this);
     parametersDockWidget->setWidget( new ParameterInterface(this) );
     parametersDockWidget->setObjectName("PARAMETER_INTERFACE_DOCKWIDGET");
@@ -106,8 +119,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connectCommonWidgets();
 
     connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
-
-
 }
 
 MainWindow::~MainWindow()
@@ -160,31 +171,31 @@ void MainWindow::writeData(const QByteArray &data)
     serial->write(data);
 }
 
-void MainWindow::readData()
-{
-    //qDebug() << "readData() \n";
-    const qint64 maxLength = 2048;
-    char data[maxLength];
-    qint64 numBytes = 0, rBytes = 0;
+//void MainWindow::readData()
+//{
+//    //qDebug() << "readData() \n";
+//    const qint64 maxLength = 2048;
+//    char data[maxLength];
+//    qint64 numBytes = 0, rBytes = 0;
 
-    dataMutex.lock();
-    while ((numBytes = serial->bytesAvailable())) {
-        rBytes = numBytes;
-        if(maxLength < rBytes) rBytes = maxLength;
+//    dataMutex.lock();
+//    while ((numBytes = serial->bytesAvailable())) {
+//        rBytes = numBytes;
+//        if(maxLength < rBytes) rBytes = maxLength;
 
-        if (serial->read(data, rBytes) == -1) { // -1 result means error
+//        if (serial->read(data, rBytes) == -1) { // -1 result means error
 
-            return;
-        }
-        QByteArray b(data, rBytes);
-        bytesReceived(b);
+//            return;
+//        }
+//        QByteArray b(data, rBytes);
+//        bytesReceived(b);
 
-        bitsReceivedTotal += rBytes * 8;
+//        bitsReceivedTotal += rBytes * 8;
 
-    }
-    dataMutex.unlock();
+//    }
+//    dataMutex.unlock();
 
-}
+//}
 
 void MainWindow::handleError(QSerialPort::SerialPortError error)
 {
@@ -273,8 +284,6 @@ void MainWindow::connectCommonWidgets()
 
 }
 
-
-
 void MainWindow::showTool(bool show)
 {
     QAction* act = qobject_cast<QAction *>(sender());
@@ -287,11 +296,17 @@ void MainWindow::initActionsConnections()
     //TODO:  move protocol outside UI
     mavlink     = new MAVLinkProtocol();
     connect(mavlink, SIGNAL(protocolStatusMessage(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
+//    mavlinkDecoder = new MAVLinkDecoder(mavlink, this);
+
 
     connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(addLink()));
     connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionConfigure, SIGNAL(triggered()), settings, SLOT(show()));
+
+    //connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UASCreated(UASInterface*)));
+    //connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
+    //connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
 
     //===== Toolbar Status =====
 
@@ -342,162 +357,158 @@ QString MainWindow::getWindowGeometryKey()
 {
     return "_geometry";
 }
-void MainWindow::bytesReceived(QByteArray data)
-{
-    mavlink_message_t message;
-    mavlink_status_t status;
 
-    for (int position = 0; position < data.size(); position++)
-    {
-        unsigned int decodeState = mavlink_parse_char(0, (uint8_t)(data[position]), &message, &status);
+//void MainWindow::bytesReceived(QByteArray data)
+//{
+//    mavlink_message_t message;
+//    mavlink_status_t status;
 
-        if (decodeState == 1)
-        {
-            receiveMessage(message);
-        }
-    }
+//    for (int position = 0; position < data.size(); position++)
+//    {
+//        unsigned int decodeState = mavlink_parse_char(0, (uint8_t)(data[position]), &message, &status);
 
-}
+//        if (decodeState == 1)
+//        {
+//            receiveMessage(message);
+//        }
+//    }
 
-mavlink_message_info_t message_info[256] = MAVLINK_MESSAGE_INFO;
-void MainWindow::print_one_field(const mavlink_message_t *msg, const mavlink_field_info_t *f, int idx)
-{
-#define PRINT_FORMAT(f, def) (f->print_format?f->print_format:def)
-    switch (f->type) {
-    case MAVLINK_TYPE_CHAR:
-        qDebug(PRINT_FORMAT(f, "%c"), _MAV_RETURN_char(msg, f->wire_offset+idx*1));
-        break;
-    case MAVLINK_TYPE_UINT8_T:
-        qDebug(PRINT_FORMAT(f, "%u"), _MAV_RETURN_uint8_t(msg, f->wire_offset+idx*1));
-        break;
-    case MAVLINK_TYPE_INT8_T:
-        qDebug(PRINT_FORMAT(f, "%d"), _MAV_RETURN_int8_t(msg, f->wire_offset+idx*1));
-        break;
-    case MAVLINK_TYPE_UINT16_T:
-        qDebug(PRINT_FORMAT(f, "%u"), _MAV_RETURN_uint16_t(msg, f->wire_offset+idx*2));
-        break;
-    case MAVLINK_TYPE_INT16_T:
-        qDebug(PRINT_FORMAT(f, "%d"), _MAV_RETURN_int16_t(msg, f->wire_offset+idx*2));
-        break;
-    case MAVLINK_TYPE_UINT32_T:
-        qDebug(PRINT_FORMAT(f, "%lu"), (unsigned long)_MAV_RETURN_uint32_t(msg, f->wire_offset+idx*4));
-        break;
-    case MAVLINK_TYPE_INT32_T:
-        qDebug(PRINT_FORMAT(f, "%ld"), (long)_MAV_RETURN_int32_t(msg, f->wire_offset+idx*4));
-        break;
-    case MAVLINK_TYPE_UINT64_T:
-        qDebug(PRINT_FORMAT(f, "%llu"), (unsigned long long)_MAV_RETURN_uint64_t(msg, f->wire_offset+idx*8));
-        break;
-    case MAVLINK_TYPE_INT64_T:
-        qDebug(PRINT_FORMAT(f, "%lld"), (long long)_MAV_RETURN_int64_t(msg, f->wire_offset+idx*8));
-        break;
-    case MAVLINK_TYPE_FLOAT:
-        qDebug(PRINT_FORMAT(f, "%f"), (double)_MAV_RETURN_float(msg, f->wire_offset+idx*4));
-        break;
-    case MAVLINK_TYPE_DOUBLE:
-        qDebug(PRINT_FORMAT(f, "%f"), _MAV_RETURN_double(msg, f->wire_offset+idx*8));
-        break;
-    }
-}
+//}
 
-void MainWindow::print_field(const mavlink_message_t *msg, const mavlink_field_info_t *f)
-{
-    qDebug("%s: ", f->name);
-    //    out << (f->name) << "\r\n";
-    if (f->array_length == 0) {
-        print_one_field(msg, f, 0);
-        qDebug(" ");
-    } else {
-        unsigned i;
-        /* print an array */
-        if (f->type == MAVLINK_TYPE_CHAR) {
-            qDebug("'%.*s'", f->array_length,
-                   f->wire_offset+(const char *)_MAV_PAYLOAD(msg));
+//mavlink_message_info_t message_info[256] = MAVLINK_MESSAGE_INFO;
+//void MainWindow::print_one_field(const mavlink_message_t *msg, const mavlink_field_info_t *f, int idx)
+//{
+//#define PRINT_FORMAT(f, def) (f->print_format?f->print_format:def)
+//    switch (f->type) {
+//    case MAVLINK_TYPE_CHAR:
+//        qDebug(PRINT_FORMAT(f, "%c"), _MAV_RETURN_char(msg, f->wire_offset+idx*1));
+//        break;
+//    case MAVLINK_TYPE_UINT8_T:
+//        qDebug(PRINT_FORMAT(f, "%u"), _MAV_RETURN_uint8_t(msg, f->wire_offset+idx*1));
+//        break;
+//    case MAVLINK_TYPE_INT8_T:
+//        qDebug(PRINT_FORMAT(f, "%d"), _MAV_RETURN_int8_t(msg, f->wire_offset+idx*1));
+//        break;
+//    case MAVLINK_TYPE_UINT16_T:
+//        qDebug(PRINT_FORMAT(f, "%u"), _MAV_RETURN_uint16_t(msg, f->wire_offset+idx*2));
+//        break;
+//    case MAVLINK_TYPE_INT16_T:
+//        qDebug(PRINT_FORMAT(f, "%d"), _MAV_RETURN_int16_t(msg, f->wire_offset+idx*2));
+//        break;
+//    case MAVLINK_TYPE_UINT32_T:
+//        qDebug(PRINT_FORMAT(f, "%lu"), (unsigned long)_MAV_RETURN_uint32_t(msg, f->wire_offset+idx*4));
+//        break;
+//    case MAVLINK_TYPE_INT32_T:
+//        qDebug(PRINT_FORMAT(f, "%ld"), (long)_MAV_RETURN_int32_t(msg, f->wire_offset+idx*4));
+//        break;
+//    case MAVLINK_TYPE_UINT64_T:
+//        qDebug(PRINT_FORMAT(f, "%llu"), (unsigned long long)_MAV_RETURN_uint64_t(msg, f->wire_offset+idx*8));
+//        break;
+//    case MAVLINK_TYPE_INT64_T:
+//        qDebug(PRINT_FORMAT(f, "%lld"), (long long)_MAV_RETURN_int64_t(msg, f->wire_offset+idx*8));
+//        break;
+//    case MAVLINK_TYPE_FLOAT:
+//        qDebug(PRINT_FORMAT(f, "%f"), (double)_MAV_RETURN_float(msg, f->wire_offset+idx*4));
+//        break;
+//    case MAVLINK_TYPE_DOUBLE:
+//        qDebug(PRINT_FORMAT(f, "%f"), _MAV_RETURN_double(msg, f->wire_offset+idx*8));
+//        break;
+//    }
+//}
 
-        } else {
-            qDebug("[ ");
-            for (i=0; i<f->array_length; i++) {
-                print_one_field(msg, f, i);
-                if (i < f->array_length) {
-                    qDebug(", ");
-                }
-            }
-            qDebug("]");
-        }
-    }
-    qDebug(" ");
-}
+//void MainWindow::print_field(const mavlink_message_t *msg, const mavlink_field_info_t *f)
+//{
+//    qDebug("%s: ", f->name);
+//    //    out << (f->name) << "\r\n";
+//    if (f->array_length == 0) {
+//        print_one_field(msg, f, 0);
+//        qDebug(" ");
+//    } else {
+//        unsigned i;
+//        /* print an array */
+//        if (f->type == MAVLINK_TYPE_CHAR) {
+//            qDebug("'%.*s'", f->array_length,
+//                   f->wire_offset+(const char *)_MAV_PAYLOAD(msg));
 
-void MainWindow::print_message(const mavlink_message_t *msg)
-{
-    const mavlink_message_info_t *m = &message_info[msg->msgid];
-    const mavlink_field_info_t *f = m->fields;
-    unsigned i;
+//        } else {
+//            qDebug("[ ");
+//            for (i=0; i<f->array_length; i++) {
+//                print_one_field(msg, f, i);
+//                if (i < f->array_length) {
+//                    qDebug(", ");
+//                }
+//            }
+//            qDebug("]");
+//        }
+//    }
+//    qDebug(" ");
+//}
 
-    qDebug("%s { ", m->name);
-    //    out << (m->name) << " { \r\n";
+//void MainWindow::print_message(const mavlink_message_t *msg)
+//{
+//    const mavlink_message_info_t *m = &message_info[msg->msgid];
+//    const mavlink_field_info_t *f = m->fields;
+//    unsigned i;
 
-    for (i=0; i< m->num_fields; i++) {
-        print_field(msg, &f[i]);
-    }
-    qDebug("}\n");
-    //    out << "} \r\n";
-}
+//    qDebug("%s { ", m->name);
+//    //    out << (m->name) << " { \r\n";
 
-void MainWindow::receiveMessage(mavlink_message_t message)
-{
-    memcpy(receivedMessages+message.msgid, &message, sizeof(mavlink_message_t));
+//    for (i=0; i< m->num_fields; i++) {
+//        print_field(msg, &f[i]);
+//    }
+//    qDebug("}\n");
+//    //    out << "} \r\n";
+//}
 
-    //qDebug() << message.payload64;
-    print_message(&message);
+//void MainWindow::receiveMessage(mavlink_message_t message)
+//{
+//    memcpy(receivedMessages+message.msgid, &message, sizeof(mavlink_message_t));
 
-    switch(message.msgid)
-    {
-    case MAVLINK_MSG_ID_SYS_STATUS:
-        break;
-    case MAVLINK_MSG_ID_ATTITUDE:
+//    //qDebug() << message.payload64;
+//    print_message(&message);
 
-        break;
-    case MAVLINK_MSG_ID_SET_MODE:
-    {
-        mavlink_set_mode_t mode;
-        mavlink_msg_set_mode_decode(&message,&mode);
-        if (message.sysid == mode.target_system)
-            sys_mode = mode.base_mode;
-    }
-        break;
-    case MAVLINK_MSG_ID_HIL_STATE:
-    {
-        mavlink_hil_state_t state;
-        mavlink_msg_hil_state_decode(&message,&state);
-        roll = state.roll;
-        pitch = state.pitch;
-        yaw = state.yaw;
-        rollspeed = state.rollspeed;
-        pitchspeed = state.pitchspeed;
-        yawspeed = state.yawspeed;
-        latitude = state.lat;
-        longitude = state.lon;
-        altitude = state.alt;
+//    switch(message.msgid)
+//    {
+//    case MAVLINK_MSG_ID_SYS_STATUS:
+//        break;
+//    case MAVLINK_MSG_ID_ATTITUDE:
 
-        qDebug() << "Roll: " << roll << "\n";
-        qDebug() << "Pitch: " << pitch << "\n";
-        qDebug() << "Yaw: " << yaw << "\n";
-        qDebug() << "RollSpeed: " << rollspeed << "\n";
-        qDebug() << "PitchSpeed: " << pitchspeed << "\n";
-        qDebug() << "YawSpeed: " << yawspeed << "\n";
-    }
-        break;
-    }
-}
+//        break;
+//    case MAVLINK_MSG_ID_SET_MODE:
+//    {
+//        mavlink_set_mode_t mode;
+//        mavlink_msg_set_mode_decode(&message,&mode);
+//        if (message.sysid == mode.target_system)
+//            sys_mode = mode.base_mode;
+//    }
+//        break;
+//    case MAVLINK_MSG_ID_HIL_STATE:
+//    {
+//        mavlink_hil_state_t state;
+//        mavlink_msg_hil_state_decode(&message,&state);
+//        roll = state.roll;
+//        pitch = state.pitch;
+//        yaw = state.yaw;
+//        rollspeed = state.rollspeed;
+//        pitchspeed = state.pitchspeed;
+//        yawspeed = state.yawspeed;
+//        latitude = state.lat;
+//        longitude = state.lon;
+//        altitude = state.alt;
+
+//        qDebug() << "Roll: " << roll << "\n";
+//        qDebug() << "Pitch: " << pitch << "\n";
+//        qDebug() << "Yaw: " << yaw << "\n";
+//        qDebug() << "RollSpeed: " << rollspeed << "\n";
+//        qDebug() << "PitchSpeed: " << pitchspeed << "\n";
+//        qDebug() << "YawSpeed: " << yawspeed << "\n";
+//    }
+//        break;
+//    }
+//}
 
 void MainWindow::addLink()
 {
-    SerialLink* link = new SerialLink();
-    //    link = tmplink;
-    LinkManager::instance()->add(link);
-    LinkManager::instance()->addProtocol(link, mavlink);
-
 //    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
 //    toolBarTimeoutLabel->setText(tr("CONNECTION"));
 //    ui->actionConnect->setChecked(true);  // this will be set once actually connected
@@ -506,40 +517,59 @@ void MainWindow::addLink()
 //    ui->actionConfigure->setEnabled(false);
 
 
-    QAction* act = getActionByLink(link);
-    if (act)
-        act->trigger();
+    SerialLink* link = new SerialLink();
 
-//    SerialLink* serial = dynamic_cast<SerialLink*>(link);
+    LinkManager::instance()->add(link);
+    LinkManager::instance()->addProtocol(link, mavlink);
 
-//    if (!getActionByLink(link)) {
-//        CommConfigurationWindow* commWidget = new CommConfigurationWindow(link,mavlink, this);
-//        QAction* action = commWidget->getAction();
-//        ui->menuWidgets->addAction(action);
+    // Go fishing for this link's configuration window
+    QList<QAction*> actions = ui->menuWidgets->actions();
 
-//        // Error handling
-//        connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
-//    }
+    const int32_t& linkIndex(LinkManager::instance()->getLinks().indexOf(link));
+    const int32_t& linkID(LinkManager::instance()->getLinks()[linkIndex]->getId());
+
+    foreach (QAction* act, actions)
+    {
+        if (act->data().toInt() == linkID)
+        { // LinkManager::instance()->getLinks().indexOf(link)
+            act->trigger();
+            break;
+        }
+    }
 }
 
 void MainWindow::addLink(LinkInterface *link)
 {
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
-//    link->connect();
 
-//    SerialLink* serial = dynamic_cast<SerialLink*>(link);
+    // Go fishing for this link's configuration window
+    QList<QAction*> actions = ui->menuWidgets->actions();
 
-    if (!getActionByLink(link)) {
-        CommConfigurationWindow* commWidget = new CommConfigurationWindow(link,mavlink, this);
+    bool found(false);
+
+    const int32_t& linkIndex(LinkManager::instance()->getLinks().indexOf(link));
+    const int32_t& linkID(LinkManager::instance()->getLinks()[linkIndex]->getId());
+
+    foreach (QAction* act, actions)
+    {
+        if (act->data().toInt() == linkID)
+        { // LinkManager::instance()->getLinks().indexOf(link)
+            found = true;
+        }
+    }
+
+    //UDPLink* udp = dynamic_cast<UDPLink*>(link);
+
+    if (!found)
+    {  //  || udp
+        CommConfigurationWindow* commWidget = new CommConfigurationWindow(link, mavlink, this);
         QAction* action = commWidget->getAction();
         ui->menuWidgets->addAction(action);
 
         // Error handling
         connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
     }
-
-
 }
 
 void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)
@@ -621,4 +651,22 @@ void MainWindow::updateView()
 void MainWindow::loadParametersToUI()
 {
     //    AQParamWidget::load
+}
+
+void MainWindow::UASCreated(UASInterface* uas)
+{
+    if (!uas)
+        return;
+    connect(uas, SIGNAL(systemSpecsChanged(int)), this, SLOT(UASSpecsChanged(int)));
+
+    if (infoDockWidget)
+    {
+        UASInfoWidget *infoWidget = dynamic_cast<UASInfoWidget*>(infoDockWidget->widget());
+        if (infoWidget)
+        {
+            infoWidget->addUAS(uas);
+            infoWidget->refresh();
+        }
+    }
+
 }

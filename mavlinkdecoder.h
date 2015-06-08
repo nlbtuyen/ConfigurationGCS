@@ -4,6 +4,7 @@
 #include <QObject>
 #include "mavlinkprotocol.h"
 
+class MAVLinkProtocol;
 class MAVLinkDecoder : public QThread
 {
     Q_OBJECT

@@ -19,11 +19,16 @@
 #include "linkinterface.h"
 #include "seriallink.h"
 #include "uasinfowidget.h"
+#include "debugconsole.h"
+#include "mavlinkdecoder.h"
+
 
 namespace Ui {
 class MainWindow;
 }
 
+class DebugConsole;
+class MAVLinkDecoder;
 class UASInterface;
 class ToolBar;
 class SerialLink;
@@ -63,13 +68,13 @@ public:
 
 protected:
     QMutex dataMutex;
-    void bytesReceived(QByteArray data);
+//    void bytesReceived(QByteArray data);
     int lastIndex[256][256];	///< Store the last received sequence ID for each system/componenet pair
     int totalReceiveCounter;
     int totalLossCounter;
     int currReceiveCounter;
     int currLossCounter;
-    void receiveMessage(mavlink_message_t message);
+//    void receiveMessage(mavlink_message_t message);
     QMutex receiveMutex;
     quint64 bitsReceivedTotal;
 
@@ -88,12 +93,12 @@ protected:
     double pitchspeed;
     double yawspeed;
 
-    mavlink_message_t receivedMessages[256]; ///< Available / known messages
-    mavlink_message_info_t messageInfo[256]; ///< Message information
+//    mavlink_message_t receivedMessages[256]; ///< Available / known messages
+//    mavlink_message_info_t messageInfo[256]; ///< Message information
 
-    static void print_message(const mavlink_message_t *msg);
-    static void print_field(const mavlink_message_t *msg, const mavlink_field_info_t *f);
-    static void print_one_field(const mavlink_message_t *msg, const mavlink_field_info_t *f, int idx);
+//    static void print_message(const mavlink_message_t *msg);
+//    static void print_field(const mavlink_message_t *msg, const mavlink_field_info_t *f);
+//    static void print_one_field(const mavlink_message_t *msg, const mavlink_field_info_t *f, int idx);
 
     MAVLinkProtocol* mavlink;
     AQParamWidget* paramaq;
@@ -107,6 +112,10 @@ protected:
     QPointer<QDockWidget> mavlinkSenderWidget;
     QPointer<QDockWidget> parametersDockWidget;
     QPointer<QDockWidget> infoDockWidget;
+    QPointer<QDockWidget> debugConsoleDockWidget;
+
+    QPointer<MAVLinkDecoder> mavlinkDecoder;
+
     QPointer<ToolBar> toolBar;
 
     void addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea location=Qt::RightDockWidgetArea);
@@ -119,7 +128,7 @@ protected:
     void connectCommonWidgets();
 
 public slots:
-    virtual void readData();
+//    virtual void readData();
     void showTool(bool visible);
 
     /** @brief Add a communication link */
@@ -136,6 +145,8 @@ public slots:
     void updateView();
 
     void loadParametersToUI();
+    /** @brief Add a new UAS */
+    void UASCreated(UASInterface* uas);
 
 public slots:
 //    void openSerialPort();

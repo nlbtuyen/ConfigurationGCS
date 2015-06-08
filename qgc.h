@@ -28,6 +28,9 @@
 #include <QColor>
 #include <QThread>
 
+#define MAVLINK_HEARTBEAT_DEFAULT_RATE 1
+
+
 namespace QGC
 {
 const static int defaultSystemId = 255;

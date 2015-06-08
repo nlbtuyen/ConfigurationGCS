@@ -144,6 +144,9 @@
       </property>
       <item>
        <widget class="QScrollArea" name="protocolScrollArea">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="widgetResizable">
          <bool>true</bool>
         </property>
