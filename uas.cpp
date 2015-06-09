@@ -1875,7 +1875,7 @@ void UAS::startStopTelemetry(bool enable, float frequenz, uint8_t dataset){
 void UAS::sendCommmandToAq(int command,int confirm, float para1,float para2,float para3,float para4,float para5,float para6,float para7){
     mavlink_message_t msg;
     mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, command, confirm, para1, para2, para3, para4, para5, para6, para7);
-    //qDebug() << "SENT COMMAND" << command << "para1:" << para1 << "para2:" << para2 << "para3:" << para3 << "para4:" << para4;
+    qDebug() << "SENT COMMAND" << command << "para1:" << para1 << "para2:" << para2 << "para3:" << para3 << "para4:" << para4;
     sendMessage(msg);
 }
 

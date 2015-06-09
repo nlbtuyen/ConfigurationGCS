@@ -1,47 +1,44 @@
 #include "uavconfig.h"
 #include "ui_uavconfig.h"
+#include "seriallinkinterface.h"
+#include "seriallink.h"
+#include "linkmanager.h"
+#include "mainwindow.h"
+#include "uas.h"
+
 #include <QDebug>
+#include <QWidget>
+#include <QFileDialog>
+#include <QTextBrowser>
+#include <QMessageBox>
+#include <QSignalMapper>
+#include <QStringList>
+#include <QSerialPortInfo>
 
 UAVConfig::UAVConfig(QWidget *parent) :
-    QDialog(parent),
+    QWidget(parent),
+    paramaq(NULL),
+    uas(NULL),
     ui(new Ui::UAVConfig)
 {
     ui->setupUi(this);
 
-    //qDebug() << QCoreApplication::();
-    QImage imageObject1;
-    imageObject1.load(str + "1.png");
-    ui->lbl_show_calib_gyro->setPixmap(QPixmap::fromImage(imageObject1));
+    updateCommonImages();
 
-    QImage imageObject2;
-    imageObject2.load(str + "2.png");
-    ui->lbl_show_calib_mag->setPixmap(QPixmap::fromImage(imageObject2));
+    adjustUiForHardware();
+    adjustUiForFirmware();
 
-    QImage imageObject3;
-    imageObject3.load(str + "3.png");
-    ui->lbl_show_save_ee->setPixmap(QPixmap::fromImage(imageObject3));
+    connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForHardware()));
 
-    QImage imageObject4;
-    imageObject4.load(str + "4.png");
-    ui->lbl_show_calib_esc->setPixmap(QPixmap::fromImage(imageObject4));
+    connect(ui->btn_save, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
+//    paramaq->requestParameterList();
+    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
 
-    QImage imageObject5;
-    imageObject5.load(str + "4.png");
-    ui->lbl_show_enable_pid->setPixmap(QPixmap::fromImage(imageObject5));
+}
 
-    QImage imageObject7;
-    imageObject7.load(str + "display.jpg");
-    ui->lbl_show_primary->setPixmap(QPixmap::fromImage(imageObject7));
-
-    QImage imageObject8;
-    imageObject8.load(str + "graph.png");
-    ui->lbl_graph->setPixmap(QPixmap::fromImage(imageObject8));
-
-    ui->btn_quadx->setStyleSheet("background-color : yellow");
-    QImage imageObject6;
-    ui->lbl_show_ac->setAlignment(Qt::AlignCenter);
-    imageObject6.load(str + "quadx.png");
-    ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
+bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
+{
+    return true;
 }
 
 UAVConfig::~UAVConfig()
@@ -56,7 +53,7 @@ void UAVConfig::on_btn_quadx_clicked()
     ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
     if (isSelected == 1){
         ui->btn_quadx->setStyleSheet("background-color : yellow");
-//        isSelected = 1;
+        //        isSelected = 1;
     }else if (isSelected == 2){
         ui->btn_quadx->setStyleSheet("background-color : yellow");
         ui->btn_quadplus->setStyleSheet("");
@@ -140,3 +137,111 @@ void UAVConfig::on_btn_hexy_clicked()
         isSelected = 4;
     }
 }
+
+void UAVConfig::adjustUiForHardware()
+{
+
+}
+
+void UAVConfig::radioType_changed(int idx)
+{
+    bool ok;
+    int prevRadioValue;
+    int newRadioValue;
+    ui->comboBox_radio_type->setVisible(!useRadioSetupParam);
+    if (useRadioSetupParam)
+    {
+        //prevRadioValue = paramaq->getParaAQ("RADIO_SETUP").toInt(&ok);
+        //qDebug() << prevRadioValue;
+        //newRadioValue = calRadioSetting();
+    }
+    else
+    {
+
+    }
+
+
+}
+
+void UAVConfig::saveAQSettings()
+{
+    //saveSettingsToAq(ui->tab_aq_setting);
+   paramaq->setParaAQ("CTRL_MAX",1000);
+   uas->writeParametersToStorageAQ();
+
+}
+
+void UAVConfig::uasConnected()
+{
+
+}
+
+int UAVConfig::calRadioSetting()
+{
+     int radioSetup = ui->comboBox_radio_type->itemData(ui->comboBox_radio_type->currentIndex()).toInt();
+     return radioSetup;
+}
+
+
+
+void UAVConfig::updateCommonImages()
+{
+    QImage imageObject1;
+    imageObject1.load(str + "1.png");
+    ui->lbl_show_calib_gyro->setPixmap(QPixmap::fromImage(imageObject1));
+
+    QImage imageObject2;
+    imageObject2.load(str + "2.png");
+    ui->lbl_show_calib_mag->setPixmap(QPixmap::fromImage(imageObject2));
+
+    QImage imageObject3;
+    imageObject3.load(str + "3.png");
+    ui->lbl_show_save_ee->setPixmap(QPixmap::fromImage(imageObject3));
+
+    QImage imageObject4;
+    imageObject4.load(str + "4.png");
+    ui->lbl_show_calib_esc->setPixmap(QPixmap::fromImage(imageObject4));
+
+    QImage imageObject5;
+    imageObject5.load(str + "4.png");
+    ui->lbl_show_enable_pid->setPixmap(QPixmap::fromImage(imageObject5));
+
+    QImage imageObject7;
+    imageObject7.load(str + "display.jpg");
+    ui->lbl_show_primary->setPixmap(QPixmap::fromImage(imageObject7));
+
+    QImage imageObject8;
+    imageObject8.load(str + "graph.png");
+    ui->lbl_graph->setPixmap(QPixmap::fromImage(imageObject8));
+
+    ui->btn_quadx->setStyleSheet("background-color : yellow");
+    QImage imageObject6;
+    ui->lbl_show_ac->setAlignment(Qt::AlignCenter);
+    imageObject6.load(str + "quadx.png");
+    ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
+}
+
+void UAVConfig::adjustUiForFirmware()
+{
+    uint8_t idx;
+
+    disconnect(ui->comboBox_radio_type,0,this,0);
+
+    idx = ui->comboBox_radio_type->currentIndex();
+    ui->comboBox_radio_type->clear();
+    ui->comboBox_radio_type->addItem("Select...",-1);
+    ui->comboBox_radio_type->addItem("Spektrum 11Bit", 0);
+    ui->comboBox_radio_type->addItem("Spektrum 10Bit", 1);
+    ui->comboBox_radio_type->addItem("S-BUS (Futaba, others)", 2);
+    ui->comboBox_radio_type->addItem("PPM", 3);
+    if (idx > -1 && idx <= ui->comboBox_radio_type->count())
+        ui->comboBox_radio_type->setCurrentIndex(idx);
+
+    connect(ui->comboBox_radio_type, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+
+    // restart button
+    if (paramaq)
+        paramaq->setRestartBtnEnabled(aqCanReboot);
+
+}
+

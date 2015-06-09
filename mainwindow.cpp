@@ -254,8 +254,6 @@ void MainWindow::UAScreated(UASInterface *uas)
 {
     if (!uas)
         return;
-
-
 }
 
 void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea area)
@@ -509,18 +507,19 @@ QString MainWindow::getWindowGeometryKey()
 
 void MainWindow::addLink()
 {
-//    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
-//    toolBarTimeoutLabel->setText(tr("CONNECTION"));
-//    ui->actionConnect->setChecked(true);  // this will be set once actually connected
-//    ui->actionConnect->setEnabled(false);
-//    ui->actionDisconnect->setEnabled(true);
-//    ui->actionConfigure->setEnabled(false);
 
 
     SerialLink* link = new SerialLink();
 
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
+
+    //    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
+    //    toolBarTimeoutLabel->setText(tr("CONNECTION"));
+    //    ui->actionConnect->setChecked(true);  // this will be set once actually connected
+    //    ui->actionConnect->setEnabled(false);
+    //    ui->actionDisconnect->setEnabled(true);
+    //    ui->actionConfigure->setEnabled(false);
 
     // Go fishing for this link's configuration window
     QList<QAction*> actions = ui->menuWidgets->actions();
@@ -625,6 +624,7 @@ void MainWindow::setActiveUAS(UASInterface *active)
     paramaq->requestParameterList();
 
 
+    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
 
 
 }
@@ -654,9 +654,9 @@ void MainWindow::updateView()
 
 }
 
-void MainWindow::loadParametersToUI()
+void MainWindow::uasConnected()
 {
-    //    AQParamWidget::load
+//    mav->sendCommmandToAq(245,1, 0.0f);
 }
 
 void MainWindow::UASCreated(UASInterface* uas)
@@ -674,5 +674,7 @@ void MainWindow::UASCreated(UASInterface* uas)
             infoWidget->refresh();
         }
     }
+
+
 
 }

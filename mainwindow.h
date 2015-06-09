@@ -144,7 +144,7 @@ public slots:
     /** @brief Repaint widgets */
     void updateView();
 
-    void loadParametersToUI();
+    void uasConnected();
     /** @brief Add a new UAS */
     void UASCreated(UASInterface* uas);
 

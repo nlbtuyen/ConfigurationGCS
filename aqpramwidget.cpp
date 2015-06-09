@@ -13,6 +13,7 @@
 #include <QHeaderView>
 #include <QMetaType>
 #include <QMetaObject>
+#include <QDebug>
 
 #include "aqpramwidget.h"
 #include "uasinterface.h"
@@ -1269,7 +1270,7 @@ void AQParamWidget::setParameter(int component, QString parameterName, QVariant 
     }
 
     emit parameterChanged(component, parameterName, fixedValue);
-    //qDebug() << __FILE__ << __LINE__ << "parameterChanged:" << parameterName << fixedValue;
+    qDebug() << __FILE__ << __LINE__ << "parameterChanged:" << parameterName << fixedValue;
 
     // Wait for parameter to be written back
     // mark it therefore as missing
@@ -1320,7 +1321,7 @@ void AQParamWidget::setParameters()
             }
         }
     }
-    //qDebug() << "Send Parameters out" << QString::number(parametersSent);
+    qDebug() << "Send Parameters out" << QString::number(parametersSent);
 
     // Change transmission status if necessary
     if (parametersSent == 0) {
@@ -1357,6 +1358,7 @@ void AQParamWidget::writeParameters()
     QMap<int, QMap<QString, QVariant>*>::iterator i;
     for (i = changedValues.begin(); i != changedValues.end(); ++i)
     {
+
         // Iterate through the parameters of the component
         QMap<QString, QVariant>* comp = i.value();
         {

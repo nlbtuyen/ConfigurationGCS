@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tab_aq_setting">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_RC_config">
       <attribute name="title">
@@ -87,7 +87,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="0" column="0" rowspan="3">
-           <widget class="QWidget" name="widget" native="true">
+           <widget class="QWidget" name="groupox_channelMapping" native="true">
             <property name="maximumSize">
              <size>
               <width>250</width>
@@ -200,7 +200,7 @@
               </widget>
              </item>
              <item row="4" column="1">
-              <widget class="QComboBox" name="comboBox_yaw">
+              <widget class="QComboBox" name="RADIO_RUDD_CH">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -290,7 +290,7 @@
               </widget>
              </item>
              <item row="6" column="1">
-              <widget class="QComboBox" name="comboBox_home">
+              <widget class="QComboBox" name="RADIO_AUX2_CH">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -387,7 +387,7 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QComboBox" name="comboBox_pitch">
+              <widget class="QComboBox" name="RADIO_PITCH_CH">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -491,7 +491,7 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QComboBox" name="comboBox_roll">
+              <widget class="QComboBox" name="RADIO_ROLL_CH">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -594,7 +594,7 @@ padding: 1px 5px;</string>
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QComboBox" name="comboBox_throttle">
+              <widget class="QComboBox" name="RADIO_THRO_CH">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -704,7 +704,7 @@ padding: 1px 5px;</string>
               </widget>
              </item>
              <item row="5" column="1">
-              <widget class="QComboBox" name="comboBox_flight_mode">
+              <widget class="QComboBox" name="RADIO_FLAP_CH">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -1103,6 +1103,9 @@ padding: 1px 5px;</string>
              </size>
             </property>
             <layout class="QFormLayout" name="formLayout">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+             </property>
              <item row="0" column="0">
               <widget class="QLabel" name="lbl_value">
                <property name="maximumSize">
@@ -1119,19 +1122,6 @@ padding: 1px 5px;</string>
                </property>
                <property name="text">
                 <string>Value</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLabel" name="lbl_reverse">
-               <property name="styleSheet">
-                <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
-border-radius: 3px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
-padding: 1px 5px;</string>
-               </property>
-               <property name="text">
-                <string>Rev.</string>
                </property>
               </widget>
              </item>
@@ -1281,6 +1271,19 @@ padding: 1px 5px;</string>
               <widget class="QCheckBox" name="checkBox_pid_value">
                <property name="text">
                 <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="lbl_reverse">
+               <property name="styleSheet">
+                <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 3px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+               </property>
+               <property name="text">
+                <string>Rev.</string>
                </property>
               </widget>
              </item>
