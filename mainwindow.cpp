@@ -75,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent) :
     infoDockWidget = new QDockWidget(tr("Status Details"), this);
     infoDockWidget->setWidget( new UASInfoWidget(this));
     infoDockWidget->setObjectName("UAS_STATUS_DETAILS_DOCKWIDGET");
-    addTool(infoDockWidget, tr("Status Details"), Qt::RightDockWidgetArea);
+    addTool(infoDockWidget, tr("Status Details"), Qt::LeftDockWidgetArea);
 
 
 
