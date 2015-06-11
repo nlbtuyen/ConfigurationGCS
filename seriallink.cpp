@@ -60,6 +60,7 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
 
     if (name == this->porthandle || name == "")
         loadSettings();
+
 }
 
 SerialLink::~SerialLink()
@@ -130,7 +131,7 @@ void SerialLink::run()
     if (!hardwareConnect())
         return;
 
-//    port->open(QIODevice::ReadWrite);
+    port->open(QIODevice::ReadWrite);
 
     while (!m_stopp)
     {
@@ -141,9 +142,9 @@ void SerialLink::run()
             break;
         }
 
+
         port->waitForReadyRead(SerialLink::readywait_interval);
 //        this->readBytes();
-
 
         // Serial data isn't arriving that fast normally, this saves the thread
         // from consuming too much processing time
@@ -200,11 +201,7 @@ void SerialLink::readBytes() //@Leo
     qint64 numBytes = 0, rBytes = 0; //port->bytesAvailable();
 
     dataMutex.lock();
-
-//    if (port->open(QIODevice::ReadWrite))
-//        qDebug() << "connect dc roi";
-//    else qDebug() << port->errorString();
-
+qDebug() << "byte: " << port->bytesAvailable();
     while( numBytes = port->bytesAvailable()) {
         rBytes = numBytes;
         if(maxLength < rBytes) rBytes = maxLength;

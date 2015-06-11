@@ -32,7 +32,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     connect(ui->btn_save, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
 //    paramaq->requestParameterList();
-    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
+//    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
 
 }
 

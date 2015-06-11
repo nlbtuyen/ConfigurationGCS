@@ -21,6 +21,7 @@
 #include "uasinfowidget.h"
 #include "debugconsole.h"
 #include "mavlinkdecoder.h"
+#include "commconfigurationwindow.h"
 
 
 namespace Ui {
@@ -34,10 +35,10 @@ class ToolBar;
 class SerialLink;
 class MAVLinkMessageSender;
 class ParameterInterface;
-class SettingsDialog;
 class UAVConfig;
 class MAVLinkProtocol;
 class UASInfoWidget;
+class CommConfigurationWindow;
 
 class MainWindow : public QMainWindow
 {
@@ -134,6 +135,9 @@ public slots:
     /** @brief Add a communication link */
     void addLink();
     void addLink(LinkInterface* link);
+
+    void addLinkImmediately();
+
     /** @brief Shows an info or warning message */
     void showMessage(const QString &title, const QString &message, const QString &details, const QString severity = "info");
     /** @brief Shows a critical message as popup or as widget */
@@ -144,16 +148,12 @@ public slots:
     /** @brief Repaint widgets */
     void updateView();
 
-    void uasConnected();
     /** @brief Add a new UAS */
     void UASCreated(UASInterface* uas);
 
-public slots:
-//    void openSerialPort();
     void closeSerialPort();
     void writeData(const QByteArray &data);
     void handleError(QSerialPort::SerialPortError error);
-//    void updateBattery(double, double);
 
 
     /** @brief Update connection timeout time */
@@ -168,7 +168,6 @@ public slots:
 private:
     void initActionsConnections();
     Ui::MainWindow *ui;
-    SettingsDialog *settings;
     QSerialPort *serial;
     UAVConfig *config;
     SerialLink* link;
