@@ -1814,7 +1814,7 @@ void UAS::requestParameters()
     mavlink_message_t msg;
     mavlink_msg_param_request_list_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), MAV_COMP_ID_ALL);
     sendMessage(msg);
-    qDebug() << __FILE__ << __LINE__ << "LOADING PARAM LIST";
+//    qDebug() << __FILE__ << __LINE__ << "LOADING PARAM LIST";
 }
 
 void UAS::writeParametersToStorage()

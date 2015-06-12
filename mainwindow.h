@@ -107,6 +107,7 @@ protected:
     void initActionsConnections();
 
     bool autoReconnect;
+        QString state;
 
 
     MAVLinkProtocol* mavlink;
@@ -137,6 +138,8 @@ public slots:
     /** @brief Shows a critical message as popup or as widget */
     void showCriticalMessage(const QString& title, const QString& message);
 
+    /** @brief Set the system state */
+    void updateState(UASInterface* system, QString name, QString description);
 
     /** @brief Add a new UAS */
     void UASCreated(UASInterface* uas);

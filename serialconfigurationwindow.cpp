@@ -64,7 +64,7 @@ SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidge
     setPortName(defaultPortName);
 
     // Create action to open this config dialog
-    action = new QAction(QIcon(":/files/images/devices/network-wireless.svg"), "", this->link);
+    action = new QAction(QIcon(":images/network-wireless.png"), "", this->link);
     connect(action, SIGNAL(triggered()), this, SLOT(configureCommunication()));
 
     // Make sure that a change in the link name will be reflected in the UI
@@ -130,7 +130,7 @@ QString SerialConfigurationWindow::getSettingsKey(bool checkExists)
     settings.beginGroup("SERIAL_CONFIG_WINDOW");
     int idx = ui.portName->currentIndex();
     if (idx > -1 && ui.portName->itemData(idx).toString() != "[no ports]") {
-        key = QString("SERIALLINK_COMM_");// % ui.portName->itemData(idx).toString().replace(QRegExp("[^a-zA-Z0-9_]"), "") % "_%1");
+        key = QString("SERIALLINK_COMM_") % (ui.portName->itemData(idx).toString().replace(QRegExp("[^a-zA-Z0-9_]"), "") % "_%1");
         if (settings.contains(key.arg("BAUD")) || !checkExists)
             found = true;
     }

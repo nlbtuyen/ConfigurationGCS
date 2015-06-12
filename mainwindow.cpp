@@ -58,7 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    link = new SerialLink();
 
     //Add Config tab to center Main Window
     config = new UAVConfig();
@@ -111,40 +110,29 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
-
-
-    // Connect link
-    if (autoReconnect)
-    {
-        SerialLink* link = new SerialLink();
-        // Add to registry
-        LinkManager::instance()->add(link);
-        LinkManager::instance()->addProtocol(link, mavlink);
-        link->connect();
-    }
 }
 
 MainWindow::~MainWindow()
 {
-//    int linkIndex = LinkManager::instance()->getLinks().indexOf(link);
-//    int linkID = LinkManager::instance()->getLinks().at(linkIndex)->getId();
+    foreach(LinkInterface* link,LinkManager::instance()->getLinks())
+    {
+        int linkIndex = LinkManager::instance()->getLinks().indexOf(link);
+        int linkID = LinkManager::instance()->getLinks().at(linkIndex)->getId();
 
-//    foreach (QAction* act, listLinkMenuActions())
-//    {
-//        if (act->data().toInt() == linkID)
-//            ui->menuWidgets->removeAction(act);
-//    }
-//    if (link)
-//    {
-//        link->disconnect(); //disconnect port, and also calls terminate() to stop the thread
-//        if (link->isRunning()) link->terminate(); // terminate() the serial thread just in case it is still running
-//        link->wait(); // wait() until thread is stoped before deleting
-//        LinkManager::instance()->removeLink(link); //remove link from LinkManager list
-//        link->deleteLater();
-//    }
-    //serial->close();
+        foreach (QAction* act, listLinkMenuActions())
+        {
+            if (act->data().toInt() == linkID)
+                ui->menuWidgets->removeAction(act);
+        }
+
+        link->disconnect();
+        if (link->isRunning()) link->terminate();
+        link->wait();
+        LinkManager::instance()->removeLink(link);
+        link->deleteLater();
+    }
     delete ui;
-    //    file.close();
+
 }
 
 void MainWindow::initActionsConnections()
@@ -183,7 +171,7 @@ void MainWindow::initActionsConnections()
     toolBarSafetyLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #008000; }"));
     toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
     toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
-    ui->mainToolBar->addWidget(toolBarSafetyLabel);
+//    ui->mainToolBar->addWidget(toolBarSafetyLabel);
 
     //    toolBarStateLabel = new QLabel("------", this);
     //    toolBarStateLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #FFFF00; }"));
@@ -199,19 +187,21 @@ void MainWindow::initActionsConnections()
     toolBarBatteryBar->setMaximumWidth(100);
     toolBarBatteryBar->setToolTip(tr("Battery charge level"));
     toolBarBatteryBar->setObjectName("toolBarBatteryBar");
-    ui->mainToolBar->addWidget(toolBarBatteryBar);
+//    ui->mainToolBar->addWidget(toolBarBatteryBar);
 
     toolBarBatteryVoltageLabel = new QLabel("xx.x V");
     toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel {  margin: 0px 2px; font: 18px; color: %1; }").arg(QColor(Qt::green).name()));
     toolBarBatteryVoltageLabel->setToolTip(tr("Battery voltage"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
-    ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
+//    ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
 
     //    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
     //    toolBarMessageLabel->setToolTip(tr("Most recent system message"));
     //    toolBarMessageLabel->setObjectName("toolBarMessageLabel");
     //    ui->mainToolBar->addWidget(toolBarMessageLabel);
 
+    setActiveUAS(UASManager::instance()->getActiveUAS());
+    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 
 }
 
@@ -244,7 +234,6 @@ void MainWindow::connectCommonWidgets()
     {
         connect(mavlink, SIGNAL(receiveLossChanged(int,float)),infoDockWidget->widget(), SLOT(updateSendLoss(int, float)));
     }
-    //connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UAScreated(UASInterface*)));
 }
 
 //Connect common actions
@@ -254,6 +243,8 @@ void MainWindow::connectCommonActions()
     connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionConfigure, SIGNAL(triggered()), this, SLOT(addLink()));
+
+    connect(LinkManager::instance(), SIGNAL(linkRemoved(LinkInterface*)), this, SLOT(closeSerialPort()));
 
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UASCreated(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
@@ -308,20 +299,8 @@ void MainWindow::addLink()
     if (act)
         act->trigger();
 
-//    // Go fishing for this link's configuration window
-//    QList<QAction*> actions = ui->menuWidgets->actions();
+//    updateView();
 
-//    const int32_t& linkIndex(LinkManager::instance()->getLinks().indexOf(link));
-//    const int32_t& linkID(LinkManager::instance()->getLinks()[linkIndex]->getId());
-
-//    foreach (QAction* act, actions)
-//    {
-//        if (act->data().toInt() == linkID)
-//        { // LinkManager::instance()->getLinks().indexOf(link)
-//            act->trigger();
-//            break;
-//        }
-//    }
 }
 
 void MainWindow::addLink(LinkInterface *link)
@@ -338,60 +317,26 @@ void MainWindow::addLink(LinkInterface *link)
         connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
     }
 
-//    // Go fishing for this link's configuration window
-//    QList<QAction*> actions = ui->menuWidgets->actions();
 
-//    bool found(false);
-
-//    const int32_t& linkIndex(LinkManager::instance()->getLinks().indexOf(link));
-//    const int32_t& linkID(LinkManager::instance()->getLinks()[linkIndex]->getId());
-
-//    foreach (QAction* act, actions)
-//    {
-//        if (act->data().toInt() == linkID)
-//        {
-//            found = true;
-//        }
-//    }
-//    if (!found)
-//    {
-//        CommConfigurationWindow* commWidget = new CommConfigurationWindow(link, mavlink, this);
-//        QAction* action = commWidget->getAction();
-//        ui->menuWidgets->addAction(action);
-
-//        // Error handling
-//        connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
-//    }
-//    updateView();
 }
 
 void MainWindow::setActiveUAS(UASInterface *uas)
 {
-    ui->menuWidgets->setTitle(uas->getUASName());
+    // Do nothing if system is the same or NULL
+        if (uas == NULL) return;
 
-//    // Do nothing if system is the same or NULL
-//    if ((active == NULL) || mav == active) return;
+        connect(uas,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
+    //    //update battery
+        connect(uas, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
+    //    //update arm or not
+        connect(uas, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
 
-//    if (mav)
-//    {
-//        // Disconnect old system
-//        disconnect(mav, 0, this, 0);
-//    }
+        connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
 
-//    // Connect new system
-//    mav = active;
-//    //connected or not
-//    connect(active,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
-//    //update battery
-//    connect(active, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
-//    //update arm or not
-//    connect(active, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
-
-//    //update value
-//    systemArmed = mav->isArmed();
-
-//    paramaq = new AQParamWidget(active, this);
-    //    paramaq->requestParameterList();
+    //    //update value
+        systemArmed = uas->isArmed();
+        paramaq = new AQParamWidget(uas, this);
+        paramaq->requestParameterList();
 }
 
 void MainWindow::UASSpecsChanged(int uas)
@@ -439,45 +384,65 @@ void MainWindow::UASDeleted(UASInterface *uas)
 
 void MainWindow::closeSerialPort()
 {
-//    int linkIndex = LinkManager::instance()->getLinks().indexOf(link);
-//    int linkID = LinkManager::instance()->getLinks().at(linkIndex)->getId();
+    foreach(LinkInterface* link,LinkManager::instance()->getLinks())
+    {
+        int linkIndex = LinkManager::instance()->getLinks().indexOf(link);
+        int linkID = LinkManager::instance()->getLinks().at(linkIndex)->getId();
 
-//    foreach (QAction* act, listLinkMenuActions())
-//    {
-//        if (act->data().toInt() == linkID)
-//            ui->menuWidgets->removeAction(act);
-//    }
+        foreach (QAction* act, listLinkMenuActions())
+        {
+            if (act->data().toInt() == linkID)
+                ui->menuWidgets->removeAction(act);
+        }
 
+        link->disconnect();
+        if (link->isRunning()) link->terminate();
+        link->wait();
+        LinkManager::instance()->removeLink(link);
+        link->deleteLater();
+    }
 
-//    //    parametersDockWidget->hide();
-//    ui->actionConnect->setEnabled(true);
-//    ui->actionDisconnect->setEnabled(false);
-//    ui->actionConfigure->setEnabled(true);
-//    ui->statusBar->showMessage(tr("Disconnected"));
+    ui->actionConnect->setEnabled(true);
+    ui->actionDisconnect->setEnabled(false);
+    ui->actionConfigure->setEnabled(true);
+    ui->statusBar->showMessage(tr("Disconnected"));
 
 }
-
-
 
 //Update CONNECTION status
 void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
 {
-    if (ms > 10000)
+    if (timeout)
     {
-        toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: #B40404; }"));
-    }
-    else if (timeout)
-    {
-        if ((ms/1000)%2==0)
+        ui->actionConnect->setEnabled(true);
+        ui->actionDisconnect->setEnabled(false);
+
+        if (ms > 10000)
         {
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: #B40404; }"));
+            toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
+            return;
         }
         else
         {
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: #B40404; }"));
+            if ((ms / 1000) % 2 == 0)
+            {
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; }").arg(QGC::colorMagenta.name()));
+            }
+            else
+            {
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
+            }
+            toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
         }
-        toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
+    }
+    else
+    {
+        ui->actionConnect->setEnabled(false);
+        ui->actionDisconnect->setEnabled(true);
+
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
+        toolBarTimeoutLabel->setText(tr("CONNECTION"));
     }
 }
 
@@ -530,10 +495,21 @@ void MainWindow::showCriticalMessage(const QString& title, const QString& messag
     showMessage(title, message, "", "critical");
 }
 
+void MainWindow::updateState(UASInterface *system, QString name, QString description)
+{
+    Q_UNUSED(system);
+    Q_UNUSED(description);
+
+    if (state != name)
+        changed = true;
+    state = name;
+    /* important, immediately update */
+    updateView();
+}
+
 
 void MainWindow::updateView()
 {
-
     if (!changed) return;
 
     setActiveUAS(UASManager::instance()->getActiveUAS());
