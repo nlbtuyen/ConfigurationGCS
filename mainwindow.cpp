@@ -37,9 +37,7 @@
 #include "serialconfigurationwindow.h"
 #include "commconfigurationwindow.h"
 
-
 static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
-
 
 MainWindow* MainWindow::instance(void)
 {
@@ -171,7 +169,7 @@ void MainWindow::initActionsConnections()
     toolBarSafetyLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #008000; }"));
     toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
     toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
-//    ui->mainToolBar->addWidget(toolBarSafetyLabel);
+    //    ui->mainToolBar->addWidget(toolBarSafetyLabel);
 
     //    toolBarStateLabel = new QLabel("------", this);
     //    toolBarStateLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #FFFF00; }"));
@@ -187,13 +185,13 @@ void MainWindow::initActionsConnections()
     toolBarBatteryBar->setMaximumWidth(100);
     toolBarBatteryBar->setToolTip(tr("Battery charge level"));
     toolBarBatteryBar->setObjectName("toolBarBatteryBar");
-//    ui->mainToolBar->addWidget(toolBarBatteryBar);
+    //    ui->mainToolBar->addWidget(toolBarBatteryBar);
 
     toolBarBatteryVoltageLabel = new QLabel("xx.x V");
     toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel {  margin: 0px 2px; font: 18px; color: %1; }").arg(QColor(Qt::green).name()));
     toolBarBatteryVoltageLabel->setToolTip(tr("Battery voltage"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
-//    ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
+    //    ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
 
     //    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
     //    toolBarMessageLabel->setToolTip(tr("Most recent system message"));
@@ -299,7 +297,7 @@ void MainWindow::addLink()
     if (act)
         act->trigger();
 
-//    updateView();
+    //    updateView();
 
 }
 
@@ -323,20 +321,20 @@ void MainWindow::addLink(LinkInterface *link)
 void MainWindow::setActiveUAS(UASInterface *uas)
 {
     // Do nothing if system is the same or NULL
-        if (uas == NULL) return;
+    if (uas == NULL) return;
 
-        connect(uas,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
+    connect(uas,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
     //    //update battery
-        connect(uas, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
+    connect(uas, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
     //    //update arm or not
-        connect(uas, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
+    connect(uas, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
 
-        connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
+    connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
 
     //    //update value
-        systemArmed = uas->isArmed();
-        paramaq = new AQParamWidget(uas, this);
-        paramaq->requestParameterList();
+    systemArmed = uas->isArmed();
+    paramaq = new AQParamWidget(uas, this);
+    paramaq->requestParameterList();
 }
 
 void MainWindow::UASSpecsChanged(int uas)
