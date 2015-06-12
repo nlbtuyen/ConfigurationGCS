@@ -4,11 +4,11 @@
 #include <QThread>
 #include <QMutex>
 #include <QString>
-#include <QSerialPort>
-
-#include <QSerialPortInfo>
 
 #include "seriallinkinterface.h"
+
+#include "qextserialport.h"
+#include "qextserialenumerator.h"
 
 #define SERIAL_AQUSB_VENDOR_ID  1155
 #define SERIAL_AQUSB_PRODUCT_ID  22352
@@ -21,42 +21,6 @@ class SerialLink : public SerialLinkInterface
     //Q_INTERFACES(SerialLinkInterface:LinkInterface)
 
 public:
-    enum BaudRate {
-        Baud1200 = 1200,
-        Baud2400 = 2400,
-        Baud4800 = 4800,
-        Baud9600 = 9600,
-        Baud19200 = 19200,
-        Baud38400 = 38400,
-        Baud57600 = 57600,
-        Baud115200 = 115200,
-        Baud230400 = 230400,
-        Baud460800 = 460800,
-        Baud500000 = 500000,
-        Baud576000 = 576000,
-        Baud921600 = 921600
-    };
-
-    struct PortSettings
-    {
-        QString portName;
-        BaudRate baudRate;
-        QSerialPort::DataBits dataBits;
-        QSerialPort::Parity parity;
-        QSerialPort::StopBits stopBits;
-        QSerialPort::FlowControl flowControl;
-        QIODevice::OpenMode openMode;
-        //long timeout_millis;
-
-        PortSettings() :
-            portName(QString()),
-            baudRate(Baud57600),
-            dataBits(QSerialPort::Data8),
-            parity(QSerialPort::NoParity),
-            stopBits(QSerialPort::OneStop),
-            flowControl(QSerialPort::NoFlowControl),
-            openMode(QIODevice::ReadWrite) {}
-    };
 
     SerialLink(QString portname = "",
                int baudrate=115200,
@@ -66,11 +30,9 @@ public:
                int stopBits=1);
     ~SerialLink();
 
-    static const int reconnect_wait_timeout = 10 * 1000;  ///< ms to wait for an automatic reconnection attempt
+
     static const int poll_interval = SERIAL_POLL_INTERVAL;  ///< ms to sleep between run() loops, defined in configuration.h
-    static const int readywait_interval = 1000;             ///< ms to wait for readyRead signal within run() loop (blocks this thread)
-    /** @brief Get a list of the currently available ports */
-    QVector<QString>* getCurrentPorts();
+    static const int reconnect_wait_timeout = 10 * 1000;  ///< ms to wait for an automatic reconnection attempt
 
     bool isConnected();
     bool isPortValid(const QString &pname);
@@ -85,15 +47,17 @@ public:
      * @brief The human readable port name
      */
     QString getName();
+    int getLinkType() { return LINK_INTERFACE_TYPE_SERIAL; }
+
     int getBaudRate();
-    int getDataBits();
-    int getStopBits();
+    long getTimeoutMillis() { return portSettings.Timeout_Millisec; }
 
     // ENUM values
     int getBaudRateType();
     int getFlowType();
     int getParityType();
-
+    int getDataBitsType();
+    int getStopBitsType();
 
     /* Extensive statistics for scientific purposes */
     qint64 getNominalDataRate();
@@ -106,8 +70,8 @@ public:
     qint64 getBitsSent();
     qint64 getBitsReceived();
 
-    void loadSettings();
-    void writeSettings();
+//    void loadSettings();
+//    void writeSettings();
 
     void run();
 
@@ -115,10 +79,15 @@ public:
     bool isFullDuplex();
     int getId();
     //unsigned char read();
+    quint16 reconnectDelayMs() const { return m_reconnectDelayMs; }
 
 public slots:
+    /** @brief Get a list of the currently available ports */
+    QVector<QString>* getCurrentPorts();
+
     bool setPortName(QString portName);
     bool setBaudRate(int rate);
+    bool setTimeoutMillis(const long &ms);
 
     // Set string rate
     bool setBaudRateString(const QString& rate);
@@ -130,7 +99,15 @@ public slots:
     bool setStopBitsType(int stopBits);
 
     void readBytes();
-    QSerialPort *getPort();
+
+    QextSerialPort *getPort();
+    void setEsc32Mode(bool mode);
+    bool getEsc32Mode();
+    void readEsc32Tele();
+
+    void linkLossExpected(const bool yes);
+    void setReconnectDelayMs(const quint16 &ms);
+
     /**
      * @brief Write a number of bytes to the interface.
      *
@@ -142,16 +119,21 @@ public slots:
     bool disconnect();
 
 protected slots:
+//    void checkForBytes();
     bool validateConnection();
-    void handleError(QSerialPort::SerialPortError error);
+    void deviceRemoved(const QextPortInfo &pi);
+    void deviceDiscovered(const QextPortInfo &pi);
 
 protected:
-    QSerialPort * port;
+    QextSerialPort * port;
     PortSettings portSettings;
+    QIODevice::OpenMode portOpenMode;
+    QextSerialEnumerator *portEnumerator;
     QString porthandle;
     QString name;
-    int timeout;
     int id;
+    int portVendorId;
+    int portProductId;
 
     quint64 bitsSentTotal;
     quint64 bitsSentShortTerm;
@@ -165,14 +147,20 @@ protected:
     QMutex statisticsMutex;
     QMutex dataMutex;
     QVector<QString>* ports;
+    quint64 waitingToReconnect;  // msec while waiting to reconnect automatically, zero if not waiting
+    quint16 m_reconnectDelayMs;    // msec to wait before reconnecting, after device is discovered
+    bool m_linkLossExpected;
 
 private:
     volatile bool m_stopp;
     QMutex m_stoppMutex;
 
+    void setUsbDeviceInfo();
     void setName(QString name);
     bool hardwareConnect();
-    bool mode_port;
+
+    bool mode_port;  // esc32 mode
+    //char SerialIn[1];
     int countRetry;
     int maxLength;
     char data[4096];

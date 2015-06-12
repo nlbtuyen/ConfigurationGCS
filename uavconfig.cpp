@@ -13,7 +13,7 @@
 #include <QMessageBox>
 #include <QSignalMapper>
 #include <QStringList>
-#include <QSerialPortInfo>
+
 
 UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),

@@ -4,17 +4,27 @@
 #
 #-------------------------------------------------
 
-QT       += core gui serialport widgets
+QT       += core gui widgets
+
+CONFIG += extserialport static qesp_static console
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = SerialConnectorMavlink
 TEMPLATE = app
 
+BASEDIR = $$_PRO_FILE_PWD_
+MOC_DIR = $${BUILDDIR}/moc
+
+INCLUDEPATH += $$BASEDIR/libs/lib/sdl/msvc/include \
+                $$BASEDIR/libs/lib/sdl/include
+
+LIBS += -L$$BASEDIR/libs/lib/sdl/msvc/lib
+
+LIBS +=  -lSDLmain -lSDL -lsetupapi -lsetupapi -ladvapi32 -luser32
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    settingsdialog.cpp \
     uavconfig.cpp \
     aqpramwidget.cpp \
     uasparammanager.cpp \
@@ -31,11 +41,14 @@ SOURCES += main.cpp\
     uasinfowidget.cpp \
     serialconfigurationwindow.cpp \
     commconfigurationwindow.cpp \
-    debugconsole.cpp
+    debugconsole.cpp \
+    qextserialport.cpp \
+    qextserialenumerator.cpp \
+    qextserialport_win.cpp \
+    qextserialenumerator_win.cpp
 
 
 HEADERS  += mainwindow.h \
-    settingsdialog.h \
 common\* \
     uavconfig.h \
     aqpramwidget.h \
@@ -61,11 +74,15 @@ common\* \
     mg.h \
     serialconfigurationwindow.h \
     commconfigurationwindow.h \
-    debugconsole.h
+    debugconsole.h \
+    qextserialport.h \
+    qextserialport_global.h \
+    qextserialport_p.h \
+    qextserialenumerator.h \
+    qextserialenumerator_p.h
 
 
 FORMS    += mainwindow.ui \
-    settingsdialog.ui \
     serialsettings.ui \
     uasinfo.ui \
     uavconfig.ui \
@@ -78,3 +95,7 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     terminal.qrc
+
+
+
+DEFINES *= QT_USE_QSTRINGBUILDER
