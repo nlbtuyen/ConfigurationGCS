@@ -293,7 +293,7 @@ void AQParamWidget::loadParameterInfoCSV(const QString& autopilot, const QString
     QString fileName = QString("%1/%2/parameter_tooltips/tooltips.txt").arg(appDir.canonicalPath()).arg(autopilot.toLower());
     QFile paramMetaFile(fileName);
 
-    qDebug() << "AUTOPILOT:" << autopilot << "FILENAME: " << fileName;
+//    qDebug() << "AUTOPILOT:" << autopilot << "FILENAME: " << fileName;
 
     // Load CSV data
     if (!paramMetaFile.open(QIODevice::ReadOnly | QIODevice::Text))

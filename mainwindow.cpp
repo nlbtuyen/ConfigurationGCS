@@ -162,7 +162,7 @@ void MainWindow::initActionsConnections()
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status, interval since last message if timed out."));
     toolBarTimeoutLabel->setObjectName("toolBarTimeoutLabel");
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #3C7B9E; }"));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: %1; }").arg(QColor(Qt::red).name()));
     ui->mainToolBar->addWidget(toolBarTimeoutLabel);
 
     toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
@@ -187,11 +187,11 @@ void MainWindow::initActionsConnections()
     toolBarBatteryBar->setObjectName("toolBarBatteryBar");
     //    ui->mainToolBar->addWidget(toolBarBatteryBar);
 
-    toolBarBatteryVoltageLabel = new QLabel("xx.x V");
+    toolBarBatteryVoltageLabel = new QLabel("0.0 V");
     toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel {  margin: 0px 2px; font: 18px; color: %1; }").arg(QColor(Qt::green).name()));
     toolBarBatteryVoltageLabel->setToolTip(tr("Battery voltage"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
-    //    ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
+        ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
 
     //    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
     //    toolBarMessageLabel->setToolTip(tr("Most recent system message"));
@@ -200,6 +200,7 @@ void MainWindow::initActionsConnections()
 
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
+
 
 }
 
@@ -283,7 +284,10 @@ void MainWindow::addLinkImmediately()
         ui->actionDisconnect->setEnabled(false);
         link->disconnect();
     }
-    updateView();
+
+    connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
+    updateViewTimer.start(1000);
+
 }
 
 void MainWindow::addLink()
@@ -323,17 +327,37 @@ void MainWindow::setActiveUAS(UASInterface *uas)
     // Do nothing if system is the same or NULL
     if (uas == NULL) return;
 
-    connect(uas,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
+
+    connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
+
     //    //update battery
     connect(uas, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
     //    //update arm or not
     connect(uas, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
 
-    connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
+    connect(uas,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
+
 
     //    //update value
     systemArmed = uas->isArmed();
     paramaq = new AQParamWidget(uas, this);
+
+//connect((paramaq, SIGNAL(c))
+//    parameters.clear();
+//    received.clear();
+//    // Clear transmission state
+//    transmissionListMode = true;
+//    transmissionListSizeKnown.clear();
+//    foreach (int key, transmissionMissingPackets.keys())
+//    {
+//        transmissionMissingPackets.value(key)->clear();
+//    }
+//    transmissionActive = true;
+
+//    // Set status text
+//    statusLabel->setText(tr("Requested param list.. waiting"));
+
+
     paramaq->requestParameterList();
 }
 
@@ -402,7 +426,7 @@ void MainWindow::closeSerialPort()
 
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
-    ui->actionConfigure->setEnabled(true);
+//    ui->actionConfigure->setEnabled(true);
     ui->statusBar->showMessage(tr("Disconnected"));
 
 }
@@ -418,7 +442,7 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
         if (ms > 10000)
         {
             toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; color: white }").arg(QGC::colorMagenta.dark(250).name()));
             return;
         }
         else
@@ -436,6 +460,7 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
     }
     else
     {
+
         ui->actionConnect->setEnabled(false);
         ui->actionDisconnect->setEnabled(true);
 
@@ -495,12 +520,19 @@ void MainWindow::showCriticalMessage(const QString& title, const QString& messag
 
 void MainWindow::updateState(UASInterface *system, QString name, QString description)
 {
+//    connect(system, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
+
     Q_UNUSED(system);
     Q_UNUSED(description);
 
     if (state != name)
         changed = true;
     state = name;
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; color : white; }"));
+    toolBarTimeoutLabel->setText(tr("CONNECTION"));
+
+
+
     /* important, immediately update */
     updateView();
 }
@@ -510,14 +542,9 @@ void MainWindow::updateView()
 {
     if (!changed) return;
 
+//    toolBarBatteryBar->setValue(batteryPercent);
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
-
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
-    toolBarTimeoutLabel->setText(tr("CONNECTION"));
-
-    toolBarBatteryBar->setValue(batteryPercent);
-    toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
 
     if (systemArmed)
     {
@@ -530,6 +557,12 @@ void MainWindow::updateView()
         toolBarSafetyLabel->setText(tr("SAFE"));
     }
     changed = false;
+}
+
+void MainWindow::updateBattery()
+{
+    toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
+
 }
 
 

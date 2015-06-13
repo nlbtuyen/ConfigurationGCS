@@ -93,6 +93,7 @@ protected:
     float batteryVoltage;
     bool changed;
     bool systemArmed;
+    QTimer updateViewTimer;
 
     QPointer<QDockWidget> mavlinkSenderWidget;
     QPointer<QDockWidget> parametersDockWidget;
@@ -153,6 +154,8 @@ public slots:
 
     /** @brief Repaint widgets */
     void updateView();
+
+    void updateBattery();
 
 
     void closeSerialPort();

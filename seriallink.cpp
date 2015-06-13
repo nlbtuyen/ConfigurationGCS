@@ -469,9 +469,9 @@ bool SerialLink::hardwareConnect()
         emit connected();
         emit connected(true);
 //        writeSettings();
-        qDebug() << "Connected Serial" << porthandle  << "with settings" \
-                 << port->portName() << port->baudRate() << "db:" << port->dataBits() \
-                 << "p:" << port->parity() << "sb:" << port->stopBits() << "fc:" << port->flowControl();
+//        qDebug() << "Connected Serial" << porthandle  << "with settings" \
+//                 << port->portName() << port->baudRate() << "db:" << port->dataBits() \
+//                 << "p:" << port->parity() << "sb:" << port->stopBits() << "fc:" << port->flowControl();
     } else
         return false;
 
