@@ -143,6 +143,7 @@ void MainWindow::initActionsConnections()
     infoDockWidget->setWidget( new UASInfoWidget(this));
     infoDockWidget->setObjectName("UAS_STATUS_DETAILS_DOCKWIDGET");
     addTool(infoDockWidget, tr("Status Details"), Qt::LeftDockWidgetArea);
+    infoDockWidget->hide();
 
     parametersDockWidget = new QDockWidget(tr("Onboard Parameters"), this);
     parametersDockWidget->setWidget( new ParameterInterface(this) );
@@ -209,7 +210,7 @@ void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidg
     tempAction->setChecked(widget->isVisible());
     addDockWidget(area, widget);
     widget->setMinimumWidth(250);
-    //    widget->hide();
+//        widget->hide();
 }
 
 void MainWindow::showTool(bool show)
@@ -267,15 +268,16 @@ void MainWindow::addLinkImmediately()
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
 
-    if(!link->isConnected()) {
+//    if(!link->isConnected()) {
         ui->actionConnect->setEnabled(false);
         ui->actionDisconnect->setEnabled(true);
+        ui->actionConfigure->setEnabled(false);
         link->connect();
-    } else {
-        ui->actionConnect->setEnabled(true);
-        ui->actionDisconnect->setEnabled(false);
-        link->disconnect();
-    }
+//    } else {
+//        ui->actionConnect->setEnabled(true);
+//        ui->actionDisconnect->setEnabled(false);
+//        link->disconnect();
+//    }
 
     connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
     updateViewTimer.start(500);
@@ -312,6 +314,7 @@ void MainWindow::addLink(LinkInterface *link)
     }
 
 
+
 }
 
 void MainWindow::setActiveUAS(UASInterface *uas)
@@ -332,9 +335,6 @@ void MainWindow::setActiveUAS(UASInterface *uas)
 
     //    //update value
     systemArmed = uas->isArmed();
-
-    paramaq = new AQParamWidget(uas, this);
-    paramaq->requestParameterList();
 }
 
 void MainWindow::UASSpecsChanged(int uas)
@@ -402,7 +402,7 @@ void MainWindow::closeSerialPort()
 
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
-//    ui->actionConfigure->setEnabled(true);
+    ui->actionConfigure->setEnabled(true);
     ui->statusBar->showMessage(tr("Disconnected"));
 
 }
@@ -425,11 +425,11 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
         {
             if ((ms / 1000) % 2 == 0)
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; }").arg(QGC::colorMagenta.name()));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; color: white }").arg(QGC::colorMagenta.name()));
             }
             else
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; color: white }").arg(QGC::colorMagenta.dark(250).name()));
             }
             toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
         }

@@ -53,13 +53,8 @@ AQParamWidget::AQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     tree = new QTreeWidget(this);
     tree->setColumnCount(2);
     tree->setIndentation(7);
-#if QT_VERSION >= 0x050000
     tree->header()->setSectionResizeMode(0, QHeaderView::Interactive);
     tree->header()->setSectionResizeMode(1, QHeaderView::Stretch);
-#else
-    tree->header()->setResizeMode(0, QHeaderView::Interactive);
-    tree->header()->setResizeMode(1, QHeaderView::Stretch);
-#endif
     tree->header()->setStretchLastSection(false);
     tree->setItemDelegateForColumn(0, new NoEditDelegate(this));
     tree->setExpandsOnDoubleClick(true);
@@ -264,7 +259,7 @@ void AQParamWidget::retranslateUi() {
 void AQParamWidget::loadSettings()
 {
     QSettings settings;
-    settings.beginGroup("QGC_MAVLINK_PROTOCOL");
+    settings.beginGroup("MAVLINK_PROTOCOL");
     bool ok;
     int temp = settings.value("PARAMETER_RETRANSMISSION_TIMEOUT", retransmissionTimeout).toInt(&ok);
     if (ok) retransmissionTimeout = temp;
@@ -272,7 +267,7 @@ void AQParamWidget::loadSettings()
     if (ok) rewriteTimeout = temp;
     settings.endGroup();
 
-    settings.beginGroup("QGC_PARAMS_WIDGET");
+    settings.beginGroup("PARAMS_WIDGET");
     tree->header()->resizeSection(0, settings.value("FIRST_COL_WIDTH", 130).toInt());
     settings.endGroup();
 }
@@ -537,6 +532,7 @@ void AQParamWidget::addParameter(int uas, int component, int paramCount, int par
         missCount +=  transmissionMissingPackets.value(key)->count();
     }
 
+//    qDebug() << missCount;
     int missWriteCount = 0;
     foreach (int key, transmissionMissingWriteAckPackets.keys())
     {
@@ -580,18 +576,18 @@ void AQParamWidget::addParameter(int uas, int component, int paramCount, int par
         }
         QString val = QString("%1").arg(value.toFloat(), 5, 'f', 1, QChar(' '));
         //statusLabel->setText(tr("OK: %1 %2 #%3/%4, %5 miss").arg(parameterName).arg(val).arg(paramId+1).arg(paramCount).arg(missCount));
-        if (missCount == 0)
-        {
-            // Transmission done
-            QTime time = QTime::currentTime();
-            QString timeString = time.toString();
-            statusLabel->setText(tr("All received. (updated at %1)").arg(timeString));
-        }
-        else
+        if (missCount != 0)
         {
             // Transmission in progress
             statusLabel->setText(QString("OK: %1 %2 (%3/%4)").arg(parameterName).arg(val).arg(paramCount-missCount).arg(paramCount));
+
         }
+        else
+        {
+                        // Transmission done
+            QTime time = QTime::currentTime();
+            QString timeString = time.toString();
+            statusLabel->setText(tr("All received. (updated at %1)").arg(timeString));        }
     }
 
     // Check if last parameter was received
@@ -771,12 +767,8 @@ void AQParamWidget::addParameter(int uas, int component, QString parameterName, 
 void AQParamWidget::requestParameterList()
 {
     if (!mav) return;
-    // FIXME This call does not belong here
-    // Once the comm handling is moved to a new
-    // Param manager class the settings can be directly
-    // loaded from MAVLink protocol
+
     loadSettings();
-    // End of FIXME
 
     emit parameterListRequested();
 

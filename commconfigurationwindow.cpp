@@ -24,7 +24,7 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
 
     // add link types
     ui.linkType->addItem(tr("Serial"), QGC_LINK_SERIAL);
-    ui.linkType->addItem(tr("UDP"), QGC_LINK_UDP);
+//    ui.linkType->addItem(tr("UDP"), QGC_LINK_UDP);
     //ui.linkType->addItem(tr("Simulation"), QGC_LINK_SIMULATION);
     ui.linkType->setEditable(false);
 
@@ -49,7 +49,6 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
 
     // Setup user actions and link notifications
     connect(ui.connectButton, SIGNAL(clicked()), this, SLOT(setConnection()));
-    connect(ui.closeButton, SIGNAL(clicked()), this->window(), SLOT(close()));
     connect(ui.deleteButton, SIGNAL(clicked()), this, SLOT(remove()));
 
     connect(this->link, SIGNAL(connected(bool)), this, SLOT(connectionState(bool)));
@@ -77,25 +76,11 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
         ui.linkGroupBox->setTitle(tr("Serial Link"));
         ui.linkType->setCurrentIndex(0);
     }
-//    UDPLink* udp = dynamic_cast<UDPLink*>(link);
-//    if (udp != 0) {
-//        QWidget* conf = new QGCUDPLinkConfiguration(udp, this);
-//        ui.linkScrollArea->setWidget(conf);
-//        ui.linkGroupBox->setTitle(tr("UDP Link"));
-//        ui.linkType->setCurrentIndex(1);
-//    }
-//    MAVLinkSimulationLink* sim = dynamic_cast<MAVLinkSimulationLink*>(link);
-//    if (sim != 0) {
-//        ui.linkType->setCurrentIndex(2);
-//        ui.linkGroupBox->setTitle(tr("MAVLink Simulation Link"));
-//}
+
     // Open details pane for MAVLink if necessary
     MAVLinkProtocol* mavlink = dynamic_cast<MAVLinkProtocol*>(protocol);
-    if (mavlink != 0) {
-//        QWidget* conf = new MAVLinkSettingsWidget(mavlink, this);
-//        ui.protocolScrollArea->setWidget(conf);
-//        ui.protocolGroupBox->setTitle(protocol->getName()+" (Global Settings)");
-    } else {
+    if (mavlink == 0)
+    {
         qDebug() << "Protocol is NOT MAVLink, can't open configuration window";
     }
 

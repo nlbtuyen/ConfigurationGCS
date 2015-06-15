@@ -86,6 +86,19 @@
           <string>RC Configuration</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="5">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item row="0" column="0" rowspan="3">
            <widget class="QWidget" name="groupox_channelMapping" native="true">
             <property name="maximumSize">
@@ -207,6 +220,9 @@
                  <height>21</height>
                 </size>
                </property>
+               <property name="editable">
+                <bool>true</bool>
+               </property>
                <item>
                 <property name="text">
                  <string>1</string>
@@ -296,6 +312,9 @@
                  <width>0</width>
                  <height>21</height>
                 </size>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
                </property>
                <item>
                 <property name="text">
@@ -387,12 +406,15 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QComboBox" name="RADIO_PITCH_CH">
+              <widget class="QComboBox" name="RADIO_PITC_CH">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
                  <height>21</height>
                 </size>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
                </property>
                <item>
                 <property name="text">
@@ -498,6 +520,9 @@
                  <height>21</height>
                 </size>
                </property>
+               <property name="editable">
+                <bool>true</bool>
+               </property>
                <item>
                 <property name="text">
                  <string>1</string>
@@ -600,6 +625,9 @@ padding: 1px 5px;</string>
                  <width>0</width>
                  <height>21</height>
                 </size>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
                </property>
                <item>
                 <property name="text">
@@ -710,6 +738,9 @@ padding: 1px 5px;</string>
                  <width>0</width>
                  <height>21</height>
                 </size>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
                </property>
                <item>
                 <property name="text">
@@ -1290,19 +1321,6 @@ padding: 1px 5px;</string>
             </layout>
            </widget>
           </item>
-          <item row="1" column="4" colspan="2">
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
        </item>
@@ -1454,14 +1472,14 @@ padding: 1px 5px;</string>
                  <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
                 </property>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="lbl_alti_pos_p">
+                 <widget class="QLabel" name="label_NAV_ALT_POS_P">
                   <property name="text">
                    <string>P</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QProgressBar" name="progBar_alti_pos_p">
+                 <widget class="QProgressBar" name="NAV_ALT_POS_P">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1475,19 +1493,19 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="lbl_alti_pos_i">
+                 <widget class="QLabel" name="label_NAV_ALT_POS_I">
                   <property name="text">
                    <string>I</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QProgressBar" name="progBar_alti_pos_i">
+                 <widget class="QProgressBar" name="NAV_ALT_POS_I">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1501,7 +1519,7 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
@@ -1519,14 +1537,14 @@ padding: 1px 5px;</string>
               <item>
                <layout class="QFormLayout" name="formLayout_8">
                 <item row="0" column="0">
-                 <widget class="QLabel" name="lbl_alti_speed_p">
+                 <widget class="QLabel" name="label_NAV_ALT_SPED_P">
                   <property name="text">
                    <string>P</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QProgressBar" name="progBar_alti_speed_p">
+                 <widget class="QProgressBar" name="NAV_ALT_SPED_P">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1540,19 +1558,19 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="lbl_alti_speed_i">
+                 <widget class="QLabel" name="label_NAV_ALT_SPED_I">
                   <property name="text">
                    <string>I</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QProgressBar" name="progBar_alti_speed_i">
+                 <widget class="QProgressBar" name="NAV_ALT_SPED_I">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1566,7 +1584,7 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
@@ -1614,14 +1632,14 @@ padding: 1px 5px;</string>
               <item>
                <layout class="QFormLayout" name="formLayout_9">
                 <item row="0" column="0">
-                 <widget class="QLabel" name="lbl_nav_pos_p">
+                 <widget class="QLabel" name="label_NAV_DIST_P">
                   <property name="text">
                    <string>P</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QProgressBar" name="progBar_nav_pos_p">
+                 <widget class="QProgressBar" name="NAV_DIST_P">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1635,19 +1653,19 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="lbl_nav_pos_i">
+                 <widget class="QLabel" name="label_NAV_DIST_I">
                   <property name="text">
                    <string>I</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QProgressBar" name="progBar_nav_pos_i">
+                 <widget class="QProgressBar" name="NAV_DIST_I">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1661,7 +1679,7 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
@@ -1679,14 +1697,14 @@ padding: 1px 5px;</string>
               <item>
                <layout class="QFormLayout" name="formLayout_7">
                 <item row="0" column="0">
-                 <widget class="QLabel" name="lbl_nav_speed_p">
+                 <widget class="QLabel" name="label_NAV_SPEED_P">
                   <property name="text">
                    <string>P</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QProgressBar" name="progBar_nav_speed_p">
+                 <widget class="QProgressBar" name="NAV_SPEED_P">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1700,19 +1718,19 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="lbl_nav_speed_i">
+                 <widget class="QLabel" name="label_NAV_SPEED_I">
                   <property name="text">
                    <string>I</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QProgressBar" name="progBar_nav_speed_i">
+                 <widget class="QProgressBar" name="NAV_SPEED_I">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1726,7 +1744,7 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
@@ -1778,14 +1796,14 @@ padding: 1px 5px;</string>
               <item>
                <layout class="QFormLayout" name="formLayout_2">
                 <item row="0" column="0">
-                 <widget class="QLabel" name="lbl_pitch_p">
+                 <widget class="QLabel" name="label_CTRL_ANG_P">
                   <property name="text">
                    <string>P</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QProgressBar" name="progBar_pitch_p">
+                 <widget class="QProgressBar" name="CTRL_TLT_ANG_P">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1799,19 +1817,19 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="lbl_pitch_d">
+                 <widget class="QLabel" name="label_CTRL_ANG_D">
                   <property name="text">
                    <string>D</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QProgressBar" name="progBar_pitch_d">
+                 <widget class="QProgressBar" name="CTRL_TLT_ANG_D">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1825,19 +1843,19 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLabel" name="lbl_pitch_rate">
+                 <widget class="QLabel" name="label_CTRL_TLT_RTE_D">
                   <property name="text">
                    <string>Rate</string>
                   </property>
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QProgressBar" name="progBar_pitch_rate">
+                 <widget class="QProgressBar" name="CTRL_TLT_RTE_D">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1851,7 +1869,7 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
@@ -1899,7 +1917,7 @@ padding: 1px 5px;</string>
                      </size>
                     </property>
                     <property name="value">
-                     <number>24</number>
+                     <number>100</number>
                     </property>
                    </widget>
                   </item>
@@ -1925,7 +1943,7 @@ padding: 1px 5px;</string>
                      </size>
                     </property>
                     <property name="value">
-                     <number>24</number>
+                     <number>100</number>
                     </property>
                    </widget>
                   </item>
@@ -1951,7 +1969,7 @@ padding: 1px 5px;</string>
                      </size>
                     </property>
                     <property name="value">
-                     <number>24</number>
+                     <number>100</number>
                     </property>
                    </widget>
                   </item>
@@ -1971,14 +1989,14 @@ padding: 1px 5px;</string>
               <item>
                <layout class="QFormLayout" name="formLayout_5">
                 <item row="0" column="0">
-                 <widget class="QLabel" name="lbl_yaw_p">
+                 <widget class="QLabel" name="label_CTRL_YAW_ANG_P">
                   <property name="text">
                    <string>P</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QProgressBar" name="progBar_yaw_p">
+                 <widget class="QProgressBar" name="CTRL_YAW_ANG_P">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -1992,19 +2010,19 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="lbl_yaw_d">
+                 <widget class="QLabel" name="label_CTRL_YAW_ANG_D">
                   <property name="text">
                    <string>D</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QProgressBar" name="progBar_yaw_d">
+                 <widget class="QProgressBar" name="CTRL_YAW_ANG_D">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -2018,19 +2036,19 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLabel" name="lbl_yaw_rate">
+                 <widget class="QLabel" name="label_CTRL_YAW_RTE_D">
                   <property name="text">
                    <string>Rate</string>
                   </property>
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QProgressBar" name="progBar_yaw_rate">
+                 <widget class="QProgressBar" name="CTRL_YAW_RTE_D">
                   <property name="minimumSize">
                    <size>
                     <width>150</width>
@@ -2044,7 +2062,7 @@ padding: 1px 5px;</string>
                    </size>
                   </property>
                   <property name="value">
-                   <number>24</number>
+                   <number>100</number>
                   </property>
                  </widget>
                 </item>

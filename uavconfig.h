@@ -12,6 +12,7 @@
 #include "seriallink.h"
 #include "uasinterface.h"
 #include "aqpramwidget.h"
+#include "uasmanager.h"
 
 class AQParamWidget;
 
@@ -53,24 +54,26 @@ private slots:
 
     int calRadioSetting();
 
+public slots:
+    void loadParametersToUI();
+    void createAQParamWidget(UASInterface* uas);
+
+public:
+    QString paramNameGuiToOnboard(QString paraName);
+
 
 private:
+    Ui::UAVConfig *ui;
     int isSelected = 1;
     QString str = ":images/config/";
+    QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
+    QRegExp dupeFldnameRx;
 
     void updateCommonImages();
 
-    //AQSettings
-    QRegExp fldnameRx;
-
-
 protected:
-
-    Ui::UAVConfig *ui;
-
     AQParamWidget* paramaq;
     UASInterface* uas;
-    LinkInterface* connectedLink;
 
 
 };

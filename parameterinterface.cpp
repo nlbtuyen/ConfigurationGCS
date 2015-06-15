@@ -51,6 +51,8 @@ void ParameterInterface::addUAS(UASInterface* uas)
     paramWidgets->insert(uas->getUASID(), param);
     m_ui->stackedWidget->addWidget(param);
 
+    param->requestParameterList();;
+
 
 //    QGCSensorSettingsWidget* sensor = new QGCSensorSettingsWidget(uas, this);
 //    m_ui->sensorSettings->addWidget(sensor);

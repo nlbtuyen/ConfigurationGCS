@@ -5,6 +5,8 @@
 #include "linkmanager.h"
 #include "mainwindow.h"
 #include "uas.h"
+#include "uasmanager.h"
+#include "uasinterface.h"
 
 #include <QDebug>
 #include <QWidget>
@@ -19,11 +21,10 @@ UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),
     paramaq(NULL),
     uas(NULL),
-    connectedLink(NULL),
     ui(new Ui::UAVConfig)
 {
     fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
-
+    dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
     ui->setupUi(this);
 
     updateCommonImages();
@@ -32,12 +33,11 @@ UAVConfig::UAVConfig(QWidget *parent) :
     adjustUiForFirmware();
 
     connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForHardware()));
+    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
 
     connect(ui->btn_save, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
-
+//    paramaq->requestParameterList();
 //    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
-
-//    setActiveUAS(UASManager::instance()->getActiveUAS());
 
 }
 
@@ -150,12 +150,29 @@ void UAVConfig::adjustUiForHardware()
 
 void UAVConfig::radioType_changed(int idx)
 {
+//    bool ok;
+//    int prevRadioValue;
+//    int newRadioValue;
+//    ui->RADIO_TYPE->setVisible(!useRadioSetupParam);
+//    if (useRadioSetupParam)
+//    {
+//        //prevRadioValue = paramaq->getParaAQ("RADIO_SETUP").toInt(&ok);
+//        //qDebug() << prevRadioValue;
+//        //newRadioValue = calRadioSetting();
+//    }
+//    else
+//    {
+
+//    }
 
 
 }
 
 void UAVConfig::saveAQSettings()
 {
+//    //saveSettingsToAq(ui->tab_aq_setting);
+//   paramaq->setParaAQ("CTRL_MAX",1000);
+//   uas->writeParametersToStorageAQ();
 
 }
 
@@ -166,7 +183,8 @@ void UAVConfig::uasConnected()
 
 int UAVConfig::calRadioSetting()
 {
-    return 0;
+     int radioSetup = ui->RADIO_TYPE->itemData(ui->RADIO_TYPE->currentIndex()).toInt();
+     return radioSetup;
 }
 
 
@@ -210,7 +228,137 @@ void UAVConfig::updateCommonImages()
 
 void UAVConfig::adjustUiForFirmware()
 {
+    uint8_t idx;
+
+    disconnect(ui->RADIO_TYPE,0,this,0);
+
+    idx = ui->RADIO_TYPE->currentIndex();
+    ui->RADIO_TYPE->clear();
+    ui->RADIO_TYPE->addItem("Select...",-1);
+    ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
+    ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
+    ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
+    ui->RADIO_TYPE->addItem("PPM", 3);
+    if (idx > -1 && idx <= ui->RADIO_TYPE->count())
+        ui->RADIO_TYPE->setCurrentIndex(idx);
+
+    connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+
 
 
 }
 
+QString UAVConfig::paramNameGuiToOnboard(QString paraName) {
+    paraName = paraName.replace(dupeFldnameRx, "");
+
+    if (!paramaq)
+        return paraName;
+
+    // check for old param names
+    QString tmpstr;
+    if (paraName.indexOf(QRegExp("NAV_ALT_SPED_.+")) > -1 && !paramaq->paramExistsAQ(paraName)){
+        tmpstr = paraName.replace(QRegExp("NAV_ALT_SPED_(.+)"), "NAV_ATL_SPED_\\1");
+        if (paramaq->paramExistsAQ(tmpstr))
+            paraName = tmpstr;
+    }
+    else if (paraName.indexOf(QRegExp("QUATOS_.+")) > -1 && !paramaq->paramExistsAQ(paraName)) {
+        tmpstr = paraName.replace(QRegExp("QUATOS_(.+)"), "L1_ATT_\\1");
+        if (paramaq->paramExistsAQ(tmpstr))
+            paraName = tmpstr;
+    }
+
+    // ignore depricated radio_type param
+    if (paraName == "RADIO_TYPE" && useRadioSetupParam)
+        paraName += "_void";
+
+    return paraName;
+}
+
+void UAVConfig::loadParametersToUI()
+{
+//    qDebug() << "load Parameters to UI";
+//    qDebug() << paramaq->paramExistsAQ("CTRL_TLT_RTE_P");
+//    QVariant val;
+//    val = paramUIaq->getParaAQ("CTRL_TLT_RTE_P");
+//    QString valstr;
+//    valstr.setNum(val.toFloat(), 'g', 6);
+//    qDebug() << valstr;
+//    paramaq = paramUI;
+    useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
+    //qDebug() << useRadioSetupParam;
+
+    bool ok;
+    int precision, tmp;
+        QString paraName, valstr;
+        QVariant val;
+        QLabel *paraLabel;
+        QWidget *paraContainer;
+        QList<QWidget*> wdgtList = ui->tab_aq_setting->findChildren<QWidget *>(fldnameRx);
+        foreach (QWidget* w, wdgtList) {
+//            qDebug() << "QWidget Name" <<w->objectName();
+            paraName = paramNameGuiToOnboard(w->objectName());
+            paraLabel = ui->tab_aq_setting->findChild<QLabel *>(QString("label_%1").arg(w->objectName()));
+            paraContainer = ui->tab_aq_setting->findChild<QWidget *>(QString("container_%1").arg(w->objectName()));
+
+//            qDebug() << paraName;
+//            qDebug() << paraLabel;
+//            qDebug() << paraContainer;
+
+            val = paramaq->getParaAQ(paraName);
+            if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL")
+                val = fabs(val.toFloat());
+            else if (paraName == "RADIO_SETUP")
+                val = val.toInt() & 0x0f;
+
+//            qDebug() << val;
+
+            if (QComboBox* cb = qobject_cast<QComboBox *>(w)) {
+//                qDebug() << "QComboBox" <<cb->objectName();
+                if (cb->isEditable()) {
+//                    qDebug() << "Editable";
+                    if ((tmp = cb->findText(val.toString())) > -1)
+                    {
+                        cb->setCurrentIndex(tmp);
+//                        qDebug() << "Set Current Index";
+                    }
+                    else {
+                        cb->insertItem(0, val.toString());
+                        cb->setCurrentIndex(0);
+                    }
+                }
+                else if ((tmp = cb->findData(val)) > -1)
+                    cb->setCurrentIndex(tmp);
+                else
+                    cb->setCurrentIndex(abs(val.toInt(&ok)));
+            } else if (QProgressBar* prb = qobject_cast<QProgressBar *>(w)) {
+//                qDebug() << "QProgressBar" <<prb->objectName();
+//                qDebug() << "QPro Value" <<val.toFloat();
+                if(val.toFloat() < 0.01){
+                    prb->setValue((int)(val.toFloat()*100/0.01));
+                } else if (val.toFloat() < 1) {
+                    prb->setValue((int)(val.toFloat()*100));
+                }  else if (val.toFloat() < 10) {
+                    prb->setValue((int)(val.toFloat()*100/10));
+                } else if (val.toFloat() < 100) {
+                    prb->setValue((int)(val.toFloat()));
+                } else if (val.toFloat() < 1000) {
+                    prb->setValue((int)(val.toFloat()*100/1000));
+                } else if (val.toFloat() < 10000) {
+                    prb->setValue((int)(val.toFloat()*100/10000));
+                }
+            }
+            else continue;
+        }
+
+//        ui->RADIO_FLAP_CH->setCurrentIndex(val.toInt());
+//        ui->RADIO_ROLL_CH->setCurrentIndex(2);(w
+
+}
+
+void UAVConfig::createAQParamWidget(UASInterface *uas)
+{
+//    qDebug() << "create AQParamWidget";
+    paramaq = new AQParamWidget(uas, this);
+    connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
+//    paramaq->requestParameterList();
+}

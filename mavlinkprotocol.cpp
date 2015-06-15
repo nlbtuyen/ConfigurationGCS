@@ -88,7 +88,7 @@ void MAVLinkProtocol::loadSettings()
 //    enableLogging(settings.value("LOGGING_ENABLED", m_loggingEnabled).toBool());
 
     // Only set system id if it was valid
-    int temp = settings.value("GCS_SYSTEM_ID", systemId).toInt();
+    int temp = settings.value("SYSTEM_ID", systemId).toInt();
     if (temp > 0 && temp < 256)
     {
         systemId = temp;
