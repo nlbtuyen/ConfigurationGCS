@@ -45,7 +45,6 @@ SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidge
 
     ui.portName->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     ui.baudRate->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    ui.widget_advanced->setVisible(ui.groupBox_advanced->isChecked());
 
     // connect these before setting the port name since that will trigger a settings load
     connect(ui.baudRate, SIGNAL(currentIndexChanged(QString)), this, SLOT(setBaudRate(QString)));
@@ -53,8 +52,6 @@ SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidge
     connect(ui.comboBox_Parity, SIGNAL(currentIndexChanged(int)), this, SLOT(setParity(int)));
     connect(ui.dataBitsCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setDataBits(QString)));
     connect(ui.stopBitsCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setStopBits(QString)));
-    connect(ui.spinBox_timeout, SIGNAL(valueChanged(int)), this, SLOT(setTimeoutMs(int)));
-    connect(ui.spinBox_reconnectDelay, SIGNAL(valueChanged(int)), this, SLOT(setReconnectDelay(int)));
 
     // only load default port if this is the first serial link being added
     if (LinkManager::instance()->getLinksForType(LinkInterface::LINK_INTERFACE_TYPE_SERIAL).size() > 1)
@@ -108,7 +105,6 @@ void SerialConfigurationWindow::loadSettings()
     // Load defaults from settings
     QSettings settings;
     settings.beginGroup("SERIAL_CONFIG_WINDOW");
-    ui.groupBox_advanced->setChecked(settings.value("ADVANCED_VISIBLE", false).toBool());
     defaultPortName = settings.value("DEFAULT_COMM_PORT", "").toString();
 }
 
@@ -117,7 +113,6 @@ void SerialConfigurationWindow::writeSettings()
     // Store settings
     QSettings settings;
     settings.beginGroup("SERIAL_CONFIG_WINDOW");
-    settings.setValue("ADVANCED_VISIBLE", ui.groupBox_advanced->isChecked());
     settings.setValue("DEFAULT_COMM_PORT", ui.portName->currentText());
     settings.sync();
 }
@@ -175,12 +170,6 @@ void SerialConfigurationWindow::loadPortSettings()
         tmp = "1";
     ui.stopBitsCombo->setCurrentIndex(ui.stopBitsCombo->findText(tmp));
 
-    itmp = settings.value(key.arg("TIMEOUT"), -1).toInt(&ok);
-    if (ok)
-        ui.spinBox_timeout->setValue(itmp);
-    itmp = settings.value(key.arg("RECONDELAY"), 10).toInt(&ok);
-    if (ok)
-        ui.spinBox_reconnectDelay->setValue(itmp);
 }
 
 void SerialConfigurationWindow::writePortSettings()
@@ -194,8 +183,7 @@ void SerialConfigurationWindow::writePortSettings()
     settings.setValue(key.arg("STOPBITS"), ui.stopBitsCombo->currentText());
     settings.setValue(key.arg("DATABITS"), ui.dataBitsCombo->currentText());
     settings.setValue(key.arg("FLOW_CONTROL"), ui.comboBox_flowControl->currentText());
-    settings.setValue(key.arg("TIMEOUT"), ui.spinBox_timeout->value());
-    settings.setValue(key.arg("RECONDELAY"), ui.spinBox_reconnectDelay->value());
+
     settings.sync();
 }
 
@@ -356,9 +344,4 @@ void SerialConfigurationWindow::setReconnectDelay(int dly)
     link->setReconnectDelayMs(dly);
 }
 
-void SerialConfigurationWindow::on_groupBox_advanced_clicked(bool arg1)
-{
-    ui.widget_advanced->setVisible(arg1);
-    writeSettings();
-}
 

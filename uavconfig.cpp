@@ -19,8 +19,11 @@ UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),
     paramaq(NULL),
     uas(NULL),
+    connectedLink(NULL),
     ui(new Ui::UAVConfig)
 {
+    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
+
     ui->setupUi(this);
 
     updateCommonImages();
@@ -31,8 +34,10 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForHardware()));
 
     connect(ui->btn_save, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
-//    paramaq->requestParameterList();
+
 //    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
+
+//    setActiveUAS(UASManager::instance()->getActiveUAS());
 
 }
 
@@ -145,29 +150,12 @@ void UAVConfig::adjustUiForHardware()
 
 void UAVConfig::radioType_changed(int idx)
 {
-    bool ok;
-    int prevRadioValue;
-    int newRadioValue;
-    ui->comboBox_radio_type->setVisible(!useRadioSetupParam);
-    if (useRadioSetupParam)
-    {
-        //prevRadioValue = paramaq->getParaAQ("RADIO_SETUP").toInt(&ok);
-        //qDebug() << prevRadioValue;
-        //newRadioValue = calRadioSetting();
-    }
-    else
-    {
-
-    }
 
 
 }
 
 void UAVConfig::saveAQSettings()
 {
-    //saveSettingsToAq(ui->tab_aq_setting);
-   paramaq->setParaAQ("CTRL_MAX",1000);
-   uas->writeParametersToStorageAQ();
 
 }
 
@@ -178,8 +166,7 @@ void UAVConfig::uasConnected()
 
 int UAVConfig::calRadioSetting()
 {
-     int radioSetup = ui->comboBox_radio_type->itemData(ui->comboBox_radio_type->currentIndex()).toInt();
-     return radioSetup;
+    return 0;
 }
 
 
@@ -223,25 +210,7 @@ void UAVConfig::updateCommonImages()
 
 void UAVConfig::adjustUiForFirmware()
 {
-    uint8_t idx;
 
-    disconnect(ui->comboBox_radio_type,0,this,0);
-
-    idx = ui->comboBox_radio_type->currentIndex();
-    ui->comboBox_radio_type->clear();
-    ui->comboBox_radio_type->addItem("Select...",-1);
-    ui->comboBox_radio_type->addItem("Spektrum 11Bit", 0);
-    ui->comboBox_radio_type->addItem("Spektrum 10Bit", 1);
-    ui->comboBox_radio_type->addItem("S-BUS (Futaba, others)", 2);
-    ui->comboBox_radio_type->addItem("PPM", 3);
-    if (idx > -1 && idx <= ui->comboBox_radio_type->count())
-        ui->comboBox_radio_type->setCurrentIndex(idx);
-
-    connect(ui->comboBox_radio_type, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
-
-    // restart button
-    if (paramaq)
-        paramaq->setRestartBtnEnabled(aqCanReboot);
 
 }
 

@@ -55,16 +55,22 @@ private slots:
 
 
 private:
-    Ui::UAVConfig *ui;
     int isSelected = 1;
     QString str = ":images/config/";
 
     void updateCommonImages();
 
+    //AQSettings
+    QRegExp fldnameRx;
+
+
 protected:
+
+    Ui::UAVConfig *ui;
 
     AQParamWidget* paramaq;
     UASInterface* uas;
+    LinkInterface* connectedLink;
 
 
 };

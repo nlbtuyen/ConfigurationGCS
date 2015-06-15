@@ -123,6 +123,7 @@ signals:
     void connected();
     void portError();
     void batteryChanged(double voltage, double percent);
+    void requestParameterRefreshed();
 
 
 public slots:

@@ -61,14 +61,6 @@ MainWindow::MainWindow(QWidget *parent) :
     config = new UAVConfig();
     setCentralWidget(config);
 
-    //    debugConsoleDockWidget = new QDockWidget(tr("Communication Console"), this);
-    //    debugConsoleDockWidget->setWidget( new DebugConsole(this) );
-    //    debugConsoleDockWidget->setObjectName("COMMUNICATION_DEBUG_CONSOLE_DOCKWIDGET");
-    //    DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(debugConsoleDockWidget->widget());
-    //    connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), debugConsole, SLOT(receiveTextMessage(int, int, int, const QString)));
-    //    connect(debugConsoleDockWidget, SIGNAL(dockLocationChanged(Qt::DockWidgetArea)), debugConsole, SLOT(dockEvent(Qt::DockWidgetArea)));
-    //    addTool(debugConsoleDockWidget, tr("Communication Console"), Qt::RightDockWidgetArea);
-
     // Set dock options
     setDockOptions(AnimatedDocks | AllowTabbedDocks | AllowNestedDocks);
     statusBar()->setSizeGripEnabled(true);
@@ -227,6 +219,7 @@ void MainWindow::showTool(bool show)
     widget->setVisible(show);
 }
 
+
 void MainWindow::connectCommonWidgets()
 {
     if (infoDockWidget && infoDockWidget->widget())
@@ -244,7 +237,6 @@ void MainWindow::connectCommonActions()
     connect(ui->actionConfigure, SIGNAL(triggered()), this, SLOT(addLink()));
 
     connect(LinkManager::instance(), SIGNAL(linkRemoved(LinkInterface*)), this, SLOT(closeSerialPort()));
-
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UASCreated(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
 
@@ -286,7 +278,7 @@ void MainWindow::addLinkImmediately()
     }
 
     connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
-    updateViewTimer.start(1000);
+    updateViewTimer.start(500);
 
 }
 
@@ -301,8 +293,8 @@ void MainWindow::addLink()
     if (act)
         act->trigger();
 
-    //    updateView();
-
+    connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
+    updateViewTimer.start(500);
 }
 
 void MainWindow::addLink(LinkInterface *link)
@@ -340,24 +332,8 @@ void MainWindow::setActiveUAS(UASInterface *uas)
 
     //    //update value
     systemArmed = uas->isArmed();
+
     paramaq = new AQParamWidget(uas, this);
-
-//connect((paramaq, SIGNAL(c))
-//    parameters.clear();
-//    received.clear();
-//    // Clear transmission state
-//    transmissionListMode = true;
-//    transmissionListSizeKnown.clear();
-//    foreach (int key, transmissionMissingPackets.keys())
-//    {
-//        transmissionMissingPackets.value(key)->clear();
-//    }
-//    transmissionActive = true;
-
-//    // Set status text
-//    statusLabel->setText(tr("Requested param list.. waiting"));
-
-
     paramaq->requestParameterList();
 }
 
@@ -530,8 +506,6 @@ void MainWindow::updateState(UASInterface *system, QString name, QString descrip
     state = name;
     toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; color : white; }"));
     toolBarTimeoutLabel->setText(tr("CONNECTION"));
-
-
 
     /* important, immediately update */
     updateView();

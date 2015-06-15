@@ -27,14 +27,14 @@
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLabel" name="lbl_radio_type">
+          <widget class="QLabel" name="label_RADIO_TYPE">
            <property name="text">
             <string>Radio Type</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_radio_type">
+          <widget class="QComboBox" name="RADIO_TYPE">
            <item>
             <property name="text">
              <string>PPM</string>
@@ -193,7 +193,7 @@
               </widget>
              </item>
              <item row="6" column="0">
-              <widget class="QLabel" name="lbl_home">
+              <widget class="QLabel" name="label_RADIO_AUX2_CH">
                <property name="text">
                 <string>Home</string>
                </property>
@@ -380,7 +380,7 @@
               </widget>
              </item>
              <item row="4" column="0">
-              <widget class="QLabel" name="lbl_yaw">
+              <widget class="QLabel" name="label_RADIO_RUDD_CH">
                <property name="text">
                 <string>Yaw</string>
                </property>
@@ -477,14 +477,14 @@
               </widget>
              </item>
              <item row="2" column="0">
-              <widget class="QLabel" name="lbl_pitch">
+              <widget class="QLabel" name="label_RADIO_PITC_CH">
                <property name="text">
                 <string>Pitch</string>
                </property>
               </widget>
              </item>
              <item row="5" column="0">
-              <widget class="QLabel" name="lbl_flight_mode">
+              <widget class="QLabel" name="label_RADIO_FLAP_CH">
                <property name="text">
                 <string>Flight Mode</string>
                </property>
@@ -684,7 +684,7 @@ padding: 1px 5px;</string>
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QLabel" name="lbl_throttle">
+              <widget class="QLabel" name="label_RADIO_THRO_CH">
                <property name="text">
                 <string>Throttle</string>
                </property>
@@ -794,7 +794,7 @@ padding: 1px 5px;</string>
               </widget>
              </item>
              <item row="3" column="0">
-              <widget class="QLabel" name="lbl_roll">
+              <widget class="QLabel" name="label_RADIO_ROLL_CH">
                <property name="text">
                 <string>Roll</string>
                </property>
