@@ -6,7 +6,7 @@
 
 QT       += core gui widgets
 
-CONFIG += extserialport static qesp_static console
+CONFIG += extserialport static qesp_static
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
