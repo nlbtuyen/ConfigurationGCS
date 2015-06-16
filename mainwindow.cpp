@@ -184,7 +184,7 @@ void MainWindow::initActionsConnections()
     toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel {  margin: 0px 2px; font: 18px; color: %1; }").arg(QColor(Qt::green).name()));
     toolBarBatteryVoltageLabel->setToolTip(tr("Battery voltage"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
-        ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
+    ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
 
     //    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
     //    toolBarMessageLabel->setToolTip(tr("Most recent system message"));
@@ -210,7 +210,7 @@ void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidg
     tempAction->setChecked(widget->isVisible());
     addDockWidget(area, widget);
     widget->setMinimumWidth(250);
-//        widget->hide();
+    //        widget->hide();
 }
 
 void MainWindow::showTool(bool show)
@@ -268,16 +268,11 @@ void MainWindow::addLinkImmediately()
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
 
-//    if(!link->isConnected()) {
-        ui->actionConnect->setEnabled(false);
-        ui->actionDisconnect->setEnabled(true);
-        ui->actionConfigure->setEnabled(false);
-        link->connect();
-//    } else {
-//        ui->actionConnect->setEnabled(true);
-//        ui->actionDisconnect->setEnabled(false);
-//        link->disconnect();
-//    }
+    ui->actionConnect->setEnabled(false);
+    ui->actionDisconnect->setEnabled(true);
+    ui->actionConfigure->setEnabled(false);
+    link->connect();
+
 
     connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
     updateViewTimer.start(500);
@@ -312,8 +307,6 @@ void MainWindow::addLink(LinkInterface *link)
         // Error handling
         connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
     }
-
-
 
 }
 
@@ -496,7 +489,7 @@ void MainWindow::showCriticalMessage(const QString& title, const QString& messag
 
 void MainWindow::updateState(UASInterface *system, QString name, QString description)
 {
-//    connect(system, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
+    //    connect(system, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
 
     Q_UNUSED(system);
     Q_UNUSED(description);
@@ -516,7 +509,7 @@ void MainWindow::updateView()
 {
     if (!changed) return;
 
-//    toolBarBatteryBar->setValue(batteryPercent);
+    //    toolBarBatteryBar->setValue(batteryPercent);
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 

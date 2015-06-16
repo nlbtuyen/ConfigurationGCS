@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tab_aq_setting">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_RC_config">
       <attribute name="title">

@@ -15,6 +15,9 @@
 #include <QMessageBox>
 #include <QSignalMapper>
 #include <QStringList>
+#include <QDoubleSpinBox>
+#include <QDialogButtonBox>
+
 
 
 UAVConfig::UAVConfig(QWidget *parent) :
@@ -29,21 +32,9 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     updateCommonImages();
 
-    adjustUiForHardware();
-    adjustUiForFirmware();
-
-    connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForHardware()));
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
 
     connect(ui->btn_save, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
-//    paramaq->requestParameterList();
-//    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
-
-}
-
-bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
-{
-    return true;
 }
 
 UAVConfig::~UAVConfig()
@@ -143,52 +134,6 @@ void UAVConfig::on_btn_hexy_clicked()
     }
 }
 
-void UAVConfig::adjustUiForHardware()
-{
-
-}
-
-void UAVConfig::radioType_changed(int idx)
-{
-//    bool ok;
-//    int prevRadioValue;
-//    int newRadioValue;
-//    ui->RADIO_TYPE->setVisible(!useRadioSetupParam);
-//    if (useRadioSetupParam)
-//    {
-//        //prevRadioValue = paramaq->getParaAQ("RADIO_SETUP").toInt(&ok);
-//        //qDebug() << prevRadioValue;
-//        //newRadioValue = calRadioSetting();
-//    }
-//    else
-//    {
-
-//    }
-
-
-}
-
-void UAVConfig::saveAQSettings()
-{
-//    //saveSettingsToAq(ui->tab_aq_setting);
-//   paramaq->setParaAQ("CTRL_MAX",1000);
-//   uas->writeParametersToStorageAQ();
-
-}
-
-void UAVConfig::uasConnected()
-{
-
-}
-
-int UAVConfig::calRadioSetting()
-{
-     int radioSetup = ui->RADIO_TYPE->itemData(ui->RADIO_TYPE->currentIndex()).toInt();
-     return radioSetup;
-}
-
-
-
 void UAVConfig::updateCommonImages()
 {
     QImage imageObject1;
@@ -226,27 +171,7 @@ void UAVConfig::updateCommonImages()
     ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
 }
 
-void UAVConfig::adjustUiForFirmware()
-{
-    uint8_t idx;
 
-    disconnect(ui->RADIO_TYPE,0,this,0);
-
-    idx = ui->RADIO_TYPE->currentIndex();
-    ui->RADIO_TYPE->clear();
-    ui->RADIO_TYPE->addItem("Select...",-1);
-    ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
-    ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
-    ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
-    ui->RADIO_TYPE->addItem("PPM", 3);
-    if (idx > -1 && idx <= ui->RADIO_TYPE->count())
-        ui->RADIO_TYPE->setCurrentIndex(idx);
-
-    connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
-
-
-
-}
 
 QString UAVConfig::paramNameGuiToOnboard(QString paraName) {
     paraName = paraName.replace(dupeFldnameRx, "");
