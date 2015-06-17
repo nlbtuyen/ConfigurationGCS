@@ -21,5 +21,6 @@
         <file>images/config/Save.png</file>
         <file>images/config/write.png</file>
         <file>images/network-wired.png</file>
+        <file>images/view-refresh.png</file>
     </qresource>
 </RCC>

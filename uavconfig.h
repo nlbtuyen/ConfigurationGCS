@@ -6,6 +6,7 @@
 #include <QMap>
 #include <QSettings>
 #include <QAbstractButton>
+#include <QTextEdit>
 
 #include "linkmanager.h"
 #include "seriallinkinterface.h"
@@ -31,6 +32,12 @@ public:
     void updateCommonImages();
 
 
+    bool checkAqConnected(bool interactive = false);
+
+    QString aqBinFolderPath;    // absolute path to AQ supporting utils
+    const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
+
+
 signals:
     void hardwareInfoUpdated(void);
 
@@ -46,6 +53,21 @@ private slots:
     void loadParametersToUI();
     void createAQParamWidget(UASInterface* uas);
 
+
+    //@Tuyen: AQ FW Flashing
+    void flashFW();
+    bool checkProcRunning(bool warn = true);
+    bool checkAqSerialConnection(QString port = "");
+    void flashFwStart();
+    void flashFwDfu();
+    void setPortName(QString str);
+    void fwTypeChange();
+    void selectFWToFlash();
+    void loadSettings();
+    void setFwType();
+
+
+
 private:
     int isSelected = 1;
     QString str = ":images/config/";
@@ -58,11 +80,25 @@ private:
     bool aqCanReboot;               // can system accept remote restart command?
     bool useRadioSetupParam;
 
+    //@Tuyen
+    QProcess ps_master;
+    QString portName;
+    QSettings settings;
+    QString fileToFlash;
+
+
 
 protected:
     Ui::UAVConfig *ui;
     AQParamWidget* paramaq;
     UASInterface* uas;
+    LinkInterface* connectedLink;
+
+    QTextEdit* activeProcessStatusWdgt;
+    bool fwFlashActive;
+    QString LastFilePath;
+
+
 
 
 };
