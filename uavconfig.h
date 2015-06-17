@@ -7,6 +7,9 @@
 #include <QSettings>
 #include <QAbstractButton>
 #include <QTextEdit>
+#include <QProgressBar>
+#include <QComboBox>
+
 
 #include "linkmanager.h"
 #include "seriallinkinterface.h"
@@ -52,7 +55,7 @@ private slots:
     QString paramNameGuiToOnboard(QString paraName);
     void loadParametersToUI();
     void createAQParamWidget(UASInterface* uas);
-
+    void setRadioChannelDisplayValue(int channelId, float normalized);
 
     //@Tuyen: AQ FW Flashing
     void flashFW();
@@ -65,7 +68,7 @@ private slots:
     void selectFWToFlash();
     void loadSettings();
     void setFwType();
-
+    void setupPortList();
 
 
 private:
@@ -75,6 +78,7 @@ private:
     QRegExp dupeFldnameRx;
 
     QList<QComboBox *> allRadioChanCombos;
+    QList<QProgressBar *> allRadioChanProgressBars;
     quint8 paramSaveType;
     bool restartAfterParamSave;
     bool aqCanReboot;               // can system accept remote restart command?
@@ -97,8 +101,6 @@ protected:
     QTextEdit* activeProcessStatusWdgt;
     bool fwFlashActive;
     QString LastFilePath;
-
-
 
 
 };

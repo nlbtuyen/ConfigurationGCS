@@ -34,6 +34,10 @@ UAVConfig::UAVConfig(QWidget *parent) :
     platformExeExt = ".exe";
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
+    for(int i=0; i < 6; i++ )
+    {
+        allRadioChanProgressBars << ui->widget_2->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
+    }
 
     ui->comboBox_fwType->addItem(tr("AutoQuad Serial"), "aq");
     ui->comboBox_fwType->addItem(tr("AutoQuad M4 USB"), "dfu");
@@ -50,11 +54,13 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(ui->comboBox_fwType, SIGNAL(currentIndexChanged(int)), this, SLOT(fwTypeChange()));
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
+    connect(ui->toolButton_fwReloadPorts, SIGNAL(clicked()), this, SLOT(setupPortList()));
 
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
 
     //connect(ui->btn_save, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
 
+    setupPortList();
     loadSettings();
 
 }
@@ -302,10 +308,33 @@ void UAVConfig::loadParametersToUI()
 
 void UAVConfig::createAQParamWidget(UASInterface *uas)
 {
+    connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
     //    qDebug() << "create AQParamWidget";
     paramaq = new AQParamWidget(uas, this);
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
     //    paramaq->requestParameterList();
+}
+
+void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
+{
+    int val;
+    //    qDebug() << "Channel" <<channelId;
+
+    //    qDebug() << "Value" <<val;
+    //@Zyrter Fix here to set fit value on progress Bar
+
+    if (channelId >= allRadioChanProgressBars.size())
+        return;
+    QProgressBar* bar = allRadioChanProgressBars.at(channelId);
+    val = (int)(normalized-1024);
+
+//    if (channelId == 0)
+//        qDebug() << "Value" <<val;
+    if (val > bar->maximum())
+        val = bar->maximum();
+    if (val < bar->minimum())
+        val = bar->minimum();
+    bar->setValue(val);
 }
 
 
@@ -419,7 +448,16 @@ void UAVConfig::flashFwDfu()
 
 void UAVConfig::setPortName(QString str)
 {
-    Q_UNUSED(str);
+
+    //    if (ui->portName->currentText() == ui->portName->itemText(ui->portName->currentIndex()))
+    //    {
+    //        if (ui->portName->itemData(ui->portName->currentIndex()).toString() == "[no port]")
+    //            return;
+    //        str = ui->portName->itemData(ui->portName->currentIndex()).toString();
+    //    }
+    //    else
+    //        str = str.split(" - ").first().remove(" ");
+
 
     portName = ui->portName->itemData(ui->portName->currentIndex()).toString();
     ui->portName->setToolTip(ui->portName->currentText());
@@ -446,7 +484,7 @@ void UAVConfig::selectFWToFlash()
     QFileInfo dir(dirPath);
 
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select Firmware File"), dir.absoluteFilePath(),
-                                            tr("AQ or ESC32 firmware") + " (*.hex *.bin)");
+                                                    tr("AQ or ESC32 firmware") + " (*.hex *.bin)");
 
     if (fileName.length())
     {
@@ -507,6 +545,23 @@ void UAVConfig::setFwType()
         typ = "dfu";
 
     ui->comboBox_fwType->setCurrentIndex(ui->comboBox_fwType->findData(typ));
+}
+
+void UAVConfig::setupPortList()
+{
+    QString pdispname;
+    QString cidxfw = ui->portName->currentText();
+    ui->portName->clear();
+    // Get the ports available on this system
+    foreach (const QextPortInfo &p, QextSerialEnumerator::getPorts()) {
+        if (!p.portName.length())
+            continue;
+        pdispname = p.portName;
+        if (p.friendName.length())
+            pdispname += " - " + p.friendName.split(QRegExp(" ?\\(")).first();
+        ui->portName->addItem(pdispname, p.portName);
+    }
+    ui->portName->setCurrentIndex(ui->portName->findText(cidxfw));
 }
 
 bool UAVConfig::checkProcRunning(bool warn)
