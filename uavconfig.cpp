@@ -22,6 +22,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),
     paramaq(NULL),
     uas(NULL),
+    connectedLink(NULL),
     ui(new Ui::UAVConfig)
 {
     fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
@@ -57,8 +58,6 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(ui->toolButton_fwReloadPorts, SIGNAL(clicked()), this, SLOT(setupPortList()));
 
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
-
-    //connect(ui->btn_save, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
 
     setupPortList();
     loadSettings();

@@ -18,6 +18,8 @@ MOC_DIR = $${BUILDDIR}/moc
 
 INCLUDEPATH += $$BASEDIR/libs/lib/sdl/msvc/include \
                 $$BASEDIR/libs/lib/sdl/include
+# Include QWT plotting library
+include(libs/qwt/qwt.pri)
 
 LIBS += -L$$BASEDIR/libs/lib/sdl/msvc/lib
 
@@ -45,7 +47,7 @@ SOURCES += main.cpp\
     qextserialport.cpp \
     qextserialenumerator.cpp \
     qextserialport_win.cpp \
-    qextserialenumerator_win.cpp
+    qextserialenumerator_win.cpp \
 
 
 HEADERS  += mainwindow.h \
@@ -79,7 +81,7 @@ common\* \
     qextserialport_global.h \
     qextserialport_p.h \
     qextserialenumerator.h \
-    qextserialenumerator_p.h
+    qextserialenumerator_p.h \
 
 
 FORMS    += mainwindow.ui \
@@ -99,3 +101,5 @@ RESOURCES += \
 
 
 DEFINES *= QT_USE_QSTRINGBUILDER
+
+DISTFILES +=
