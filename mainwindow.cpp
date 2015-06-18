@@ -268,15 +268,21 @@ void MainWindow::addLinkImmediately()
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
 
-    ui->actionConnect->setEnabled(false);
-    ui->actionDisconnect->setEnabled(true);
-    ui->actionConfigure->setEnabled(false);
-    link->connect();
+    if (link->isPortHandleValid())
+    {
+        ui->actionConnect->setEnabled(false);
+        ui->actionDisconnect->setEnabled(true);
+        ui->actionConfigure->setEnabled(false);
 
-
-    connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
-    updateViewTimer.start(500);
-
+        connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
+        updateViewTimer.start(500);
+        link->connect();
+    }
+    else
+    {
+        MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please plugin your device to begin."));
+        closeSerialPort();
+    }
 }
 
 void MainWindow::addLink()
@@ -285,21 +291,28 @@ void MainWindow::addLink()
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
 
+    if (link->isPortHandleValid())
+    {
+        ui->actionConnect->setEnabled(false);
+        ui->actionDisconnect->setEnabled(true);
+        ui->actionConfigure->setEnabled(false);
 
-    QAction* act = getActionByLink(link);
-    if (act)
-        act->trigger();
+        QAction* act = getActionByLink(link);
+        if (act)
+            act->trigger();
 
-    connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
-    updateViewTimer.start(500);
+        connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
+        updateViewTimer.start(500);
+    }
 }
 
 void MainWindow::addLink(LinkInterface *link)
 {
-    LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
 
-    if (!getActionByLink(link)) {
+    if (!getActionByLink(link))
+    {
+
         CommConfigurationWindow* commWidget = new CommConfigurationWindow(link, mavlink, this);
         QAction* action = commWidget->getAction();
         ui->menuWidgets->addAction(action);

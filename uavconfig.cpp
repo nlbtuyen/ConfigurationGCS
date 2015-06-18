@@ -59,6 +59,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
 
+    connect (ui->btn_save, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
     setupPortList();
     loadSettings();
 
@@ -305,8 +306,10 @@ void UAVConfig::loadParametersToUI()
 
 }
 
-void UAVConfig::createAQParamWidget(UASInterface *uas)
+void UAVConfig::createAQParamWidget(UASInterface *uastmp)
 {
+    uas = uastmp;
+
     connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
     //    qDebug() << "create AQParamWidget";
     paramaq = new AQParamWidget(uas, this);
@@ -327,8 +330,8 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
     QProgressBar* bar = allRadioChanProgressBars.at(channelId);
     val = (int)(normalized-1024);
 
-//    if (channelId == 0)
-//        qDebug() << "Value" <<val;
+    //    if (channelId == 0)
+    //        qDebug() << "Value" <<val;
     if (val > bar->maximum())
         val = bar->maximum();
     if (val < bar->minimum())
@@ -342,14 +345,17 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
 
 bool UAVConfig::checkAqConnected(bool interactive)
 {
-    if ( !paramaq || !uas || uas->getCommunicationStatus() != uas->COMM_CONNECTED ) {
+//    qDebug() << paramaq;
+//    qDebug() << uas;
+//    qDebug() << uas->getCommunicationStatus();
+//    qDebug() << uas->COMM_CONNECTED;
+    if (!uas || !paramaq || uas->getCommunicationStatus() != uas->COMM_CONNECTED ) {
         if (interactive)
             MainWindow::instance()->showCriticalMessage("Error", "No AutoQuad connected!");
         return false;
     } else
         return true;
 }
-
 
 
 void UAVConfig::flashFW()
@@ -562,6 +568,266 @@ void UAVConfig::setupPortList()
     }
     ui->portName->setCurrentIndex(ui->portName->findText(cidxfw));
 }
+
+void UAVConfig::saveAQSetting()
+{
+    if (!validateRadioSettings(0)) {
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("You have the same port assigned to multiple controls!"));
+        return;
+    }
+    saveSettingsToAq(ui->tab_aq_setting);
+}
+
+bool UAVConfig::validateRadioSettings(int)
+{
+    QList<QString> conflictPorts, portsUsed, essentialPorts;
+    QString cbname, cbtxt;
+    bool ok = true;
+
+    foreach (QComboBox* cb, allRadioChanCombos) {
+        cbname = cb->objectName();
+        cbtxt = cb->currentText();
+        if (cbtxt.contains(tr("Off"), Qt::CaseInsensitive))
+            continue;
+        if (portsUsed.contains(cbtxt))
+            conflictPorts.append(cbtxt);
+        if (cbname.contains(QRegExp("^RADIO_(THRO|PITC|ROLL|RUDD|FLAP|AUX2)_CH")))
+            essentialPorts.append(cbtxt);
+        portsUsed.append(cbtxt);
+    }
+
+    foreach (QComboBox* cb, allRadioChanCombos) {
+        if (conflictPorts.contains(cb->currentText())) {
+            if (essentialPorts.contains(cb->currentText())) {
+                cb->setStyleSheet("background-color: rgba(255, 0, 0, 160)");
+                ok = false;
+            } else
+                cb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
+        } else
+            cb->setStyleSheet("");
+    }
+
+    return ok;
+}
+
+void UAVConfig::saveDialogButtonClicked(QAbstractButton *btn)
+{
+    paramSaveType = 0;
+    if (btn->objectName() == "btn_saveToRam")
+        paramSaveType = 1;
+    else if (btn->objectName() == "btn_saveToRom")
+        paramSaveType = 2;
+}
+
+
+bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
+{
+    float val_uas, val_local;
+    QString paraName, msg;
+    QStringList errors;
+    bool ok, chkstate;
+    quint8 errLevel = 0;  // 0=no error; 1=soft error; 2=hard error
+    QList<float> changeVals;
+    QMap<QString, QList<float> > changeList; // param name, old val, new val
+    QMessageBox msgBox;
+    QVariant tmp;
+
+    if ( !checkAqConnected(interactive) )
+        return false;
+
+    QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
+    QList<QObject*> objList = *reinterpret_cast<QList<QObject *>*>(&wdgtList);
+    if (!QString::compare(parent->objectName(), "tab_aq_settings")) {
+        QList<QButtonGroup *> grpList = this->findChildren<QButtonGroup *>(fldnameRx);
+        objList.append(*reinterpret_cast<QList<QObject *>*>(&grpList));
+    }
+
+    foreach (QObject* w, objList) {
+        paraName = paramNameGuiToOnboard(w->objectName());
+
+        if (!paramaq->paramExistsAQ(paraName))
+            continue;
+
+        ok = true;
+        val_uas = paramaq->getParaAQ(paraName).toFloat(&ok);
+
+        if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
+            val_local = le->text().toFloat(&ok);
+        else if (QComboBox* cb = qobject_cast<QComboBox *>(w)) {
+            if (cb->isEditable()) {
+                val_local = cb->currentText().toFloat(&ok);
+            }
+            else {
+                tmp = cb->itemData(cb->currentIndex());
+                if (tmp.isValid())
+                    val_local = tmp.toFloat(&ok);
+                else
+                    val_local = static_cast<float>(cb->currentIndex());
+            }
+        } else if (QDoubleSpinBox* sb = qobject_cast<QDoubleSpinBox *>(w))
+            val_local = (float)sb->value();
+        else if (QSpinBox* sb = qobject_cast<QSpinBox *>(w))
+            val_local = (float)sb->value();
+        else if (QButtonGroup* bg = qobject_cast<QButtonGroup *>(w)) {
+            val_local = 0.0f;
+            foreach (QAbstractButton* abtn, bg->buttons()) {
+                if (abtn->isChecked()) {
+                    if (bg->exclusive()) {
+                        val_local = bg->id(abtn);
+                        break;
+                    } else
+                        val_local += bg->id(abtn);
+                }
+            }
+        }
+        else
+            continue;
+
+        if (!ok){
+            errors.append(paraName);
+            continue;
+        }
+
+        // special case for reversing gimbal servo direction
+        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT") {
+            if (paraName == "GMBL_SCAL_PITCH")
+                chkstate = parent->findChild<QCheckBox *>("reverse_gimbal_pitch")->checkState();
+            else if (paraName == "GMBL_SCAL_ROLL")
+                chkstate = parent->findChild<QCheckBox *>("reverse_gimbal_roll")->checkState();
+            else if (paraName == "SIG_BEEP_PRT")
+                chkstate = parent->findChild<QCheckBox *>("checkBox_useSpeaker")->checkState();
+
+            if (chkstate)
+                val_local = 0.0f - val_local;
+        }
+
+        // FIXME with a real float comparator
+        if (val_uas != val_local) {
+            changeVals.clear();
+            changeVals.append(val_uas);
+            changeVals.append(val_local);
+            changeList.insert(paraName, changeVals);
+        }
+    }
+
+    if (errors.size()) {
+        errors.insert(0, tr("One or more parameter(s) could not be saved:"));
+        if (errors.size() >= changeList.size())
+            errLevel = 2;
+        else
+            errLevel = 1;
+    }
+
+
+
+    if ( changeList.size() ) {
+        paramSaveType = 1;  // save to volatile
+        restartAfterParamSave = false;
+
+        if (interactive) {
+            paramSaveType = 0;
+
+            QString msgBoxText = tr("%n parameter(s) modified:<br>", "one or more params have changed", changeList.size());
+            msg = tr("<table border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n");
+            QMapIterator<QString, QList<float> > i(changeList);
+            QString val1, val2, restartFlag;
+            while (i.hasNext()) {
+                i.next();
+                val1.setNum(i.value().at(0), 'g', 8);
+                val2.setNum(i.value().at(1), 'g', 8);
+
+                msg += QString("<tr><td style=\"padding: 1px 7px 0 1px;\"><span style=\"color: rgba(255, 0, 0, 200); font-weight: bold;\">%1</span>%2</td><td>%3 </td><td>%4</td></tr>\n").arg(restartFlag, i.key(), val1, val2);
+            }
+            msg += "</tbody></table>\n";
+            QDialog* dialog = new QDialog(this);
+            dialog->setSizeGripEnabled(true);
+            dialog->setWindowTitle(tr("Verify Changed Parameters"));
+            dialog->setWindowModality(Qt::ApplicationModal);
+            dialog->setWindowFlags(dialog->windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+            QSizePolicy sizepol(QSizePolicy::Expanding, QSizePolicy::Fixed, QSizePolicy::Label);
+            sizepol.setVerticalStretch(0);
+            QLabel* prompt = new QLabel(msgBoxText, dialog);
+            prompt->setTextFormat(Qt::RichText);
+            prompt->setSizePolicy(sizepol);
+            QLabel* prompt2 = new QLabel(tr("Do you wish to continue?"), dialog);
+            prompt2->setSizePolicy(sizepol);
+
+            QCheckBox* restartOption = new QCheckBox(tr("Restart after save?"), dialog);
+            restartOption->setToolTip(tr("<html><p>Selecting this option will attempt to automatically restart the flight controller after saving parameters. \
+                                         Only do this when saving to permanent memory.  You may loose the link to the flight controller and need to reconnect.</p></html>"));
+            restartOption->setObjectName("chkbox_restart");
+            restartOption->setSizePolicy(sizepol);
+            restartOption->setVisible(aqCanReboot);
+
+            QTextEdit* message = new QTextEdit(msg, dialog);
+            message->setReadOnly(true);
+            message->setAcceptRichText(true);
+
+            QDialogButtonBox* bbox = new QDialogButtonBox(Qt::Horizontal, dialog);
+            QPushButton *btn_saveToRam = bbox->addButton(tr("Save to Volatile Memory"), QDialogButtonBox::AcceptRole);
+            btn_saveToRam->setToolTip(tr("The settings will be immediately active and persist UNTIL the flight controller is restarted."));
+            btn_saveToRam->setObjectName("btn_saveToRam");
+            btn_saveToRam->setAutoDefault(false);
+            QPushButton *btn_saveToRom = bbox->addButton(tr("Save to Permanent Memory"), QDialogButtonBox::AcceptRole);
+            btn_saveToRom->setToolTip(tr("The settings will be immediately active and persist AFTER flight controller is restarted."));
+            btn_saveToRom->setObjectName("btn_saveToRom");
+            btn_saveToRom->setAutoDefault(false);
+            QPushButton *btn_cancel = bbox->addButton(tr("Cancel"), QDialogButtonBox::RejectRole);
+            btn_cancel->setToolTip(tr("Do not save any settings."));
+            btn_cancel->setDefault(true);
+
+            QVBoxLayout* dlgLayout = new QVBoxLayout(dialog);
+            dlgLayout->setSpacing(8);
+            dlgLayout->addWidget(prompt);
+            dlgLayout->addWidget(message);
+            QHBoxLayout* promptLayout = new QHBoxLayout;
+            promptLayout->setSpacing(8);
+            promptLayout->addWidget(prompt2);
+            promptLayout->addWidget(restartOption);
+            promptLayout->setAlignment(restartOption, Qt::AlignRight);
+            dlgLayout->addLayout(promptLayout);
+            dlgLayout->addWidget(bbox);
+
+            dialog->setLayout(dlgLayout);
+
+            connect(btn_cancel, SIGNAL(clicked()), dialog, SLOT(reject()));
+            connect(btn_saveToRam, SIGNAL(clicked()), dialog, SLOT(accept()));
+            connect(btn_saveToRom, SIGNAL(clicked()), dialog, SLOT(accept()));
+            connect(bbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(saveDialogButtonClicked(QAbstractButton*)));
+            connect(restartOption, SIGNAL(clicked(bool)), this, SLOT(saveDialogRestartOptionChecked(bool)));
+
+            bool dlgret = dialog->exec();
+            dialog->deleteLater();
+
+            if (dlgret == QDialog::Rejected || !paramSaveType)
+                return false;
+
+        }
+
+        QMapIterator<QString, QList<float> > i(changeList);
+        while (i.hasNext()) {
+            i.next();
+            paramaq->setParaAQ(i.key(), i.value().at(1));
+        }
+
+        if (paramSaveType == 2) {
+            uas->writeParametersToStorageAQ();
+        }
+
+        if (restartAfterParamSave) {
+            MainWindow::instance()->showCriticalMessage(tr("Restarting flight controller..."), tr("4000"));
+            QTimer::singleShot(2000, paramaq, SLOT(restartUas()));
+        }
+
+        return true;
+    } else {
+        if (interactive)
+            MainWindow::instance()->showCriticalMessage(tr("Warning"), tr("No changed parameters detected.  Nothing saved."));
+        return false;
+    }
+}
+
 
 bool UAVConfig::checkProcRunning(bool warn)
 {

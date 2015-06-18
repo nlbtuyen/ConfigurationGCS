@@ -40,6 +40,7 @@ public:
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
 
+    bool saveSettingsToAq(QWidget *parent, bool interactive = true);
 
 signals:
     void hardwareInfoUpdated(void);
@@ -69,6 +70,9 @@ private slots:
     void loadSettings();
     void setFwType();
     void setupPortList();
+    void saveAQSetting();
+    bool validateRadioSettings(int);
+    void saveDialogButtonClicked(QAbstractButton *btn);
 
 
 private:
