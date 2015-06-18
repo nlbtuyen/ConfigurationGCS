@@ -74,7 +74,6 @@ private slots:
     bool validateRadioSettings(int);
     void saveDialogButtonClicked(QAbstractButton *btn);
 
-
 private:
     int isSelected = 1;
     QString str = ":images/config/";
@@ -87,6 +86,7 @@ private:
     bool restartAfterParamSave;
     bool aqCanReboot;               // can system accept remote restart command?
     bool useRadioSetupParam;
+
 
     //@Tuyen
     QProcess ps_master;

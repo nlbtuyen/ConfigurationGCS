@@ -17,6 +17,7 @@
 #include <QStringList>
 #include <QDoubleSpinBox>
 #include <QDialogButtonBox>
+#include <QBoxLayout>
 
 UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),
@@ -28,6 +29,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
     fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
     ui->setupUi(this);
+
 
     updateCommonImages();
 
@@ -49,6 +51,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
     QStringList flashBaudRates;
     flashBaudRates << "38400" <<  "57600" << "115200";
     ui->comboBox_fwPortSpeed->addItems(flashBaudRates);
+
 
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->comboBox_fwPortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
@@ -345,10 +348,6 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
 
 bool UAVConfig::checkAqConnected(bool interactive)
 {
-//    qDebug() << paramaq;
-//    qDebug() << uas;
-//    qDebug() << uas->getCommunicationStatus();
-//    qDebug() << uas->COMM_CONNECTED;
     if (!uas || !paramaq || uas->getCommunicationStatus() != uas->COMM_CONNECTED ) {
         if (interactive)
             MainWindow::instance()->showCriticalMessage("Error", "No AutoQuad connected!");
@@ -453,17 +452,7 @@ void UAVConfig::flashFwDfu()
 
 void UAVConfig::setPortName(QString str)
 {
-
-    //    if (ui->portName->currentText() == ui->portName->itemText(ui->portName->currentIndex()))
-    //    {
-    //        if (ui->portName->itemData(ui->portName->currentIndex()).toString() == "[no port]")
-    //            return;
-    //        str = ui->portName->itemData(ui->portName->currentIndex()).toString();
-    //    }
-    //    else
-    //        str = str.split(" - ").first().remove(" ");
-
-
+    Q_UNUSED(str);
     portName = ui->portName->itemData(ui->portName->currentIndex()).toString();
     ui->portName->setToolTip(ui->portName->currentText());
 }
@@ -619,7 +608,6 @@ void UAVConfig::saveDialogButtonClicked(QAbstractButton *btn)
         paramSaveType = 2;
 }
 
-
 bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
 {
     float val_uas, val_local;
@@ -722,7 +710,6 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
 
     if ( changeList.size() ) {
         paramSaveType = 1;  // save to volatile
-        restartAfterParamSave = false;
 
         if (interactive) {
             paramSaveType = 0;
@@ -753,23 +740,16 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
             QLabel* prompt2 = new QLabel(tr("Do you wish to continue?"), dialog);
             prompt2->setSizePolicy(sizepol);
 
-            QCheckBox* restartOption = new QCheckBox(tr("Restart after save?"), dialog);
-            restartOption->setToolTip(tr("<html><p>Selecting this option will attempt to automatically restart the flight controller after saving parameters. \
-                                         Only do this when saving to permanent memory.  You may loose the link to the flight controller and need to reconnect.</p></html>"));
-            restartOption->setObjectName("chkbox_restart");
-            restartOption->setSizePolicy(sizepol);
-            restartOption->setVisible(aqCanReboot);
-
             QTextEdit* message = new QTextEdit(msg, dialog);
             message->setReadOnly(true);
             message->setAcceptRichText(true);
 
             QDialogButtonBox* bbox = new QDialogButtonBox(Qt::Horizontal, dialog);
-            QPushButton *btn_saveToRam = bbox->addButton(tr("Save to Volatile Memory"), QDialogButtonBox::AcceptRole);
+            QPushButton *btn_saveToRam = bbox->addButton(tr("Save to RAM"), QDialogButtonBox::AcceptRole);
             btn_saveToRam->setToolTip(tr("The settings will be immediately active and persist UNTIL the flight controller is restarted."));
             btn_saveToRam->setObjectName("btn_saveToRam");
             btn_saveToRam->setAutoDefault(false);
-            QPushButton *btn_saveToRom = bbox->addButton(tr("Save to Permanent Memory"), QDialogButtonBox::AcceptRole);
+            QPushButton *btn_saveToRom = bbox->addButton(tr("Save to ROM"), QDialogButtonBox::AcceptRole);
             btn_saveToRom->setToolTip(tr("The settings will be immediately active and persist AFTER flight controller is restarted."));
             btn_saveToRom->setObjectName("btn_saveToRom");
             btn_saveToRom->setAutoDefault(false);
@@ -784,8 +764,6 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
             QHBoxLayout* promptLayout = new QHBoxLayout;
             promptLayout->setSpacing(8);
             promptLayout->addWidget(prompt2);
-            promptLayout->addWidget(restartOption);
-            promptLayout->setAlignment(restartOption, Qt::AlignRight);
             dlgLayout->addLayout(promptLayout);
             dlgLayout->addWidget(bbox);
 
@@ -795,7 +773,6 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
             connect(btn_saveToRam, SIGNAL(clicked()), dialog, SLOT(accept()));
             connect(btn_saveToRom, SIGNAL(clicked()), dialog, SLOT(accept()));
             connect(bbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(saveDialogButtonClicked(QAbstractButton*)));
-            connect(restartOption, SIGNAL(clicked(bool)), this, SLOT(saveDialogRestartOptionChecked(bool)));
 
             bool dlgret = dialog->exec();
             dialog->deleteLater();
@@ -813,11 +790,6 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
 
         if (paramSaveType == 2) {
             uas->writeParametersToStorageAQ();
-        }
-
-        if (restartAfterParamSave) {
-            MainWindow::instance()->showCriticalMessage(tr("Restarting flight controller..."), tr("4000"));
-            QTimer::singleShot(2000, paramaq, SLOT(restartUas()));
         }
 
         return true;
@@ -865,5 +837,3 @@ bool UAVConfig::checkAqSerialConnection(QString port)
 
     return IsConnected;
 }
-
-

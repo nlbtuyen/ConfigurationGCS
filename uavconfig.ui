@@ -1179,7 +1179,7 @@ padding: 1px 5px;</string>
                <widget class="QWidget" name="widget_2" native="true">
                 <property name="maximumSize">
                  <size>
-                  <width>150</width>
+                  <width>170</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -2435,94 +2435,82 @@ padding: 1px 5px;</string>
              <property name="title">
               <string>Log Viewer</string>
              </property>
-             <widget class="QWidget" name="layoutWidget_2">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>20</y>
-                <width>61</width>
-                <height>241</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_5">
-               <item>
-                <widget class="QLabel" name="lbl_gyrox">
-                 <property name="text">
-                  <string>Gyro X</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_gyroy">
-                 <property name="text">
-                  <string>Gyro Y</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_gyroz">
-                 <property name="text">
-                  <string>Gyro Z</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_accx">
-                 <property name="text">
-                  <string>Acc X</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_accy">
-                 <property name="text">
-                  <string>Acc Y</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_accz">
-                 <property name="text">
-                  <string>Acc Z</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_magx">
-                 <property name="text">
-                  <string>Mag X</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_magy">
-                 <property name="text">
-                  <string>Mag Y</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_magz">
-                 <property name="text">
-                  <string>Mag Z</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QLabel" name="lbl_graph">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>10</y>
-                <width>591</width>
-                <height>250</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>show graph</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <item>
+               <layout class="QVBoxLayout" name="LogViewerLayout">
+                <item>
+                 <widget class="QLabel" name="lbl_gyrox">
+                  <property name="text">
+                   <string>Gyro X</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lbl_gyroy">
+                  <property name="text">
+                   <string>Gyro Y</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lbl_gyroz">
+                  <property name="text">
+                   <string>Gyro Z</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lbl_accx">
+                  <property name="text">
+                   <string>Acc X</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lbl_accy">
+                  <property name="text">
+                   <string>Acc Y</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lbl_accz">
+                  <property name="text">
+                   <string>Acc Z</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lbl_magx">
+                  <property name="text">
+                   <string>Mag X</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lbl_magy">
+                  <property name="text">
+                   <string>Mag Y</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lbl_magz">
+                  <property name="text">
+                   <string>Mag Z</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="lbl_graph">
+                <property name="text">
+                 <string>show graph</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item row="2" column="1">
