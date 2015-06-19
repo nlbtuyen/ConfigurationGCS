@@ -18,6 +18,16 @@ MOC_DIR = $${BUILDDIR}/moc
 
 INCLUDEPATH += $$BASEDIR/libs/lib/sdl/msvc/include \
                 $$BASEDIR/libs/lib/sdl/include
+
+INCLUDEPATH += $$MAVLINKPATH
+isEmpty(MAVLINK_CONF) {
+         INCLUDEPATH += $$MAVLINKPATH/common
+} else {
+         message("Adding support for additional MAVLink messages for: " $$MAVLINK_CONF)
+         INCLUDEPATH += $$MAVLINKPATH/$$MAVLINK_CONF
+         DEFINES += $$sprintf('QGC_USE_%1_MESSAGES', $$upper($$MAVLINK_CONF))
+}
+
 # Include QWT plotting library
 include(libs/qwt/qwt.pri)
 
@@ -48,6 +58,10 @@ SOURCES += main.cpp\
     qextserialenumerator.cpp \
     qextserialport_win.cpp \
     qextserialenumerator_win.cpp \
+    aq_telemetryView.cpp \
+    aqlinechartwidget.cpp \
+    ChartPlot.cpp \
+    LinechartPlot.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -82,6 +96,10 @@ common\* \
     qextserialport_p.h \
     qextserialenumerator.h \
     qextserialenumerator_p.h \
+    aq_telemetryView.h \
+    aqlinechartwidget.h \
+    ChartPlot.h \
+    LinechartPlot.h
 
 
 FORMS    += mainwindow.ui \
@@ -91,7 +109,9 @@ FORMS    += mainwindow.ui \
     parameterinterface.ui \
     mavlinkmessagesender.ui \
     commsettings.ui \
-    debugconsole.ui
+    debugconsole.ui \
+    aq_telemetryView.ui \
+    AQLinechart.ui
 
 
 

@@ -17,6 +17,8 @@
 #include "uasinterface.h"
 #include "aqpramwidget.h"
 #include "uasmanager.h"
+#include "aq_telemetryView.h"
+
 
 
 class AQParamWidget;
@@ -57,6 +59,7 @@ private slots:
     void loadParametersToUI();
     void createAQParamWidget(UASInterface* uas);
     void setRadioChannelDisplayValue(int channelId, float normalized);
+    void getGUIPara(QWidget *parent);
 
     //@Tuyen: AQ FW Flashing
     void flashFW();
@@ -101,6 +104,7 @@ protected:
     AQParamWidget* paramaq;
     UASInterface* uas;
     LinkInterface* connectedLink;
+    AQTelemetryView *aqtelemetry;
 
     QTextEdit* activeProcessStatusWdgt;
     bool fwFlashActive;

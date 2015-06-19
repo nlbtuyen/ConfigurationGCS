@@ -7,6 +7,8 @@
 #include "uas.h"
 #include "uasmanager.h"
 #include "uasinterface.h"
+#include "aq_telemetryView.h"
+
 
 #include <QDebug>
 #include <QWidget>
@@ -33,7 +35,8 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     updateCommonImages();
 
-    aqBinFolderPath = QCoreApplication::applicationDirPath() + "/aq/bin/";
+    aqBinFolderPath = QCoreApplication::applicationFilePath() + "/aq/bin/";
+
     platformExeExt = ".exe";
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
@@ -65,6 +68,9 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect (ui->btn_save, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
     setupPortList();
     loadSettings();
+
+    aqtelemetry = new AQTelemetryView();
+    ui->scrollArea_logviewer->setWidget(aqtelemetry);
 
 }
 
@@ -191,10 +197,6 @@ void UAVConfig::updateCommonImages()
     imageObject7.load(str + "display.jpg");
     ui->lbl_show_primary->setPixmap(QPixmap::fromImage(imageObject7));
 
-    QImage imageObject8;
-    imageObject8.load(str + "graph.png");
-    ui->lbl_graph->setPixmap(QPixmap::fromImage(imageObject8));
-
     ui->btn_quadx->setStyleSheet("background-color : yellow");
     QImage imageObject6;
     ui->lbl_show_ac->setAlignment(Qt::AlignCenter);
@@ -230,82 +232,36 @@ QString UAVConfig::paramNameGuiToOnboard(QString paraName) {
 
 void UAVConfig::loadParametersToUI()
 {
-    //    qDebug() << "load Parameters to UI";
-    //    qDebug() << paramaq->paramExistsAQ("CTRL_TLT_RTE_P");
-    //    QVariant val;
-    //    val = paramUIaq->getParaAQ("CTRL_TLT_RTE_P");
-    //    QString valstr;
-    //    valstr.setNum(val.toFloat(), 'g', 6);
-    //    qDebug() << valstr;
-    //    paramaq = paramUI;
-    useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
-    //qDebug() << useRadioSetupParam;
 
-    bool ok;
-    int precision, tmp;
-    QString paraName, valstr;
     QVariant val;
-    QLabel *paraLabel;
-    QWidget *paraContainer;
-    QList<QWidget*> wdgtList = ui->tab_aq_setting->findChildren<QWidget *>(fldnameRx);
-    foreach (QWidget* w, wdgtList) {
-        //            qDebug() << "QWidget Name" <<w->objectName();
-        paraName = paramNameGuiToOnboard(w->objectName());
-        paraLabel = ui->tab_aq_setting->findChild<QLabel *>(QString("label_%1").arg(w->objectName()));
-        paraContainer = ui->tab_aq_setting->findChild<QWidget *>(QString("container_%1").arg(w->objectName()));
+    getGUIPara(ui->tab_aq_setting);
+    ui->groupBox_roll_angle->setDisabled(1);
+    // convert old radio type value if switching to new system
 
-        //            qDebug() << paraName;
-        //            qDebug() << paraLabel;
-        //            qDebug() << paraContainer;
+//    if (useRadioSetupParam && paramaq->getParaAQ("RADIO_SETUP").toInt() == 0 && paramaq->paramExistsAQ("RADIO_TYPE")) {
+//        int idx = ui->RADIO_SETUP->findData(paramaq->getParaAQ("RADIO_TYPE").toInt() + 1);
+//        ui->RADIO_SETUP->setCurrentIndex(idx);
+//        //radioType_changed(idx);
+//    }
+    val = paramaq->getParaAQ("RADIO_SETUP");
+    uint8_t idx = val.toInt();
+//    qDebug() << "RADIO SETUP " <<val;
+    QMap<int, QString> radioTypes;
+    radioTypes.insert(0, tr("No Radio"));
+    radioTypes.insert(1, tr("Spektrum 11Bit"));
+    radioTypes.insert(2, tr("Spektrum 10Bit"));
+    radioTypes.insert(3, tr("S-BUS (Futaba, others)"));
+    radioTypes.insert(4, tr("PPM"));
 
-        val = paramaq->getParaAQ(paraName);
-        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL")
-            val = fabs(val.toFloat());
-        else if (paraName == "RADIO_SETUP")
-            val = val.toInt() & 0x0f;
-
-        //            qDebug() << val;
-
-        if (QComboBox* cb = qobject_cast<QComboBox *>(w)) {
-            //                qDebug() << "QComboBox" <<cb->objectName();
-            if (cb->isEditable()) {
-                //                    qDebug() << "Editable";
-                if ((tmp = cb->findText(val.toString())) > -1)
-                {
-                    cb->setCurrentIndex(tmp);
-                    //                        qDebug() << "Set Current Index";
-                }
-                else {
-                    cb->insertItem(0, val.toString());
-                    cb->setCurrentIndex(0);
-                }
-            }
-            else if ((tmp = cb->findData(val)) > -1)
-                cb->setCurrentIndex(tmp);
-            else
-                cb->setCurrentIndex(abs(val.toInt(&ok)));
-        } else if (QProgressBar* prb = qobject_cast<QProgressBar *>(w)) {
-            //                qDebug() << "QProgressBar" <<prb->objectName();
-            //                qDebug() << "QPro Value" <<val.toFloat();
-            if(val.toFloat() < 0.01){
-                prb->setValue((int)(val.toFloat()*100/0.01));
-            } else if (val.toFloat() < 1) {
-                prb->setValue((int)(val.toFloat()*100));
-            }  else if (val.toFloat() < 10) {
-                prb->setValue((int)(val.toFloat()*100/10));
-            } else if (val.toFloat() < 100) {
-                prb->setValue((int)(val.toFloat()));
-            } else if (val.toFloat() < 1000) {
-                prb->setValue((int)(val.toFloat()*100/1000));
-            } else if (val.toFloat() < 10000) {
-                prb->setValue((int)(val.toFloat()*100/10000));
-            }
-        }
-        else continue;
+    ui->RADIO_SETUP->blockSignals(true);
+    ui->RADIO_SETUP->clear();
+    QMapIterator<int, QString> i(radioTypes);
+    while (i.hasNext()) {
+        i.next();
+        ui->RADIO_SETUP->addItem(i.value(), i.key());
     }
-
-    //        ui->RADIO_FLAP_CH->setCurrentIndex(val.toInt());
-    //        ui->RADIO_ROLL_CH->setCurrentIndex(2);(w
+    ui->RADIO_SETUP->setCurrentIndex(idx);
+    ui->RADIO_SETUP->blockSignals(false);
 
 }
 
@@ -342,6 +298,73 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
     bar->setValue(val);
 }
 
+void UAVConfig::getGUIPara(QWidget *parent)
+{
+    useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
+
+        bool ok;
+        int precision, tmp;
+        QString paraName, valstr;
+        QVariant val;
+        QLabel *paraLabel;
+        QWidget *paraContainer;
+        QList<QWidget*> wdgtList = ui->tab_aq_setting->findChildren<QWidget *>(fldnameRx);
+        foreach (QWidget* w, wdgtList) {
+            //            qDebug() << "QWidget Name" <<w->objectName();
+            paraName = paramNameGuiToOnboard(w->objectName());
+            paraLabel = ui->tab_aq_setting->findChild<QLabel *>(QString("label_%1").arg(w->objectName()));
+            paraContainer = ui->tab_aq_setting->findChild<QWidget *>(QString("container_%1").arg(w->objectName()));
+
+            //            qDebug() << paraName;
+            //            qDebug() << paraLabel;
+            //            qDebug() << paraContainer;
+
+            val = paramaq->getParaAQ(paraName);
+            if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL")
+                val = fabs(val.toFloat());
+            else if (paraName == "RADIO_SETUP")
+                val = val.toInt() & 0x0f;
+
+            //            qDebug() << val;
+
+            if (QComboBox* cb = qobject_cast<QComboBox *>(w)) {
+                //                qDebug() << "QComboBox" <<cb->objectName();
+                if (cb->isEditable()) {
+                    //                    qDebug() << "Editable";
+                    if ((tmp = cb->findText(val.toString())) > -1)
+                    {
+                        cb->setCurrentIndex(tmp);
+                        //                        qDebug() << "Set Current Index";
+                    }
+                    else {
+                        cb->insertItem(0, val.toString());
+                        cb->setCurrentIndex(0);
+                    }
+                }
+                else if ((tmp = cb->findData(val)) > -1)
+                    cb->setCurrentIndex(tmp);
+                else
+                    cb->setCurrentIndex(abs(val.toInt(&ok)));
+            } else if (QSlider* prb = qobject_cast<QSlider *>(w)) {
+                //@Zyrter Fix here to change display value
+                if(val.toFloat() < 0.01){
+                    prb->setValue((int)(val.toFloat()*100/0.01));
+                } else if (val.toFloat() < 1) {
+                    prb->setValue((int)(val.toFloat()*100));
+                }  else if (val.toFloat() < 10) {
+                    prb->setValue((int)(val.toFloat()*100/10));
+                } else if (val.toFloat() < 100) {
+                    prb->setValue((int)(val.toFloat()));
+                } else if (val.toFloat() < 1000) {
+                    prb->setValue((int)(val.toFloat()*100/1000));
+                } else if (val.toFloat() < 10000) {
+                    prb->setValue((int)(val.toFloat()*100/10000));
+                }
+            }
+            else continue;
+        }
+}
+
 
 //========= Update FW ==========
 
@@ -359,6 +382,9 @@ bool UAVConfig::checkAqConnected(bool interactive)
 
 void UAVConfig::flashFW()
 {
+//    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "stm32flash" + platformExeExt);
+//    qDebug() << AppPath;
+
     if (ui->comboBox_fwType->currentIndex() == -1) {
         MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please select the firwmare type."));
         return;
@@ -411,6 +437,7 @@ void UAVConfig::flashFW()
 void UAVConfig::flashFwStart()
 {
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "stm32flash" + platformExeExt);
+    qDebug() << AppPath;
     QStringList Arguments;
     Arguments.append(QString("-b"));
     Arguments.append(ui->comboBox_fwPortSpeed->currentText());
