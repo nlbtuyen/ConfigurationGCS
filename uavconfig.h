@@ -68,7 +68,7 @@ private slots:
     void flashFwStart();
     void flashFwDfu();
     void setPortName(QString str);
-    void fwTypeChange();
+//    void fwTypeChange();
     void selectFWToFlash();
     void loadSettings();
     void setFwType();

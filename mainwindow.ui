@@ -14,7 +14,10 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Simple UART MAVLink</string>
+   <string>Configuration UAV</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
@@ -46,9 +49,16 @@
      <string>Widgets</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionVSKConfigUAV_Document"/>
+   </widget>
    <addaction name="menuCalls"/>
    <addaction name="menuTools"/>
    <addaction name="menuWidgets"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -118,6 +128,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionVSKConfigUAV_Document">
+   <property name="text">
+    <string>VSKConfigUAV Documentation</string>
    </property>
   </action>
  </widget>

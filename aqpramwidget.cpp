@@ -81,65 +81,65 @@ AQParamWidget::AQParamWidget(UASInterface* uas_ext, QWidget *parent) :
 
     loadFileButton = new QPushButton();
     connect(loadFileButton, SIGNAL(clicked()), this, SLOT(loadParameters()));
-//    horizontalLayout->addWidget(loadFileButton, 3, 0);
+    //    horizontalLayout->addWidget(loadFileButton, 3, 0);
 
     saveFileButton = new QPushButton();
     //connect(saveFileButton, SIGNAL(clicked()), this, SLOT(saveParameters()));
     saveFileButton->setMenu(&saveFileMenu);
-//    horizontalLayout->addWidget(saveFileButton, 3, 1);
+    //    horizontalLayout->addWidget(saveFileButton, 3, 1);
 
     readButton = new QPushButton();
     connect(readButton, SIGNAL(clicked()), this, SLOT(readParameters()));
-//    horizontalLayout->addWidget(readButton, 3, 2);
+    //    horizontalLayout->addWidget(readButton, 3, 2);
 
     loadParaFromSDButton = new QPushButton();
     connect(loadParaFromSDButton, SIGNAL(clicked()), this, SLOT(loadParaFromSD()));
-//    horizontalLayout->addWidget(loadParaFromSDButton, 4, 0);
+    //    horizontalLayout->addWidget(loadParaFromSDButton, 4, 0);
 
     saveParaToSDButton = new QPushButton();
     connect(saveParaToSDButton, SIGNAL(clicked()), this, SLOT(saveParaToSD()));
-//    horizontalLayout->addWidget(saveParaToSDButton, 4, 1);
+    //    horizontalLayout->addWidget(saveParaToSDButton, 4, 1);
 
     loadDefaultsButton = new QPushButton();
     connect(loadDefaultsButton, SIGNAL(clicked()), this, SLOT(loadOnboardDefaults()));
-//    horizontalLayout->addWidget(loadDefaultsButton, 4, 2);
+    //    horizontalLayout->addWidget(loadDefaultsButton, 4, 2);
 
     calibrateAccButton = new QPushButton();
     connect(calibrateAccButton, SIGNAL(clicked()), this, SLOT(calibrationAccStart()));
-//    horizontalLayout->addWidget(calibrateAccButton, 5, 0);
+    //    horizontalLayout->addWidget(calibrateAccButton, 5, 0);
 
     calibrateMagButton = new QPushButton();
     connect(calibrateMagButton, SIGNAL(clicked()), this, SLOT(calibrationMagStart()));
-//    horizontalLayout->addWidget(calibrateMagButton, 5, 1);
+    //    horizontalLayout->addWidget(calibrateMagButton, 5, 1);
 
     calibrateSaveButton = new QPushButton();
     calibrateSaveButton->setProperty("type", "push-warn");
     connect(calibrateSaveButton, SIGNAL(clicked()), this, SLOT(calibrationSave()));
-//    horizontalLayout->addWidget(calibrateSaveButton, 6, 0);
+    //    horizontalLayout->addWidget(calibrateSaveButton, 6, 0);
 
     calibrateReadButton = new QPushButton();
     connect(calibrateReadButton, SIGNAL(clicked()), this, SLOT(calibrationLoad()));
-//    horizontalLayout->addWidget(calibrateReadButton, 6, 1);
+    //    horizontalLayout->addWidget(calibrateReadButton, 6, 1);
 
     restartButton = new QPushButton();
     restartButton->setProperty("type", "push-vital");
     connect(restartButton, SIGNAL(clicked()), this, SLOT(restartUasWithPrompt()));
-//    horizontalLayout->addWidget(restartButton, 5, 2, 2, 1, Qt::AlignVCenter);
+    //    horizontalLayout->addWidget(restartButton, 5, 2, 2, 1, Qt::AlignVCenter);
 
 
 
 
-        QPushButton* wpFromSDButton = new QPushButton(tr("WP from SD"));
-        wpFromSDButton->setToolTip(tr("Load mission plan from on-board SD card."));
-        wpFromSDButton->setWhatsThis(tr("Load mission plan from on-board SD card."));
-        connect(wpFromSDButton, SIGNAL(clicked()), this, SLOT(wpFromSD()));
-//        horizontalLayout->addWidget(wpFromSDButton, 5, 0);
+    QPushButton* wpFromSDButton = new QPushButton(tr("WP from SD"));
+    wpFromSDButton->setToolTip(tr("Load mission plan from on-board SD card."));
+    wpFromSDButton->setWhatsThis(tr("Load mission plan from on-board SD card."));
+    connect(wpFromSDButton, SIGNAL(clicked()), this, SLOT(wpFromSD()));
+    //        horizontalLayout->addWidget(wpFromSDButton, 5, 0);
 
-        QPushButton* wpToSDButton = new QPushButton(tr("WP to SD"));
-        wpToSDButton->setToolTip(tr("Save on-board mission plan to a file on the on-board SD card."));
-        wpToSDButton->setWhatsThis(tr("Save on-board mission plan to a file on the on-board SD card."));
-        connect(wpToSDButton, SIGNAL(clicked()), this, SLOT(wpToSD()));
-//        horizontalLayout->addWidget(wpToSDButton, 5, 1);
+    QPushButton* wpToSDButton = new QPushButton(tr("WP to SD"));
+    wpToSDButton->setToolTip(tr("Save on-board mission plan to a file on the on-board SD card."));
+    wpToSDButton->setWhatsThis(tr("Save on-board mission plan to a file on the on-board SD card."));
+    connect(wpToSDButton, SIGNAL(clicked()), this, SLOT(wpToSD()));
+    //        horizontalLayout->addWidget(wpToSDButton, 5, 1);
 
     // Set layout
     this->setLayout(horizontalLayout);
@@ -288,7 +288,7 @@ void AQParamWidget::loadParameterInfoCSV(const QString& autopilot, const QString
     QString fileName = QString("%1/%2/parameter_tooltips/tooltips.txt").arg(appDir.canonicalPath()).arg(autopilot.toLower());
     QFile paramMetaFile(fileName);
 
-//    qDebug() << "AUTOPILOT:" << autopilot << "FILENAME: " << fileName;
+    //    qDebug() << "AUTOPILOT:" << autopilot << "FILENAME: " << fileName;
 
     // Load CSV data
     if (!paramMetaFile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -532,7 +532,7 @@ void AQParamWidget::addParameter(int uas, int component, int paramCount, int par
         missCount +=  transmissionMissingPackets.value(key)->count();
     }
 
-//    qDebug() << missCount;
+    //    qDebug() << missCount;
     int missWriteCount = 0;
     foreach (int key, transmissionMissingWriteAckPackets.keys())
     {
@@ -584,7 +584,7 @@ void AQParamWidget::addParameter(int uas, int component, int paramCount, int par
         }
         else
         {
-                        // Transmission done
+            // Transmission done
             QTime time = QTime::currentTime();
             QString timeString = time.toString();
             statusLabel->setText(tr("All received. (updated at %1)").arg(timeString));        }

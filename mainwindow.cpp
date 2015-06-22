@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     systemArmed(false),
     paramaq(NULL),
     autoReconnect(false),
+    styleFileName(""),
     QMainWindow(parent),
     sys_mode(MAV_MODE_PREFLIGHT),
     ui(new Ui::MainWindow)
@@ -100,6 +101,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
+
+    loadStyle();
 }
 
 MainWindow::~MainWindow()
@@ -466,6 +469,32 @@ void MainWindow::updateArmingState(bool armed)
     changed = true;
     /* important, immediately update */
     updateView();
+}
+
+void MainWindow::loadStyle()
+{
+    QString path = "/styles/";
+    QString stylePath = QApplication::applicationDirPath();
+    stylePath.append(path);
+    QString styleFileName_tmp = stylePath + "style-default.css";
+
+    QFile *styleSheet;
+    if (!styleFileName_tmp.isEmpty())
+        styleSheet = new QFile(styleFileName_tmp);
+    else
+        showCriticalMessage(tr("No style sheet"), tr("Please make sure you have style file in your directory"));
+
+    if (styleSheet->open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QString style = QString(styleSheet->readAll());
+        qApp->setStyleSheet(style);
+        styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
+        qDebug() << "Loaded stylesheet:" << styleFileName;
+    }
+    else
+        showCriticalMessage(tr("VSKConfigUAV did lot load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
+
+    delete styleSheet;
 }
 
 

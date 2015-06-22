@@ -52,26 +52,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    /** @brief Get current visual style */
-    int getStyle() { return (int)currentStyle; }
-    enum QGC_MAINWINDOW_STYLE
-    {
-        QGC_MAINWINDOW_STYLE_NONE,
-        QGC_MAINWINDOW_STYLE_NATIVE,
-        QGC_MAINWINDOW_STYLE_DARK,
-        QGC_MAINWINDOW_STYLE_LIGHT,
-        QGC_MAINWINDOW_STYLE_PLASTIQUE,
-        QGC_MAINWINDOW_STYLE_GTK,
-        QGC_MAINWINDOW_STYLE_CLEANLOOKS,
-        QGC_MAINWINDOW_STYLE_MAC,
-        QGC_MAINWINDOW_STYLE_WIN,
-        QGC_MAINWINDOW_STYLE_WINXP,
-        QGC_MAINWINDOW_STYLE_WINVISTA,
-        QGC_MAINWINDOW_STYLE_MOTIF,
-        QGC_MAINWINDOW_STYLE_CDE,
-        QGC_MAINWINDOW_STYLE_CUSTOM
-    };
-
     /// @brief Returns the MainWindow singleton. Will not create the MainWindow if it has not already
     ///         been created.
     static MainWindow* instance(void);
@@ -92,8 +72,6 @@ public:
 
 
 protected:
-    QGC_MAINWINDOW_STYLE currentStyle;
-
     QMutex dataMutex;
     int lastIndex[256][256];	///< Store the last received sequence ID for each system/componenet pair
     int totalReceiveCounter;
@@ -103,6 +81,9 @@ protected:
     QMutex receiveMutex;
     quint64 bitsReceivedTotal;
     uint8_t sys_mode;
+
+    QString styleFileName;
+
 
     // Status ToolBar define
     QLabel* toolBarTimeoutLabel;
@@ -177,10 +158,7 @@ public slots:
 
     /** @brief Repaint widgets */
     void updateView();
-
     void updateBattery();
-
-
     void closeSerialPort();
 
 
@@ -191,6 +169,7 @@ public slots:
     /** @brief Update arming state */
     void updateArmingState(bool armed);
 
+    void loadStyle();
 
 private:
     Ui::MainWindow *ui;

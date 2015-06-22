@@ -13,20 +13,19 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = SerialConnectorMavlink
 TEMPLATE = app
 
-BASEDIR = $$_PRO_FILE_PWD_
 MOC_DIR = $${BUILDDIR}/moc
 
 INCLUDEPATH += $$BASEDIR/libs/lib/sdl/msvc/include \
                 $$BASEDIR/libs/lib/sdl/include
 
-INCLUDEPATH += $$MAVLINKPATH
-isEmpty(MAVLINK_CONF) {
-         INCLUDEPATH += $$MAVLINKPATH/common
-} else {
-         message("Adding support for additional MAVLink messages for: " $$MAVLINK_CONF)
-         INCLUDEPATH += $$MAVLINKPATH/$$MAVLINK_CONF
-         DEFINES += $$sprintf('QGC_USE_%1_MESSAGES', $$upper($$MAVLINK_CONF))
-}
+#INCLUDEPATH += $$MAVLINKPATH
+#isEmpty(MAVLINK_CONF) {
+#         INCLUDEPATH += $$MAVLINKPATH/common
+#} else {
+#         message("Adding support for additional MAVLink messages for: " $$MAVLINK_CONF)
+#         INCLUDEPATH += $$MAVLINKPATH/$$MAVLINK_CONF
+#         DEFINES += $$sprintf('QGC_USE_%1_MESSAGES', $$upper($$MAVLINK_CONF))
+#}
 
 # Include QWT plotting library
 include(libs/qwt/qwt.pri)
@@ -122,4 +121,6 @@ RESOURCES += \
 
 DEFINES *= QT_USE_QSTRINGBUILDER
 
-DISTFILES +=
+OTHER_FILES += styles/*.css
+
+

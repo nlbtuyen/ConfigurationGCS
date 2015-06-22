@@ -9,7 +9,6 @@
 #include "uasinterface.h"
 #include "aq_telemetryView.h"
 
-
 #include <QDebug>
 #include <QWidget>
 #include <QFileDialog>
@@ -45,7 +44,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
         allRadioChanProgressBars << ui->widget_2->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
     }
 
-    ui->comboBox_fwType->addItem(tr("AutoQuad Serial"), "aq");
+//    ui->comboBox_fwType->addItem(tr("AutoQuad Serial"), "aq");
     ui->comboBox_fwType->addItem(tr("AutoQuad M4 USB"), "dfu");
     ui->comboBox_fwType->setCurrentIndex(0);
 
@@ -58,7 +57,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->comboBox_fwPortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
-    connect(ui->comboBox_fwType, SIGNAL(currentIndexChanged(int)), this, SLOT(fwTypeChange()));
+//    connect(ui->comboBox_fwType, SIGNAL(currentIndexChanged(int)), this, SLOT(fwTypeChange()));
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
     connect(ui->toolButton_fwReloadPorts, SIGNAL(clicked()), this, SLOT(setupPortList()));
@@ -273,24 +272,16 @@ void UAVConfig::createAQParamWidget(UASInterface *uastmp)
     //    qDebug() << "create AQParamWidget";
     paramaq = new AQParamWidget(uas, this);
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
-    //    paramaq->requestParameterList();
 }
 
 void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
 {
     int val;
-    //    qDebug() << "Channel" <<channelId;
-
-    //    qDebug() << "Value" <<val;
-    //@Zyrter Fix here to set fit value on progress Bar
-
     if (channelId >= allRadioChanProgressBars.size())
         return;
     QProgressBar* bar = allRadioChanProgressBars.at(channelId);
     val = (int)(normalized-1024);
 
-    //    if (channelId == 0)
-    //        qDebug() << "Value" <<val;
     if (val > bar->maximum())
         val = bar->maximum();
     if (val < bar->minimum())
@@ -382,9 +373,6 @@ bool UAVConfig::checkAqConnected(bool interactive)
 
 void UAVConfig::flashFW()
 {
-//    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "stm32flash" + platformExeExt);
-//    qDebug() << AppPath;
-
     if (ui->comboBox_fwType->currentIndex() == -1) {
         MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please select the firwmare type."));
         return;
@@ -400,21 +388,21 @@ void UAVConfig::flashFW()
         msg += tr("Make sure your AQ is connected via USB and is already in bootloader mode.  To enter bootloader mode,"
                   "first connect the BOOT pins (or hold the BOOT button) and then turn the AQ on.\n\n");
     }
-    else
-    {
-        if (!portName.length()) {
-            MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please select an available COM port."));
-            return;
-        }
+//    else
+//    {
+//        if (!portName.length()) {
+//            MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please select an available COM port."));
+//            return;
+//        }
 
-        if ( checkAqSerialConnection(portName) )
-            msg = tr("WARNING: You are already connected to AutoQuad. If you continue, you will be disconnected and then re-connected afterwards.\n\n");
+//        if ( checkAqSerialConnection(portName) )
+//            msg = tr("WARNING: You are already connected to AutoQuad. If you continue, you will be disconnected and then re-connected afterwards.\n\n");
 
-        msg += tr("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. Make sure you have your generated parameters and custom settings saved.\n\n");
+//        msg += tr("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. Make sure you have your generated parameters and custom settings saved.\n\n");
 
-        msg += tr("Make sure you are using the %1 port.\n").arg(portName);
-        msg += tr("There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n");
-    }
+//        msg += tr("Make sure you are using the %1 port.\n").arg(portName);
+//        msg += tr("There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n");
+//    }
     msg += "Do you wish to continue flashing?";
 
     QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
@@ -427,9 +415,9 @@ void UAVConfig::flashFW()
     activeProcessStatusWdgt = ui->textFlashOutput;
     fwFlashActive = true;
 
-    if (fwtype == "aq")
-        flashFwStart();
-    else
+//    if (fwtype == "aq")
+//        flashFwStart();
+//    else
         flashFwDfu();
 
 }
@@ -484,16 +472,16 @@ void UAVConfig::setPortName(QString str)
     ui->portName->setToolTip(ui->portName->currentText());
 }
 
-void UAVConfig::fwTypeChange()
-{
-    bool en = ui->comboBox_fwType->itemData(ui->comboBox_fwType->currentIndex()).toString() != "dfu";
-    ui->comboBox_fwPortSpeed->setEnabled(en);
-    ui->portName->setEnabled(en);
-    ui->label_fwPort->setEnabled(en);
-    ui->label_fwPortSpeed->setEnabled(en);
-    ui->toolButton_fwReloadPorts->setEnabled(en);
-    ui->checkBox_verifyFwFlash->setEnabled(en);
-}
+//void UAVConfig::fwTypeChange()
+//{
+//    bool en = ui->comboBox_fwType->itemData(ui->comboBox_fwType->currentIndex()).toString() != "dfu";
+//    ui->comboBox_fwPortSpeed->setEnabled(en);
+//    ui->portName->setEnabled(en);
+//    ui->label_fwPort->setEnabled(en);
+//    ui->label_fwPortSpeed->setEnabled(en);
+//    ui->toolButton_fwReloadPorts->setEnabled(en);
+//    ui->checkBox_verifyFwFlash->setEnabled(en);
+//}
 
 void UAVConfig::selectFWToFlash()
 {

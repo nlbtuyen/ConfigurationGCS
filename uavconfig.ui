@@ -19,6 +19,9 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <widget class="QSplitter" name="splitter">
@@ -27,6 +30,17 @@
      </property>
      <widget class="QWidget" name="layoutWidget">
       <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="2">
+        <widget class="QPushButton" name="btn_save">
+         <property name="text">
+          <string>Save Setting</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../build-ui-Desktop_Qt_5_4_0_MSVC2013_OpenGL_64bit-Debug/image uisoft/Save.png</normaloff>../build-ui-Desktop_Qt_5_4_0_MSVC2013_OpenGL_64bit-Debug/image uisoft/Save.png</iconset>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
@@ -60,17 +74,6 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="btn_save">
-         <property name="text">
-          <string>Save Setting</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>../build-ui-Desktop_Qt_5_4_0_MSVC2013_OpenGL_64bit-Debug/image uisoft/Save.png</normaloff>../build-ui-Desktop_Qt_5_4_0_MSVC2013_OpenGL_64bit-Debug/image uisoft/Save.png</iconset>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="1">
         <spacer name="horizontalSpacer">
          <property name="orientation">
@@ -92,10 +95,16 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_RC_config">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <attribute name="title">
            <string>Radio Control</string>
           </attribute>
@@ -110,7 +119,14 @@
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="RADIO_SETUP"/>
+              <widget class="QComboBox" name="RADIO_SETUP">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </widget>
              </item>
              <item>
               <spacer name="horizontalSpacer_2">
@@ -126,6 +142,144 @@
               </spacer>
              </item>
             </layout>
+           </item>
+           <item row="2" column="0">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="1">
+            <widget class="QGroupBox" name="groupBox_tx_command">
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>TX Command</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_3">
+              <item row="0" column="0">
+               <widget class="QLabel" name="lbl_calib_gyro">
+                <property name="text">
+                 <string>Calib Gyro and Acce</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="lbl_show_calib_gyro">
+                <property name="minimumSize">
+                 <size>
+                  <width>41</width>
+                  <height>41</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="lbl_calib_mag">
+                <property name="text">
+                 <string>Calib Magnetic</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="lbl_show_calib_mag">
+                <property name="minimumSize">
+                 <size>
+                  <width>41</width>
+                  <height>41</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>2</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="lbl_save_ee">
+                <property name="text">
+                 <string>Save EEProm</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="lbl_show_save_ee">
+                <property name="minimumSize">
+                 <size>
+                  <width>41</width>
+                  <height>41</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>3</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="lbl_calib_esc">
+                <property name="text">
+                 <string>Calib ESC</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="lbl_show_calib_esc">
+                <property name="minimumSize">
+                 <size>
+                  <width>41</width>
+                  <height>41</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>4</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="lbl_enable_pid">
+                <property name="text">
+                 <string>Enable PID Tunning TX</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLabel" name="lbl_show_enable_pid">
+                <property name="minimumSize">
+                 <size>
+                  <width>41</width>
+                  <height>41</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>5</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+             <zorder>lbl_show_enable_pid</zorder>
+             <zorder>lbl_save_ee</zorder>
+             <zorder>lbl_show_save_ee</zorder>
+             <zorder>lbl_show_calib_gyro</zorder>
+             <zorder>lbl_calib_mag</zorder>
+             <zorder>lbl_show_calib_mag</zorder>
+             <zorder>lbl_show_calib_esc</zorder>
+             <zorder>lbl_calib_gyro</zorder>
+             <zorder>lbl_calib_esc</zorder>
+             <zorder>lbl_enable_pid</zorder>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QGroupBox" name="groupBox_rc_config">
@@ -1213,6 +1367,9 @@ padding: 1px 5px;</string>
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1236,6 +1393,9 @@ padding: 1px 5px;</string>
                  </item>
                  <item row="2" column="0">
                   <widget class="QProgressBar" name="progressBar_chan_1">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1259,6 +1419,9 @@ padding: 1px 5px;</string>
                  </item>
                  <item row="3" column="0">
                   <widget class="QProgressBar" name="progressBar_chan_2">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1279,6 +1442,9 @@ padding: 1px 5px;</string>
                  </item>
                  <item row="4" column="0">
                   <widget class="QProgressBar" name="progressBar_chan_3">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1299,6 +1465,9 @@ padding: 1px 5px;</string>
                  </item>
                  <item row="5" column="0">
                   <widget class="QProgressBar" name="progressBar_chan_4">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1319,6 +1488,9 @@ padding: 1px 5px;</string>
                  </item>
                  <item row="6" column="0">
                   <widget class="QProgressBar" name="progressBar_chan_5">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1339,6 +1511,9 @@ padding: 1px 5px;</string>
                  </item>
                  <item row="7" column="0">
                   <widget class="QProgressBar" name="progBar_max_pitch">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1359,6 +1534,9 @@ padding: 1px 5px;</string>
                  </item>
                  <item row="8" column="0">
                   <widget class="QProgressBar" name="progBar_max_roll">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1379,6 +1557,9 @@ padding: 1px 5px;</string>
                  </item>
                  <item row="9" column="0">
                   <widget class="QProgressBar" name="progBar_pid_trigger">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1399,6 +1580,9 @@ padding: 1px 5px;</string>
                  </item>
                  <item row="10" column="0">
                   <widget class="QProgressBar" name="progBar_pid_value">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="minimum">
                     <number>-1024</number>
                    </property>
@@ -1449,144 +1633,6 @@ padding: 1px 5px;</string>
              </layout>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QGroupBox" name="groupBox_tx_command">
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="title">
-              <string>TX Command</string>
-             </property>
-             <layout class="QFormLayout" name="formLayout_3">
-              <item row="0" column="0">
-               <widget class="QLabel" name="lbl_calib_gyro">
-                <property name="text">
-                 <string>Calib Gyro and Acce</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="lbl_show_calib_gyro">
-                <property name="minimumSize">
-                 <size>
-                  <width>41</width>
-                  <height>41</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="lbl_calib_mag">
-                <property name="text">
-                 <string>Calib Magnetic</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="lbl_show_calib_mag">
-                <property name="minimumSize">
-                 <size>
-                  <width>41</width>
-                  <height>41</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="lbl_save_ee">
-                <property name="text">
-                 <string>Save EEProm</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="lbl_show_save_ee">
-                <property name="minimumSize">
-                 <size>
-                  <width>41</width>
-                  <height>41</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="lbl_calib_esc">
-                <property name="text">
-                 <string>Calib ESC</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QLabel" name="lbl_show_calib_esc">
-                <property name="minimumSize">
-                 <size>
-                  <width>41</width>
-                  <height>41</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="lbl_enable_pid">
-                <property name="text">
-                 <string>Enable PID Tunning TX</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QLabel" name="lbl_show_enable_pid">
-                <property name="minimumSize">
-                 <size>
-                  <width>41</width>
-                  <height>41</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>5</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-             <zorder>lbl_show_enable_pid</zorder>
-             <zorder>lbl_save_ee</zorder>
-             <zorder>lbl_show_save_ee</zorder>
-             <zorder>lbl_show_calib_gyro</zorder>
-             <zorder>lbl_calib_mag</zorder>
-             <zorder>lbl_show_calib_mag</zorder>
-             <zorder>lbl_show_calib_esc</zorder>
-             <zorder>lbl_calib_gyro</zorder>
-             <zorder>lbl_calib_esc</zorder>
-             <zorder>lbl_enable_pid</zorder>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </widget>
          <widget class="QWidget" name="tab_PID_tunning">
@@ -1628,12 +1674,18 @@ padding: 1px 5px;</string>
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
+                      </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
                      <widget class="QSlider" name="NAV_ALT_POS_I">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
                       </property>
                      </widget>
                     </item>
@@ -1669,12 +1721,18 @@ padding: 1px 5px;</string>
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
+                      </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
                      <widget class="QSlider" name="NAV_ALT_SPED_I">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
                       </property>
                      </widget>
                     </item>
@@ -1740,12 +1798,18 @@ padding: 1px 5px;</string>
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
+                      </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
                      <widget class="QSlider" name="NAV_DIST_I">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
                       </property>
                      </widget>
                     </item>
@@ -1781,12 +1845,18 @@ padding: 1px 5px;</string>
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
+                      </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
                      <widget class="QSlider" name="NAV_SPEED_I">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
                       </property>
                      </widget>
                     </item>
@@ -1863,6 +1933,9 @@ padding: 1px 5px;</string>
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
+                      </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
@@ -1870,12 +1943,18 @@ padding: 1px 5px;</string>
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
+                      </property>
                      </widget>
                     </item>
                     <item row="2" column="1">
                      <widget class="QSlider" name="CTRL_TLT_RTE_D">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
                       </property>
                      </widget>
                     </item>
@@ -1930,6 +2009,9 @@ padding: 1px 5px;</string>
                         <property name="orientation">
                          <enum>Qt::Horizontal</enum>
                         </property>
+                        <property name="tickPosition">
+                         <enum>QSlider::TicksBelow</enum>
+                        </property>
                        </widget>
                       </item>
                       <item row="1" column="1">
@@ -1937,12 +2019,18 @@ padding: 1px 5px;</string>
                         <property name="orientation">
                          <enum>Qt::Horizontal</enum>
                         </property>
+                        <property name="tickPosition">
+                         <enum>QSlider::TicksBelow</enum>
+                        </property>
                        </widget>
                       </item>
                       <item row="2" column="1">
                        <widget class="QSlider" name="horizontalSlider_3">
                         <property name="orientation">
                          <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="tickPosition">
+                         <enum>QSlider::TicksBelow</enum>
                         </property>
                        </widget>
                       </item>
@@ -1987,6 +2075,9 @@ padding: 1px 5px;</string>
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
+                      </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
@@ -1994,12 +2085,18 @@ padding: 1px 5px;</string>
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
+                      </property>
                      </widget>
                     </item>
                     <item row="2" column="1">
                      <widget class="QSlider" name="STRL_YAW_RTE_D">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="tickPosition">
+                       <enum>QSlider::TicksBelow</enum>
                       </property>
                      </widget>
                     </item>

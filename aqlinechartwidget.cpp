@@ -557,7 +557,7 @@ void AQLinechartWidget::clearCurves()
 
 void AQLinechartWidget::recolor()
 {
-    activePlot->styleChanged(MainWindow::instance()->getStyle());
+//    activePlot->styleChanged(MainWindow::instance()->getStyle());
     foreach (QString key, colorIcons.keys())
     {
         QWidget* colorIcon = colorIcons.value(key, 0);
