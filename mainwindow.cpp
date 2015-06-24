@@ -32,6 +32,7 @@
 #include "parameterinterface.h"
 #include "mavlinkmessagesender.h"
 
+#include "primaryflightdisplay.h"
 #include "uasinfowidget.h"
 #include "aqpramwidget.h"
 #include "serialconfigurationwindow.h"
@@ -152,6 +153,12 @@ void MainWindow::initActionsConnections()
     parametersDockWidget->setWidget( new ParameterInterface(this) );
     parametersDockWidget->setObjectName("PARAMETER_INTERFACE_DOCKWIDGET");
     addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
+    parametersDockWidget->hide();
+
+    pfdDockWidget = new QDockWidget(tr("Primary Flight Display"));
+    pfdDockWidget->setWidget( new PrimaryFlightDisplay(this));
+    pfdDockWidget->setObjectName("PRIMART_FLIGHT_DISPLAY_DOCK_WIDGET");
+    addTool(pfdDockWidget, tr("Primary Flight Display"), Qt::LeftDockWidgetArea);
 
     //===== Toolbar Status =====
 
@@ -213,7 +220,7 @@ void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidg
     tempAction->setChecked(widget->isVisible());
     addDockWidget(area, widget);
     widget->setMinimumWidth(250);
-    widget->hide();
+//    widget->hide();
 }
 
 void MainWindow::showTool(bool show)

@@ -204,7 +204,7 @@ void LinechartPlot::appendData(QString dataname, quint64 ms, double value)
 
     /* Check if dataset identifier already exists */
     if(!data.contains(dataname)) {
-//        qDebug() << "addCurve: " << dataname << "\r\n";
+        qDebug() << "addCurve: " << dataname << "\r\n";
         addCurve(dataname);
         enforceGroundTime(m_groundTime);
 //        qDebug() << "ADDING CURVE WITH" << dataname << ms << value;
