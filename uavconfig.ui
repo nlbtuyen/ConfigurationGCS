@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1105</width>
-    <height>690</height>
+    <width>923</width>
+    <height>643</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -99,7 +99,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab_RC_config">
           <property name="styleSheet">
@@ -2542,275 +2542,165 @@ padding: 1px 5px;</string>
           <attribute name="title">
            <string>Update Firmware</string>
           </attribute>
-          <layout class="QGridLayout" name="gridLayout_11">
-           <item row="0" column="0" rowspan="2">
-            <layout class="QVBoxLayout" name="verticalLayout_8">
-             <item>
-              <widget class="QGroupBox" name="groupBox">
-               <layout class="QGridLayout" name="gridLayout_4">
-                <item row="0" column="0">
-                 <layout class="QVBoxLayout" name="verticalLayout_7">
-                  <item>
-                   <widget class="QPushButton" name="SelectFirmwareButton">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string>Select Firmware File</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="fileLabel">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <layout class="QGridLayout" name="gridLayout_19">
-                    <item row="1" column="0">
-                     <widget class="QLabel" name="label_fwPort">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>Port:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="0">
-                     <widget class="QLabel" name="label_fwPortSpeed">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>Speed:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_fwType">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>Type:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="1" colspan="4">
-                     <layout class="QHBoxLayout" name="horizontalLayout_31">
-                      <property name="spacing">
-                       <number>1</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>0</number>
-                      </property>
-                      <item>
-                       <widget class="QComboBox" name="portName">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="toolTip">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select a serial port to use for flashing. &lt;span style=&quot; text-decoration: underline;&quot;&gt;Make sure this port is not already in use&lt;/span&gt;&lt;/p&gt;&lt;p&gt;When flashing via DFU (native USB), the port selection and speed are not applicable.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                        </property>
-                        <property name="sizeAdjustPolicy">
-                         <enum>QComboBox::AdjustToContents</enum>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QToolButton" name="toolButton_fwReloadPorts">
-                        <property name="maximumSize">
-                         <size>
-                          <width>18</width>
-                          <height>18</height>
-                         </size>
-                        </property>
-                        <property name="toolTip">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh ports list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                        </property>
-                        <property name="text">
-                         <string>Reload Ports List</string>
-                        </property>
-                        <property name="icon">
-                         <iconset resource="terminal.qrc">
-                          <normaloff>:/images/view-refresh.png</normaloff>:/images/view-refresh.png</iconset>
-                        </property>
-                        <property name="iconSize">
-                         <size>
-                          <width>12</width>
-                          <height>12</height>
-                         </size>
-                        </property>
-                        <property name="autoRaise">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                    <item row="0" column="1" colspan="4">
-                     <widget class="QComboBox" name="comboBox_fwType">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Serial&lt;/span&gt;: Upload &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  or &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  firmware file via serial connection. Supported in all AutoQuad hardware when connected via serial port (USB to serial adapter).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad M4 USB&lt;/span&gt;: Upload .bin file via DFU (STM bootloader via USB). &lt;span style=&quot; text-decoration: underline;&quot;&gt;Currently supported only on AQ M4.&lt;/span&gt; Choose this option if your AutoQuad is connected directly via USB, &lt;span style=&quot; text-decoration: underline;&quot;&gt;not&lt;/span&gt; a USB-to-serial adapter, and you have a &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  firmware file. &lt;span style=&quot; text-decoration: underline;&quot;&gt;When using DFU, make sure only one flashable device is attached to your system.&lt;/span&gt; You cannot select the port or speed for flashing.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ESC32 Serial&lt;/span&gt;: Flash ESC32 firmware &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  file via serial connection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="sizeAdjustPolicy">
-                       <enum>QComboBox::AdjustToContents</enum>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="1" colspan="4">
-                     <widget class="QComboBox" name="comboBox_fwPortSpeed">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the speed (baud rate) to use for flashing. 115200 is usually best.  Lower the rate if you get errors.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="sizeAdjustPolicy">
-                       <enum>QComboBox::AdjustToContents</enum>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_33">
-                    <property name="spacing">
-                     <number>10</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QPushButton" name="flashButton">
-                      <property name="text">
-                       <string>Flash Firmware...</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QCheckBox" name="checkBox_verifyFwFlash">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Verify firmware after flashing (takes longer but is safer).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="text">
-                       <string>Verify</string>
-                      </property>
-                      <property name="checked">
-                       <bool>true</bool>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_11">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item row="0" column="2">
-            <widget class="QGroupBox" name="groupBox">
-             <layout class="QVBoxLayout" name="verticalLayout_2">
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>2</y>
+             <width>891</width>
+             <height>504</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_17">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
-               <widget class="QLabel" name="label_fwFlashOutput">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Firmware Update Results:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTextBrowser" name="textFlashOutput">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
+               <widget class="QGroupBox" name="groupBox">
                 <property name="minimumSize">
                  <size>
-                  <width>0</width>
-                  <height>150</height>
+                  <width>280</width>
+                  <height>140</height>
                  </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>280</width>
+                  <height>140</height>
+                 </size>
+                </property>
+                <property name="title">
+                 <string>Select Firmware</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <item>
+                  <widget class="QPushButton" name="SelectFirmwareButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Select Firmware File</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="fileLabel">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_33">
+                   <property name="spacing">
+                    <number>10</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="flashButton">
+                     <property name="text">
+                      <string>Flash Firmware...</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="checkBox_verifyFwFlash">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Verify firmware after flashing (takes longer but is safer).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="text">
+                      <string>Verify</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
                </widget>
               </item>
+              <item>
+               <widget class="QGroupBox" name="groupBoxTextResults">
+                <property name="minimumSize">
+                 <size>
+                  <width>280</width>
+                  <height>300</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="title">
+                 <string>Firmware Update Results:</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                 <item>
+                  <widget class="QTextBrowser" name="textFlashOutput">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>150</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_11">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>38</width>
+                  <height>48</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <spacer name="horizontalSpacer_16">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>607</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-          <zorder>groupBox</zorder>
-          <zorder>horizontalSpacer_16</zorder>
-          <zorder></zorder>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_16">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </widget>
        </item>
@@ -2820,8 +2710,6 @@ padding: 1px 5px;</string>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="terminal.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

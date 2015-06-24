@@ -1,7 +1,26 @@
+/*
+    QComboBox
+*/
+QPushButton {
+    background-color: lightgray;
+    border-style: outset;
+    border-width: 1px;
+    border-radius: 3px;
+    border-color: #05B8CC;
+    padding: 6px;
+}
+QPushButton:pressed {
+    background-color: #05B8CC;
+    border-style: inset;
+}
 
+/*
+    QComboBox
+*/
 QComboBox {
     border: 1px solid gray;
     border-radius: 3px;
+    border-color: #05B8CC;
     padding: 1px 18px 1px 3px;
     min-width: 4em;
 }
@@ -39,7 +58,14 @@ QComboBox::drop-down {
     border-top-right-radius: 3px; /* same radius as the QComboBox */
     border-bottom-right-radius: 3px;
 }
+QComboBox::down-arrow {
+    image: url(:images/down_arrow.png);
+}
 
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    top: 1px;
+    left: 1px;
+}
 QComboBox QAbstractItemView {
     border: 2px solid darkgray;
     selection-background-color: lightgray;

@@ -247,7 +247,7 @@ void AQLinechartWidget::createLayout()
 
     // Connect notifications from the user interface to the plot
     connect(this, SIGNAL(curveRemoved(QString)), activePlot, SLOT(hideCurve(QString)));
-    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
+//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
 
     // Update scrollbar when plot window changes (via translator method setPlotWindowPosition()
 //    connect(activePlot, SIGNAL(windowPositionChanged(quint64)), this, SLOT(setPlotWindowPosition(quint64)));

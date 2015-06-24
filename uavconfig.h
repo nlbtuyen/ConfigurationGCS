@@ -65,17 +65,17 @@ private slots:
     void flashFW();
     bool checkProcRunning(bool warn = true);
     bool checkAqSerialConnection(QString port = "");
-    void flashFwStart();
     void flashFwDfu();
-    void setPortName(QString str);
-//    void fwTypeChange();
     void selectFWToFlash();
     void loadSettings();
-    void setFwType();
-    void setupPortList();
     void saveAQSetting();
     bool validateRadioSettings(int);
     void saveDialogButtonClicked(QAbstractButton *btn);
+
+    void prtstexit(int stat);
+    void prtstdout();
+    QString extProcessError(QProcess::ProcessError err);
+
 
 private:
     int isSelected = 1;

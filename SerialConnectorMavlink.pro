@@ -3,32 +3,40 @@
 # Project created by QtCreator 2015-05-16T09:52:19
 #
 #-------------------------------------------------
-
-QT       += core gui widgets
-
-CONFIG += extserialport static qesp_static
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 TARGET = SerialConnectorMavlink
 TEMPLATE = app
 
+
+# root of project files
+BASEDIR = $$_PRO_FILE_PWD_
+# build directories
+DESTDIR = $${OUT_PWD}
+BUILDDIR = $${OUT_PWD}/build
+OBJECTS_DIR = $${BUILDDIR}/obj
 MOC_DIR = $${BUILDDIR}/moc
+UI_DIR = $${BUILDDIR}/ui
+RCC_DIR = $${BUILDDIR}/rcc
+MOC_DIR = $${BUILDDIR}/moc
+
+QT       += core gui widgets
+
+CONFIG(release, debug|release) {
+        message(Release build)
+        CONFIG += ReleaseBuild
+}
+
+CONFIG += extserialport static qesp_static
+CONFIG += WinBuild
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 INCLUDEPATH += $$BASEDIR/libs/lib/sdl/msvc/include \
                 $$BASEDIR/libs/lib/sdl/include
 
-#INCLUDEPATH += $$MAVLINKPATH
-#isEmpty(MAVLINK_CONF) {
-#         INCLUDEPATH += $$MAVLINKPATH/common
-#} else {
-#         message("Adding support for additional MAVLink messages for: " $$MAVLINK_CONF)
-#         INCLUDEPATH += $$MAVLINKPATH/$$MAVLINK_CONF
-#         DEFINES += $$sprintf('QGC_USE_%1_MESSAGES', $$upper($$MAVLINK_CONF))
-#}
-
 # Include QWT plotting library
 include(libs/qwt/qwt.pri)
+
+include(install.pri)
 
 LIBS += -L$$BASEDIR/libs/lib/sdl/msvc/lib
 

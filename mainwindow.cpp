@@ -213,7 +213,7 @@ void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidg
     tempAction->setChecked(widget->isVisible());
     addDockWidget(area, widget);
     widget->setMinimumWidth(250);
-    //        widget->hide();
+    widget->hide();
 }
 
 void MainWindow::showTool(bool show)
@@ -294,16 +294,15 @@ void MainWindow::addLink()
     LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
 
+    QAction* act = getActionByLink(link);
+    if (act)
+        act->trigger();
+
     if (link->isPortHandleValid())
     {
         ui->actionConnect->setEnabled(false);
         ui->actionDisconnect->setEnabled(true);
         ui->actionConfigure->setEnabled(false);
-
-        QAction* act = getActionByLink(link);
-        if (act)
-            act->trigger();
-
         connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
         updateViewTimer.start(500);
     }
@@ -311,14 +310,15 @@ void MainWindow::addLink()
 
 void MainWindow::addLink(LinkInterface *link)
 {
+    LinkManager::instance()->add(link);
     LinkManager::instance()->addProtocol(link, mavlink);
 
     if (!getActionByLink(link))
     {
-
         CommConfigurationWindow* commWidget = new CommConfigurationWindow(link, mavlink, this);
         QAction* action = commWidget->getAction();
         ui->menuWidgets->addAction(action);
+
 
         // Error handling
         connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
@@ -331,7 +331,6 @@ void MainWindow::setActiveUAS(UASInterface *uas)
     // Do nothing if system is the same or NULL
     if (uas == NULL) return;
 
-
     connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
 
     //    //update battery
@@ -340,7 +339,6 @@ void MainWindow::setActiveUAS(UASInterface *uas)
     connect(uas, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
 
     connect(uas,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
-
 
     //    //update value
     systemArmed = uas->isArmed();
@@ -384,8 +382,11 @@ void MainWindow::UASCreated(UASInterface* uas)
 
 void MainWindow::UASDeleted(UASInterface *uas)
 {
-    if (UASManager::instance()->getUASList().count() == 0)
-    {
+    QAction* act;
+    QList<QAction*> actions = ui->menuWidgets->actions();
+    foreach (act, actions) {
+        if (act->text().contains(uas->getUASName()))
+            ui->menuWidgets->removeAction(act);
     }
 }
 
@@ -489,10 +490,10 @@ void MainWindow::loadStyle()
         QString style = QString(styleSheet->readAll());
         qApp->setStyleSheet(style);
         styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
-        qDebug() << "Loaded stylesheet:" << styleFileName;
+//        qDebug() << "Loaded stylesheet:" << styleFileName;
     }
     else
-        showCriticalMessage(tr("VSKConfigUAV did lot load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
+        showCriticalMessage(tr("VSKConfigUAV did not load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
 
     delete styleSheet;
 }
