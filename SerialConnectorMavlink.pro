@@ -69,7 +69,8 @@ SOURCES += main.cpp\
     aqlinechartwidget.cpp \
     ChartPlot.cpp \
     LinechartPlot.cpp \
-    primaryflightdisplay.cpp
+    primaryflightdisplay.cpp \
+    hddisplay.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -108,7 +109,8 @@ common\* \
     aqlinechartwidget.h \
     ChartPlot.h \
     LinechartPlot.h \
-    primaryflightdisplay.h
+    primaryflightdisplay.h \
+    hddisplay.h
 
 
 FORMS    += mainwindow.ui \
@@ -120,7 +122,8 @@ FORMS    += mainwindow.ui \
     commsettings.ui \
     debugconsole.ui \
     aq_telemetryView.ui \
-    AQLinechart.ui
+    AQLinechart.ui \
+    hddisplay.ui
 
 
 

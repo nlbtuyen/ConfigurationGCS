@@ -22,7 +22,8 @@
 #include "primaryflightdisplay.h"
 #include "parameterinterface.h"
 #include "mavlinkmessagesender.h"
-
+#include "hddisplay.h"
+#include "mavlinkdecoder.h"
 //#include "seriallink.h"
 //#include "uasinfowidget.h"
 //#include "debugconsole.h"
@@ -45,6 +46,7 @@ class ParameterInterface;
 class UASInfoWidget;
 class CommConfigurationWindow;
 class PrimaryFlightDisplay;
+class HDDisplay;
 
 class MainWindow : public QMainWindow
 {
@@ -103,6 +105,7 @@ protected:
     QPointer<QDockWidget> mavlinkSenderWidget;
     QPointer<QDockWidget> parametersDockWidget;
     QPointer<QDockWidget> pfdDockWidget;
+    QPointer<QDockWidget> headDown1DockWidget;
 
 
     QPointer<QDockWidget> infoDockWidget;

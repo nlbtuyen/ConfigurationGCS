@@ -32,11 +32,12 @@
 #include "parameterinterface.h"
 #include "mavlinkmessagesender.h"
 
-#include "primaryflightdisplay.h"
 #include "uasinfowidget.h"
 #include "aqpramwidget.h"
 #include "serialconfigurationwindow.h"
 #include "commconfigurationwindow.h"
+#include "primaryflightdisplay.h"
+#include "hddisplay.h"
 
 static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
 
@@ -159,6 +160,15 @@ void MainWindow::initActionsConnections()
     pfdDockWidget->setWidget( new PrimaryFlightDisplay(this));
     pfdDockWidget->setObjectName("PRIMART_FLIGHT_DISPLAY_DOCK_WIDGET");
     addTool(pfdDockWidget, tr("Primary Flight Display"), Qt::LeftDockWidgetArea);
+    pfdDockWidget->setMaximumHeight(280);
+
+//    headDown1DockWidget = new QDockWidget(tr("Custom Gauges"), this);
+//    HDDisplay* hdDisplay = new HDDisplay(NULL, "Custom Gauges", this);
+//    hdDisplay->addSource(mavlinkDecoder);
+//    headDown1DockWidget->setWidget(hdDisplay);
+//    headDown1DockWidget->setObjectName("HEAD_DOWN_DISPLAY_1_DOCK_WIDGET");
+//    addTool(headDown1DockWidget, tr("Custom Gauges"), Qt::BottomDockWidgetArea);
+
 
     //===== Toolbar Status =====
 
@@ -174,11 +184,6 @@ void MainWindow::initActionsConnections()
     toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
     //    ui->mainToolBar->addWidget(toolBarSafetyLabel);
 
-    //    toolBarStateLabel = new QLabel("------", this);
-    //    toolBarStateLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: #FFFF00; }"));
-    //    toolBarStateLabel->setToolTip(tr("Vehicle state"));
-    //    toolBarStateLabel->setObjectName("toolBarStateLabel");
-    //    ui->mainToolBar->addWidget(toolBarStateLabel);
 
     toolBarBatteryBar = new QProgressBar(this);
     toolBarBatteryBar->setStyleSheet("QProgressBar:horizontal { margin: 0px 4px 0px 0px; border: 1px solid #4A4A4F; border-radius: 4px; text-align: center; padding: 2px; color: #111111; background-color: #111118; height: 10px; } QProgressBar:horizontal QLabel { font-size: 9px; color: #111111; } QProgressBar::chunk { background-color: green; }");
