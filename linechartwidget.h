@@ -1,5 +1,6 @@
-#ifndef AQLINECHARTWIDGET_H
-#define AQLINECHARTWIDGET_H
+
+#ifndef LINECHARTWIDGET_H
+#define LINECHARTWIDGET_H
 
 #include <QGridLayout>
 #include <QWidget>
@@ -21,46 +22,42 @@
 
 #include "LinechartPlot.h"
 #include "uasinterface.h"
-#include "ui_AQLinechart.h"
+#include "ui_linechart.h"
 
 #include "logcompressor.h"
 
-
-class AQLinechartWidget : public QWidget
+/**
+ * @brief The linechart widget allows to visualize different timeseries as lineplot.
+ * The display interval, the timeseries and the scaling can be changed interactively
+ **/
+class LinechartWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    AQLinechartWidget(int systemid, QWidget *parent = 0);
-    ~AQLinechartWidget();
+    LinechartWidget(int systemid, QWidget *parent = 0);
+    ~LinechartWidget();
 
     static const int MIN_TIME_SCROLLBAR_VALUE = 0; ///< The minimum scrollbar value
     static const int MAX_TIME_SCROLLBAR_VALUE = 16383; ///< The maximum scrollbar value
-    static const int DEFAULT_CURVE_LIST_WIDTH = 200; // default width of curve listing frame
-    static const int DEFAULT_AVG_WINDOW = 200; // default average window value
-    static const quint64 DEFAULT_PLOT_INTERVAL = 10; // plot interval - time length of X axis
-    static const int UPDATE_INTERVAL = 500; ///< Time between number updates, in milliseconds
-    static const int MAX_CURVE_MENUITEM_NUMBER = 8;
-    static const int PAGESTEP_TIME_SCROLLBAR_VALUE = (MAX_TIME_SCROLLBAR_VALUE - MIN_TIME_SCROLLBAR_VALUE) / 10;
-
-//    bool CurveIsActive[100];
 
 public slots:
     void addCurve(const QString& curve, const QString& unit);
     void removeCurve(QString curve);
-    /** @brief Remove all curves */
-    void clearCurves();
     /** @brief Recolor all curves */
     void recolor();
     /** @brief Set short names for curves */
     void setShortNames(bool enable);
-    /** @brief Append double data to the given curve. */
-    void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec);
+    /** @brief Append data to the given curve. */
+    void appendData(int uasId, const QString& curve, const QString& unit, const QVariant& value, quint64 usec);
+    /** @brief Hide curves which do not match the filter pattern */
+    void filterCurves(const QString &filter);
 
+    void toggleLogarithmicScaling(bool toggled);
     void takeButtonClick(bool checked);
     void setPlotWindowPosition(int scrollBarValue);
     void setPlotWindowPosition(quint64 position);
-    void setPlotInterval(int interval);
+    void setPlotInterval(quint64 interval);
     /** @brief Start automatic updates once visible */
     void showEvent(QShowEvent* event);
     /** @brief Stop automatic updates once hidden */
@@ -82,11 +79,14 @@ public slots:
     void readSettings();
     /** @brief Select all curves */
     void selectAllCurves(bool all);
-    /** @brief Set logarithmic plot y-axis scaling */
-    void setLogarithmicScaling();
-    /** @brief Set linear plot y-axis scaling */
-    void setLinearScaling();
+    /** @brief Sets the focus to the LineEdit for plot-filtering */
+    void setPlotFilterLineEditFocus();
 
+private slots:
+    /** Called when the user changes the time scale combobox. */
+    void timeScaleChanged(int index);
+    /** @brief Toggles visibility of curve based on bool match if corresponding checkbox is not checked */
+    void filterCurve(const QString &key, bool match);
 
 protected:
     void addCurveToList(QString curve);
@@ -104,33 +104,27 @@ protected:
 
     int curveListIndex;
     int curveListCounter;                 ///< Counter of curves in curve list
-    QList<QString>* ListItems;         ///< Curves listed
-    QList<QString>* listedCurves;         ///< Curves listed
     QMap<QString, QLabel*>* curveLabels;  ///< References to the curve labels
     QMap<QString, QLabel*> curveNameLabels;  ///< References to the curve labels
     QMap<QString, QString> curveNames;    ///< Full curve names
     QMap<QString, QLabel*>* curveMeans;   ///< References to the curve means
     QMap<QString, QLabel*>* curveMedians; ///< References to the curve medians
+    QMap<QString, QWidget*> curveUnits;    ///< References to the curve units
     QMap<QString, QLabel*>* curveVariances; ///< References to the curve variances
     QMap<QString, int> intData;           ///< Current values for integer-valued curves
     QMap<QString, QWidget*> colorIcons;    ///< Reference to color icons
-    QMap<QString, QCheckBox*> checkBoxes;    ///< Reference to curve selection checkboxes
-    QMap<QString, QString> curveUnits;    ///< Curve units by name
+    QMap<QString, QCheckBox*> checkBoxes;    ///< Reference to checkboxes
 
     QWidget* curvesWidget;                ///< The QWidget containing the curve selection button
     QGridLayout* curvesWidgetLayout;      ///< The layout for the curvesWidget QWidget
     QScrollBar* scrollbar;                ///< The plot window scroll bar
     QSpinBox* averageSpinBox;             ///< Spin box to setup average window filter size
-    QSpinBox* intervalSpinBox;             ///< Spin box to setup plot interval time
 
-    QAction* setScalingLogarithmic;       ///< Set logarithmic scaling
-    QAction* setScalingLinear;            ///< Set linear scaling
     QAction* addNewCurve;                 ///< Add curve candidate to the active curves
 
     QMenu* curveMenu;
-    QGridLayout* mainLayout;
+    QComboBox *timeScaleCmb;
 
-    QToolButton* scalingLinearButton;
     QToolButton* scalingLogButton;
     QToolButton* logButton;
     QPointer<QCheckBox> timeButton;
@@ -143,9 +137,16 @@ protected:
     LogCompressor* compressor;
     QCheckBox* selectAllCheckBox;
     int selectedMAV; ///< The MAV for which plot items are accepted, -1 for all systems
+    quint64 lastTimestamp;
+    bool userGroundTimeSet;
+    bool autoGroundTimeSet;
+    static const int updateInterval = 1000; ///< Time between number updates, in milliseconds
+
+    static const int MAX_CURVE_MENUITEM_NUMBER = 8;
+    static const int PAGESTEP_TIME_SCROLLBAR_VALUE = (MAX_TIME_SCROLLBAR_VALUE - MIN_TIME_SCROLLBAR_VALUE) / 10;
 
 private:
-    Ui::AQLinechart ui;
+    Ui::linechart ui;
     void createActions();
 
 signals:
@@ -177,6 +178,7 @@ signals:
 
     /** @brief This signal is emitted once a logfile has been finished writing */
     void logfileWritten(QString fileName);
+
 };
 
-#endif // AQLINECHARTWIDGET_H
+#endif // LINECHARTWIDGET_H

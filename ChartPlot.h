@@ -4,6 +4,7 @@
 #include <qwt_plot.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_curve.h>
+#include "scrollzoomer.h"
 
 class ChartPlot : public QwtPlot
 {
@@ -34,7 +35,7 @@ protected:
     QList<QColor> colors;  ///< Colormap for curves
     int nextColorIndex;         ///< Next index in color map
     QMap<QString, QwtPlotCurve* > curves;  ///< Plot curves
-    //ScrollZoomer* zoomer;  ///< Zoomer class for widget
+    ScrollZoomer* zoomer;  ///< Zoomer class for widget
     QwtPlotGrid* grid;     ///< Plot grid
 
     float symbolWidth; ///< Width of curve symbols in pixels

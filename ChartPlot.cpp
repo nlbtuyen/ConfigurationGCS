@@ -1,6 +1,7 @@
 #include "ChartPlot.h"
-//#include "Scrollbar.h"
-#include "mainWindow.h"
+#include "scrollbar.h"
+#include "mainwindow.h"
+#include "scrollzoomer.h"
 
 #include <qwt_plot_canvas.h>
 
@@ -45,8 +46,8 @@ ChartPlot::ChartPlot(QWidget *parent):
 
     // Enable zooming
     QwtPlotCanvas *c = static_cast<QwtPlotCanvas*>(canvas());
-//    zoomer = new ScrollZoomer(c);
-//    zoomer->setTrackerMode(QwtPicker::AlwaysOn);
+    zoomer = new ScrollZoomer(c);
+    zoomer->setTrackerMode(QwtPicker::AlwaysOn);
 
     colors = QList<QColor>();
 
@@ -58,8 +59,8 @@ ChartPlot::ChartPlot(QWidget *parent):
     }
 
     // Now that all objects have been initialized, color everything.
-//    styleChanged(MainWindow::instance()->getStyle());
-//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(styleChanged(int)));
+    //styleChanged(MainWindow::instance()->getStyle());
+    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(styleChanged(int)));
 }
 
 ChartPlot::~ChartPlot()
@@ -116,11 +117,11 @@ void ChartPlot::styleChanged(int style)
     resetColor();
     shuffleColors();
 
-//    grid->setMinorPen(QPen(minPen, gridWidth, Qt::DotLine));
-//    grid->setMajorPen(QPen(majPen, gridWidth, Qt::DotLine));
-//    zoomer->setRubberBandPen(QPen(rbPen, zoomerWidth, Qt::DotLine));
-//    zoomer->setTrackerPen(QPen(trackPen));
-//    setCanvasBackground(bgColor);
+    grid->setMinorPen(QPen(minPen, gridWidth, Qt::DotLine));
+    grid->setMajorPen(QPen(majPen, gridWidth, Qt::DotLine));
+    zoomer->setRubberBandPen(QPen(rbPen, zoomerWidth, Qt::DotLine));
+    zoomer->setTrackerPen(QPen(trackPen));
+    setCanvasBackground(bgColor);
 \
     // And finally refresh the widget to make sure all color changes are redrawn.
     replot();

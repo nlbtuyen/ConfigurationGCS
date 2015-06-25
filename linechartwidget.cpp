@@ -1,3 +1,34 @@
+/*=====================================================================
+
+PIXHAWK Micro Air Vehicle Flying Robotics Toolkit
+
+(c) 2009, 2010 PIXHAWK PROJECT  <http://pixhawk.ethz.ch>
+
+This file is part of the PIXHAWK project
+
+    PIXHAWK is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    PIXHAWK is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with PIXHAWK. If not, see <http://www.gnu.org/licenses/>.
+
+======================================================================*/
+
+/**
+ * @file
+ *   @brief Line chart plot widget
+ *
+ *   @author Lorenz Meier <mavteam@student.ethz.ch>
+ *   @author Thomas Gubler <thomasgubler@student.ethz.ch>
+ */
+
 #include <QDebug>
 #include <QWidget>
 #include <QHBoxLayout>
@@ -11,23 +42,25 @@
 #include <QSpinBox>
 #include <QColor>
 #include <QPalette>
-#include <QFileDialog>
-#include <QDesktopServices>
+#include <QShortcut>
 #include <QMessageBox>
+#include <QFileDialog>
 
-#include "aqlinechartwidget.h"
+#include "linechartwidget.h"
+#include "LinechartPlot.h"
+#include "logcompressor.h"
 #include "mainwindow.h"
 #include "qgc.h"
 #include "mg.h"
 
-AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(parent),
+
+LinechartWidget::LinechartWidget(int systemid, QWidget *parent) : QWidget(parent),
     sysid(systemid),
     activePlot(NULL),
     curvesLock(new QReadWriteLock()),
     plotWindowLock(),
     curveListIndex(0),
     curveListCounter(0),
-    listedCurves(new QList<QString>()),
     curveLabels(new QMap<QString, QLabel*>()),
     curveMeans(new QMap<QString, QLabel*>()),
     curveMedians(new QMap<QString, QLabel*>()),
@@ -38,7 +71,8 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     logging(false),
     logStartTime(0),
     updateTimer(new QTimer()),
-    selectedMAV(-1)
+    selectedMAV(-1),
+    lastTimestamp(0)
 {
     // Add elements defined in Qt Designer
     ui.setupUi(this);
@@ -56,21 +90,24 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     curvesWidgetLayout->setColumnStretch(0, 0);
     curvesWidgetLayout->setColumnStretch(1, 0);
     curvesWidgetLayout->setColumnStretch(2, 80);
-    curvesWidgetLayout->setColumnStretch(3, 0);
-    curvesWidgetLayout->setColumnStretch(4, 0);
-    curvesWidgetLayout->setColumnStretch(5, 0);
+    curvesWidgetLayout->setColumnStretch(3, 50);
+    curvesWidgetLayout->setColumnStretch(4, 50);
+    curvesWidgetLayout->setColumnStretch(5, 50);
 //    horizontalLayout->setColumnStretch(median, 50);
-    curvesWidgetLayout->setColumnStretch(6, 0);
+    curvesWidgetLayout->setColumnStretch(6, 50);
 
     curvesWidget->setLayout(curvesWidgetLayout);
-    ListItems = new QList<QString>;
+
     // Create curve list headings
     QLabel* label;
     QLabel* value;
     QLabel* mean;
     QLabel* variance;
 
-    //connect(ui.recolorButton, SIGNAL(clicked()), this, SLOT(recolor()));
+    connect(ui.recolorButton, SIGNAL(clicked()), this, SLOT(recolor()));
+    connect(ui.shortNameCheckBox, SIGNAL(clicked(bool)), this, SLOT(setShortNames(bool)));
+//    connect(ui.plotFilterLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(filterCurves(const QString&)));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(setPlotFilterLineEditFocus()));
 
     int labelRow = curvesWidgetLayout->rowCount();
 
@@ -93,36 +130,34 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     // Mean
     mean = new QLabel(this);
     mean->setText("Mean");
-    curvesWidgetLayout->addWidget(mean, labelRow, 4);
+    curvesWidgetLayout->addWidget(mean, labelRow, 5);
 
     // Variance
     variance = new QLabel(this);
     variance->setText("Variance");
-    curvesWidgetLayout->addWidget(variance, labelRow, 5);
+    curvesWidgetLayout->addWidget(variance, labelRow, 6);
 
     // Create the layout
     createLayout();
 
+    // And make sure we're listening for future style changes
     connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
+
+    updateTimer->setInterval(updateInterval);
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
-    //connect(ui.uasSelectionBox, SIGNAL(currentIndexChanged(int)), this, SLOT(selectActiveSystem(int)));
-
-    updateTimer->setInterval(UPDATE_INTERVAL);
+    connect(ui.uasSelectionBox, SIGNAL(currentIndexChanged(int)), this, SLOT(selectActiveSystem(int)));
     readSettings();
-
 }
 
-AQLinechartWidget::~AQLinechartWidget()
+LinechartWidget::~LinechartWidget()
 {
     writeSettings();
     stopLogging();
     if (activePlot) delete activePlot;
     activePlot = NULL;
-    delete listedCurves;
-    listedCurves = NULL;
 }
 
-void AQLinechartWidget::selectActiveSystem(int mav)
+void LinechartWidget::selectActiveSystem(int mav)
 {
     // -1: Unitialized, 0: all
     if (mav != selectedMAV && (selectedMAV != -1))
@@ -133,7 +168,7 @@ void AQLinechartWidget::selectActiveSystem(int mav)
     selectedMAV = mav;
 }
 
-void AQLinechartWidget::selectAllCurves(bool all)
+void LinechartWidget::selectAllCurves(bool all)
 {
     QMap<QString, QLabel*>::iterator i;
     for (i = curveLabels->begin(); i != curveLabels->end(); ++i) {
@@ -141,158 +176,152 @@ void AQLinechartWidget::selectAllCurves(bool all)
     }
 }
 
-void AQLinechartWidget::writeSettings()
+void LinechartWidget::writeSettings()
 {
     QSettings settings;
-    settings.beginGroup("AQ_TELEMETRY_VIEW");
-    settings.setValue("SPLITTER_SIZES", ui.splitter->saveState());
-    if (averageSpinBox) settings.setValue("AVG_WINDOW", averageSpinBox->value());
-    if (intervalSpinBox) settings.setValue("PLOT_INTERVAL", intervalSpinBox->value());
-    settings.endGroup();
-    settings.sync();
-}
-
-void AQLinechartWidget::readSettings()
-{
-    QSettings settings;
-    settings.sync();
-    settings.beginGroup("AQ_TELEMETRY_VIEW");
-    if (settings.contains("SPLITTER_SIZES"))
-        ui.splitter->restoreState(settings.value("SPLITTER_SIZES").toByteArray());
-//  qDebug() << "resized to" << ui.splitter->sizes();
-    if (averageSpinBox) averageSpinBox->setValue(settings.value("AVG_WINDOW", DEFAULT_AVG_WINDOW).toInt());
-    if (intervalSpinBox) intervalSpinBox->setValue(settings.value("PLOT_INTERVAL", DEFAULT_PLOT_INTERVAL).toInt());
+    settings.beginGroup("LINECHART");
+//    bool enforceGT = (!autoGroundTimeSet && timeButton->isChecked()) ? true : false;
+//    if (timeButton) settings.setValue("ENFORCE_GROUNDTIME", enforceGT);
+    if (ui.showUnitsCheckBox) settings.setValue("SHOW_UNITS", ui.showUnitsCheckBox->isChecked());
+    if (ui.shortNameCheckBox) settings.setValue("SHORT_NAMES", ui.shortNameCheckBox->isChecked());
     settings.endGroup();
 }
 
-void AQLinechartWidget::createLayout()
+void LinechartWidget::readSettings()
 {
-    int colIdx = 0;
+    QSettings settings;
+    settings.beginGroup("LINECHART");
+//    if (activePlot) {
+//        timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
+//        activePlot->enforceGroundTime(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
+//        timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
+//        //userGroundTimeSet = settings.value("USER_GROUNDTIME", timeButton->isChecked()).toBool();
+//    }
+    if (ui.showUnitsCheckBox) ui.showUnitsCheckBox->setChecked(settings.value("SHOW_UNITS", ui.showUnitsCheckBox->isChecked()).toBool());
+    if (ui.shortNameCheckBox) ui.shortNameCheckBox->setChecked(settings.value("SHORT_NAMES", ui.shortNameCheckBox->isChecked()).toBool());
+    settings.endGroup();
+}
 
+void LinechartWidget::createLayout()
+{
     // Create actions
     createActions();
 
     // Setup the plot group box area layout
-    QGridLayout* layout = new QGridLayout(ui.AQdiagramGroupBox);
-    mainLayout = layout;
-    layout->setHorizontalSpacing(8);
-    layout->setMargin(2);
+    QVBoxLayout* vlayout = new QVBoxLayout(ui.diagramGroupBox);
+    vlayout->setSpacing(4);
+    vlayout->setMargin(2);
 
     // Create plot container widget
     activePlot = new LinechartPlot(this, sysid);
     // Activate automatic scrolling
     activePlot->setAutoScroll(true);
+    activePlot->enforceGroundTime(true);
 
     // TODO Proper Initialization needed
     //    activePlot = getPlot(0);
     //    plotContainer->setPlot(activePlot);
 
-    layout->addWidget(activePlot, 0, 0, 1, 8);
-    layout->setRowStretch(0, 10);
-    layout->setRowStretch(1, 1);
+    vlayout->addWidget(activePlot);
 
-
-    // Linear scaling button
-    scalingLinearButton = createButton(this);
-    scalingLinearButton->setDefaultAction(setScalingLinear);
-    scalingLinearButton->setCheckable(true);
-    scalingLinearButton->setChecked(true);
-    scalingLinearButton->setToolTip(tr("Set linear scale for Y axis"));
-    scalingLinearButton->setWhatsThis(tr("Set linear scale for Y axis"));
-    layout->addWidget(scalingLinearButton, 1, colIdx++);
-//    layout->setColumnStretch(0, 0);
+    QHBoxLayout *hlayout = new QHBoxLayout;
+    vlayout->addLayout(hlayout);
 
     // Logarithmic scaling button
     scalingLogButton = createButton(this);
-    scalingLogButton->setDefaultAction(setScalingLogarithmic);
+    scalingLogButton->setText(tr("LOG"));
     scalingLogButton->setCheckable(true);
-    scalingLogButton->setChecked(false);
     scalingLogButton->setToolTip(tr("Set logarithmic scale for Y axis"));
     scalingLogButton->setWhatsThis(tr("Set logarithmic scale for Y axis"));
-    layout->addWidget(scalingLogButton, 1, colIdx++);
-//    layout->setColumnStretch(1, 0);
+    hlayout->addWidget(scalingLogButton);
 
     // Averaging spin box
     averageSpinBox = new QSpinBox(this);
-    averageSpinBox->setToolTip(tr("Number of samples used to calculate mean and variance"));
-    averageSpinBox->setWhatsThis(tr("Number of samples used to calculate mean and variance"));
-    averageSpinBox->setRange(2, 9999);
-    averageSpinBox->setSingleStep(10);
-    averageSpinBox->setValue(DEFAULT_AVG_WINDOW);
-    averageSpinBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    setAverageWindow(DEFAULT_AVG_WINDOW);
-    layout->addWidget(new QLabel(tr("Avg. Window:")), 1, colIdx++);
-    layout->addWidget(averageSpinBox, 1, colIdx++);
-//    layout->setColumnStretch(2, 0);
-
-    // Time interval spin box
-    intervalSpinBox = new QSpinBox(this);
-    intervalSpinBox->setToolTip(tr("Time span of plot window, in seconds"));
-    intervalSpinBox->setWhatsThis(tr("Time span of plot window, in seconds"));
-    intervalSpinBox->setRange(2, 999);
-    intervalSpinBox->setSuffix("s");
-    intervalSpinBox->setValue(DEFAULT_PLOT_INTERVAL);
-    intervalSpinBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    setPlotInterval(DEFAULT_PLOT_INTERVAL);
-    layout->addWidget(new QLabel(tr("Time Span:")), 1, colIdx++);
-    layout->addWidget(intervalSpinBox, 1, colIdx++);
-//    layout->setColumnStretch(2, 0);
-
-    // Ground time button
-    /*
-    timeButton = new QCheckBox(this);
-    timeButton->setText(tr("Ground Time"));
-    timeButton->setToolTip(tr("Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time."));
-    timeButton->setWhatsThis(tr("Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time."));
-    layout->addWidget(timeButton, 1, colIdx++);
-    connect(timeButton, SIGNAL(clicked(bool)), activePlot, SLOT(enforceGroundTime(bool)));
-    connect(timeButton, SIGNAL(clicked()), this, SLOT(writeSettings()));
-    */
-    activePlot->enforceGroundTime(true);
-
-    // spacer
-    layout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding), 1, colIdx);
-    layout->setColumnStretch(colIdx++, 1);
+    averageSpinBox->setToolTip(tr("Sliding window size to calculate mean and variance"));
+    averageSpinBox->setWhatsThis(tr("Sliding window size to calculate mean and variance"));
+    averageSpinBox->setMinimum(2);
+    averageSpinBox->setValue(200);
+    setAverageWindow(200);
+    averageSpinBox->setMaximum(9999);
+    hlayout->addWidget(averageSpinBox);
+    connect(averageSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setAverageWindow(int)));
 
     // Log Button
     logButton = new QToolButton(this);
     logButton->setToolTip(tr("Start to log curve data into a CSV or TXT file"));
     logButton->setWhatsThis(tr("Start to log curve data into a CSV or TXT file"));
     logButton->setText(tr("Start Logging"));
-    layout->addWidget(logButton, 1, colIdx++);
-//    layout->setColumnStretch(3, 0);
+    hlayout->addWidget(logButton);
+    connect(logButton, SIGNAL(clicked()), this, SLOT(startLogging()));
 
+    // Ground time button
+    timeButton = new QCheckBox(this);
+    timeButton->setText(tr("Ground Time"));
+    timeButton->setToolTip(tr("Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time."));
+    timeButton->setWhatsThis(tr("Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time."));
+    hlayout->addWidget(timeButton);
+    connect(timeButton, SIGNAL(clicked(bool)), activePlot, SLOT(enforceGroundTime(bool)));
+    connect(timeButton, SIGNAL(clicked()), this, SLOT(writeSettings()));
+    timeButton->hide();
 
-    ui.AQdiagramGroupBox->setLayout(layout);
+    hlayout->addStretch();
+
+    QLabel *timeScaleLabel = new QLabel("Time axis:");
+    hlayout->addWidget(timeScaleLabel);
+
+    timeScaleCmb = new QComboBox(this);
+    timeScaleCmb->addItem("10 seconds", 10);
+    timeScaleCmb->addItem("20 seconds", 20);
+    timeScaleCmb->addItem("30 seconds", 30);
+    timeScaleCmb->addItem("40 seconds", 40);
+    timeScaleCmb->addItem("50 seconds", 50);
+    timeScaleCmb->addItem("1 minute", 60);
+    timeScaleCmb->addItem("2 minutes", 60*2);
+    timeScaleCmb->addItem("3 minutes", 60*3);
+    timeScaleCmb->addItem("4 minutes", 60*4);
+    timeScaleCmb->addItem("5 minutes", 60*5);
+    timeScaleCmb->addItem("10 minutes", 60*10);
+    //timeScaleCmb->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    timeScaleCmb->setMinimumContentsLength(12);
+
+    hlayout->addWidget(timeScaleCmb);
+    connect(timeScaleCmb, SIGNAL(currentIndexChanged(int)), this, SLOT(timeScaleChanged(int)));
+
+    // Initialize the "Show units" checkbox. This is configured in the .ui file, so all
+    // we do here is attach the clicked() signal.
+    connect(ui.showUnitsCheckBox, SIGNAL(clicked()), this, SLOT(writeSettings()));
 
     // Add actions
+    averageSpinBox->setValue(activePlot->getAverageWindow());
 
     // Connect notifications from the user interface to the plot
     connect(this, SIGNAL(curveRemoved(QString)), activePlot, SLOT(hideCurve(QString)));
-    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
 
     // Update scrollbar when plot window changes (via translator method setPlotWindowPosition()
 //    connect(activePlot, SIGNAL(windowPositionChanged(quint64)), this, SLOT(setPlotWindowPosition(quint64)));
-
     connect(activePlot, SIGNAL(curveRemoved(QString)), this, SLOT(removeCurve(QString)));
 
     // Update plot when scrollbar is moved (via translator method setPlotWindowPosition()
     connect(this, SIGNAL(plotWindowPositionUpdated(quint64)), activePlot, SLOT(setWindowPosition(quint64)));
 
     // Set scaling
-    connect(scalingLinearButton, SIGNAL(clicked()), this, SLOT(setLinearScaling()));
-    connect(scalingLogButton, SIGNAL(clicked()), this, SLOT(setLogarithmicScaling()));
-
-    // set average window
-    connect(averageSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setAverageWindow(int)));
-    // set plot interval
-    connect(intervalSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setPlotInterval(int)));
-    // start/stop logging
-    connect(logButton, SIGNAL(clicked()), this, SLOT(startLogging()));
-
+    connect(scalingLogButton, SIGNAL(toggled(bool)), this, SLOT(toggleLogarithmicScaling(bool)));
 }
 
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant, quint64 usec)
+void LinechartWidget::timeScaleChanged(int index)
+{
+    activePlot->setPlotInterval(timeScaleCmb->itemData(index).toInt()*1000);
+}
+
+void LinechartWidget::toggleLogarithmicScaling(bool checked)
+{
+    if(checked)
+        activePlot->setLogarithmicScaling();
+    else
+        activePlot->setLinearScaling();
+}
+
+void LinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, const QVariant &variant, quint64 usec)
 {
     QMetaType::Type type = static_cast<QMetaType::Type>(variant.type());
     bool ok;
@@ -301,8 +330,7 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         return;
     bool isDouble = type == QMetaType::Float || type == QMetaType::Double;
 
-    // if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
-    if ((selectedMAV == -1 ) || (selectedMAV == uasId ))
+    if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
     {
         // Order matters here, first append to plot, then update curve list
         activePlot->appendData(curve+unit, usec, value);
@@ -311,14 +339,26 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         // Make sure the curve will be created if it does not yet exist
         if(!label)
         {
-            //qDebug() << "ADDING CURVE" << curve << "IN APPENDDATA DOUBLE";
-            if (!isDouble)
-                intData.insert(curve+unit, 0);
+            if(!isDouble)
+            intData.insert(curve+unit, 0);
             addCurve(curve, unit);
         }
+
         // Add int data
-        if (!isDouble)
-            intData.insert(curve+unit, value);
+        if(!isDouble)
+            intData.insert(curve+unit, variant.toInt());
+    }
+
+    if (lastTimestamp == 0 && usec != 0)
+    {
+        lastTimestamp = usec;
+    } else if (usec != 0) {
+        // Difference larger than 5 secs, enforce ground time
+        if (((qint64)usec - (qint64)lastTimestamp) > 5000)
+        {
+            autoGroundTimeSet = true;
+            if (activePlot) activePlot->groundTime();
+        }
     }
 
     // Log data
@@ -332,17 +372,15 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
             if (time < 0) time = 0;
 
             logFile->write(QString(QString::number(time) + "\t" + QString::number(uasId) + "\t" + curve + "\t" + QString::number(value) + "\n").toLatin1());
-            logFile->flush();
         }
     }
 }
 
-void AQLinechartWidget::refresh()
+void LinechartWidget::refresh()
 {
     setUpdatesEnabled(false);
     QString str;
     // Value
-
     QMap<QString, QLabel*>::iterator i;
     for (i = curveLabels->begin(); i != curveLabels->end(); ++i) {
         if (intData.contains(i.key())) {
@@ -379,8 +417,6 @@ void AQLinechartWidget::refresh()
         }
         j.value()->setText(str);
     }
-
-
 //    QMap<QString, QLabel*>::iterator k;
 //    for (k = curveMedians->begin(); k != curveMedians->end(); ++k)
 //    {
@@ -388,18 +424,17 @@ void AQLinechartWidget::refresh()
 //        str.sprintf("%+.2f", activePlot->getMedian(k.key()));
 //        k.value()->setText(str);
 //    }
-
     QMap<QString, QLabel*>::iterator l;
     for (l = curveVariances->begin(); l != curveVariances->end(); ++l) {
         // Variance
         str.sprintf("% 8.3e", activePlot->getVariance(l.key()));
         l.value()->setText(str);
     }
-
     setUpdatesEnabled(true);
 }
 
-void AQLinechartWidget::startLogging()
+
+void LinechartWidget::startLogging()
 {
     // Store reference to file
     // Append correct file ending if needed
@@ -420,13 +455,13 @@ void AQLinechartWidget::startLogging()
     // Let user select the log file name
     //QDate date(QDate::currentDate());
     // QString("./pixhawk-log-" + date.toString("yyyy-MM-dd") + "-" + QString::number(logindex) + ".log")
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), DEFAULT_STORAGE_PATH, tr("Logfile") + " (*.txt *.csv)");
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), DEFAULT_STORAGE_PATH, tr("Logfile") + " (*.log)");
 
-    while (!(fileName.endsWith(".txt") || fileName.endsWith(".csv")) && !abort && fileName != "") {
+    while (!(fileName.endsWith(".log")) && !abort && fileName != "") {
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setText("Unsuitable file extension for logfile");
-        msgBox.setInformativeText("Please choose .txt or .csv as file extension. Click OK to change the file extension, cancel to not start logging.");
+        msgBox.setInformativeText("Please choose .log as file extension. Click OK to change the file extension, cancel to not start logging.");
         msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Ok);
         if(msgBox.exec() != QMessageBox::Ok)
@@ -434,7 +469,7 @@ void AQLinechartWidget::startLogging()
             abort = true;
             break;
         }
-        fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), DEFAULT_STORAGE_PATH, tr("Logfile") + " (*.txt *.csv)");
+        fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), DEFAULT_STORAGE_PATH, tr("Logfile") + " (*.log)");
     }
 
     qDebug() << "SAVE FILE" << fileName;
@@ -442,7 +477,7 @@ void AQLinechartWidget::startLogging()
     // Check if the user did not abort the file save dialog
     if (!abort && fileName != "") {
         logFile = new QFile(fileName);
-        if (logFile->open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (logFile->open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
             logging = true;
             logStartTime = 0;
             curvesWidget->setEnabled(false);
@@ -454,7 +489,7 @@ void AQLinechartWidget::startLogging()
     }
 }
 
-void AQLinechartWidget::stopLogging()
+void LinechartWidget::stopLogging()
 {
     logging = false;
     curvesWidget->setEnabled(true);
@@ -496,15 +531,13 @@ void AQLinechartWidget::stopLogging()
  *
  * @param windowSize with (in values) of the sliding average/median filter. Minimum is 2
  */
-void AQLinechartWidget::setAverageWindow(int windowSize)
+void LinechartWidget::setAverageWindow(int windowSize)
 {
     if (windowSize > 1) activePlot->setAverageWindow(windowSize);
 }
 
-void AQLinechartWidget::createActions()
+void LinechartWidget::createActions()
 {
-    setScalingLogarithmic = new QAction("LOG", this);
-    setScalingLinear = new QAction("LIN", this);
 }
 
 /**
@@ -513,51 +546,42 @@ void AQLinechartWidget::createActions()
  * @param curve The id-string of the curve
  * @see removeCurve()
  **/
-void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
+void LinechartWidget::addCurve(const QString& curve, const QString& unit)
 {
     LinechartPlot* plot = activePlot;
+//    QHBoxLayout *horizontalLayout;
     QCheckBox *checkBox;
     QLabel* label;
     QLabel* value;
-//    QLabel* unitLabel;
+    QLabel* unitLabel;
     QLabel* mean;
     QLabel* variance;
 
     curveNames.insert(curve+unit, curve);
-    curveUnits.insert(curve, unit);
-    ListItems->append(curve);
 
     int labelRow = curvesWidgetLayout->rowCount();
 
+    // Checkbox
     checkBox = new QCheckBox(this);
-    checkBoxes.insert(curve+unit, checkBox);
     checkBox->setCheckable(true);
     checkBox->setObjectName(curve+unit);
     checkBox->setToolTip(tr("Enable the curve in the graph window"));
     checkBox->setWhatsThis(tr("Enable the curve in the graph window"));
-
+    checkBoxes.insert(curve+unit, checkBox);
     curvesWidgetLayout->addWidget(checkBox, labelRow, 0);
 
+    // Icon
     QWidget* colorIcon = new QWidget(this);
     colorIcons.insert(curve+unit, colorIcon);
-    colorIcon->setMinimumSize(5, 14);
-    colorIcon->setMaximumSize(5, 14);
-
+    colorIcon->setMinimumSize(QSize(5, 14));
+    colorIcon->setMaximumSize(4, 14);
     curvesWidgetLayout->addWidget(colorIcon, labelRow, 1);
 
-    label = new QLabel(this);
-    label->setText(curve);
-    curvesWidgetLayout->addWidget(label, labelRow, 2);
-
-    QColor color(Qt::gray);// = plot->getColorForCurve(curve+unit);
-    QString colorstyle;
-    colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
-    colorIcon->setStyleSheet(colorstyle);
-    colorIcon->setAutoFillBackground(true);
-
     // Label
+    label = new QLabel(this);
+    label->setText(getCurveName(curve+unit, ui.shortNameCheckBox->isChecked()));
     curveNameLabels.insert(curve+unit, label);
-//    curveLabels->insert(curve+unit, value);
+    curvesWidgetLayout->addWidget(label, labelRow, 2);
 
     // Value
     value = new QLabel(this);
@@ -568,16 +592,15 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     curveLabels->insert(curve+unit, value);
     curvesWidgetLayout->addWidget(value, labelRow, 3);
 
-    /*
     // Unit
     unitLabel = new QLabel(this);
     unitLabel->setText(unit);
-    unitLabel->setStyleSheet(QString("QLabel {color: %1;}").arg("#AAAAAA"));
-    //qDebug() << "UNIT" << unit;
     unitLabel->setToolTip(tr("Unit of ") + curve);
     unitLabel->setWhatsThis(tr("Unit of ") + curve);
+    curveUnits.insert(curve+unit, unitLabel);
     curvesWidgetLayout->addWidget(unitLabel, labelRow, 4);
-    */
+    unitLabel->setVisible(ui.showUnitsCheckBox->isChecked());
+    connect(ui.showUnitsCheckBox, SIGNAL(clicked(bool)), unitLabel, SLOT(setVisible(bool)));
 
     // Mean
     mean = new QLabel(this);
@@ -586,7 +609,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     mean->setToolTip(tr("Arithmetic mean of %1 in %2 units").arg(curve, unit));
     mean->setWhatsThis(tr("Arithmetic mean of %1 in %2 units").arg(curve, unit));
     curveMeans->insert(curve+unit, mean);
-    curvesWidgetLayout->addWidget(mean, labelRow, 4);
+    curvesWidgetLayout->addWidget(mean, labelRow, 5);
 
 //    // Median
 //    median = new QLabel(form);
@@ -601,7 +624,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     variance->setToolTip(tr("Variance of %1 in (%2)^2 units").arg(curve, unit));
     variance->setWhatsThis(tr("Variance of %1 in (%2)^2 units").arg(curve, unit));
     curveVariances->insert(curve+unit, variance);
-    curvesWidgetLayout->addWidget(variance, labelRow, 5);
+    curvesWidgetLayout->addWidget(variance, labelRow, 6);
 
     /* Color picker
     QColor color = QColorDialog::getColor(Qt::green, this);
@@ -634,86 +657,164 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
  * @param curve The curve to remove
  * @see addCurve()
  **/
-void AQLinechartWidget::removeCurve(QString curve)
+void LinechartWidget::removeCurve(QString curve)
 {
+    Q_UNUSED(curve)
+
     QWidget* widget = NULL;
-
-    QString unit = curveUnits.take(curve);
-
     widget = curveLabels->take(curve);
-    if (widget) {
-        curvesWidgetLayout->removeWidget(widget);
-        delete widget;
-    }
-
-    widget = curveNameLabels.take(curve+unit);
-    if (widget) {
-        curvesWidgetLayout->removeWidget(widget);
-        delete widget;
-    }
-
-    widget = colorIcons.take(curve+unit);
-    if (widget) {
-        curvesWidgetLayout->removeWidget(widget);
-        delete widget;
-    }
-
-    widget = checkBoxes.take(curve+unit);
-    if (widget) {
-        disconnect(selectAllCheckBox, SIGNAL(clicked(bool)), widget, SLOT(setChecked(bool)));
-        QObject::disconnect(widget, SIGNAL(clicked(bool)), this, SLOT(takeButtonClick(bool)));
-        curvesWidgetLayout->removeWidget(widget);
-        delete widget;
-    }
-
-    widget = curveMeans->take(curve+unit);
-    if (widget) {
-        curvesWidgetLayout->removeWidget(widget);
-        widget->deleteLater();
-    }
-
-//    widget = curveMedians->take(curve);
-//    curvesWidgetLayout->removeWidget(widget);
-//    widget->deleteLater();
-
-    widget = curveVariances->take(curve+unit);
-    if (widget) {
-        curvesWidgetLayout->removeWidget(widget);
-        widget->deleteLater();
-    }
-
-    intData.remove(curve+unit);
+    curvesWidgetLayout->removeWidget(widget);
+    widget->deleteLater();
+    widget = curveMeans->take(curve);
+    curvesWidgetLayout->removeWidget(widget);
+    widget->deleteLater();
+    widget = curveMedians->take(curve);
+    curvesWidgetLayout->removeWidget(widget);
+    widget->deleteLater();
+    widget = curveVariances->take(curve);
+    curvesWidgetLayout->removeWidget(widget);
+    widget->deleteLater();
+    widget = colorIcons.take(curve);
+    curvesWidgetLayout->removeWidget(widget);
+    widget->deleteLater();
+    widget = curveNameLabels.take(curve);
+    curvesWidgetLayout->removeWidget(widget);
+    widget->deleteLater();
+    widget = curveUnits.take(curve);
+    curvesWidgetLayout->removeWidget(widget);
+    widget->deleteLater();
+    QCheckBox* checkbox;
+    checkbox = checkBoxes.take(curve);
+    curvesWidgetLayout->removeWidget(checkbox);
+    checkbox->deleteLater();
+//    intData->remove(curve);
 }
 
-void AQLinechartWidget::clearCurves()
+void LinechartWidget::recolor()
 {
-    for (int i = 0; i < ListItems->size(); i++)
-        removeCurve(ListItems->at(i));
+//    activePlot->styleChanged(MainWindow::instance()->getStyle());
+//    foreach (QString key, colorIcons.keys())
+//    {
+//        QWidget* colorIcon = colorIcons.value(key, 0);
+//        if (colorIcon && !colorIcon->styleSheet().isEmpty())
+//        {
+//        QString colorstyle;
+//        QColor color = activePlot->getColorForCurve(key);
+//            colorstyle = colorstyle.sprintf("QWidget { background-color: #%02X%02X%02X; }", color.red(), color.green(), color.blue());
+//            colorIcon->setStyleSheet(colorstyle);
+//        }
+//    }
 }
 
-void AQLinechartWidget::recolor()
+void LinechartWidget::setPlotFilterLineEditFocus()
 {
-    //activePlot->styleChanged(MainWindow::instance()->getStyle());
-    foreach (QString key, colorIcons.keys())
+    //ui.plotFilterLineEdit->setFocus(Qt::ShortcutFocusReason);
+}
+
+void LinechartWidget::filterCurve(const QString &key, bool match)
+{
+        if (!checkBoxes[key]->isChecked())
+        {
+            colorIcons[key]->setVisible(match);
+            curveNameLabels[key]->setVisible(match);
+            (*curveLabels)[key]->setVisible(match);
+            (*curveMeans)[key]->setVisible(match);
+            (*curveVariances)[key]->setVisible(match);
+            curveUnits[key]->setVisible(match);
+            checkBoxes[key]->setVisible(match);
+        }
+}
+
+void LinechartWidget::filterCurves(const QString &filter)
+{
+    //qDebug() << "filterCurves: filter: " << filter;
+
+    if (filter != "")
     {
-        QWidget* colorIcon = colorIcons.value(key, 0);
-        if (colorIcon) {
-            QString colorstyle;
-            QColor color = activePlot->getColorForCurve(key);
-            colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
-            colorIcon->setStyleSheet(colorstyle);
-            colorIcon->setAutoFillBackground(true);
+        /* Hide Elements which do not match the filter pattern */
+        QStringMatcher stringMatcher(filter, Qt::CaseInsensitive);
+        foreach (QString key, colorIcons.keys())
+        {
+            if (stringMatcher.indexIn(key) < 0)
+            {
+                filterCurve(key, false);
+            }
+            else
+            {
+                filterCurve(key, true);
+            }
+        }
+    }
+    else
+        {
+        /* Show all Elements */
+        foreach (QString key, colorIcons.keys())
+        {
+            filterCurve(key, true);
         }
     }
 }
 
-QString AQLinechartWidget::getCurveName(const QString& key, bool shortEnabled)
+QString LinechartWidget::getCurveName(const QString& key, bool shortEnabled)
 {
-    Q_UNUSED(shortEnabled);
-    return curveNames.value(key);
+    if (shortEnabled)
+    {
+        QString name;
+        QStringList parts = curveNames.value(key).split(".");
+        if (parts.length() > 1)
+        {
+            name = parts.at(1);
+        }
+        else
+        {
+            name = parts.at(0);
+        }
+
+        const int sizeLimit = 20;
+
+        // Replace known words with abbreviations
+        if (name.length() > sizeLimit)
+        {
+            name.replace("gyroscope", "gyro");
+            name.replace("accelerometer", "acc");
+            name.replace("magnetometer", "mag");
+            name.replace("distance", "dist");
+            name.replace("ailerons", "ail");
+            name.replace("altitude", "alt");
+            name.replace("waypoint", "wp");
+            name.replace("throttle", "thr");
+            name.replace("elevator", "elev");
+            name.replace("rudder", "rud");
+            name.replace("error", "err");
+            name.replace("version", "ver");
+            name.replace("message", "msg");
+            name.replace("count", "cnt");
+            name.replace("value", "val");
+            name.replace("source", "src");
+            name.replace("index", "idx");
+            name.replace("type", "typ");
+            name.replace("mode", "mod");
+        }
+
+        // Check if sub-part is still exceeding N chars
+        if (name.length() > sizeLimit)
+        {
+            name.replace("a", "");
+            name.replace("e", "");
+            name.replace("i", "");
+            name.replace("o", "");
+            name.replace("u", "");
+        }
+
+        return name;
+    }
+    else
+    {
+        return curveNames.value(key);
+    }
 }
 
-void AQLinechartWidget::setShortNames(bool enable)
+void LinechartWidget::setShortNames(bool enable)
 {
     foreach (QString key, curveNames.keys())
     {
@@ -721,25 +822,25 @@ void AQLinechartWidget::setShortNames(bool enable)
     }
 }
 
-void AQLinechartWidget::showEvent(QShowEvent* event)
+void LinechartWidget::showEvent(QShowEvent* event)
 {
     Q_UNUSED(event);
     setActive(true);
 }
 
-void AQLinechartWidget::hideEvent(QHideEvent* event)
+void LinechartWidget::hideEvent(QHideEvent* event)
 {
     Q_UNUSED(event);
     setActive(false);
 }
 
-void AQLinechartWidget::setActive(bool active)
+void LinechartWidget::setActive(bool active)
 {
     if (activePlot) {
         activePlot->setActive(active);
     }
     if (active) {
-        updateTimer->start(UPDATE_INTERVAL);
+        updateTimer->start(updateInterval);
     } else {
         updateTimer->stop();
     }
@@ -753,7 +854,7 @@ void AQLinechartWidget::setActive(bool active)
  *
  * @param scrollBarValue The value of the scrollbar, in the range from MIN_TIME_SCROLLBAR_VALUE to MAX_TIME_SCROLLBAR_VALUE
  **/
-void AQLinechartWidget::setPlotWindowPosition(int scrollBarValue)
+void LinechartWidget::setPlotWindowPosition(int scrollBarValue)
 {
     plotWindowLock.lockForWrite();
     // Disable automatic scrolling immediately
@@ -800,7 +901,7 @@ void AQLinechartWidget::setPlotWindowPosition(int scrollBarValue)
  *
  * @param position The absolute position of the right edge of the plot window, in milliseconds
  **/
-void AQLinechartWidget::setPlotWindowPosition(quint64 position)
+void LinechartWidget::setPlotWindowPosition(quint64 position)
 {
     plotWindowLock.lockForWrite();
     // Calculate the relative position
@@ -832,21 +933,20 @@ void AQLinechartWidget::setPlotWindowPosition(quint64 position)
  *
  * @param interval The time interval to plot
  **/
-void AQLinechartWidget::setPlotInterval(int interval)
+void LinechartWidget::setPlotInterval(quint64 interval)
 {
-    if (interval < 1000) // convert to ms
-        interval *= 1000;
-    activePlot->setPlotInterval(static_cast<quint64>(interval));
+    activePlot->setPlotInterval(interval);
 }
 
 /**
  * @brief Take the click of a curve activation / deactivation button.
- * This method allows to map a button to a plot curve.The text of the
- * button must equal the curve name to activate / deactivate.
+ * This method allows to map a button to a plot curve. The text of the
+ * button must equal the curve name to activate / deactivate. If the checkbox
+ * was clicked, show the curve color, otherwise clear the coloring.
  *
  * @param checked The visibility of the curve: true to display the curve, false otherwise
  **/
-void AQLinechartWidget::takeButtonClick(bool checked)
+void LinechartWidget::takeButtonClick(bool checked)
 {
 
     QCheckBox* button = qobject_cast<QCheckBox*>(QObject::sender());
@@ -854,44 +954,25 @@ void AQLinechartWidget::takeButtonClick(bool checked)
     if(button != NULL)
     {
         activePlot->setVisibleById(button->objectName(), checked);
-
-
-//      CurveIsActive[]
-//      qDebug() << button->objectName();
-//      int index = ListItems->indexOf(button->objectName());
-//      CurveIsActive[index] = checked;
-
         QWidget* colorIcon = colorIcons.value(button->objectName(), 0);
-        if (colorIcon) {
-            QColor color = activePlot->getColorForCurve(button->objectName());
-            if (color.isValid()) {
-                QString colorstyle;
-                colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
-                colorIcon->setStyleSheet(colorstyle);
-                colorIcon->setAutoFillBackground(true);
+        if (colorIcon)
+        {
+            if (checked)
+            {
+        QColor color = activePlot->getColorForCurve(button->objectName());
+                if (color.isValid())
+        {
+            QString colorstyle;
+                    colorstyle = colorstyle.sprintf("QWidget { background-color: #%02X%02X%02X; }", color.red(), color.green(), color.blue());
+                    colorIcon->setStyleSheet(colorstyle);
+                }
+            }
+            else
+            {
+                colorIcon->setStyleSheet("");
             }
         }
     }
-}
-
-/**
- * @brief Set logarithmic scaling for the curve
- **/
-void AQLinechartWidget::setLogarithmicScaling()
-{
-    activePlot->setLogarithmicScaling();
-    scalingLogButton->setChecked(true);
-    scalingLinearButton->setChecked(false);
-}
-
-/**
- * @brief Set linear scaling for the curve
- **/
-void AQLinechartWidget::setLinearScaling()
-{
-    activePlot->setLinearScaling();
-    scalingLogButton->setChecked(false);
-    scalingLinearButton->setChecked(true);
 }
 
 /**
@@ -901,7 +982,7 @@ void AQLinechartWidget::setLinearScaling()
  * @param text The button text
  * @param parent The parent object (to ensure that the memory is freed after the deletion of the button)
  **/
-QToolButton* AQLinechartWidget::createButton(QWidget* parent)
+QToolButton* LinechartWidget::createButton(QWidget* parent)
 {
     QToolButton* button = new QToolButton(parent);
     button->setMinimumSize(QSize(20, 20));

@@ -1,5 +1,5 @@
-#ifndef LINECHARTPLOT_H
-#define LINECHARTPLOT_H
+#ifndef _LINECHARTPLOT_H_
+#define _LINECHARTPLOT_H_
 
 #define QUINT64_MIN Q_UINT64_C(0)
 #define QUINT64_MAX Q_UINT64_C(18446744073709551615)
@@ -113,6 +113,12 @@ private:
 };
 
 
+
+
+
+/**
+ * @brief Time series plot
+ **/
 class LinechartPlot : public ChartPlot
 {
     Q_OBJECT
@@ -193,17 +199,17 @@ public slots:
     // General interaction
     void setWindowPosition(quint64 end);
     void setPlotInterval(int interval);
-//    void setScaling(int scaling);
+    void setScaling(int scaling);
     void setAutoScroll(bool active);
     void paintRealtime();
 
     /** @brief Set logarithmic plot y-axis scaling */
-//    void setLogarithmicScaling();
+    void setLogarithmicScaling();
     /** @brief Set linear plot y-axis scaling */
-//    void setLinearScaling();
+    void setLinearScaling();
 
     /** @brief Set the number of values to average over */
-//    void setAverageWindow(int windowSize);
+    void setAverageWindow(int windowSize);
     void removeTimedOutCurves();
 
 protected:
@@ -272,4 +278,4 @@ signals:
     void windowPositionChanged(quint64 position);
 };
 
-#endif // LINECHARTPLOT_H
+#endif // _LINECHARTPLOT_H_

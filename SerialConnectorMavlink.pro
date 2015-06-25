@@ -70,7 +70,13 @@ SOURCES += main.cpp\
     ChartPlot.cpp \
     LinechartPlot.cpp \
     primaryflightdisplay.cpp \
-    hddisplay.cpp
+    hddisplay.cpp \
+    logcompressor.cpp \
+    scrollzoomer.cpp \
+    scrollbar.cpp \
+    incrementalplot.cpp \
+    linecharts.cpp \
+    linechartwidget.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -110,7 +116,13 @@ common\* \
     ChartPlot.h \
     LinechartPlot.h \
     primaryflightdisplay.h \
-    hddisplay.h
+    hddisplay.h \
+    logcompressor.h \
+    scrollzoomer.h \
+    scrollbar.h \
+    incrementalplot.h \
+    linecharts.h \
+    linechartwidget.h
 
 
 FORMS    += mainwindow.ui \
@@ -123,7 +135,9 @@ FORMS    += mainwindow.ui \
     debugconsole.ui \
     aq_telemetryView.ui \
     AQLinechart.ui \
-    hddisplay.ui
+    hddisplay.ui \
+    linechart.ui
+
 
 
 

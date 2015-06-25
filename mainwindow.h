@@ -24,6 +24,10 @@
 #include "mavlinkmessagesender.h"
 #include "hddisplay.h"
 #include "mavlinkdecoder.h"
+#include "logcompressor.h"
+
+
+
 //#include "seriallink.h"
 //#include "uasinfowidget.h"
 //#include "debugconsole.h"
