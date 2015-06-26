@@ -1,11 +1,55 @@
+/****************************************************************************
+** Copyright (c) 2000-2003 Wayne Roth
+** Copyright (c) 2004-2007 Stefan Sander
+** Copyright (c) 2007 Michal Policht
+** Copyright (c) 2008 Brandon Fosdick
+** Copyright (c) 2009-2010 Liam Staskawicz
+** Copyright (c) 2011 Debao Zhang
+** All right reserved.
+** Web: http://code.google.com/p/qextserialport/
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the
+** "Software"), to deal in the Software without restriction, including
+** without limitation the rights to use, copy, modify, merge, publish,
+** distribute, sublicense, and/or sell copies of the Software, and to
+** permit persons to whom the Software is furnished to do so, subject to
+** the following conditions:
+**
+** The above copyright notice and this permission notice shall be
+** included in all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+** NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+** LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+** OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+** WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+**
+****************************************************************************/
+
 #ifndef _QEXTSERIALPORT_P_H_
 #define _QEXTSERIALPORT_P_H_
 
+//
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the QESP API.  It exists for the convenience
+// of other QESP classes.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+//
+
 #include "qextserialport.h"
 #include <QtCore/QReadWriteLock>
-
+#ifdef Q_OS_UNIX
+#  include <termios.h>
+#elif (defined Q_OS_WIN)
 #  include <QtCore/qt_windows.h>
-
+#endif
 #include <stdlib.h>
 
 // This is QextSerialPort's read buffer, needed by posix system.
@@ -155,7 +199,12 @@ public:
     QextSerialPort::QueryMode queryMode;
 
     // platform specific members
-
+#ifdef Q_OS_UNIX
+    int fd;
+    QSocketNotifier *readNotifier;
+    struct termios currentTermios;
+    struct termios oldTermios;
+#elif (defined Q_OS_WIN)
     HANDLE handle;
     OVERLAPPED overlap;
     COMMCONFIG commConfig;
@@ -164,7 +213,7 @@ public:
     DWORD eventMask;
     QList<OVERLAPPED *> pendingWrites;
     QReadWriteLock *bytesToWriteLock;
-
+#endif
 
     /*fill PortSettings*/
     void setBaudRate(BaudRateType baudRate, bool update=true);
@@ -190,8 +239,9 @@ public:
     ulong lineStatus_sys();
     qint64 bytesAvailable_sys() const;
 
+#ifdef Q_OS_WIN
     void _q_onWinEvent(HANDLE h);
-
+#endif
     void _q_canRead();
 
     QextSerialPort *q_ptr;

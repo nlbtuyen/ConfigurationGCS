@@ -406,5 +406,6 @@ void AQTelemetryView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t value
     currentValuesF = &values;
     currentValueType = TELEM_VALUETYPE_FLOAT;
 
+    qDebug() << "go to getNewTelemetryF";
     getNewTelemetry(uasId, values.Index);
 }

@@ -58,9 +58,8 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect (ui->btn_save, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
     loadSettings();
 
-    aqtelemetry = new AQTelemetryView(this);
-
-    ui->scrollArea_logviewer->setWidget(aqtelemetry);
+//    aqtelemetry = new AQTelemetryView(this);
+//    ui->scrollArea_logviewer->setWidget(aqtelemetry);
 
 }
 
@@ -182,10 +181,6 @@ void UAVConfig::updateCommonImages()
     QImage imageObject5;
     imageObject5.load(str + "4.png");
     ui->lbl_show_enable_pid->setPixmap(QPixmap::fromImage(imageObject5));
-
-    QImage imageObject7;
-    imageObject7.load(str + "display.jpg");
-    ui->lbl_show_primary->setPixmap(QPixmap::fromImage(imageObject7));
 
     ui->btn_quadx->setStyleSheet("background-color : yellow");
     QImage imageObject6;

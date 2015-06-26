@@ -1,3 +1,34 @@
+/****************************************************************************
+** Copyright (c) 2000-2003 Wayne Roth
+** Copyright (c) 2004-2007 Stefan Sander
+** Copyright (c) 2007 Michal Policht
+** Copyright (c) 2008 Brandon Fosdick
+** Copyright (c) 2009-2010 Liam Staskawicz
+** Copyright (c) 2011 Debao Zhang
+** All right reserved.
+** Web: http://code.google.com/p/qextserialport/
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the
+** "Software"), to deal in the Software without restriction, including
+** without limitation the rights to use, copy, modify, merge, publish,
+** distribute, sublicense, and/or sell copies of the Software, and to
+** permit persons to whom the Software is furnished to do so, subject to
+** the following conditions:
+**
+** The above copyright notice and this permission notice shall be
+** included in all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+** NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+** LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+** OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+** WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+**
+****************************************************************************/
+
 #include "qextserialport.h"
 #include "qextserialport_p.h"
 #include <stdio.h>
@@ -45,12 +76,41 @@ QextSerialPortPrivate::~QextSerialPortPrivate()
 void QextSerialPortPrivate::setBaudRate(BaudRateType baudRate, bool update)
 {
     switch (baudRate) {
+#ifdef Q_OS_WIN
     //Windows Special
     case BAUD14400:
     case BAUD56000:
     case BAUD128000:
     case BAUD256000:
         QESP_PORTABILITY_WARNING()<<"QextSerialPort Portability Warning: POSIX does not support baudRate:"<<baudRate;
+#elif defined(Q_OS_UNIX)
+    //Unix Special
+    case BAUD50:
+    case BAUD75:
+    case BAUD134:
+    case BAUD150:
+    case BAUD200:
+    case BAUD1800:
+#  ifdef B76800
+    case BAUD76800:
+#  endif
+#  if defined(B230400) && defined(B4000000)
+    case BAUD230400:
+    case BAUD460800:
+    case BAUD500000:
+    case BAUD576000:
+    case BAUD921600:
+    case BAUD1000000:
+    case BAUD1152000:
+    case BAUD1500000:
+    case BAUD2000000:
+    case BAUD2500000:
+    case BAUD3000000:
+    case BAUD3500000:
+    case BAUD4000000:
+#  endif
+        QESP_PORTABILITY_WARNING()<<"QextSerialPort Portability Warning: Windows does not support baudRate:"<<baudRate;
+#endif
     case BAUD110:
     case BAUD300:
     case BAUD600:
@@ -62,13 +122,18 @@ void QextSerialPortPrivate::setBaudRate(BaudRateType baudRate, bool update)
     case BAUD38400:
     case BAUD57600:
     case BAUD115200:
-
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     default:
+#endif
         settings.BaudRate = baudRate;
         settingsDirtyFlags |= DFE_BaudRate;
         if (update && q_func()->isOpen())
             updatePortSettings();
         break;
+#if !(defined(Q_OS_WIN) || defined(Q_OS_MAC))
+    default:
+        QESP_WARNING()<<"QextSerialPort does not support baudRate:"<<baudRate;
+#endif
     }
 }
 
@@ -77,16 +142,20 @@ void QextSerialPortPrivate::setParity(ParityType parity, bool update)
     switch (parity) {
     case PAR_SPACE:
         if (settings.DataBits == DATA_8) {
-
+#ifdef Q_OS_WIN
             QESP_PORTABILITY_WARNING("QextSerialPort Portability Warning: Space parity with 8 data bits is not supported by POSIX systems.");
+#else
+            QESP_WARNING("Space parity with 8 data bits is not supported by POSIX systems.");
+#endif
         }
         break;
 
-
+#ifdef Q_OS_WIN
         /*mark parity - WINDOWS ONLY*/
     case PAR_MARK:
         QESP_PORTABILITY_WARNING("QextSerialPort Portability Warning:  Mark parity is not supported by POSIX systems");
         break;
+#endif
 
     case PAR_NONE:
     case PAR_EVEN:
@@ -116,11 +185,12 @@ void QextSerialPortPrivate::setDataBits(DataBitsType dataBits, bool update)
         break;
 
     case DATA_6:
+#ifdef Q_OS_WIN
         if (settings.StopBits == STOP_1_5) {
             QESP_WARNING("QextSerialPort: 6 Data bits cannot be used with 1.5 stop bits.");
         }
         else
-
+#endif
         {
             settings.DataBits = dataBits;
             settingsDirtyFlags |= DFE_DataBits;
@@ -128,12 +198,12 @@ void QextSerialPortPrivate::setDataBits(DataBitsType dataBits, bool update)
         break;
 
     case DATA_7:
-
+#ifdef Q_OS_WIN
         if (settings.StopBits == STOP_1_5) {
             QESP_WARNING("QextSerialPort: 7 Data bits cannot be used with 1.5 stop bits.");
         }
         else
-
+#endif
         {
             settings.DataBits = dataBits;
             settingsDirtyFlags |= DFE_DataBits;
@@ -141,12 +211,12 @@ void QextSerialPortPrivate::setDataBits(DataBitsType dataBits, bool update)
         break;
 
     case DATA_8:
-
+#ifdef Q_OS_WIN
         if (settings.StopBits == STOP_1_5) {
             QESP_WARNING("QextSerialPort: 8 Data bits cannot be used with 1.5 stop bits.");
         }
         else
-
+#endif
         {
             settings.DataBits = dataBits;
             settingsDirtyFlags |= DFE_DataBits;
@@ -169,6 +239,7 @@ void QextSerialPortPrivate::setStopBits(StopBitsType stopBits, bool update)
         settingsDirtyFlags |= DFE_StopBits;
         break;
 
+#ifdef Q_OS_WIN
         /*1.5 stop bits*/
     case STOP_1_5:
         QESP_PORTABILITY_WARNING("QextSerialPort Portability Warning: 1.5 stop bit operation is not supported by POSIX.");
@@ -179,7 +250,7 @@ void QextSerialPortPrivate::setStopBits(StopBitsType stopBits, bool update)
             settingsDirtyFlags |= DFE_StopBits;
         }
         break;
-
+#endif
 
         /*two stop bits*/
     case STOP_2:
@@ -332,8 +403,30 @@ void QextSerialPortPrivate::_q_canRead()
 QextSerialPort::QextSerialPort(QextSerialPort::QueryMode mode, QObject *parent)
     : QIODevice(parent), d_ptr(new QextSerialPortPrivate(this))
 {
+#ifdef Q_OS_WIN
     setPortName(QLatin1String("COM1"));
 
+#elif defined(Q_OS_IRIX)
+    setPortName(QLatin1String("/dev/ttyf1"));
+
+#elif defined(Q_OS_HPUX)
+    setPortName(QLatin1String("/dev/tty1p0"));
+
+#elif defined(Q_OS_SOLARIS)
+    setPortName(QLatin1String("/dev/ttya"));
+
+#elif defined(Q_OS_OSF) //formally DIGITAL UNIX
+    setPortName(QLatin1String("/dev/tty01"));
+
+#elif defined(Q_OS_FREEBSD)
+    setPortName(QLatin1String("/dev/ttyd1"));
+
+#elif defined(Q_OS_OPENBSD)
+    setPortName(QLatin1String("/dev/tty00"));
+
+#else
+    setPortName(QLatin1String("/dev/ttyS0"));
+#endif
     setQueryMode(mode);
 }
 
