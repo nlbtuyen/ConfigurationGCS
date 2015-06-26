@@ -58,7 +58,8 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect (ui->btn_save, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
     loadSettings();
 
-    aqtelemetry = new AQTelemetryView();
+    aqtelemetry = new AQTelemetryView(this);
+
     ui->scrollArea_logviewer->setWidget(aqtelemetry);
 
 }

@@ -103,7 +103,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     // Create the layout
     createLayout();
 
-    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
+   // connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     //connect(ui.uasSelectionBox, SIGNAL(currentIndexChanged(int)), this, SLOT(selectActiveSystem(int)));
 
@@ -269,7 +269,7 @@ void AQLinechartWidget::createLayout()
 
     // Connect notifications from the user interface to the plot
     connect(this, SIGNAL(curveRemoved(QString)), activePlot, SLOT(hideCurve(QString)));
-    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
+//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
 
     // Update scrollbar when plot window changes (via translator method setPlotWindowPosition()
 //    connect(activePlot, SIGNAL(windowPositionChanged(quint64)), this, SLOT(setPlotWindowPosition(quint64)));

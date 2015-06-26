@@ -3,7 +3,7 @@
 
 #include "aqlinechartwidget.h"
 #include "autoquadMAV.h"
-#include <QWidget>
+#include <QTabWidget>
 
 namespace Ui {
 class AQTelemetryView;
@@ -36,8 +36,6 @@ private:
     };
 
     Ui::AQTelemetryView *ui;
-
-
     int msec;
     int totalDatasetFields[TELEM_DATASET_NUM];
     int datasetFieldsSetup;
@@ -49,7 +47,7 @@ private:
     QList<telemFieldsMeta> telemDataFields;
     QButtonGroup* btnsDataSets;
 
-//    void setupDataFields();
+    void setupDataFields();
     void setupCurves();
     float getTelemValue(const int idx);
 
@@ -64,7 +62,7 @@ private slots:
     void teleValuesToggle();
     void teleValuesStart();
     void teleValuesStop();
-//    void frequencyChanged(int freq);
+    void frequencyChanged(int freq);
 
 protected:
     AQLinechartWidget* AqTeleChart;

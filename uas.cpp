@@ -1821,7 +1821,7 @@ void UAS::writeParametersToStorage()
 {
     mavlink_message_t msg;
     mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, MAV_CMD_PREFLIGHT_STORAGE, 1, 1, -1, -1, -1, 0, 0, 0);
-    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
+//    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
     sendMessage(msg);
 }
 
@@ -1829,7 +1829,7 @@ void UAS::readParametersFromStorage()
 {
     mavlink_message_t msg;
     mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, MAV_CMD_PREFLIGHT_STORAGE, 1, 0, -1, -1, -1, 0, 0, 0);
-    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
+//    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
     sendMessage(msg);
 }
 

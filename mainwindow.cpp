@@ -135,7 +135,8 @@ void MainWindow::initActionsConnections()
     //Move protocol outside UI
     mavlink     = new MAVLinkProtocol();
     connect(mavlink, SIGNAL(protocolStatusMessage(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
-    //    mavlinkDecoder = new MAVLinkDecoder(mavlink, this);
+//    mavlinkDecoder = new MAVLinkDecoder(mavlink, this);
+//    connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), this->, SLOT(receiveTextMessage(int, int, int, const QString)));
 
     //Add action to ToolBar
     ui->actionConnect->setEnabled(true);
@@ -586,5 +587,3 @@ void MainWindow::updateBattery()
     toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
 
 }
-
-

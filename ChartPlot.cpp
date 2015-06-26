@@ -60,7 +60,7 @@ ChartPlot::ChartPlot(QWidget *parent):
 
     // Now that all objects have been initialized, color everything.
     //styleChanged(MainWindow::instance()->getStyle());
-    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(styleChanged(int)));
+//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(styleChanged(int)));
 }
 
 ChartPlot::~ChartPlot()

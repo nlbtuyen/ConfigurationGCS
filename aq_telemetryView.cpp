@@ -2,6 +2,7 @@
 #include "ui_aq_telemetryView.h"
 #include "uasmanager.h"
 #include <QLineEdit>
+using namespace AUTOQUADMAV;
 
 AQTelemetryView::AQTelemetryView(QWidget *parent) :
     QWidget(parent),
@@ -12,12 +13,13 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     AqTeleChart(NULL),
     uas(NULL)
 {
+
     ui->setupUi(this);
 
-//    ui->Frequenz_Telemetry->addItem("1 Hz", 1000000);
-//    ui->Frequenz_Telemetry->addItem("10 Hz", 100000);
-//    ui->Frequenz_Telemetry->addItem("25 Hz", 50000);
-//    ui->Frequenz_Telemetry->addItem("50 Hz", 20000);
+    ui->Frequenz_Telemetry->addItem("1 Hz", 1000000);
+    ui->Frequenz_Telemetry->addItem("10 Hz", 100000);
+    ui->Frequenz_Telemetry->addItem("25 Hz", 50000);
+    ui->Frequenz_Telemetry->addItem("50 Hz", 20000);
 //    ui->Frequenz_Telemetry->addItem("75 Hz", 13333);
 //    ui->Frequenz_Telemetry->addItem("100 Hz", 10000);
 //    ui->Frequenz_Telemetry->addItem("110 Hz", 9090);
@@ -26,20 +28,20 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
 //    ui->Frequenz_Telemetry->addItem("150 Hz", 6666);
 //    ui->Frequenz_Telemetry->addItem("175 Hz", 5714);
 //    ui->Frequenz_Telemetry->addItem("200 Hz", 5000);
-//    ui->Frequenz_Telemetry->setCurrentIndex(2);
+    ui->Frequenz_Telemetry->setCurrentIndex(2);
 
-//    btnsDataSets = new QButtonGroup(this);
-//    btnsDataSets->setExclusive(false);
-//    QCheckBox* cb = new QCheckBox(tr("Default"), this);
-//    cb->setChecked(true);
-//    btnsDataSets->addButton(cb, AQMAV_DATASET_LEGACY1);
-//    ui->hLayout_dataSets->addWidget(cb);
-//    cb = new QCheckBox(tr("Gimbal"), this);
-//    btnsDataSets->addButton(cb, AQMAV_DATASET_GIMBAL);
-//    ui->hLayout_dataSets->addWidget(cb);
-//    cb = new QCheckBox(tr("Stacks"), this);
-//    btnsDataSets->addButton(cb, AQMAV_DATASET_STACKSFREE);
-//    ui->hLayout_dataSets->addWidget(cb);
+    btnsDataSets = new QButtonGroup(this);
+    btnsDataSets->setExclusive(false);
+    QCheckBox* cb = new QCheckBox(tr("Default"), this);
+    cb->setChecked(true);
+    btnsDataSets->addButton(cb, AQMAV_DATASET_LEGACY1);
+    ui->hLayout_dataSets->addWidget(cb);
+    cb = new QCheckBox(tr("Gimbal"), this);
+    btnsDataSets->addButton(cb, AQMAV_DATASET_GIMBAL);
+    ui->hLayout_dataSets->addWidget(cb);
+    cb = new QCheckBox(tr("Stacks"), this);
+    btnsDataSets->addButton(cb, AQMAV_DATASET_STACKSFREE);
+    ui->hLayout_dataSets->addWidget(cb);
 
     // define all data fields
 
@@ -161,13 +163,61 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
 //    for (int i=0; i < telemDataFields.size(); i++)
 //        qDebug() << "Label: " << telemDataFields[i].label;
 
-//    setupDataFields();
+    setupDataFields();
 
     connect(ui->pushButton_start_tel_grid, SIGNAL(clicked()),this, SLOT(teleValuesToggle()));
-    //connect(ui->Frequenz_Telemetry, SIGNAL(activated(int)),this, SLOT(frequencyChanged(int)));
+    connect(ui->Frequenz_Telemetry, SIGNAL(activated(int)),this, SLOT(frequencyChanged(int)));
 
     initChart(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);
+}
+
+AQTelemetryView::~AQTelemetryView()
+{
+    delete ui;
+}
+
+void AQTelemetryView::setupDataFields() {
+    if (datasetFieldsSetup != currentDataSet) {
+
+        const int totalFlds = totalDatasetFields[currentDataSet];
+        const int rowsPerCol = (int) ceil((float)(totalFlds / 4.0f));
+        int gridRow = 0;
+        int curGrid = 0;
+        int fldCnt = 0;
+        int i;
+        QGridLayout *grid;
+
+        // clear data fields grid
+        QLayoutItem* item;
+        for (i=0; i < 3; i++) {
+            grid = ui->valuesGrid->findChild<QGridLayout *>(QString("valsGrid%1").arg(i));
+            while ( ( item = grid->layout()->takeAt(0) ) != NULL ) {
+                if (item->widget())
+                    delete item->widget();
+                delete item;
+            }
+        }
+
+        grid = ui->valsGrid0;
+        for (i=0; i < telemDataFields.size(); i++) {
+            if (telemDataFields[i].dataSet == currentDataSet) {
+                if ( gridRow >= rowsPerCol && curGrid < 3 ) {
+                    curGrid++;
+                    grid = ui->valuesGrid->findChild<QGridLayout *>(QString("valsGrid%1").arg(curGrid));
+                    gridRow = 0;
+                }
+
+                grid->addWidget(new QLabel(telemDataFields[i].label), gridRow, 0);
+                grid->addWidget(new QLineEdit, gridRow, 1);
+
+                gridRow = grid->rowCount();
+                fldCnt++;
+            } // if field is in correct data set
+        } // loop over all fields
+
+        datasetFieldsSetup = currentDataSet;
+    }
 }
 
 void AQTelemetryView::setupCurves() {
@@ -197,11 +247,6 @@ void AQTelemetryView::initChart(UASInterface *uav) {
         linLayoutPlot->addWidget(AqTeleChart, 0, Qt::AlignCenter);
     }
     setupCurves();
-}
-
-AQTelemetryView::~AQTelemetryView()
-{
-    delete ui;
 }
 
 float AQTelemetryView::getTelemValue(const int idx) {
@@ -301,18 +346,18 @@ void AQTelemetryView::teleValuesStart(){
     if (!uas) return;
 
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
-    //float freq = ui->Frequenz_Telemetry->itemData(ui->Frequenz_Telemetry->currentIndex()).toFloat();
-//    foreach (QAbstractButton* abtn, btnsDataSets->buttons())
-//        uas->startStopTelemetry(abtn->isChecked(), freq, btnsDataSets->id(abtn));
+    float freq = ui->Frequenz_Telemetry->itemData(ui->Frequenz_Telemetry->currentIndex()).toFloat();
+    foreach (QAbstractButton* abtn, btnsDataSets->buttons())
+        uas->startStopTelemetry(abtn->isChecked(), freq, btnsDataSets->id(abtn));
 }
 
 void AQTelemetryView::teleValuesStop() {
     if (!uas)
         return;
     disconnect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
-    //float freq = ui->Frequenz_Telemetry->itemData(ui->Frequenz_Telemetry->currentIndex()).toFloat();
+    float freq = ui->Frequenz_Telemetry->itemData(ui->Frequenz_Telemetry->currentIndex()).toFloat();
     foreach (QAbstractButton* abtn, btnsDataSets->buttons())
-        uas->startStopTelemetry(false, 0, btnsDataSets->id(abtn));
+        uas->startStopTelemetry(false, freq, btnsDataSets->id(abtn));
 }
 
 void AQTelemetryView::teleValuesToggle(){
@@ -327,6 +372,14 @@ void AQTelemetryView::teleValuesToggle(){
     }
 }
 
+void AQTelemetryView::frequencyChanged(int freq) {
+    Q_UNUSED(freq);
+    if (telemetryRunning) {
+        teleValuesStop();
+        teleValuesStart();
+    }
+}
+
 void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
     float val;
     QString valStr;
@@ -336,15 +389,13 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
         if (valIdx == telemDataFields[i].msgValueIndex) {
             val = getTelemValue(telemDataFields[i].valueIndex);
 
-//            if (ui->tab_val_grid->isVisible()) {
-//                valStr = telemDataFields[i].unit == QString("int") ? QString::number((int)val) : QString::number(val);
-//                ui->valuesGrid->findChildren<QLineEdit *>(QString("")).at(i)->setText(valStr);
-//            }
+            if (ui->tab_val_grid->isVisible()) {
+                valStr = telemDataFields[i].unit == QString("int") ? QString::number((int)val) : QString::number(val);
+                ui->valuesGrid->findChildren<QLineEdit *>(QString("")).at(i)->setText(valStr);
+            }
 
             if (ui->tab_val_chart->isVisible()) { // AqTeleChart->CurveIsActive[i]
                 QVariant var = QVariant::fromValue(val);
-                //qDebug() << "telemDataFields[i].label " << telemDataFields[i].label << "\r\n";
-                //qDebug() << "var " << var << "\r\n";
                 AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec);
             }
         }
@@ -357,4 +408,3 @@ void AQTelemetryView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t value
 
     getNewTelemetry(uasId, values.Index);
 }
-
