@@ -99,7 +99,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="tab_RC_config">
           <property name="styleSheet">
@@ -2387,7 +2387,7 @@ padding: 1px 5px;</string>
              <property name="minimumSize">
               <size>
                <width>800</width>
-               <height>500</height>
+               <height>700</height>
               </size>
              </property>
              <property name="title">
@@ -2408,7 +2408,7 @@ padding: 1px 5px;</string>
                    <x>0</x>
                    <y>0</y>
                    <width>778</width>
-                   <height>465</height>
+                   <height>665</height>
                   </rect>
                  </property>
                 </widget>

@@ -8,11 +8,15 @@
 #include <cmath>
 #include <qmath.h>
 #include "uas.h"
-#include "mavlinkprotocol.h"
 #include "linkinterface.h"
-#include "autoquadmav.h"
 #include "uasmanager.h"
+#include "qgc.h"
+#include "mavlinkprotocol.h"
 #include "linkmanager.h"
+#include "seriallink.h"
+#include "autoquadmav.h"
+#include "mavlink.h"
+
 
 /**
 * Gets the settings from the previous UAS (name, airframe, autopilot, battery specs)
@@ -290,7 +294,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message) //@Leo 
         emit componentCreated(uasId, message.compid, componentName);
     }
 
-        qDebug() << "UAS RECEIVED from" << message.sysid << "component" << message.compid << "msg id" << message.msgid << "seq no" << message.seq;
+//        qDebug() << "UAS RECEIVED from" << message.sysid << "component" << message.compid << "msg id" << message.msgid << "seq no" << message.seq;
 
     // Only accept messages from this system (condition 1)
     // and only then if a) attitudeStamped is disabled OR b) attitudeStamped is enabled

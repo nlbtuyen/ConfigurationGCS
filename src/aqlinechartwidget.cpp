@@ -103,7 +103,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     // Create the layout
     createLayout();
 
-   // connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
+    //connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     //connect(ui.uasSelectionBox, SIGNAL(currentIndexChanged(int)), this, SLOT(selectActiveSystem(int)));
 
@@ -269,7 +269,7 @@ void AQLinechartWidget::createLayout()
 
     // Connect notifications from the user interface to the plot
     connect(this, SIGNAL(curveRemoved(QString)), activePlot, SLOT(hideCurve(QString)));
-//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
+    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
 
     // Update scrollbar when plot window changes (via translator method setPlotWindowPosition()
 //    connect(activePlot, SIGNAL(windowPositionChanged(quint64)), this, SLOT(setPlotWindowPosition(quint64)));
@@ -694,17 +694,17 @@ void AQLinechartWidget::clearCurves()
 void AQLinechartWidget::recolor()
 {
     //activePlot->styleChanged(MainWindow::instance()->getStyle());
-    foreach (QString key, colorIcons.keys())
-    {
-        QWidget* colorIcon = colorIcons.value(key, 0);
-        if (colorIcon) {
-            QString colorstyle;
-            QColor color = activePlot->getColorForCurve(key);
-            colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
-            colorIcon->setStyleSheet(colorstyle);
-            colorIcon->setAutoFillBackground(true);
-        }
-    }
+//    foreach (QString key, colorIcons.keys())
+//    {
+//        QWidget* colorIcon = colorIcons.value(key, 0);
+//        if (colorIcon) {
+//            QString colorstyle;
+//            QColor color = activePlot->getColorForCurve(key);
+//            colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
+//            colorIcon->setStyleSheet(colorstyle);
+//            colorIcon->setAutoFillBackground(true);
+//        }
+//    }
 }
 
 QString AQLinechartWidget::getCurveName(const QString& key, bool shortEnabled)

@@ -2,6 +2,7 @@
 #include "ui_aq_telemetryView.h"
 #include "uasmanager.h"
 #include <QLineEdit>
+
 using namespace AUTOQUADMAV;
 
 AQTelemetryView::AQTelemetryView(QWidget *parent) :
@@ -161,7 +162,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     totalDatasetFields[dset] = telemDataFields.size();
 
 //    for (int i=0; i < telemDataFields.size(); i++)
-//        qDebug() << "Label: " << telemDataFields[i].label;
+//        qDebug() << "Label: " << telemDataFields[i].label << "msgidx: " << telemDataFields[i].msgValueIndex << "dset: " << telemDataFields[i].dataSet;
 
     setupDataFields();
 
@@ -225,6 +226,7 @@ void AQTelemetryView::setupCurves() {
     if (!uas) return;
 
     int uasId = uas->getUASID();
+//    qDebug() << uasId;
 
     // AqTeleChart->clearCurves();
 
@@ -345,8 +347,10 @@ void AQTelemetryView::teleValuesStart(){
 
     if (!uas) return;
 
+//    qDebug() <<uas->getUASName();
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
     float freq = ui->Frequenz_Telemetry->itemData(ui->Frequenz_Telemetry->currentIndex()).toFloat();
+//    qDebug() <<freq;
     foreach (QAbstractButton* abtn, btnsDataSets->buttons())
         uas->startStopTelemetry(abtn->isChecked(), freq, btnsDataSets->id(abtn));
 }
@@ -406,6 +410,5 @@ void AQTelemetryView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t value
     currentValuesF = &values;
     currentValueType = TELEM_VALUETYPE_FLOAT;
 
-    qDebug() << "go to getNewTelemetryF";
     getNewTelemetry(uasId, values.Index);
 }

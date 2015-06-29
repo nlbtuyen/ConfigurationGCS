@@ -157,11 +157,11 @@ void MainWindow::initActionsConnections()
     addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
     parametersDockWidget->hide();
 
-    pfdDockWidget = new QDockWidget(tr("Primary Flight Display"));
-    pfdDockWidget->setWidget( new PrimaryFlightDisplay(this));
-    pfdDockWidget->setObjectName("PRIMART_FLIGHT_DISPLAY_DOCK_WIDGET");
-    addTool(pfdDockWidget, tr("Primary Flight Display"), Qt::LeftDockWidgetArea);
-    pfdDockWidget->setMaximumHeight(280);
+//    pfdDockWidget = new QDockWidget(tr("Primary Flight Display"));
+//    pfdDockWidget->setWidget( new PrimaryFlightDisplay(this));
+//    pfdDockWidget->setObjectName("PRIMART_FLIGHT_DISPLAY_DOCK_WIDGET");
+//    addTool(pfdDockWidget, tr("Primary Flight Display"), Qt::LeftDockWidgetArea);
+//    pfdDockWidget->setMaximumHeight(280);
 
 //    headDown1DockWidget = new QDockWidget(tr("Custom Gauges"), this);
 //    HDDisplay* hdDisplay = new HDDisplay(NULL, "Custom Gauges", this);
