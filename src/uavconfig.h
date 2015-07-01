@@ -43,7 +43,7 @@ public:
     const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
 
     bool saveSettingsToAq(QWidget *parent, bool interactive = true);
-
+void indexHide(int i);
 signals:
     void hardwareInfoUpdated(void);
 
@@ -75,6 +75,7 @@ private slots:
     void prtstexit(int stat);
     void prtstdout();
     QString extProcessError(QProcess::ProcessError err);
+
 
 
 private:

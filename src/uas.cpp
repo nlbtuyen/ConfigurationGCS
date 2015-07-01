@@ -346,9 +346,9 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message) //@Leo 
         {
 
         case MAVLINK_MSG_ID_AQ_TELEMETRY_F:{
-            mavlink_aq_telemetry_f_t telemetry_msg;
-            mavlink_msg_aq_telemetry_f_decode(&message, &telemetry_msg);
-            emit TelemetryChangedF(uasId, telemetry_msg);
+//            mavlink_aq_telemetry_f_t telemetry_msg;
+//            mavlink_msg_aq_telemetry_f_decode(&message, &telemetry_msg);
+//            emit TelemetryChangedF(uasId, telemetry_msg);
 
             //QString errString = tr("getfloat message %1").arg(telemetry_msg.Index);
             //emit textMessageReceived(uasId, message.compid, 255, errString);
@@ -627,6 +627,9 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message) //@Leo 
                 emit attitudeChanged(this, roll, pitch, yaw, time);
                 emit attitudeSpeedChanged(uasId, attitude.rollspeed, attitude.pitchspeed, attitude.yawspeed, time);
             }
+            mavlink_aq_telemetry_f_t telemetry_msg; //@trung
+            mavlink_msg_aq_telemetry_f_decode(&message, &telemetry_msg);
+            emit TelemetryChangedF(uasId, telemetry_msg, attitude);
         }
             break;
 

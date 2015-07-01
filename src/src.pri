@@ -18,8 +18,6 @@ SOURCES +=  src/main.cpp\
             src/seriallink.cpp \
             src/mavlinkdecoder.cpp \
             src/uasinfowidget.cpp \
-            src/serialconfigurationwindow.cpp \
-            src/commconfigurationwindow.cpp \
             src/debugconsole.cpp \
             src/aq_telemetryView.cpp \
             src/aqlinechartwidget.cpp \
@@ -32,7 +30,11 @@ SOURCES +=  src/main.cpp\
             src/scrollbar.cpp \
             src/incrementalplot.cpp \
             src/linecharts.cpp \
-            src/linechartwidget.cpp
+            src/linechartwidget.cpp \
+    src/connectiontab.cpp \
+    src/serialportsetting.cpp \
+    src/commconfigurationwindow.cpp \
+src/serialconfigurationwindow.cpp
 
 
 HEADERS  += src/mainwindow.h \
@@ -56,8 +58,6 @@ HEADERS  += src/mainwindow.h \
             src/mavlinkdecoder.h \
             src/uasinfowidget.h \
             src/mg.h \
-            src/serialconfigurationwindow.h \
-            src/commconfigurationwindow.h \
             src/debugconsole.h \
             src/aq_telemetryView.h \
             src/aqlinechartwidget.h \
@@ -70,18 +70,24 @@ HEADERS  += src/mainwindow.h \
             src/scrollbar.h \
             src/incrementalplot.h \
             src/linecharts.h \
-            src/linechartwidget.h
-
+            src/linechartwidget.h \
+    src/connectiontab.h \
+    src/serialportsetting.h \
+    src/commconfigurationwindow.h \
+src/serialconfigurationwindow.h
 
 FORMS    += src/mainwindow.ui \
-            src/serialsettings.ui \
             src/uasinfo.ui \
             src/uavconfig.ui \
             src/parameterinterface.ui \
             src/mavlinkmessagesender.ui \
-            src/commsettings.ui \
             src/debugconsole.ui \
             src/aq_telemetryView.ui \
             src/AQLinechart.ui \
             src/hddisplay.ui \
-            src/linechart.ui
+            src/linechart.ui \
+    src/configaq.ui \
+    src/connectiontab.ui \
+    src/serialportsetting.ui \
+src/commsettings.ui \
+src/serialsettings.ui

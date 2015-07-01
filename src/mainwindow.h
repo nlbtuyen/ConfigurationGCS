@@ -26,13 +26,13 @@
 #include "mavlinkdecoder.h"
 #include "logcompressor.h"
 
-
-
 //#include "seriallink.h"
 //#include "uasinfowidget.h"
 //#include "debugconsole.h"
 //#include "mavlinkdecoder.h"
-//#include "commconfigurationwindow.h"
+#include "commconfigurationwindow.h"
+
+#include "connectiontab.h"
 
 
 namespace Ui {
@@ -51,6 +51,7 @@ class UASInfoWidget;
 class CommConfigurationWindow;
 class PrimaryFlightDisplay;
 class HDDisplay;
+
 
 class MainWindow : public QMainWindow
 {
@@ -117,6 +118,8 @@ protected:
     QPointer<MAVLinkDecoder> mavlinkDecoder;
     QPointer<ToolBar> toolBar;
 
+    ConnectionTab* tabConnect;
+
     void addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea location=Qt::RightDockWidgetArea);
     void connectCommonWidgets();
     void connectCommonActions();
@@ -130,6 +133,7 @@ protected:
     AQParamWidget* paramaq;
     UAVConfig *config; //main tab configuration VSK
     QSettings setting;
+
 
 signals:
     /**
@@ -182,6 +186,11 @@ public slots:
     void updateArmingState(bool armed);
 
     void loadStyle();
+
+
+    //@Leo: fix UI
+    void connectTab();
+
 
 private:
     Ui::MainWindow *ui;

@@ -505,7 +505,7 @@ signals:
     void irUltraSoundLocalizationChanged(UASInterface* uas, int fix);
 
     /** @brief AutoQuad custom telemetry messages */
-    void TelemetryChangedF(const int uasId, mavlink_aq_telemetry_f_t values);
+    void TelemetryChangedF(const int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value);
 
     /** @brief Telemetry message from ESC */
     void escTelemetryUpdate(uint8_t escId, uint8_t version, uint16_t age, uint8_t state, float volts, float amps, uint16_t rpm, float duty, float temp, uint16_t errCount, uint8_t errCode);

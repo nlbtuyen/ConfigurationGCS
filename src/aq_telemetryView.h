@@ -41,6 +41,7 @@ private:
     int datasetFieldsSetup;
     bool telemetryRunning;
     QGridLayout* linLayoutPlot;
+    mavlink_attitude_t *testValue; //@trung
     mavlink_aq_telemetry_f_t *currentValuesF;
     telemValueTypes currentValueType;
     telemDatasets currentDataSet;
@@ -57,7 +58,7 @@ public slots:
 
 private slots:
     void getNewTelemetry(int uasId, int valIdx);
-    void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values);
+    void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value);
 
     void teleValuesToggle();
     void teleValuesStart();

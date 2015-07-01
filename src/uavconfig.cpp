@@ -31,6 +31,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
     ui->setupUi(this);
 
+//    ui->tab_Charts->setStyleSheet("QTabBar::tab{ image: url(:images/radio_button.PNG); }");
 
     updateCommonImages();
 
@@ -58,8 +59,8 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect (ui->btn_save, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
     loadSettings();
 
-//    aqtelemetry = new AQTelemetryView(this);
-//    ui->scrollArea_logviewer->setWidget(aqtelemetry);
+    aqtelemetry = new AQTelemetryView(this);
+    ui->scrollArea_logviewer->setWidget(aqtelemetry);
 
 }
 
@@ -70,94 +71,21 @@ UAVConfig::~UAVConfig()
 
 void UAVConfig::on_btn_quadx_clicked()
 {
-    QImage imageObject6;
-    imageObject6.load(str + "quadx.png");
-    ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
-    if (isSelected == 1){
-        ui->btn_quadx->setStyleSheet("background-color : yellow");
-        //        isSelected = 1;
-    }else if (isSelected == 2){
-        ui->btn_quadx->setStyleSheet("background-color : yellow");
-        ui->btn_quadplus->setStyleSheet("");
-        isSelected = 1;
-    }else if (isSelected == 3){
-        ui->btn_quadx->setStyleSheet("background-color : yellow");
-        ui->btn_hex6->setStyleSheet("");
-        isSelected = 1;
-    }else if (isSelected == 4){
-        ui->btn_quadx->setStyleSheet("background-color : yellow");
-        ui->btn_hexy->setStyleSheet("");
-        isSelected = 1;
-    }
+
 }
 
 void UAVConfig::on_btn_quadplus_clicked()
 {
-    QImage imageObject6;
-    imageObject6.load(str + "quadplus.png");
-    ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
-    if (isSelected == 0){
-        ui->btn_quadplus->setStyleSheet("background-color : yellow");
-        isSelected = 2;
-    }else if (isSelected == 1){
-        ui->btn_quadplus->setStyleSheet("background-color : yellow");
-        ui->btn_quadx->setStyleSheet("");
-        isSelected = 2;
-    }else if (isSelected == 3){
-        ui->btn_quadplus->setStyleSheet("background-color : yellow");
-        ui->btn_hex6->setStyleSheet("");
-        isSelected = 2;
-    }else if (isSelected == 4){
-        ui->btn_quadplus->setStyleSheet("background-color : yellow");
-        ui->btn_hexy->setStyleSheet("");
-        isSelected = 2;
-    }
+
 }
 
 void UAVConfig::on_btn_hex6_clicked()
 {
-    QImage imageObject6;
-    imageObject6.load(str + "hex.png");
-    ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
-    if (isSelected == 0){
-        ui->btn_hex6->setStyleSheet("background-color : yellow");
-        isSelected = 3;
-    }else if (isSelected == 1){
-        ui->btn_hex6->setStyleSheet("background-color : yellow");
-        ui->btn_quadx->setStyleSheet("");
-        isSelected = 3;
-    }else if (isSelected == 2){
-        ui->btn_hex6->setStyleSheet("background-color : yellow");
-        ui->btn_quadplus->setStyleSheet("");
-        isSelected = 3;
-    }else if (isSelected == 4){
-        ui->btn_hex6->setStyleSheet("background-color : yellow");
-        ui->btn_hexy->setStyleSheet("");
-        isSelected = 3;
-    }
 }
 
 void UAVConfig::on_btn_hexy_clicked()
 {
-    QImage imageObject6;
-    imageObject6.load(str + "hexY.png");
-    ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
-    if (isSelected == 0){
-        ui->btn_hexy->setStyleSheet("background-color : yellow");
-        isSelected = 4;
-    }else if (isSelected == 1){
-        ui->btn_hexy->setStyleSheet("background-color : yellow");
-        ui->btn_quadx->setStyleSheet("");
-        isSelected = 4;
-    }else if (isSelected == 2){
-        ui->btn_hexy->setStyleSheet("background-color : yellow");
-        ui->btn_quadplus->setStyleSheet("");
-        isSelected = 4;
-    }else if (isSelected == 3){
-        ui->btn_hexy->setStyleSheet("background-color : yellow");
-        ui->btn_hex6->setStyleSheet("");
-        isSelected = 4;
-    }
+
 }
 
 void UAVConfig::updateCommonImages()
@@ -182,11 +110,7 @@ void UAVConfig::updateCommonImages()
     imageObject5.load(str + "4.png");
     ui->lbl_show_enable_pid->setPixmap(QPixmap::fromImage(imageObject5));
 
-    ui->btn_quadx->setStyleSheet("background-color : yellow");
-    QImage imageObject6;
-    ui->lbl_show_ac->setAlignment(Qt::AlignCenter);
-    imageObject6.load(str + "quadx.png");
-    ui->lbl_show_ac->setPixmap(QPixmap::fromImage(imageObject6));
+
 }
 
 QString UAVConfig::paramNameGuiToOnboard(QString paraName) {
@@ -220,7 +144,7 @@ void UAVConfig::loadParametersToUI()
 
     QVariant val;
     getGUIPara(ui->tab_aq_setting);
-    ui->groupBox_roll_angle->setDisabled(1);
+    //ui->groupBox_roll_angle->setDisabled(1);
     // convert old radio type value if switching to new system
 
     //    if (useRadioSetupParam && paramaq->getParaAQ("RADIO_SETUP").toInt() == 0 && paramaq->paramExistsAQ("RADIO_TYPE")) {
@@ -494,6 +418,11 @@ QString UAVConfig::extProcessError(QProcess::ProcessError err)
             break;
     }
     return msg;
+}
+
+void UAVConfig::indexHide(int i)
+{
+
 }
 
 

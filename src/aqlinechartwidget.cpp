@@ -103,7 +103,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     // Create the layout
     createLayout();
 
-    //connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
+//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     //connect(ui.uasSelectionBox, SIGNAL(currentIndexChanged(int)), this, SLOT(selectActiveSystem(int)));
 
@@ -146,8 +146,8 @@ void AQLinechartWidget::writeSettings()
     QSettings settings;
     settings.beginGroup("AQ_TELEMETRY_VIEW");
     settings.setValue("SPLITTER_SIZES", ui.splitter->saveState());
-    if (averageSpinBox) settings.setValue("AVG_WINDOW", averageSpinBox->value());
-    if (intervalSpinBox) settings.setValue("PLOT_INTERVAL", intervalSpinBox->value());
+//    if (averageSpinBox) settings.setValue("AVG_WINDOW", averageSpinBox->value());
+//    if (intervalSpinBox) settings.setValue("PLOT_INTERVAL", intervalSpinBox->value());
     settings.endGroup();
     settings.sync();
 }
@@ -160,8 +160,8 @@ void AQLinechartWidget::readSettings()
     if (settings.contains("SPLITTER_SIZES"))
         ui.splitter->restoreState(settings.value("SPLITTER_SIZES").toByteArray());
 //  qDebug() << "resized to" << ui.splitter->sizes();
-    if (averageSpinBox) averageSpinBox->setValue(settings.value("AVG_WINDOW", DEFAULT_AVG_WINDOW).toInt());
-    if (intervalSpinBox) intervalSpinBox->setValue(settings.value("PLOT_INTERVAL", DEFAULT_PLOT_INTERVAL).toInt());
+//    if (averageSpinBox) averageSpinBox->setValue(settings.value("AVG_WINDOW", DEFAULT_AVG_WINDOW).toInt());
+//    if (intervalSpinBox) intervalSpinBox->setValue(settings.value("PLOT_INTERVAL", DEFAULT_PLOT_INTERVAL).toInt());
     settings.endGroup();
 }
 
@@ -191,77 +191,11 @@ void AQLinechartWidget::createLayout()
     layout->setRowStretch(0, 10);
     layout->setRowStretch(1, 1);
 
-
-    // Linear scaling button
-    scalingLinearButton = createButton(this);
-    scalingLinearButton->setDefaultAction(setScalingLinear);
-    scalingLinearButton->setCheckable(true);
-    scalingLinearButton->setChecked(true);
-    scalingLinearButton->setToolTip(tr("Set linear scale for Y axis"));
-    scalingLinearButton->setWhatsThis(tr("Set linear scale for Y axis"));
-    layout->addWidget(scalingLinearButton, 1, colIdx++);
-//    layout->setColumnStretch(0, 0);
-
-    // Logarithmic scaling button
-    scalingLogButton = createButton(this);
-    scalingLogButton->setDefaultAction(setScalingLogarithmic);
-    scalingLogButton->setCheckable(true);
-    scalingLogButton->setChecked(false);
-    scalingLogButton->setToolTip(tr("Set logarithmic scale for Y axis"));
-    scalingLogButton->setWhatsThis(tr("Set logarithmic scale for Y axis"));
-    layout->addWidget(scalingLogButton, 1, colIdx++);
-//    layout->setColumnStretch(1, 0);
-
-    // Averaging spin box
-    averageSpinBox = new QSpinBox(this);
-    averageSpinBox->setToolTip(tr("Number of samples used to calculate mean and variance"));
-    averageSpinBox->setWhatsThis(tr("Number of samples used to calculate mean and variance"));
-    averageSpinBox->setRange(2, 9999);
-    averageSpinBox->setSingleStep(10);
-    averageSpinBox->setValue(DEFAULT_AVG_WINDOW);
-    averageSpinBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    setAverageWindow(DEFAULT_AVG_WINDOW);
-    layout->addWidget(new QLabel(tr("Avg. Window:")), 1, colIdx++);
-    layout->addWidget(averageSpinBox, 1, colIdx++);
-//    layout->setColumnStretch(2, 0);
-
-    // Time interval spin box
-    intervalSpinBox = new QSpinBox(this);
-    intervalSpinBox->setToolTip(tr("Time span of plot window, in seconds"));
-    intervalSpinBox->setWhatsThis(tr("Time span of plot window, in seconds"));
-    intervalSpinBox->setRange(2, 999);
-    intervalSpinBox->setSuffix("s");
-    intervalSpinBox->setValue(DEFAULT_PLOT_INTERVAL);
-    intervalSpinBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    setPlotInterval(DEFAULT_PLOT_INTERVAL);
-    layout->addWidget(new QLabel(tr("Time Span:")), 1, colIdx++);
-    layout->addWidget(intervalSpinBox, 1, colIdx++);
-//    layout->setColumnStretch(2, 0);
-
-    // Ground time button
-    /*
-    timeButton = new QCheckBox(this);
-    timeButton->setText(tr("Ground Time"));
-    timeButton->setToolTip(tr("Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time."));
-    timeButton->setWhatsThis(tr("Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time."));
-    layout->addWidget(timeButton, 1, colIdx++);
-    connect(timeButton, SIGNAL(clicked(bool)), activePlot, SLOT(enforceGroundTime(bool)));
-    connect(timeButton, SIGNAL(clicked()), this, SLOT(writeSettings()));
-    */
     activePlot->enforceGroundTime(true);
 
     // spacer
     layout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding), 1, colIdx);
     layout->setColumnStretch(colIdx++, 1);
-
-    // Log Button
-    logButton = new QToolButton(this);
-    logButton->setToolTip(tr("Start to log curve data into a CSV or TXT file"));
-    logButton->setWhatsThis(tr("Start to log curve data into a CSV or TXT file"));
-    logButton->setText(tr("Start Logging"));
-    layout->addWidget(logButton, 1, colIdx++);
-//    layout->setColumnStretch(3, 0);
-
 
     ui.AQdiagramGroupBox->setLayout(layout);
 
@@ -269,7 +203,7 @@ void AQLinechartWidget::createLayout()
 
     // Connect notifications from the user interface to the plot
     connect(this, SIGNAL(curveRemoved(QString)), activePlot, SLOT(hideCurve(QString)));
-    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
+//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
 
     // Update scrollbar when plot window changes (via translator method setPlotWindowPosition()
 //    connect(activePlot, SIGNAL(windowPositionChanged(quint64)), this, SLOT(setPlotWindowPosition(quint64)));
@@ -278,18 +212,6 @@ void AQLinechartWidget::createLayout()
 
     // Update plot when scrollbar is moved (via translator method setPlotWindowPosition()
     connect(this, SIGNAL(plotWindowPositionUpdated(quint64)), activePlot, SLOT(setWindowPosition(quint64)));
-
-    // Set scaling
-    connect(scalingLinearButton, SIGNAL(clicked()), this, SLOT(setLinearScaling()));
-    connect(scalingLogButton, SIGNAL(clicked()), this, SLOT(setLogarithmicScaling()));
-
-    // set average window
-    connect(averageSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setAverageWindow(int)));
-    // set plot interval
-    connect(intervalSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setPlotInterval(int)));
-    // start/stop logging
-    connect(logButton, SIGNAL(clicked()), this, SLOT(startLogging()));
-
 }
 
 void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant, quint64 usec)
