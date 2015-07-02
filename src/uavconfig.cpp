@@ -33,16 +33,15 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
 //    ui->tab_Charts->setStyleSheet("QTabBar::tab{ image: url(:images/radio_button.PNG); }");
 
-    updateCommonImages();
 
     aqBinFolderPath = QCoreApplication::applicationDirPath() + "/aq/bin/";
     platformExeExt = ".exe";
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
-    for(int i=0; i < 6; i++ )
-    {
-        allRadioChanProgressBars << ui->widget_2->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
-    }
+//    for(int i=0; i < 6; i++ )
+//    {
+//        allRadioChanProgressBars << ui->widget_2->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
+//    }
 
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -67,50 +66,6 @@ UAVConfig::UAVConfig(QWidget *parent) :
 UAVConfig::~UAVConfig()
 {
     delete ui;
-}
-
-void UAVConfig::on_btn_quadx_clicked()
-{
-
-}
-
-void UAVConfig::on_btn_quadplus_clicked()
-{
-
-}
-
-void UAVConfig::on_btn_hex6_clicked()
-{
-}
-
-void UAVConfig::on_btn_hexy_clicked()
-{
-
-}
-
-void UAVConfig::updateCommonImages()
-{
-    QImage imageObject1;
-    imageObject1.load(str + "1.png");
-    ui->lbl_show_calib_gyro->setPixmap(QPixmap::fromImage(imageObject1));
-
-    QImage imageObject2;
-    imageObject2.load(str + "2.png");
-    ui->lbl_show_calib_mag->setPixmap(QPixmap::fromImage(imageObject2));
-
-    QImage imageObject3;
-    imageObject3.load(str + "3.png");
-    ui->lbl_show_save_ee->setPixmap(QPixmap::fromImage(imageObject3));
-
-    QImage imageObject4;
-    imageObject4.load(str + "4.png");
-    ui->lbl_show_calib_esc->setPixmap(QPixmap::fromImage(imageObject4));
-
-    QImage imageObject5;
-    imageObject5.load(str + "4.png");
-    ui->lbl_show_enable_pid->setPixmap(QPixmap::fromImage(imageObject5));
-
-
 }
 
 QString UAVConfig::paramNameGuiToOnboard(QString paraName) {
@@ -162,15 +117,15 @@ void UAVConfig::loadParametersToUI()
     radioTypes.insert(3, tr("S-BUS (Futaba, others)"));
     radioTypes.insert(4, tr("PPM"));
 
-    ui->RADIO_SETUP->blockSignals(true);
-    ui->RADIO_SETUP->clear();
-    QMapIterator<int, QString> i(radioTypes);
-    while (i.hasNext()) {
-        i.next();
-        ui->RADIO_SETUP->addItem(i.value(), i.key());
-    }
-    ui->RADIO_SETUP->setCurrentIndex(idx);
-    ui->RADIO_SETUP->blockSignals(false);
+//    ui->RADIO_SETUP->blockSignals(true);
+//    ui->RADIO_SETUP->clear();
+//    QMapIterator<int, QString> i(radioTypes);
+//    while (i.hasNext()) {
+//        i.next();
+//        ui->RADIO_SETUP->addItem(i.value(), i.key());
+//    }
+//    ui->RADIO_SETUP->setCurrentIndex(idx);
+//    ui->RADIO_SETUP->blockSignals(false);
 
 }
 
@@ -721,4 +676,40 @@ bool UAVConfig::checkAqSerialConnection(QString port)
         connectedLink = NULL;
 
     return IsConnected;
+}
+
+void UAVConfig::on_RADIOpushButton_clicked()
+{
+    ui->tab_aq_setting->setCurrentIndex(0);
+
+}
+
+void UAVConfig::on_MOTORpushButton_clicked()
+{
+    ui->tab_aq_setting->setCurrentIndex(1);
+}
+
+void UAVConfig::on_IMUpushButton_clicked()
+{
+    ui->tab_aq_setting->setCurrentIndex(2);
+}
+
+void UAVConfig::on_PIDTURNINGpushButton_clicked()
+{
+    ui->tab_aq_setting->setCurrentIndex(3);
+}
+
+void UAVConfig::on_CHARTpushButton_clicked()
+{
+    ui->tab_aq_setting->setCurrentIndex(4);
+}
+
+void UAVConfig::on_UPGRADEpushButton_clicked()
+{
+    ui->tab_aq_setting->setCurrentIndex(5);
+}
+
+void UAVConfig::on_OSDpushButton_clicked()
+{
+    ui->tab_aq_setting->setCurrentIndex(6);
 }

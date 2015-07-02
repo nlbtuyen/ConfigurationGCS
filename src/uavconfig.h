@@ -34,8 +34,6 @@ class UAVConfig : public QWidget
 public:
     explicit UAVConfig(QWidget *parent = 0);
     ~UAVConfig();
-    void updateCommonImages();
-
 
     bool checkAqConnected(bool interactive = false);
 
@@ -48,12 +46,6 @@ signals:
     void hardwareInfoUpdated(void);
 
 private slots:
-    //@Trung: Update Image for tab Mixing & Output
-    void on_btn_quadx_clicked();
-    void on_btn_quadplus_clicked();
-    void on_btn_hex6_clicked();
-    void on_btn_hexy_clicked();
-
     //@Hai: update Param to UI
     QString paramNameGuiToOnboard(QString paraName);
     void loadParametersToUI();
@@ -76,7 +68,19 @@ private slots:
     void prtstdout();
     QString extProcessError(QProcess::ProcessError err);
 
+    void on_RADIOpushButton_clicked();
 
+    void on_MOTORpushButton_clicked();
+
+    void on_IMUpushButton_clicked();
+
+    void on_PIDTURNINGpushButton_clicked();
+
+    void on_CHARTpushButton_clicked();
+
+    void on_UPGRADEpushButton_clicked();
+
+    void on_OSDpushButton_clicked();
 
 private:
     int isSelected = 1;

@@ -39,7 +39,7 @@ private:
     int msec;
     int totalDatasetFields[TELEM_DATASET_NUM];
     int datasetFieldsSetup;
-    bool telemetryRunning;
+//    bool telemetryRunning;
     QGridLayout* linLayoutPlot;
     mavlink_attitude_t *testValue; //@trung
     mavlink_aq_telemetry_f_t *currentValuesF;
@@ -48,7 +48,7 @@ private:
     QList<telemFieldsMeta> telemDataFields;
     QButtonGroup* btnsDataSets;
 
-    void setupDataFields();
+//    void setupDataFields();
     void setupCurves();
     float getTelemValue(const int idx);
 
@@ -59,11 +59,6 @@ public slots:
 private slots:
     void getNewTelemetry(int uasId, int valIdx);
     void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value);
-
-    void teleValuesToggle();
-    void teleValuesStart();
-    void teleValuesStop();
-    void frequencyChanged(int freq);
 
 protected:
     AQLinechartWidget* AqTeleChart;

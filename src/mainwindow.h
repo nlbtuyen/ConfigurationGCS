@@ -32,9 +32,6 @@
 //#include "mavlinkdecoder.h"
 #include "commconfigurationwindow.h"
 
-#include "connectiontab.h"
-
-
 namespace Ui {
 class MainWindow;
 }
@@ -117,8 +114,6 @@ protected:
     QPointer<QDockWidget> debugConsoleDockWidget;
     QPointer<MAVLinkDecoder> mavlinkDecoder;
     QPointer<ToolBar> toolBar;
-
-    ConnectionTab* tabConnect;
 
     void addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea location=Qt::RightDockWidgetArea);
     void connectCommonWidgets();

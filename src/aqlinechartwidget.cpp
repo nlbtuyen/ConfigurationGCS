@@ -33,16 +33,12 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     curveMedians(new QMap<QString, QLabel*>()),
     curveVariances(new QMap<QString, QLabel*>()),
     curveMenu(new QMenu(this)),
-    logFile(new QFile()),
-    logindex(1),
-    logging(false),
-    logStartTime(0),
     updateTimer(new QTimer()),
     selectedMAV(-1)
 {
     // Add elements defined in Qt Designer
     ui.setupUi(this);
-    this->setMinimumSize(200, 150);
+    this->setMinimumSize(300, 250);
 
     // Add and customize curve list elements (left side)
     curvesWidget = new QWidget(ui.curveListWidget);
@@ -54,7 +50,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     curvesWidgetLayout->setAlignment(Qt::AlignTop);
 
     curvesWidgetLayout->setColumnStretch(0, 0);
-    curvesWidgetLayout->setColumnStretch(1, 0);
+    curvesWidgetLayout->setColumnStretch(1, 80);
     curvesWidgetLayout->setColumnStretch(2, 80);
     curvesWidgetLayout->setColumnStretch(3, 0);
     curvesWidgetLayout->setColumnStretch(4, 0);
@@ -87,9 +83,6 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     value->setText("Val");
     curvesWidgetLayout->addWidget(value, labelRow, 3);
 
-    // Unit
-    //curvesWidgetLayout->addWidget(new QLabel(tr("Unit")), labelRow, 4);
-
     // Mean
     mean = new QLabel(this);
     mean->setText("Mean");
@@ -105,7 +98,6 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 
 //    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
-    //connect(ui.uasSelectionBox, SIGNAL(currentIndexChanged(int)), this, SLOT(selectActiveSystem(int)));
 
     updateTimer->setInterval(UPDATE_INTERVAL);
     readSettings();
@@ -115,7 +107,6 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 AQLinechartWidget::~AQLinechartWidget()
 {
     writeSettings();
-    stopLogging();
     if (activePlot) delete activePlot;
     activePlot = NULL;
     delete listedCurves;
@@ -146,8 +137,6 @@ void AQLinechartWidget::writeSettings()
     QSettings settings;
     settings.beginGroup("AQ_TELEMETRY_VIEW");
     settings.setValue("SPLITTER_SIZES", ui.splitter->saveState());
-//    if (averageSpinBox) settings.setValue("AVG_WINDOW", averageSpinBox->value());
-//    if (intervalSpinBox) settings.setValue("PLOT_INTERVAL", intervalSpinBox->value());
     settings.endGroup();
     settings.sync();
 }
@@ -159,18 +148,12 @@ void AQLinechartWidget::readSettings()
     settings.beginGroup("AQ_TELEMETRY_VIEW");
     if (settings.contains("SPLITTER_SIZES"))
         ui.splitter->restoreState(settings.value("SPLITTER_SIZES").toByteArray());
-//  qDebug() << "resized to" << ui.splitter->sizes();
-//    if (averageSpinBox) averageSpinBox->setValue(settings.value("AVG_WINDOW", DEFAULT_AVG_WINDOW).toInt());
-//    if (intervalSpinBox) intervalSpinBox->setValue(settings.value("PLOT_INTERVAL", DEFAULT_PLOT_INTERVAL).toInt());
     settings.endGroup();
 }
 
 void AQLinechartWidget::createLayout()
 {
     int colIdx = 0;
-
-    // Create actions
-    createActions();
 
     // Setup the plot group box area layout
     QGridLayout* layout = new QGridLayout(ui.AQdiagramGroupBox);
@@ -182,10 +165,6 @@ void AQLinechartWidget::createLayout()
     activePlot = new LinechartPlot(this, sysid);
     // Activate automatic scrolling
     activePlot->setAutoScroll(true);
-
-    // TODO Proper Initialization needed
-    //    activePlot = getPlot(0);
-    //    plotContainer->setPlot(activePlot);
 
     layout->addWidget(activePlot, 0, 0, 1, 8);
     layout->setRowStretch(0, 10);
@@ -203,10 +182,6 @@ void AQLinechartWidget::createLayout()
 
     // Connect notifications from the user interface to the plot
     connect(this, SIGNAL(curveRemoved(QString)), activePlot, SLOT(hideCurve(QString)));
-//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
-
-    // Update scrollbar when plot window changes (via translator method setPlotWindowPosition()
-//    connect(activePlot, SIGNAL(windowPositionChanged(quint64)), this, SLOT(setPlotWindowPosition(quint64)));
 
     connect(activePlot, SIGNAL(curveRemoved(QString)), this, SLOT(removeCurve(QString)));
 
@@ -241,21 +216,6 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         // Add int data
         if (!isDouble)
             intData.insert(curve+unit, value);
-    }
-
-    // Log data
-    if (logging)
-    {
-        if (activePlot->isVisible(curve+unit))
-        {
-            if (usec == 0) usec = QGC::groundTimeMilliseconds();
-            if (logStartTime == 0) logStartTime = usec;
-            qint64 time = usec - logStartTime;
-            if (time < 0) time = 0;
-
-            logFile->write(QString(QString::number(time) + "\t" + QString::number(uasId) + "\t" + curve + "\t" + QString::number(value) + "\n").toLatin1());
-            logFile->flush();
-        }
     }
 }
 
@@ -302,15 +262,6 @@ void AQLinechartWidget::refresh()
         j.value()->setText(str);
     }
 
-
-//    QMap<QString, QLabel*>::iterator k;
-//    for (k = curveMedians->begin(); k != curveMedians->end(); ++k)
-//    {
-//        // Median
-//        str.sprintf("%+.2f", activePlot->getMedian(k.key()));
-//        k.value()->setText(str);
-//    }
-
     QMap<QString, QLabel*>::iterator l;
     for (l = curveVariances->begin(); l != curveVariances->end(); ++l) {
         // Variance
@@ -319,97 +270,6 @@ void AQLinechartWidget::refresh()
     }
 
     setUpdatesEnabled(true);
-}
-
-void AQLinechartWidget::startLogging()
-{
-    // Store reference to file
-    // Append correct file ending if needed
-    bool abort = false;
-
-    // Check if any curve is enabled
-    if (!activePlot->anyCurveVisible()) {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setText("No curves selected for logging.");
-        msgBox.setInformativeText("Please check all curves you want to log. Currently no data would be logged, aborting the logging.");
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.exec();
-        return;
-    }
-
-    // Let user select the log file name
-    //QDate date(QDate::currentDate());
-    // QString("./pixhawk-log-" + date.toString("yyyy-MM-dd") + "-" + QString::number(logindex) + ".log")
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), DEFAULT_STORAGE_PATH, tr("Logfile") + " (*.txt *.csv)");
-
-    while (!(fileName.endsWith(".txt") || fileName.endsWith(".csv")) && !abort && fileName != "") {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setText("Unsuitable file extension for logfile");
-        msgBox.setInformativeText("Please choose .txt or .csv as file extension. Click OK to change the file extension, cancel to not start logging.");
-        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        if(msgBox.exec() != QMessageBox::Ok)
-        {
-            abort = true;
-            break;
-        }
-        fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), DEFAULT_STORAGE_PATH, tr("Logfile") + " (*.txt *.csv)");
-    }
-
-    qDebug() << "SAVE FILE" << fileName;
-
-    // Check if the user did not abort the file save dialog
-    if (!abort && fileName != "") {
-        logFile = new QFile(fileName);
-        if (logFile->open(QIODevice::WriteOnly | QIODevice::Text)) {
-            logging = true;
-            logStartTime = 0;
-            curvesWidget->setEnabled(false);
-            logindex++;
-            logButton->setText(tr("Stop logging"));
-            disconnect(logButton, SIGNAL(clicked()), this, SLOT(startLogging()));
-            connect(logButton, SIGNAL(clicked()), this, SLOT(stopLogging()));
-        }
-    }
-}
-
-void AQLinechartWidget::stopLogging()
-{
-    logging = false;
-    curvesWidget->setEnabled(true);
-    if (logFile->isOpen()) {
-        logFile->flush();
-        logFile->close();
-        // Postprocess log file
-        compressor = new LogCompressor(logFile->fileName(), logFile->fileName());
-        connect(compressor, SIGNAL(finishedFile(QString)), this, SIGNAL(logfileWritten(QString)));
-        connect(compressor, SIGNAL(logProcessingStatusChanged(QString)), MainWindow::instance(), SLOT(showStatusMessage(QString)));
-
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Question);
-        msgBox.setText(tr("Starting Log Compression"));
-        msgBox.setInformativeText(tr("Should empty fields (e.g. due to packet drops) be filled with the previous value of the same variable (zero order hold)?"));
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::No);
-        int ret = msgBox.exec();
-        bool fill;
-        if (ret == QMessageBox::Yes)
-        {
-            fill = true;
-        }
-        else
-        {
-            fill = false;
-        }
-
-        compressor->startCompression(fill);
-    }
-    logButton->setText(tr("Start logging"));
-    disconnect(logButton, SIGNAL(clicked()), this, SLOT(stopLogging()));
-    connect(logButton, SIGNAL(clicked()), this, SLOT(startLogging()));
 }
 
 /**
@@ -421,12 +281,6 @@ void AQLinechartWidget::stopLogging()
 void AQLinechartWidget::setAverageWindow(int windowSize)
 {
     if (windowSize > 1) activePlot->setAverageWindow(windowSize);
-}
-
-void AQLinechartWidget::createActions()
-{
-    setScalingLogarithmic = new QAction("LOG", this);
-    setScalingLinear = new QAction("LIN", this);
 }
 
 /**
@@ -490,17 +344,6 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     curveLabels->insert(curve+unit, value);
     curvesWidgetLayout->addWidget(value, labelRow, 3);
 
-    /*
-    // Unit
-    unitLabel = new QLabel(this);
-    unitLabel->setText(unit);
-    unitLabel->setStyleSheet(QString("QLabel {color: %1;}").arg("#AAAAAA"));
-    //qDebug() << "UNIT" << unit;
-    unitLabel->setToolTip(tr("Unit of ") + curve);
-    unitLabel->setWhatsThis(tr("Unit of ") + curve);
-    curvesWidgetLayout->addWidget(unitLabel, labelRow, 4);
-    */
-
     // Mean
     mean = new QLabel(this);
     mean->setNum(0.00);
@@ -510,12 +353,6 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     curveMeans->insert(curve+unit, mean);
     curvesWidgetLayout->addWidget(mean, labelRow, 4);
 
-//    // Median
-//    median = new QLabel(form);
-//    value->setNum(0.00);
-//    curveMedians->insert(curve, median);
-//    horizontalLayout->addWidget(median);
-
     // Variance
     variance = new QLabel(this);
     variance->setNum(0.00);
@@ -524,15 +361,6 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     variance->setWhatsThis(tr("Variance of %1 in (%2)^2 units").arg(curve, unit));
     curveVariances->insert(curve+unit, variance);
     curvesWidgetLayout->addWidget(variance, labelRow, 5);
-
-    /* Color picker
-    QColor color = QColorDialog::getColor(Qt::green, this);
-         if (color.isValid()) {
-             colorLabel->setText(color.name());
-             colorLabel->setPalette(QPalette(color));
-             colorLabel->setAutoFillBackground(true);
-         }
-        */
 
     // Set stretch factors so that the label gets the whole space
 
@@ -594,10 +422,6 @@ void AQLinechartWidget::removeCurve(QString curve)
         widget->deleteLater();
     }
 
-//    widget = curveMedians->take(curve);
-//    curvesWidgetLayout->removeWidget(widget);
-//    widget->deleteLater();
-
     widget = curveVariances->take(curve+unit);
     if (widget) {
         curvesWidgetLayout->removeWidget(widget);
@@ -611,22 +435,6 @@ void AQLinechartWidget::clearCurves()
 {
     for (int i = 0; i < ListItems->size(); i++)
         removeCurve(ListItems->at(i));
-}
-
-void AQLinechartWidget::recolor()
-{
-    //activePlot->styleChanged(MainWindow::instance()->getStyle());
-//    foreach (QString key, colorIcons.keys())
-//    {
-//        QWidget* colorIcon = colorIcons.value(key, 0);
-//        if (colorIcon) {
-//            QString colorstyle;
-//            QColor color = activePlot->getColorForCurve(key);
-//            colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
-//            colorIcon->setStyleSheet(colorstyle);
-//            colorIcon->setAutoFillBackground(true);
-//        }
-//    }
 }
 
 QString AQLinechartWidget::getCurveName(const QString& key, bool shortEnabled)
@@ -777,12 +585,6 @@ void AQLinechartWidget::takeButtonClick(bool checked)
     {
         activePlot->setVisibleById(button->objectName(), checked);
 
-
-//      CurveIsActive[]
-//      qDebug() << button->objectName();
-//      int index = ListItems->indexOf(button->objectName());
-//      CurveIsActive[index] = checked;
-
         QWidget* colorIcon = colorIcons.value(button->objectName(), 0);
         if (colorIcon) {
             QColor color = activePlot->getColorForCurve(button->objectName());
@@ -794,26 +596,6 @@ void AQLinechartWidget::takeButtonClick(bool checked)
             }
         }
     }
-}
-
-/**
- * @brief Set logarithmic scaling for the curve
- **/
-void AQLinechartWidget::setLogarithmicScaling()
-{
-    activePlot->setLogarithmicScaling();
-    scalingLogButton->setChecked(true);
-    scalingLinearButton->setChecked(false);
-}
-
-/**
- * @brief Set linear scaling for the curve
- **/
-void AQLinechartWidget::setLinearScaling()
-{
-    activePlot->setLinearScaling();
-    scalingLogButton->setChecked(false);
-    scalingLinearButton->setChecked(true);
 }
 
 /**

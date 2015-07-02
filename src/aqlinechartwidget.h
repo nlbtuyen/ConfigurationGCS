@@ -50,8 +50,6 @@ public slots:
     void removeCurve(QString curve);
     /** @brief Remove all curves */
     void clearCurves();
-    /** @brief Recolor all curves */
-    void recolor();
     /** @brief Set short names for curves */
     void setShortNames(bool enable);
     /** @brief Append double data to the given curve. */
@@ -70,10 +68,6 @@ public slots:
     void selectActiveSystem(int mav);
     /** @brief Set the number of values to average over */
     void setAverageWindow(int windowSize);
-    /** @brief Start logging to file */
-    void startLogging();
-    /** @brief Stop logging to file */
-    void stopLogging();
     /** @brief Refresh the view */
     void refresh();
     /** @brief Write the current configuration to disk */
@@ -82,10 +76,6 @@ public slots:
     void readSettings();
     /** @brief Select all curves */
     void selectAllCurves(bool all);
-    /** @brief Set logarithmic plot y-axis scaling */
-    void setLogarithmicScaling();
-    /** @brief Set linear plot y-axis scaling */
-    void setLinearScaling();
 
 
 protected:
@@ -120,25 +110,14 @@ protected:
     QWidget* curvesWidget;                ///< The QWidget containing the curve selection button
     QGridLayout* curvesWidgetLayout;      ///< The layout for the curvesWidget QWidget
     QScrollBar* scrollbar;                ///< The plot window scroll bar
-    QSpinBox* averageSpinBox;             ///< Spin box to setup average window filter size
-    QSpinBox* intervalSpinBox;             ///< Spin box to setup plot interval time
 
-    QAction* setScalingLogarithmic;       ///< Set logarithmic scaling
-    QAction* setScalingLinear;            ///< Set linear scaling
     QAction* addNewCurve;                 ///< Add curve candidate to the active curves
 
     QMenu* curveMenu;
     QGridLayout* mainLayout;
 
-    QToolButton* scalingLinearButton;
-    QToolButton* scalingLogButton;
-    QToolButton* logButton;
     QPointer<QCheckBox> timeButton;
 
-    QFile* logFile;
-    unsigned int logindex;
-    bool logging;
-    quint64 logStartTime;
     QTimer* updateTimer;
     LogCompressor* compressor;
     QCheckBox* selectAllCheckBox;
@@ -146,7 +125,6 @@ protected:
 
 private:
     Ui::AQLinechart ui;
-    void createActions();
 
 signals:
     /**
@@ -174,9 +152,6 @@ signals:
 
     void plotWindowPositionUpdated(quint64 position);
     void plotWindowPositionUpdated(int position);
-
-    /** @brief This signal is emitted once a logfile has been finished writing */
-    void logfileWritten(QString fileName);
 };
 
 #endif // AQLINECHARTWIDGET_H

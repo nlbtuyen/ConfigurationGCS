@@ -37,9 +37,6 @@
 #include "primaryflightdisplay.h"
 #include "hddisplay.h"
 
-#include "connectiontab.h"
-
-
 static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
 
 MainWindow* MainWindow::instance(void)
@@ -459,7 +456,7 @@ void MainWindow::loadStyle()
     QString path = "/styles/";
     QString stylePath = QApplication::applicationDirPath();
     stylePath.append(path);
-    QString styleFileName_tmp = stylePath + "style-default.css";
+    QString styleFileName_tmp = stylePath + "style-July.css";
 
     QFile *styleSheet;
     if (!styleFileName_tmp.isEmpty())

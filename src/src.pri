@@ -31,8 +31,6 @@ SOURCES +=  src/main.cpp\
             src/incrementalplot.cpp \
             src/linecharts.cpp \
             src/linechartwidget.cpp \
-    src/connectiontab.cpp \
-    src/serialportsetting.cpp \
     src/commconfigurationwindow.cpp \
 src/serialconfigurationwindow.cpp
 
@@ -71,8 +69,6 @@ HEADERS  += src/mainwindow.h \
             src/incrementalplot.h \
             src/linecharts.h \
             src/linechartwidget.h \
-    src/connectiontab.h \
-    src/serialportsetting.h \
     src/commconfigurationwindow.h \
 src/serialconfigurationwindow.h
 
@@ -87,7 +83,5 @@ FORMS    += src/mainwindow.ui \
             src/hddisplay.ui \
             src/linechart.ui \
     src/configaq.ui \
-    src/connectiontab.ui \
-    src/serialportsetting.ui \
 src/commsettings.ui \
 src/serialsettings.ui
