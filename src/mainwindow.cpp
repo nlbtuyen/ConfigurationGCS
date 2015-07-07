@@ -36,6 +36,7 @@
 #include "aqpramwidget.h"
 #include "primaryflightdisplay.h"
 #include "hddisplay.h"
+#include "hudwidget.h"
 
 static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
 
@@ -61,31 +62,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setDockOptions(AnimatedDocks | AllowTabbedDocks | AllowNestedDocks);
     statusBar()->setSizeGripEnabled(true);
 
-
     config = new UAVConfig();
     ui->mainConfig->setWidget(config);
-
-    //Init Window size
-    if(setting.contains(getWindowGeometryKey()))
-    {
-        //REstore the window geometry
-        restoreGeometry(setting.value(getWindowGeometryKey()).toByteArray());
-        show();
-    }
-    else
-    {
-        //Ajust the size
-        const int screenWidth = 800;
-        const int screenHeight = 600;
-
-        if (screenWidth <800 || screenHeight <600) {
-            showMaximized();
-        }
-        else{
-            resize(qMin(screenWidth,800), qMin(screenHeight,600));
-            show();
-        }
-    }
 
     //Init action connection + build common widgets
     initActionsConnections();
@@ -102,6 +80,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
 
     loadStyle();
+
+    connectFlag = true;
 }
 
 MainWindow::~MainWindow()
@@ -132,13 +112,10 @@ void MainWindow::initActionsConnections()
     //Move protocol outside UI
     mavlink     = new MAVLinkProtocol();
     connect(mavlink, SIGNAL(protocolStatusMessage(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
-    //    mavlinkDecoder = new MAVLinkDecoder(mavlink, this);
-    //    connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), this->, SLOT(receiveTextMessage(int, int, int, const QString)));
 
     //Add action to ToolBar
     ui->actionConnect->setEnabled(true);
-    ui->actionDisconnect->setEnabled(false);
-    ui->actionQuit->setEnabled(true);
+    //ui->actionQuit->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
 
     //Add Widget: Status Detail + OnBoard Parameter
@@ -154,24 +131,40 @@ void MainWindow::initActionsConnections()
     addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
     parametersDockWidget->hide();
 
+    ui->scrollArea_heading->setWidget(new PrimaryFlightDisplay(this));
+    ui->scrollArea_HUD->setWidget(new HUDWidget(this));
+//   ui->frame_3D-/>set
+//    QGridLayout *layout = new QGridLayout(ui->widget_3D);
+//    layout->addWidget(new HUDWidget(this));
+//    ui->widget_3D->setLayout(layout);
     //===== Toolbar Status =====
 
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status, interval since last message if timed out."));
     toolBarTimeoutLabel->setObjectName("toolBarTimeoutLabel");
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 18px; color: %1; }").arg(QColor(Qt::red).name()));
     ui->mainToolBar->addWidget(toolBarTimeoutLabel);
 
+    toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
+    toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
+    toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
+    ui->mainToolBar->addWidget(toolBarSafetyLabel);
+
+    toolBarBatteryBar = new QProgressBar(this);
+    toolBarBatteryBar->setMinimum(0);
+    toolBarBatteryBar->setMaximum(100);
+    toolBarBatteryBar->setMinimumWidth(20);
+    toolBarBatteryBar->setMaximumWidth(100);
+    toolBarBatteryBar->setToolTip(tr("Battery charge level"));
+    toolBarBatteryBar->setObjectName("toolBarBatteryBar");
+    ui->mainToolBar->addWidget(toolBarBatteryBar);
+
     toolBarBatteryVoltageLabel = new QLabel("0.0 V");
-    toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel {  margin: 0px 2px; font: 18px; color: %1; }").arg(QColor(Qt::green).name()));
-    toolBarBatteryVoltageLabel->setToolTip(tr("Battery voltage"));
+    toolBarBatteryVoltageLabel->setToolTip(tr("Battery current"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
     ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
 
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
-
-
 }
 
 void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea area)
@@ -209,14 +202,7 @@ void MainWindow::connectCommonWidgets()
 //Connect common actions
 void MainWindow::connectCommonActions()
 {
-
-    //connect(ui->CONNECTIONpushButton,SIGNAL(clicked()),this,SLOT(addLink()));
-    //connect(ui->RADIOpushButton,SIGNAL(clicked()),this,SLOT(connectTab()));
-
-
-
     connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(addLinkImmediately()));
-    connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionConfigure, SIGNAL(triggered()), this, SLOT(addLink()));
 
@@ -247,25 +233,33 @@ QAction *MainWindow::getActionByLink(LinkInterface *link)
 
 void MainWindow::addLinkImmediately()
 {
-    SerialLink* link = new SerialLink();
-    LinkManager::instance()->add(link);
-    LinkManager::instance()->addProtocol(link, mavlink);
+    if (connectFlag)
+    {
+        SerialLink* link = new SerialLink();
+        LinkManager::instance()->add(link);
+        LinkManager::instance()->addProtocol(link, mavlink);
 
         if (link->isPortHandleValid())
         {
-            ui->actionConnect->setEnabled(false);
-            ui->actionDisconnect->setEnabled(true);
-            ui->actionConfigure->setEnabled(false);
-
-            connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
-            updateViewTimer.start(500);
-            link->connect();
+            if (link->connect())
+            {
+                ui->actionConfigure->setEnabled(false);
+                connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
+                updateViewTimer.start(500);
+                ui->statusBar->showMessage(tr("Connected"));
+                connectFlag = false;
+            }
         }
         else
         {
             MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please plugin your device to begin."));
-            closeSerialPort();
         }
+    }
+    else
+    {
+        closeSerialPort();
+        connectFlag = true;
+    }
 }
 
 void MainWindow::addLink()
@@ -280,8 +274,6 @@ void MainWindow::addLink()
 
     if (link->isPortHandleValid())
     {
-        ui->actionConnect->setEnabled(false);
-        ui->actionDisconnect->setEnabled(true);
         ui->actionConfigure->setEnabled(false);
         connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
         updateViewTimer.start(500);
@@ -388,12 +380,8 @@ void MainWindow::closeSerialPort()
         LinkManager::instance()->removeLink(link);
         link->deleteLater();
     }
-
-    ui->actionConnect->setEnabled(true);
-    ui->actionDisconnect->setEnabled(false);
     ui->actionConfigure->setEnabled(true);
     ui->statusBar->showMessage(tr("Disconnected"));
-
 }
 
 //Update CONNECTION status
@@ -401,24 +389,21 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
 {
     if (timeout)
     {
-        ui->actionConnect->setEnabled(true);
-        ui->actionDisconnect->setEnabled(false);
-
         if (ms > 10000)
         {
             toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; color: white }").arg(QGC::colorMagenta.dark(250).name()));
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; color: blue }"));
             return;
         }
         else
         {
             if ((ms / 1000) % 2 == 0)
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; color: white }").arg(QGC::colorMagenta.name()));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; color: #05A7CC }"));
             }
             else
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; color: white }").arg(QGC::colorMagenta.dark(250).name()));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; color: #0555CC }"));
             }
             toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
         }
@@ -426,11 +411,8 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
     else
     {
 
-        ui->actionConnect->setEnabled(false);
-        ui->actionDisconnect->setEnabled(true);
-
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; }"));
-        toolBarTimeoutLabel->setText(tr("CONNECTION"));
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; color: #05B8CC }"));
+        toolBarTimeoutLabel->setText(tr("CONNECTED"));
     }
 }
 
@@ -447,7 +429,6 @@ void MainWindow::updateArmingState(bool armed)
 {
     systemArmed = armed;
     changed = true;
-    /* important, immediately update */
     updateView();
 }
 
@@ -477,16 +458,6 @@ void MainWindow::loadStyle()
     delete styleSheet;
 }
 
-void MainWindow::connectTab()
-{
-    //    UAVConfig* uav = new UAVConfig();
-    //    uav->indexHide(1);
-    //    ui->mainTab->setWidget(uav);
-
-
-}
-
-
 QString MainWindow::getWindowGeometryKey()
 {
     return "_geometry";
@@ -496,7 +467,7 @@ QString MainWindow::getWindowGeometryKey()
 void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)
 {
     QMessageBox msgBox(this);
-    //msgBox.setWindowFlags(Qt::Dialog);
+    msgBox.setWindowFlags(Qt::Dialog);
     if (severity == "critical")
         msgBox.setIcon(QMessageBox::Critical);
     else if  (severity == "warning")
@@ -520,15 +491,15 @@ void MainWindow::showCriticalMessage(const QString& title, const QString& messag
 
 void MainWindow::updateState(UASInterface *system, QString name, QString description)
 {
-    //    connect(system, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
+    connect(system, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
 
-    Q_UNUSED(system);
+    //    Q_UNUSED(system);
     Q_UNUSED(description);
 
     if (state != name)
         changed = true;
     state = name;
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; background-color: #FF0000; color : white; }"));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; color : #05B8CC; }"));
     toolBarTimeoutLabel->setText(tr("CONNECTION"));
 
     /* important, immediately update */
@@ -540,21 +511,22 @@ void MainWindow::updateView()
 {
     if (!changed) return;
 
-    //    toolBarBatteryBar->setValue(batteryPercent);
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 
-//    if (systemArmed)
-//    {
-//        toolBarSafetyLabel->setStyleSheet(QString("QLabel {margin: 0px 2px; font: 18px; color: %1; background-color: %2; }").arg(QGC::colorRed.name()).arg(QGC::colorYellow.name()));
-//        toolBarSafetyLabel->setText(tr("ARMED"));
-//    }
-//    else
-//    {
-//        toolBarSafetyLabel->setStyleSheet("QLabel {margin: 0px 2px; font: 18px; color: #14C814; }");
-//        toolBarSafetyLabel->setText(tr("SAFE"));
-//    }
-//    changed = false;
+    toolBarBatteryBar->setValue(batteryPercent);
+
+    if (systemArmed)
+    {
+        toolBarSafetyLabel->setStyleSheet(QString("QLabel {margin: 0px 2px; color: %1; }").arg(QGC::colorRed.name()));
+        toolBarSafetyLabel->setText(tr("ARMED"));
+    }
+    else
+    {
+        toolBarSafetyLabel->setStyleSheet("QLabel {margin: 0px 2px; color: #14C814; }");
+        toolBarSafetyLabel->setText(tr("SAFE"));
+    }
+    changed = false;
 }
 
 void MainWindow::updateBattery()

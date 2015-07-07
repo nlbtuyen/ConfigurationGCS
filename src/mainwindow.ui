@@ -16,6 +16,12 @@
     <height>600</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
   <property name="contextMenuPolicy">
    <enum>Qt::NoContextMenu</enum>
   </property>
@@ -36,29 +42,51 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>80</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="HUD_groupBox">
+       <widget class="QScrollArea" name="scrollArea_heading">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>150</height>
+          <width>170</width>
+          <height>170</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>150</height>
+          <width>170</width>
+          <height>170</height>
          </size>
         </property>
-        <property name="title">
-         <string>HUD</string>
+        <property name="contextMenuPolicy">
+         <enum>Qt::DefaultContextMenu</enum>
         </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="lineWidth">
+         <number>1</number>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_4">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>170</width>
+           <height>170</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>
@@ -75,21 +103,21 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="ACModel_groupBox">
+       <widget class="QFrame" name="frame_3D">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>150</height>
+          <width>180</width>
+          <height>180</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>150</height>
+          <width>180</width>
+          <height>180</height>
          </size>
         </property>
-        <property name="title">
-         <string>3D Model</string>
+        <property name="styleSheet">
+         <string notr="true">border-radius: 5px;</string>
         </property>
        </widget>
       </item>
@@ -107,22 +135,38 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="Heading_groupBox">
+       <widget class="QScrollArea" name="scrollArea_HUD">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>150</height>
+          <width>170</width>
+          <height>170</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>150</height>
+          <width>170</width>
+          <height>170</height>
          </size>
         </property>
-        <property name="title">
-         <string>Heading</string>
+        <property name="styleSheet">
+         <string notr="true">border-radius: 5px</string>
         </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>170</width>
+           <height>170</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>
@@ -132,7 +176,7 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>80</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
@@ -221,7 +265,6 @@
      <string>Calls</string>
     </property>
     <addaction name="actionConnect"/>
-    <addaction name="actionDisconnect"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -255,7 +298,6 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionConnect"/>
-   <addaction name="actionDisconnect"/>
    <addaction name="actionConfigure"/>
    <addaction name="separator"/>
   </widget>
@@ -273,21 +315,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
-   </property>
-  </action>
-  <action name="actionDisconnect">
-   <property name="icon">
-    <iconset resource="../terminal.qrc">
-     <normaloff>:/images/disconnect.png</normaloff>:/images/disconnect.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Disconnect</string>
-   </property>
-   <property name="toolTip">
-    <string>Disconnect from serial port</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="actionConfigure">

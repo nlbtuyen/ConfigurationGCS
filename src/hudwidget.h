@@ -1,16 +1,16 @@
-#ifndef PRIMARYFLIGHTDISPLAY_H
-#define PRIMARYFLIGHTDISPLAY_H
+#ifndef HUDWidget_H
+#define HUDWidget_H
 
 #include <QWidget>
 #include <QPen>
 #include "uasinterface.h"
 
-class PrimaryFlightDisplay : public QWidget
+class HUDWidget : public QWidget
 {
     Q_OBJECT
 public:
-    PrimaryFlightDisplay(QWidget* parent = NULL);
-    ~PrimaryFlightDisplay();
+    HUDWidget(QWidget* parent = NULL);
+    ~HUDWidget();
 
 public slots:
     /** @brief Attitude from main autopilot / system state */
@@ -53,13 +53,6 @@ protected:
     /** @brief Stop updating widget */
     void hideEvent(QHideEvent* event);
 
-    // dongfang: We have no context menu. Viewonly.
-    // void contextMenuEvent (QContextMenuEvent* event);
-
-    // dongfang: What is that?
-    // dongfang: OK it's for UI interaction. Presently, there is none.
-    void createActions();
-
 signals:
     void visibilityChanged(bool visible);
 
@@ -91,17 +84,11 @@ private:
     void drawTextRightCenter(QPainter& painter, QString text, float fontSize, float x, float y);
     void drawTextCenterBottom(QPainter& painter, QString text, float fontSize, float x, float y);
     void drawTextCenterTop(QPainter& painter, QString text, float fontSize, float x, float y);
-    void drawAIGlobalFeatures(QPainter& painter, QRectF mainArea, QRectF paintArea);
-    void drawAIAirframeFixedFeatures(QPainter& painter, QRectF area);
-    void drawPitchScale(QPainter& painter, QRectF area, float intrusion, bool drawNumbersLeft, bool drawNumbersRight);
-    void drawRollScale(QPainter& painter, QRectF area, bool drawTicks, bool drawNumbers);
     void drawAIAttitudeScales(QPainter& painter, QRectF area, float intrusion);
     void drawAICompassDisk(QPainter& painter, QRectF area, float halfspan);
     void drawSeparateCompassDisk(QPainter& painter, QRectF area);
 
-    void drawAltimeter(QPainter& painter, QRectF area, float altitude, float secondaryAltitude, float vv);
     void drawVelocityMeter(QPainter& painter, QRectF area, float speed, float secondarySpeed);
-    void fillInstrumentBackground(QPainter& painter, QRectF edge);
     void fillInstrumentOpagueBackground(QPainter& painter, QRectF edge);
     void drawInstrumentBackground(QPainter& painter, QRectF edge);
 
@@ -179,4 +166,4 @@ signals:
 
 };
 
-#endif // PRIMARYFLIGHTDISPLAY_H
+#endif // HUDWidget_H

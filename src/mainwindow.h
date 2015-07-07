@@ -31,7 +31,7 @@
 //#include "debugconsole.h"
 //#include "mavlinkdecoder.h"
 #include "commconfigurationwindow.h"
-
+#include "hudwidget.h"
 namespace Ui {
 class MainWindow;
 }
@@ -48,7 +48,7 @@ class UASInfoWidget;
 class CommConfigurationWindow;
 class PrimaryFlightDisplay;
 class HDDisplay;
-
+class HUDWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -78,6 +78,7 @@ public:
 
 
 protected:
+    bool connectFlag;
     QMutex dataMutex;
     int lastIndex[256][256];	///< Store the last received sequence ID for each system/componenet pair
     int totalReceiveCounter;
@@ -96,6 +97,8 @@ protected:
     QLabel* toolBarSafetyLabel;
     QLabel* toolBarStateLabel;
     QLabel* toolBarMessageLabel;
+
+
     QProgressBar* toolBarBatteryBar;
     QLabel* toolBarBatteryVoltageLabel;
     float batteryPercent;
@@ -105,13 +108,14 @@ protected:
     QTimer updateViewTimer;
 
     QPointer<QDockWidget> mavlinkSenderWidget;
-    QPointer<QDockWidget> parametersDockWidget;
-    QPointer<QDockWidget> pfdDockWidget;
+    QPointer<QDockWidget> HeadingWidget;
     QPointer<QDockWidget> headDown1DockWidget;
 
-
     QPointer<QDockWidget> infoDockWidget;
-    QPointer<QDockWidget> debugConsoleDockWidget;
+    QPointer<QDockWidget> parametersDockWidget;
+    //QPointer<QDockWidget> headingWidget;
+
+
     QPointer<MAVLinkDecoder> mavlinkDecoder;
     QPointer<ToolBar> toolBar;
 
@@ -181,10 +185,6 @@ public slots:
     void updateArmingState(bool armed);
 
     void loadStyle();
-
-
-    //@Leo: fix UI
-    void connectTab();
 
 
 private:

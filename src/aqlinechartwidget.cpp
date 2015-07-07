@@ -38,7 +38,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 {
     // Add elements defined in Qt Designer
     ui.setupUi(this);
-    this->setMinimumSize(300, 250);
+    this->setMinimumSize(300, 200);
 
     // Add and customize curve list elements (left side)
     curvesWidget = new QWidget(ui.curveListWidget);

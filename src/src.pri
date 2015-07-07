@@ -32,7 +32,8 @@ SOURCES +=  src/main.cpp\
             src/linecharts.cpp \
             src/linechartwidget.cpp \
     src/commconfigurationwindow.cpp \
-src/serialconfigurationwindow.cpp
+src/serialconfigurationwindow.cpp \
+    $$PWD/hudwidget.cpp
 
 
 HEADERS  += src/mainwindow.h \
@@ -70,7 +71,8 @@ HEADERS  += src/mainwindow.h \
             src/linecharts.h \
             src/linechartwidget.h \
     src/commconfigurationwindow.h \
-src/serialconfigurationwindow.h
+src/serialconfigurationwindow.h \
+    $$PWD/hudwidget.h
 
 FORMS    += src/mainwindow.ui \
             src/uasinfo.ui \
