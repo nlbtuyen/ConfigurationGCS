@@ -62,9 +62,3 @@ RESOURCES += \
 DEFINES *= QT_USE_QSTRINGBUILDER
 
 OTHER_FILES += styles/*.css
-
-HEADERS += \
-    model.h
-
-SOURCES += \
-    model.cpp
