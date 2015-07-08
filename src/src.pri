@@ -25,15 +25,13 @@ SOURCES +=  src/main.cpp\
             src/LinechartPlot.cpp \
             src/primaryflightdisplay.cpp \
             src/hddisplay.cpp \
-            src/logcompressor.cpp \
             src/scrollzoomer.cpp \
             src/scrollbar.cpp \
             src/incrementalplot.cpp \
-            src/linecharts.cpp \
-            src/linechartwidget.cpp \
-    src/commconfigurationwindow.cpp \
-src/serialconfigurationwindow.cpp \
-    $$PWD/hudwidget.cpp
+            src/commconfigurationwindow.cpp \
+            src/serialconfigurationwindow.cpp \
+            $$PWD/hudwidget.cpp \
+    $$PWD/glwidget.cpp
 
 
 HEADERS  += src/mainwindow.h \
@@ -64,15 +62,13 @@ HEADERS  += src/mainwindow.h \
             src/LinechartPlot.h \
             src/primaryflightdisplay.h \
             src/hddisplay.h \
-            src/logcompressor.h \
             src/scrollzoomer.h \
             src/scrollbar.h \
             src/incrementalplot.h \
-            src/linecharts.h \
-            src/linechartwidget.h \
-    src/commconfigurationwindow.h \
-src/serialconfigurationwindow.h \
-    $$PWD/hudwidget.h
+            src/commconfigurationwindow.h \
+            src/serialconfigurationwindow.h \
+            $$PWD/hudwidget.h \
+    $$PWD/glwidget.h
 
 FORMS    += src/mainwindow.ui \
             src/uasinfo.ui \
@@ -84,6 +80,6 @@ FORMS    += src/mainwindow.ui \
             src/AQLinechart.ui \
             src/hddisplay.ui \
             src/linechart.ui \
-    src/configaq.ui \
-src/commsettings.ui \
-src/serialsettings.ui
+            src/configaq.ui \
+            src/commsettings.ui \
+            src/serialsettings.ui

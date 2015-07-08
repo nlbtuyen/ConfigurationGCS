@@ -46,11 +46,6 @@ QPushButton:pressed {
     border-style: inset;
 }
 
-QPushButton:clicked{
-	background-color: #05B8CC;
-    border-style: inset;
-	margin-top: 2px;
-}
 /*
     GroupBox
 */

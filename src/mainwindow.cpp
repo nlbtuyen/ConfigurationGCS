@@ -37,6 +37,7 @@
 #include "primaryflightdisplay.h"
 #include "hddisplay.h"
 #include "hudwidget.h"
+#include "glwidget.h"
 
 static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
 
@@ -133,10 +134,9 @@ void MainWindow::initActionsConnections()
 
     ui->scrollArea_heading->setWidget(new PrimaryFlightDisplay(this));
     ui->scrollArea_HUD->setWidget(new HUDWidget(this));
-//   ui->frame_3D-/>set
-//    QGridLayout *layout = new QGridLayout(ui->widget_3D);
-//    layout->addWidget(new HUDWidget(this));
-//    ui->widget_3D->setLayout(layout);
+
+    ui->scrollArea_3D->setWidget(new GLWidget(this));
+
     //===== Toolbar Status =====
 
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
@@ -457,12 +457,6 @@ void MainWindow::loadStyle()
 
     delete styleSheet;
 }
-
-QString MainWindow::getWindowGeometryKey()
-{
-    return "_geometry";
-}
-
 
 void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)
 {

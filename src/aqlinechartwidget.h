@@ -23,9 +23,6 @@
 #include "uasinterface.h"
 #include "ui_AQLinechart.h"
 
-#include "logcompressor.h"
-
-
 class AQLinechartWidget : public QWidget
 {
     Q_OBJECT
@@ -119,7 +116,6 @@ protected:
     QPointer<QCheckBox> timeButton;
 
     QTimer* updateTimer;
-    LogCompressor* compressor;
     QCheckBox* selectAllCheckBox;
     int selectedMAV; ///< The MAV for which plot items are accepted, -1 for all systems
 

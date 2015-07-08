@@ -29,9 +29,6 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     curveListCounter(0),
     listedCurves(new QList<QString>()),
     curveLabels(new QMap<QString, QLabel*>()),
-    curveMeans(new QMap<QString, QLabel*>()),
-    curveMedians(new QMap<QString, QLabel*>()),
-    curveVariances(new QMap<QString, QLabel*>()),
     curveMenu(new QMenu(this)),
     updateTimer(new QTimer()),
     selectedMAV(-1)
@@ -46,7 +43,6 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     curvesWidgetLayout = new QGridLayout(curvesWidget);
     curvesWidgetLayout->setMargin(2);
     curvesWidgetLayout->setSpacing(4);
-    //curvesWidgetLayout->setSizeConstraint(QSizePolicy::Expanding);
     curvesWidgetLayout->setAlignment(Qt::AlignTop);
 
     curvesWidgetLayout->setColumnStretch(0, 0);
@@ -55,7 +51,6 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     curvesWidgetLayout->setColumnStretch(3, 0);
     curvesWidgetLayout->setColumnStretch(4, 0);
     curvesWidgetLayout->setColumnStretch(5, 0);
-//    horizontalLayout->setColumnStretch(median, 50);
     curvesWidgetLayout->setColumnStretch(6, 0);
 
     curvesWidget->setLayout(curvesWidgetLayout);
@@ -63,10 +58,6 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     // Create curve list headings
     QLabel* label;
     QLabel* value;
-    QLabel* mean;
-    QLabel* variance;
-
-    //connect(ui.recolorButton, SIGNAL(clicked()), this, SLOT(recolor()));
 
     int labelRow = curvesWidgetLayout->rowCount();
 
@@ -83,20 +74,9 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     value->setText("Val");
     curvesWidgetLayout->addWidget(value, labelRow, 3);
 
-    // Mean
-    mean = new QLabel(this);
-    mean->setText("Mean");
-    curvesWidgetLayout->addWidget(mean, labelRow, 4);
-
-    // Variance
-    variance = new QLabel(this);
-    variance->setText("Variance");
-    curvesWidgetLayout->addWidget(variance, labelRow, 5);
-
     // Create the layout
     createLayout();
 
-//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 
     updateTimer->setInterval(UPDATE_INTERVAL);
@@ -245,30 +225,6 @@ void AQLinechartWidget::refresh()
         // Value
         i.value()->setText(str);
     }
-    // Mean
-    QMap<QString, QLabel*>::iterator j;
-    for (j = curveMeans->begin(); j != curveMeans->end(); ++j) {
-        double val = activePlot->getMean(j.key());
-        int intval = static_cast<int>(val);
-        if (intval >= 100000 || intval <= -100000) {
-            str.sprintf("% 11i", intval);
-        } else if (intval >= 10000 || intval <= -10000) {
-            str.sprintf("% 11.2f", val);
-        } else if (intval >= 1000 || intval <= -1000) {
-            str.sprintf("% 11.4f", val);
-        } else {
-            str.sprintf("% 11.6f", val);
-        }
-        j.value()->setText(str);
-    }
-
-    QMap<QString, QLabel*>::iterator l;
-    for (l = curveVariances->begin(); l != curveVariances->end(); ++l) {
-        // Variance
-        str.sprintf("% 8.3e", activePlot->getVariance(l.key()));
-        l.value()->setText(str);
-    }
-
     setUpdatesEnabled(true);
 }
 
@@ -295,9 +251,6 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     QCheckBox *checkBox;
     QLabel* label;
     QLabel* value;
-//    QLabel* unitLabel;
-    QLabel* mean;
-    QLabel* variance;
 
     curveNames.insert(curve+unit, curve);
     curveUnits.insert(curve, unit);
@@ -343,30 +296,6 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
     curveLabels->insert(curve+unit, value);
     curvesWidgetLayout->addWidget(value, labelRow, 3);
-
-    // Mean
-    mean = new QLabel(this);
-    mean->setNum(0.00);
-    mean->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold;}"));
-    mean->setToolTip(tr("Arithmetic mean of %1 in %2 units").arg(curve, unit));
-    mean->setWhatsThis(tr("Arithmetic mean of %1 in %2 units").arg(curve, unit));
-    curveMeans->insert(curve+unit, mean);
-    curvesWidgetLayout->addWidget(mean, labelRow, 4);
-
-    // Variance
-    variance = new QLabel(this);
-    variance->setNum(0.00);
-    variance->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold;}"));
-    variance->setToolTip(tr("Variance of %1 in (%2)^2 units").arg(curve, unit));
-    variance->setWhatsThis(tr("Variance of %1 in (%2)^2 units").arg(curve, unit));
-    curveVariances->insert(curve+unit, variance);
-    curvesWidgetLayout->addWidget(variance, labelRow, 5);
-
-    // Set stretch factors so that the label gets the whole space
-
-
-    // Load visibility settings
-    // TODO
 
     // Connect actions
     connect(selectAllCheckBox, SIGNAL(clicked(bool)), checkBox, SLOT(setChecked(bool)));
@@ -414,18 +343,6 @@ void AQLinechartWidget::removeCurve(QString curve)
         QObject::disconnect(widget, SIGNAL(clicked(bool)), this, SLOT(takeButtonClick(bool)));
         curvesWidgetLayout->removeWidget(widget);
         delete widget;
-    }
-
-    widget = curveMeans->take(curve+unit);
-    if (widget) {
-        curvesWidgetLayout->removeWidget(widget);
-        widget->deleteLater();
-    }
-
-    widget = curveVariances->take(curve+unit);
-    if (widget) {
-        curvesWidgetLayout->removeWidget(widget);
-        widget->deleteLater();
     }
 
     intData.remove(curve+unit);

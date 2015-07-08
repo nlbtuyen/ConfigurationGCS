@@ -24,17 +24,15 @@
 #include "mavlinkmessagesender.h"
 #include "hddisplay.h"
 #include "mavlinkdecoder.h"
-#include "logcompressor.h"
 
-//#include "seriallink.h"
-//#include "uasinfowidget.h"
-//#include "debugconsole.h"
-//#include "mavlinkdecoder.h"
 #include "commconfigurationwindow.h"
 #include "hudwidget.h"
+#include "glwidget.h"
+
 namespace Ui {
 class MainWindow;
 }
+class GLWidget;
 class ToolBar;
 class MAVLinkProtocol;
 class MAVLinkDecoder;
@@ -61,12 +59,6 @@ public:
     /// @brief Returns the MainWindow singleton. Will not create the MainWindow if it has not already
     ///         been created.
     static MainWindow* instance(void);
-
-    /// @brief Deletes the MainWindow singleton
-//    void deleteInstance(void);
-
-    /// @brief Creates the MainWindow singleton. Should only be called once by QGCApplication.
-//    static MainWindow* _create(QSplashScreen* splashScreen);
 
     MAVLinkProtocol* getMAVLink()
     {
@@ -189,11 +181,6 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-
-    QString getWindowGeometryKey();
-
-
-
 };
 
 #endif // MAINWINDOW_H
