@@ -180,7 +180,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_Pitch">
           <attribute name="title">
@@ -1180,7 +1180,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>104</width>
+               <width>110</width>
                <height>20</height>
               </size>
              </property>
@@ -1296,19 +1296,6 @@ QTabBar::tab:selected, QTabBar::tab:hover {
               </spacer>
              </item>
             </layout>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_22">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>105</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_32">
@@ -1428,7 +1415,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>104</width>
+               <width>110</width>
                <height>20</height>
               </size>
              </property>

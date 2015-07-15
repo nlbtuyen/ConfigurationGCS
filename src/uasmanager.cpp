@@ -12,6 +12,15 @@
 #define MEAN_EARTH_DIAMETER	12756274.0
 #define UMR	0.017453292519943295769236907684886
 
+#ifndef isinf
+#define isinf(x) ((x)!=(x))
+#endif
+
+
+#ifndef isnan
+#define isnan(x) ((x)!=(x))
+#endif
+
 UASManager* UASManager::instance()
 {
     static UASManager* _instance = 0;

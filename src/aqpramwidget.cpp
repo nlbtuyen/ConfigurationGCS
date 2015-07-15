@@ -33,6 +33,15 @@ const QColor colorDarkYellow(180, 180, 0);
 const QColor colorBackground("#050508");
 const QColor colorBlack(0, 0, 0);
 
+#ifndef isinf
+#define isinf(x) ((x)!=(x))
+#endif
+
+
+#ifndef isnan
+#define isnan(x) ((x)!=(x))
+#endif
+
 /**
  * @param uas MAV to set the parameters on
  * @param parent Parent widget

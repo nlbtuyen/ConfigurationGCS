@@ -14,30 +14,23 @@
 #include <QStyleFactory>
 #include <QDesktopServices>
 #include <QVariant>
+#include <QToolBar>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 #include "qgc.h"
-
 #include "uasmanager.h"
 #include "linkmanager.h"
 #include "seriallink.h"
-
 #include "mavlinkprotocol.h"
 #include "mavlinkdecoder.h"
-
 #include "uavconfig.h"
-#include "qtoolbar.h"
 #include "parameterinterface.h"
-#include "mavlinkmessagesender.h"
-
 #include "uasinfowidget.h"
 #include "aqpramwidget.h"
 #include "primaryflightdisplay.h"
-#include "hddisplay.h"
 #include "hudwidget.h"
-#include "glwidget.h"
+
 
 static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
 
@@ -134,8 +127,6 @@ void MainWindow::initActionsConnections()
 
     ui->scrollArea_heading->setWidget(new PrimaryFlightDisplay(this));
     ui->scrollArea_HUD->setWidget(new HUDWidget(this));
-
-    ui->scrollArea_3D->setWidget(new GLWidget(this));
 
     //===== Toolbar Status =====
 

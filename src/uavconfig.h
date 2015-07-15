@@ -83,8 +83,6 @@ private slots:
     void on_OSDpushButton_clicked();
 
 private:
-    int isSelected = 1;
-    QString str = ":images/config/";
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
 

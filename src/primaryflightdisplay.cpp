@@ -93,6 +93,15 @@
 #define UNKNOWN_COUNT -1
 #define UNKNOWN_GPSFIXTYPE -1
 
+#ifndef isinf
+#define isinf(x) ((x)!=(x))
+#endif
+
+
+#ifndef isnan
+#define isnan(x) ((x)!=(x))
+#endif
+
 /*
  *@TODO:
  * global fixed pens (and painters too?)

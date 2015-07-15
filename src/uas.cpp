@@ -17,6 +17,14 @@
 #include "autoquadmav.h"
 #include "mavlink.h"
 
+#ifndef isinf
+#define isinf(x) ((x)!=(x))
+#endif
+
+
+#ifndef isnan
+#define isnan(x) ((x)!=(x))
+#endif
 
 /**
 * Gets the settings from the previous UAS (name, airframe, autopilot, battery specs)
