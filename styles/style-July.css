@@ -58,6 +58,12 @@ QPushButton:pressed {
         padding-left: 3px;
 }
 
+QPushButton:clicked{
+        background-color: #05B8CC;
+    border-style: inset;
+        margin-top: 2px;
+}
+
 QPushButton:on {
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
         stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);

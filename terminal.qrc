@@ -23,6 +23,5 @@
         <file>images/network-wired.png</file>
         <file>images/view-refresh.png</file>
         <file>images/down_arrow.png</file>
-        <file>images/radio_button.PNG</file>
     </qresource>
 </RCC>
