@@ -16,6 +16,9 @@
 #include <QVariant>
 #include <QToolBar>
 
+#include <QQuickWidget>
+
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qgc.h"
@@ -127,6 +130,10 @@ void MainWindow::initActionsConnections()
 
     ui->scrollArea_heading->setWidget(new PrimaryFlightDisplay(this));
     ui->scrollArea_HUD->setWidget(new HUDWidget(this));
+
+    ui->quickWidget->setSource(QUrl("qrc:/src/main.qml"));
+    ui->quickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    ui->quickWidget->show();
 
     //===== Toolbar Status =====
 
@@ -441,7 +448,7 @@ void MainWindow::loadStyle()
         QString style = QString(styleSheet->readAll());
         qApp->setStyleSheet(style);
         styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
-        //        qDebug() << "Loaded stylesheet:" << styleFileName;
+
     }
     else
         showCriticalMessage(tr("VSKConfigUAV did not load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));

@@ -27,7 +27,7 @@ QT += network \
          webkit \
          sql
 
-QT += widgets webkitwidgets multimedia printsupport concurrent
+QT += widgets webkitwidgets multimedia printsupport concurrent quickwidgets 3dcore 3drenderer 3dinput 3dquick qml quick
 
 # build directories
 DESTDIR = $${OUT_PWD}

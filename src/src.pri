@@ -72,3 +72,9 @@ FORMS    += src/mainwindow.ui \
             src/configaq.ui \
             src/commsettings.ui \
             src/serialsettings.ui
+
+DISTFILES += \
+    $$PWD/main.qml \
+    $$PWD/BasicCamera.qml \
+    $$PWD/WireframeMaterial.qml \
+    $$PWD/Model.qml
