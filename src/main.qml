@@ -1,10 +1,32 @@
-import QtQuick 2.0
-Grid {
-x: 5; y: 5; width: 170; height: 170
-columns: 2; rows: 2; spacing: 4
-Rectangle { width: 78; height: 78; color: "red" }
-Rectangle { width: 78; height: 78; color: "green" }
-Rectangle { width: 78; height: 78; color: "silver" }
-Rectangle { width: 78; height: 78; color: "blue" }
-}
+import Qt3D 2.0
+import Qt3D.Renderer 2.0
+import QtQuick 2.1 as QQ2
 
+Entity {
+    id: root
+
+    // Render from the mainCamera
+    components: [
+        FrameGraph {
+            activeFrameGraph: ForwardRenderer {
+                id: renderer
+                camera: mainCamera
+            }
+        }
+    ]
+
+    BasicCamera {
+        id: mainCamera
+        position: Qt.vector3d( 0.0, 0.0,120.0)
+    }
+
+    Configuration  {
+        controlledCamera: mainCamera
+    }
+
+
+    Model {
+        id: model
+        material: wireframeMaterial
+    }
+}

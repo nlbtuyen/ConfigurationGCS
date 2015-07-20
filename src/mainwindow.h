@@ -22,10 +22,12 @@
 #include "mavlinkdecoder.h"
 #include "commconfigurationwindow.h"
 #include "hudwidget.h"
+#include <window.h>
 
 namespace Ui {
 class MainWindow;
 }
+class Window;
 class GLWidget;
 class ToolBar;
 class MAVLinkProtocol;
@@ -118,7 +120,7 @@ protected:
     AQParamWidget* paramaq;
     UAVConfig *config; //main tab configuration VSK
     QSettings setting;
-
+    Window view;
 
 signals:
     /**
@@ -174,7 +176,11 @@ public slots:
 
 
 private:
+
+public:
     Ui::MainWindow *ui;
 };
+
+//Q_DECLARE_METATYPE( initActionsConnections )
 
 #endif // MAINWINDOW_H

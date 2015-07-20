@@ -25,8 +25,11 @@
         <file>images/down_arrow.png</file>
         <file>src/BasicCamera.qml</file>
         <file>src/main.qml</file>
-        <file>src/Model.qml</file>
         <file>src/WireframeMaterial.qml</file>
-        <file>src/rocket.obj</file>
+        <file>3dmodel/180 FPV FULL.stl</file>
+        <file>3dmodel/rocket.obj</file>
+        <file>3dmodel/toyplane.obj</file>
+        <file>3dmodel/trefoil.obj</file>
+        <file>src/Model.qml</file>
     </qresource>
 </RCC>

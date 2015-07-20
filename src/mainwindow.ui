@@ -103,7 +103,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QQuickWidget" name="quickWidget">
+       <widget class="QScrollArea" name="scrollArea_3D">
         <property name="minimumSize">
          <size>
           <width>170</width>
@@ -116,9 +116,22 @@
           <height>170</height>
          </size>
         </property>
-        <property name="resizeMode">
-         <enum>QQuickWidget::SizeRootObjectToView</enum>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
         </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_3">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>170</width>
+           <height>170</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>
@@ -360,13 +373,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QQuickWidget</class>
-   <extends>QWidget</extends>
-   <header>QtQuickWidgets/QQuickWidget</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../terminal.qrc"/>
  </resources>

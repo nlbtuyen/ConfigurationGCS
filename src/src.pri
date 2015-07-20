@@ -27,7 +27,8 @@ SOURCES +=  src/main.cpp\
             src/incrementalplot.cpp \
             src/commconfigurationwindow.cpp \
             src/serialconfigurationwindow.cpp \
-            $$PWD/hudwidget.cpp
+            $$PWD/hudwidget.cpp \
+    $$PWD/window.cpp
 
 
 HEADERS  += src/mainwindow.h \
@@ -60,7 +61,8 @@ HEADERS  += src/mainwindow.h \
             src/incrementalplot.h \
             src/commconfigurationwindow.h \
             src/serialconfigurationwindow.h \
-            $$PWD/hudwidget.h
+            $$PWD/hudwidget.h \
+    $$PWD/window.h
 
 FORMS    += src/mainwindow.ui \
             src/uasinfo.ui \

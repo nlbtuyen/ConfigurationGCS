@@ -16,8 +16,11 @@
 #include <QVariant>
 #include <QToolBar>
 
-#include <QQuickWidget>
-
+#include <window.h>
+#include <Qt3DRenderer/qrenderaspect.h>
+#include <Qt3DInput/QInputAspect>
+#include <Qt3DQuick/QQmlAspectEngine>
+#include <QtQml>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -131,9 +134,6 @@ void MainWindow::initActionsConnections()
     ui->scrollArea_heading->setWidget(new PrimaryFlightDisplay(this));
     ui->scrollArea_HUD->setWidget(new HUDWidget(this));
 
-    ui->quickWidget->setSource(QUrl("qrc:/src/main.qml"));
-    ui->quickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    ui->quickWidget->show();
 
     //===== Toolbar Status =====
 
