@@ -21,9 +21,12 @@ Entity {
         Scale { id: scaleTransform }
         Rotate{ id: thetaRotation; axis: Qt.vector3d( 1.0, 0.0, 0.0 ) }
         Rotate{ id: phiRotation;   axis: Qt.vector3d( 0.0, 1.0, 0.0 ) }
+        Rotate {angle : -90; axis : Qt.vector3d(1, 0, 0)}
+        Rotate {angle : -90; axis : Qt.vector3d(0, 1, 0)}
     }
     Mesh {
         id: mesh
-        source: "qrc:/3dmodel/toyplane.obj"
+        source: "qrc:/3dmodel/Drone.obj"
     }
+
 }

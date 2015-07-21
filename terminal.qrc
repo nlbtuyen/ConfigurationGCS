@@ -31,5 +31,7 @@
         <file>3dmodel/toyplane.obj</file>
         <file>3dmodel/trefoil.obj</file>
         <file>src/Model.qml</file>
+        <file>3dmodel/Drone.mtl</file>
+        <file>3dmodel/Drone.obj</file>
     </qresource>
 </RCC>

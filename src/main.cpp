@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    w.show();
 
     Window view;
     QWidget *container = QWidget::createWindowContainer(&view);
@@ -31,5 +30,7 @@ int main(int argc, char *argv[])
     engine.setSource(QUrl("qrc:/src/main.qml"));
     w.ui->scrollArea_3D->setWidget(container);
 
+
+    w.show();
     return a.exec();
 }

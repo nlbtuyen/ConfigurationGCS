@@ -16,6 +16,11 @@ WinBuild {
 
         QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\styles\\*.css" "$$TARGETDIR_WIN\\styles" $$escape_expand(\\n\\t))
 
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\3dmodel\\*" "$$TARGETDIR_WIN\\3dmodel" $$escape_expand(\\n\\t))
+
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\src\\*.qml" "$$TARGETDIR_WIN\\src" $$escape_expand(\\n\\t))
+
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\*.qrc" "$$TARGETDIR_WIN" $$escape_expand(\\n\\t))
 
         ReleaseBuild {
 
@@ -26,7 +31,7 @@ WinBuild {
                 QT_DLL_LIST = Core Gui Multimedia Network OpenGL Sql Svg Test WebKit Xml XmlPatterns
                 QT_PLUGIN_LIST = imageformats iconengines
                 greaterThan(QT_MAJOR_VERSION, 4) {
-                        QT_DLL_LIST += Concurrent MultimediaWidgets Positioning PrintSupport Qml Quick Sensors WebChannel WebKitWidgets Widgets
+                        QT_DLL_LIST += Concurrent MultimediaWidgets Positioning PrintSupport Qml Quick Sensors WebChannel WebKitWidgets Widgets 3DInput 3DCore 3DRenderer 3DQuick
                         QT_PLUGIN_LIST += mediaservice platforms
                 }
                 for(QT_DLL, QT_DLL_LIST) {
