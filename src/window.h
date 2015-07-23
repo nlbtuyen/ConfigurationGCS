@@ -11,8 +11,6 @@ public:
     Window(QScreen *screen = 0);
     ~Window();
 
-protected:
-    virtual void keyPressEvent(QKeyEvent *e);
 };
 
 #endif // WINDOW_H

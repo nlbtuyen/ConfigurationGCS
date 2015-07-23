@@ -28,8 +28,8 @@ SOURCES +=  src/main.cpp\
             src/commconfigurationwindow.cpp \
             src/serialconfigurationwindow.cpp \
             $$PWD/hudwidget.cpp \
-    $$PWD/window.cpp
-
+            $$PWD/window.cpp \
+            $$PWD/drone.cpp
 
 HEADERS  += src/mainwindow.h \
             src/uavconfig.h \
@@ -62,7 +62,8 @@ HEADERS  += src/mainwindow.h \
             src/commconfigurationwindow.h \
             src/serialconfigurationwindow.h \
             $$PWD/hudwidget.h \
-    $$PWD/window.h
+            $$PWD/window.h \
+            $$PWD/drone.h
 
 FORMS    += src/mainwindow.ui \
             src/uasinfo.ui \

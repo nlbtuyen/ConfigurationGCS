@@ -26,14 +26,4 @@ Window::~Window()
 {
 }
 
-void Window::keyPressEvent( QKeyEvent* e )
-{
-    switch ( e->key() )
-    {
-        case Qt::Key_Escape:
-            break;
 
-        default:
-            QWindow::keyPressEvent( e );
-    }
-}

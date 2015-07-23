@@ -1,9 +1,17 @@
 import Qt3D 2.0
 import Qt3D.Renderer 2.0
 import QtQuick 2.1 as QQ2
+import QtQuick.Layouts 1.0
 
 Entity {
     id: root
+
+    signal signalQML()
+    //signal receiveMess(string msg)
+    function setTextField(){
+
+
+    }
 
     // Render from the mainCamera
     components: [
@@ -14,6 +22,7 @@ Entity {
             }
         }
     ]
+
 
     BasicCamera {
         id: mainCamera
@@ -28,6 +37,8 @@ Entity {
 
     Model {
         id: aModel
+        onXChanged: signalQML()
     }
+
 
 }
