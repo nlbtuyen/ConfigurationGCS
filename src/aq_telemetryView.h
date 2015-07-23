@@ -52,8 +52,6 @@ private:
     void setupCurves();
     float getTelemValue(const int idx);
 
-    void init(); //@Leo
-
 public slots:
     void initChart(UASInterface *uav);
 

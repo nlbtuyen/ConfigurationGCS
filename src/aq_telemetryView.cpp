@@ -36,7 +36,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
 
     // save size of this data set
     totalDatasetFields[dset] = telemDataFields.size();
-init();
+
 //    setupDataFields();
 //    qDebug() << "connect";
 
@@ -113,21 +113,6 @@ float AQTelemetryView::getTelemValue(const int idx) {
         break;
     }
     return ret;
-}
-
-void AQTelemetryView::init()
-{
-    if ( !AqTeleChart ) {
-        AqTeleChart = new AQLinechartWidget(0, ui->plotFrameTele);
-        linLayoutPlot = new QGridLayout( ui->plotFrameTele);
-        linLayoutPlot->addWidget(AqTeleChart, 0, Qt::AlignCenter);
-    }
-    for (int i=0; i < telemDataFields.size(); i++) {
-        if (telemDataFields[i].dataSet == currentDataSet) {
-            QVariant var = QVariant::fromValue(0.0f);
-            AqTeleChart->appendData(0, telemDataFields[i].label, "", var, 0);
-        }
-    }
 }
 
 void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
