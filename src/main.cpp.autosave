@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
     view.setSource(QUrl("qrc:/src/main.qml"));
 
     w.ui->scrollArea_3D->setWidget(container);
+    
+    
 
     w.show();
     return a.exec();

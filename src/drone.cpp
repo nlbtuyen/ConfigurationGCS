@@ -18,7 +18,15 @@ Drone::Drone(QObject *parent):
     mRoot(0),
     mDisplay()
 {
-    connect(this, SIGNAL(displayChanged()), this, SLOT(onDisplayChanged()));
+    //connect(this, SIGNAL(displayChanged()), this, SLOT(onDisplayChanged()));
+}
+
+void Drone::setRoll(float r)
+{
+    if (r == this->roll)
+        return;
+    r = this->roll;
+    emit roolChanged(r);
 }
 
 void Drone::setRootObject(QObject *root)
@@ -30,6 +38,7 @@ void Drone::setRootObject(QObject *root)
 
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 
+//    return mRoot;
 
 }
 
@@ -37,15 +46,8 @@ void Drone::setDisplay(const QString &display)
 {
     if (mDisplay != display) {
         mDisplay = display;
-        emit displayChanged();
+//        emit displayChanged();
     }
-}
-
-void Drone::onDisplayChanged()
-{
-    // push the new display value to QML
-//    if (mRoot) mRoot->setProperty("displayText", mDisplay);
-    qDebug() << "on display changed";
 }
 
 void Drone::setActiveUAS(UASInterface *uas)
@@ -75,6 +77,7 @@ void Drone::updateAttitude(UASInterface *uas, double roll, double pitch, double 
         if (yaw<0) yaw+=360;
         this->heading = yaw;
     }
+    setRoll(this->roll);
 //    qDebug("r,p,y: %f,%f,%f", roll, pitch, yaw);
 
 }
@@ -93,10 +96,10 @@ void Drone::updateAttitude(UASInterface *uas, int component, double roll, double
     }
 }
 
-void Drone::cppSlot()
-{
-    qDebug() << "c++: HandleTextField::handleSubmitTextField:";
-    emit cppSignal();
+//void Drone::cppSlot()
+//{
+//    qDebug() << "c++: HandleTextField::handleSubmitTextField:";
+//    emit cppSignal();
 
-}
+//}
 

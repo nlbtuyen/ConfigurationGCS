@@ -11,14 +11,15 @@ class Drone : public QObject
 public:
     Drone(QObject *parent = 0);
 
+    float roll;
+
+    void setRoll(float r);
+
     void setRootObject(QObject *root);
     QString display() const { return mDisplay; }
 
 public slots:
     void setDisplay(const QString &display);
-    void onDisplayChanged();
-
-
 
     virtual void setActiveUAS(UASInterface* uas);
     /** @brief Attitude from main autopilot / system state */
@@ -26,17 +27,14 @@ public slots:
     /** @brief Attitude from one specific component / redundant autopilot */
     void updateAttitude(UASInterface* uas, int component, double roll, double pitch, double yaw, quint64 timestamp);
 
-    void cppSlot();
-signals:
-    void displayChanged();
 
-    void cppSignal();
+signals:
+    void roolChanged(float roll);
 
 private:
     UASInterface* uas;          ///< The uas currently monitored
     QObject *mRoot;
     QString mDisplay;
-    float roll;
     float pitch;
     float heading;
 };

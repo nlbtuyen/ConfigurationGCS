@@ -16,7 +16,6 @@
 #include <QVariant>
 #include <QToolBar>
 
-#include <window.h>
 #include <Qt3DRenderer/qrenderaspect.h>
 #include <Qt3DInput/QInputAspect>
 #include <Qt3DQuick/QQmlAspectEngine>

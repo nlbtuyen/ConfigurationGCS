@@ -22,7 +22,7 @@
 #include "mavlinkdecoder.h"
 #include "commconfigurationwindow.h"
 #include "hudwidget.h"
-#include <window.h>
+
 
 namespace Ui {
 class MainWindow;
@@ -120,7 +120,7 @@ protected:
     AQParamWidget* paramaq;
     UAVConfig *config; //main tab configuration VSK
     QSettings setting;
-    Window view;
+
 
 signals:
     /**
