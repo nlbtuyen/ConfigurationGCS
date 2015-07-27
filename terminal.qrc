@@ -33,5 +33,6 @@
         <file>src/Model.qml</file>
         <file>3dmodel/Drone.mtl</file>
         <file>3dmodel/Drone.obj</file>
+        <file>src/ModelView.qml</file>
     </qresource>
 </RCC>
