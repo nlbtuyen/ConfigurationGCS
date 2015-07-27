@@ -3,19 +3,19 @@ import QtQuick.Window 2.2
 import QtQuick.Scene3D 2.0
 
 Item {
+
     Rectangle {
         id: screne
         width: 170;
         height: width;
         anchors.centerIn: parent
-
     }
     Scene3D {
         anchors.fill: parent
         anchors.margins: 10
         focus: true
         aspects: "input"
-        ModelView { }
+        ModelView { id: modelView}
     }
 
 }

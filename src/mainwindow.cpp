@@ -16,10 +16,21 @@
 #include <QVariant>
 #include <QToolBar>
 
+
 #include <Qt3DRenderer/qrenderaspect.h>
 #include <Qt3DInput/QInputAspect>
 #include <Qt3DQuick/QQmlAspectEngine>
 #include <QtQml>
+#include <QQuickView>
+#include <QQuickItem>
+#include <QQmlEngine>
+#include <QQmlComponent>
+#include <QQmlProperty>
+#include <QOpenGLContext>
+#include <QGraphicsObject>
+#include <QTimer>
+#include "drone.h"
+
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -54,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
     styleFileName(""),
     QMainWindow(parent),
     sys_mode(MAV_MODE_PREFLIGHT),
+    drone(0),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -132,6 +144,23 @@ void MainWindow::initActionsConnections()
 
     ui->scrollArea_heading->setWidget(new PrimaryFlightDisplay(this));
     ui->scrollArea_HUD->setWidget(new HUDWidget(this));
+
+
+    QWidget *container = QWidget::createWindowContainer(&view);
+    QSurfaceFormat format;
+    format.setMajorVersion(3);
+    format.setMinorVersion(3);
+    format.setProfile(QSurfaceFormat::CoreProfile);
+    format.setDepthBufferSize(24);
+    view.setFormat(format);
+    view.setResizeMode(QQuickView::SizeRootObjectToView);
+    view.setSource(QUrl("qrc:/src/main.qml"));
+    ui->scrollArea_3D->setWidget(container);
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(reloadView()));
+    timer->start(50);
+
 
 
     //===== Toolbar Status =====
@@ -453,6 +482,11 @@ void MainWindow::loadStyle()
         showCriticalMessage(tr("VSKConfigUAV did not load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
 
     delete styleSheet;
+}
+
+void MainWindow::reloadView()
+{
+    view.clearBeforeRendering();
 }
 
 void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)

@@ -29,7 +29,7 @@ public slots:
 
 
 signals:
-    void roolChanged(float roll);
+    void rollChanged(float roll);
 
 private:
     UASInterface* uas;          ///< The uas currently monitored

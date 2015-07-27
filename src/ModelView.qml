@@ -18,10 +18,6 @@ Entity {
             position: Qt.vector3d( 0.0, 0.0, 80.0 )
         }
 
-    Configuration  {
-        controlledCamera: mainCamera
-    }
-
     Model {
         id: model
     }
