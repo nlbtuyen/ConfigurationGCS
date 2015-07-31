@@ -11,11 +11,11 @@ Item {
         anchors.centerIn: parent
     }
     Scene3D {
+        id: dd
         anchors.fill: parent
         anchors.margins: 10
         focus: true
         aspects: "input"
         ModelView { id: modelView}
     }
-
 }

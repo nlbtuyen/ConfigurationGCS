@@ -11,48 +11,21 @@
 #define isinf(x) ((x)!=(x))
 #endif
 
-
 #ifndef isnan
 #define isnan(x) ((x)!=(x))
 #endif
 
-Drone::Drone(QObject *parent):
-    QObject(parent),
-    mRoot(0),
-    mDisplay()
+Drone::Drone()
 {
-    //connect(this, SIGNAL(displayChanged()), this, SLOT(onDisplayChanged()));
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 
 }
 
-void Drone::setRoll(float r)
+Drone::~Drone()
 {
-    if (r == this->roll)
-        return;
-    r = this->roll;
-    emit rollChanged(r);
-}
-
-void Drone::setRootObject(QObject *root)
-{
-    // disconnect from any previous root
-    if (mRoot != 0) mRoot->disconnect(this);
-
-    mRoot = root;
-
-
-//    return mRoot;
 
 }
 
-void Drone::setDisplay(const QString &display)
-{
-    if (mDisplay != display) {
-        mDisplay = display;
-//        emit displayChanged();
-    }
-}
 
 void Drone::setActiveUAS(UASInterface *uas)
 {
@@ -77,18 +50,23 @@ void Drone::updateAttitude(UASInterface *uas, double roll, double pitch, double 
         if (yaw<0) yaw+=360;
         this->heading = yaw;
     }
-    setRoll(this->roll);
-//    qDebug("r,p,y: %f,%f,%f", roll, pitch, yaw);
+//    setRoll(this->roll);
+    Q_EMIT rollChanged();
 
-    QQmlEngine engine;
-    QQmlComponent component(&engine, QUrl("qrc:/src/Model.qml"));
-    QObject *object = component.create();
 
-    QObject *childObject = object->findChild<QObject *>("MyModel");
+//    qDebug("r,p,y: %f,%f,%f", this->roll, pitch, yaw);
 
-    childObject->setProperty("rollAngle",this->roll);
-    qDebug() << "Property value:" << QQmlProperty::read(childObject, "rollAngle").toFloat();
-    engine.destroyed();
+//    QQmlEngine engine;
+//    QQmlComponent component(&engine, QUrl("qrc:/src/Model.qml"),QQmlComponent::PreferSynchronous);
+
+
+//    QObject *object = component.create();
+//    QObject *childObject = object->findChild<QObject *>("MyModel");
+
+//    childObject->setProperty("rollAngle",QVariant::fromValue(this->roll));
+//    qDebug() << "Property value:" << QQmlProperty::read(childObject, "rollAngle").toFloat();
+
+
 
 }
 
@@ -104,12 +82,8 @@ void Drone::updateAttitude(UASInterface *uas, int component, double roll, double
         if (yaw<0) yaw+=360;
         this->heading = yaw;
     }
+//    setRoll(this->roll);
+    emit rollChanged();
 }
 
-//void Drone::cppSlot()
-//{
-//    qDebug() << "c++: HandleTextField::handleSubmitTextField:";
-//    emit cppSignal();
-
-//}
 

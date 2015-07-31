@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
     styleFileName(""),
     QMainWindow(parent),
     sys_mode(MAV_MODE_PREFLIGHT),
-    drone(0),
+//    drone(0),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -154,13 +154,15 @@ void MainWindow::initActionsConnections()
     format.setDepthBufferSize(24);
     view.setFormat(format);
     view.setResizeMode(QQuickView::SizeRootObjectToView);
+    view.clearBeforeRendering();
+    view.engine()->clearComponentCache();
+    view.rootContext()->setContextProperty("drone",&drone);
     view.setSource(QUrl("qrc:/src/main.qml"));
     ui->scrollArea_3D->setWidget(container);
 
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(reloadView()));
-    timer->start(50);
-
+    QTimer *m = new QTimer();
+    connect(m,SIGNAL(timeout()),this,SLOT(reloadView()));
+    m->start(50);
 
 
     //===== Toolbar Status =====
@@ -192,6 +194,50 @@ void MainWindow::initActionsConnections()
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 }
+
+void MainWindow::reloadView()
+{
+
+
+    QQmlEngine engine;
+
+    qmlRegisterType<Drone> ("rollCpp", 1, 0, "drone");
+
+    //    QQmlComponent component(&engine, QUrl("qrc:/src/Model.qml"));
+
+
+
+    ////    context->setContextProperty("rollCpp",QVariant::fromValue(rollCpp.rollCpp()));
+    //    component.create(context);
+
+    QQmlComponent component(&engine, QUrl("qrc:/src/Model.qml"));
+    QObject *object = component.create();
+    QObject *childObject = object->findChild<QObject *>("MyModel");
+
+    QQmlContext *context = new QQmlContext(engine.rootContext());
+    context->setContextProperty("drone", &drone);
+
+//    childObject->setProperty("roll",QVariant::fromValue(drone.roll));
+//    qDebug() << "drone.roll: " << drone.roll;
+//    QQmlProperty(childObject,"roll").write(drone.roll);
+//    qDebug() << "Property value:" << QQmlProperty::read(childObject, "roll").toFloat();
+
+    view.requestUpdate();
+
+
+    //    qDebug() << rollCpp.rollCpp();
+    //    qDebug() << context->property("rollCpp");
+    //    qDebug() << component.property("rollCpp");
+
+    //    QQmlComponent component(&engine, QUrl("qrc:/src/Model.qml"));
+    //    QObject *object = component.create();
+    //    QObject *childObject = object->findChild<QObject *>("MyModel");
+
+    //    childObject->setProperty("myRoll",QVariant::fromValue(rollCpp.roll));
+    //    qDebug() << "Property value:" << QQmlProperty::read(childObject, "myRoll").toFloat();
+
+}
+
 
 void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea area)
 {
@@ -482,11 +528,6 @@ void MainWindow::loadStyle()
         showCriticalMessage(tr("VSKConfigUAV did not load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
 
     delete styleSheet;
-}
-
-void MainWindow::reloadView()
-{
-    view.clearBeforeRendering();
 }
 
 void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)
