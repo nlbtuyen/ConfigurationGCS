@@ -160,11 +160,6 @@ void MainWindow::initActionsConnections()
     view.setSource(QUrl("qrc:/src/main.qml"));
     ui->scrollArea_3D->setWidget(container);
 
-    QTimer *m = new QTimer();
-    connect(m,SIGNAL(timeout()),this,SLOT(reloadView()));
-    m->start(50);
-
-
     //===== Toolbar Status =====
 
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
@@ -194,50 +189,6 @@ void MainWindow::initActionsConnections()
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 }
-
-void MainWindow::reloadView()
-{
-
-
-    QQmlEngine engine;
-
-    qmlRegisterType<Drone> ("rollCpp", 1, 0, "drone");
-
-    //    QQmlComponent component(&engine, QUrl("qrc:/src/Model.qml"));
-
-
-
-    ////    context->setContextProperty("rollCpp",QVariant::fromValue(rollCpp.rollCpp()));
-    //    component.create(context);
-
-    QQmlComponent component(&engine, QUrl("qrc:/src/Model.qml"));
-    QObject *object = component.create();
-    QObject *childObject = object->findChild<QObject *>("MyModel");
-
-    QQmlContext *context = new QQmlContext(engine.rootContext());
-    context->setContextProperty("drone", &drone);
-
-//    childObject->setProperty("roll",QVariant::fromValue(drone.roll));
-//    qDebug() << "drone.roll: " << drone.roll;
-//    QQmlProperty(childObject,"roll").write(drone.roll);
-//    qDebug() << "Property value:" << QQmlProperty::read(childObject, "roll").toFloat();
-
-    view.requestUpdate();
-
-
-    //    qDebug() << rollCpp.rollCpp();
-    //    qDebug() << context->property("rollCpp");
-    //    qDebug() << component.property("rollCpp");
-
-    //    QQmlComponent component(&engine, QUrl("qrc:/src/Model.qml"));
-    //    QObject *object = component.create();
-    //    QObject *childObject = object->findChild<QObject *>("MyModel");
-
-    //    childObject->setProperty("myRoll",QVariant::fromValue(rollCpp.roll));
-    //    qDebug() << "Property value:" << QQmlProperty::read(childObject, "myRoll").toFloat();
-
-}
-
 
 void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea area)
 {

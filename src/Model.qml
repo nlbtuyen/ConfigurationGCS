@@ -6,8 +6,8 @@ Entity {
     id: model
     property Material material
 
-    property real rollCpp : drone.roll
-
+    property real rollCpp: drone.roll
+    property real pitchCpp: drone.pitch
     components: [ transform, mesh, model.material ]
 
     Transform {
@@ -22,6 +22,10 @@ Entity {
         Rotate {
             axis: Qt.vector3d(1,0,0)
             angle: -90
+        }
+        Rotate {
+            axis: Qt.vector3d(1,0,0)
+            angle: drone.pitch
         }
     }
 

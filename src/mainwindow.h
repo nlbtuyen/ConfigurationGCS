@@ -187,9 +187,6 @@ public slots:
     void updateArmingState(bool armed);
 
     void loadStyle();
-void reloadView();
-
-private:
 
 public:
     Ui::MainWindow *ui;
