@@ -21,14 +21,14 @@ SOURCES +=  src/main.cpp\
             src/aqlinechartwidget.cpp \
             src/ChartPlot.cpp \
             src/LinechartPlot.cpp \
-            src/primaryflightdisplay.cpp \
             src/scrollzoomer.cpp \
             src/scrollbar.cpp \
             src/incrementalplot.cpp \
             src/commconfigurationwindow.cpp \
             src/serialconfigurationwindow.cpp \
             $$PWD/drone.cpp \
-    $$PWD/compasswidget.cpp
+    $$PWD/compasswidget.cpp \
+    $$PWD/hudwidget.cpp
 
 HEADERS  += src/mainwindow.h \
             src/uavconfig.h \
@@ -54,14 +54,14 @@ HEADERS  += src/mainwindow.h \
             src/aqlinechartwidget.h \
             src/ChartPlot.h \
             src/LinechartPlot.h \
-            src/primaryflightdisplay.h \
             src/scrollzoomer.h \
             src/scrollbar.h \
             src/incrementalplot.h \
             src/commconfigurationwindow.h \
             src/serialconfigurationwindow.h \
             $$PWD/drone.h \
-    $$PWD/compasswidget.h
+    $$PWD/compasswidget.h \
+    $$PWD/hudwidget.h
 
 FORMS    += src/mainwindow.ui \
             src/uasinfo.ui \

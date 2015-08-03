@@ -41,8 +41,8 @@
 #include "parameterinterface.h"
 #include "uasinfowidget.h"
 #include "aqpramwidget.h"
-#include "primaryflightdisplay.h"
 #include "compasswidget.h"
+#include "hudwidget.h"
 
 static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
 
@@ -141,7 +141,7 @@ void MainWindow::initActionsConnections()
     parametersDockWidget->hide();
 
     //Primary Flight Display on Pitch + Roll
-    ui->scrollArea_heading->setWidget(new PrimaryFlightDisplay(this));
+    ui->scrollArea_heading->setWidget(new HUDWidget(this));
 
     //Compass Display on Yaw
     ui->scrollArea_Compass->setWidget(new CompassWidget(this));

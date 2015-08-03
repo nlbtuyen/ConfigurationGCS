@@ -17,12 +17,12 @@
 #include "ui_mainwindow.h"
 #include "linkinterface.h"
 #include "uasinterface.h"
-#include "primaryflightdisplay.h"
 #include "parameterinterface.h"
 #include "mavlinkdecoder.h"
 #include "commconfigurationwindow.h"
 #include "drone.h"
 #include "compasswidget.h"
+#include "hudwidget.h"
 
 #include <Qt3DRenderer/qrenderaspect.h>
 #include <Qt3DInput/QInputAspect>
@@ -54,8 +54,7 @@ class MAVLinkMessageSender;
 class ParameterInterface;
 class UASInfoWidget;
 class CommConfigurationWindow;
-class PrimaryFlightDisplay;
-class HDDisplay;
+class HUDWidget;
 class CompassWidget;
 
 class MainWindow : public QMainWindow
