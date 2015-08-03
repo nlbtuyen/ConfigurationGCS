@@ -10,11 +10,14 @@ class Drone : public QObject
     Q_OBJECT
     Q_PROPERTY(float roll READ rollCpp NOTIFY rollChanged)
     Q_PROPERTY(float pitch READ pitchCpp NOTIFY pitchChanged)
+    Q_PROPERTY(float yaw READ yawCpp NOTIFY yawChanged)
+
 public:
     Drone();
     ~Drone();
     float roll;
     float pitch;
+    float heading;
 
     float rollCpp() const {
         return this->roll;
@@ -24,10 +27,14 @@ public:
         return this->pitch;
     }
 
+    float yawCpp() const {
+        return this->heading;
+    }
 
 signals:
     void rollChanged();
     void pitchChanged();
+    void yawChanged();
 
 public slots:
     virtual void setActiveUAS(UASInterface* uas);
@@ -40,7 +47,6 @@ private:
     UASInterface* uas;          ///< The uas currently monitored
     QObject *mRoot;
     QString mDisplay;
-    float heading;
 
 };
 

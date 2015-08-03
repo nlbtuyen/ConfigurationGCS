@@ -31,17 +31,14 @@ UAVConfig::UAVConfig(QWidget *parent) :
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
     ui->setupUi(this);
 
-//    ui->tab_Charts->setStyleSheet("QTabBar::tab{ image: url(:images/radio_button.PNG); }");
-
-
     aqBinFolderPath = QCoreApplication::applicationDirPath() + "/aq/bin/";
     platformExeExt = ".exe";
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
-//    for(int i=0; i < 6; i++ )
-//    {
-//        allRadioChanProgressBars << ui->widget_2->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
-//    }
+    //    for(int i=0; i < 6; i++ )
+    //    {
+    //        allRadioChanProgressBars << ui->widget_2->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
+    //    }
 
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -58,8 +55,9 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect (ui->btn_save, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
     loadSettings();
 
+    //Charts Feature
     aqtelemetry = new AQTelemetryView(this);
-    ui->scrollArea_logviewer->setWidget(aqtelemetry);
+    ui->scrollArea_Charts->setWidget(aqtelemetry);
 
 }
 
@@ -108,7 +106,7 @@ void UAVConfig::loadParametersToUI()
     //        //radioType_changed(idx);
     //    }
     val = paramaq->getParaAQ("RADIO_SETUP");
-    uint8_t idx = val.toInt();
+    //    uint8_t idx = val.toInt();
     //    qDebug() << "RADIO SETUP " <<val;
     QMap<int, QString> radioTypes;
     radioTypes.insert(0, tr("No Radio"));
@@ -117,15 +115,15 @@ void UAVConfig::loadParametersToUI()
     radioTypes.insert(3, tr("S-BUS (Futaba, others)"));
     radioTypes.insert(4, tr("PPM"));
 
-//    ui->RADIO_SETUP->blockSignals(true);
-//    ui->RADIO_SETUP->clear();
-//    QMapIterator<int, QString> i(radioTypes);
-//    while (i.hasNext()) {
-//        i.next();
-//        ui->RADIO_SETUP->addItem(i.value(), i.key());
-//    }
-//    ui->RADIO_SETUP->setCurrentIndex(idx);
-//    ui->RADIO_SETUP->blockSignals(false);
+    //    ui->RADIO_SETUP->blockSignals(true);
+    //    ui->RADIO_SETUP->clear();
+    //    QMapIterator<int, QString> i(radioTypes);
+    //    while (i.hasNext()) {
+    //        i.next();
+    //        ui->RADIO_SETUP->addItem(i.value(), i.key());
+    //    }
+    //    ui->RADIO_SETUP->setCurrentIndex(idx);
+    //    ui->RADIO_SETUP->blockSignals(false);
 
 }
 
@@ -156,11 +154,14 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
 
 void UAVConfig::getGUIPara(QWidget *parent)
 {
+    Q_UNUSED(parent);
     useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
 
     bool ok;
-    int precision, tmp;
-    QString paraName, valstr;
+//    int precision;
+    int tmp;
+    QString paraName;
+//    QString valstr;
     QVariant val;
     QLabel *paraLabel;
     QWidget *paraContainer;
@@ -221,9 +222,9 @@ void UAVConfig::getGUIPara(QWidget *parent)
     }
 }
 
-
-//========= Update FW ==========
-
+/*
+ * ========= Update FW ==========
+ */
 
 bool UAVConfig::checkAqConnected(bool interactive)
 {
@@ -253,7 +254,8 @@ void UAVConfig::selectFWToFlash()
         QFile file(fileNameLocale);
         if (!file.open(QIODevice::ReadOnly))
         {
-            MainWindow::instance()->showCriticalMessage(tr("Warning!"), tr("Could not open firmware file. %1").arg(file.errorString()));
+            MainWindow::instance()->showCriticalMessage(tr("Warning!"),
+                                                        tr("Could not open firmware file. %1").arg(file.errorString()));
             return;
         }
         ui->fileLabel->setText(fileNameLocale);
@@ -261,7 +263,6 @@ void UAVConfig::selectFWToFlash()
         fileToFlash = file.fileName();
         LastFilePath = fileToFlash;
         file.close();
-
     }
 }
 
@@ -272,8 +273,8 @@ void UAVConfig::flashFW()
 
     QString msg = "";
 
-        msg += tr("Make sure your AQ is connected via USB and is already in bootloader mode.  To enter bootloader mode,"
-                  "first connect the BOOT pins (or hold the BOOT button) and then turn the AQ on.\n\n");
+    msg += tr("Make sure your AQ is connected via USB and is already in bootloader mode.  To enter bootloader mode,"
+              "first connect the BOOT pins (or hold the BOOT button) and then turn the AQ on.\n\n");
 
     msg += "Do you wish to continue flashing?";
 
@@ -347,42 +348,40 @@ void UAVConfig::prtstdout()
     }
     activeProcessStatusWdgt->insertPlainText(output);
     activeProcessStatusWdgt->ensureCursorVisible();
+
+    QStringList argument = ps_master.arguments();
+    qDebug() << "Argument: " << argument;
 }
 
 QString UAVConfig::extProcessError(QProcess::ProcessError err)
 {
     QString msg;
     switch(err) {
-        case QProcess::FailedToStart:
-            msg = tr("Failed to start.");
-            break;
-        case QProcess::Crashed:
-            msg = tr("Process terminated (aborted or crashed).");
-            break;
-        case QProcess::Timedout:
-            msg = tr("Timeout waiting for process.");
-            break;
-        case QProcess::WriteError:
-            msg = tr("Cannot write to process, exiting.");
-            break;
-        case QProcess::ReadError:
-            msg = tr("Cannot read from process, exiting.");
-            break;
-        default:
-            msg = tr("Unknown error");
-            break;
+    case QProcess::FailedToStart:
+        msg = tr("Failed to start.");
+        break;
+    case QProcess::Crashed:
+        msg = tr("Process terminated (aborted or crashed).");
+        break;
+    case QProcess::Timedout:
+        msg = tr("Timeout waiting for process.");
+        break;
+    case QProcess::WriteError:
+        msg = tr("Cannot write to process, exiting.");
+        break;
+    case QProcess::ReadError:
+        msg = tr("Cannot read from process, exiting.");
+        break;
+    default:
+        msg = tr("Unknown error");
+        break;
     }
     return msg;
 }
 
-void UAVConfig::indexHide(int i)
-{
-
-}
-
-
-
-//Save AQSetting
+/*
+ * ================= Save AQSetting ===============
+ */
 
 void UAVConfig::loadSettings()
 {

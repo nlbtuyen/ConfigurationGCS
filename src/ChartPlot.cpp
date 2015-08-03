@@ -96,6 +96,7 @@ void ChartPlot::shuffleColors()
 
 void ChartPlot::styleChanged(int style)
 {
+    Q_UNUSED(style);
     QColor minPen(0x8C, 0x8C, 0x8C, 150);
     QColor majPen(0xB7, 0xB7, 0xB7, 150);
     //QColor minPen(0x80, 0x80, 0x80);
@@ -122,7 +123,7 @@ void ChartPlot::styleChanged(int style)
     zoomer->setRubberBandPen(QPen(rbPen, zoomerWidth, Qt::DotLine));
     zoomer->setTrackerPen(QPen(trackPen));
     setCanvasBackground(bgColor);
-\
+
     // And finally refresh the widget to make sure all color changes are redrawn.
     replot();
 }

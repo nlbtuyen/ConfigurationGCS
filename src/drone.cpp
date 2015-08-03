@@ -50,6 +50,7 @@ void Drone::updateAttitude(UASInterface *uas, double roll, double pitch, double 
     }
     Q_EMIT rollChanged();
     Q_EMIT pitchChanged();
+    Q_EMIT yawChanged();
 
 }
 

@@ -139,8 +139,8 @@ void SerialConfigurationWindow::loadPortSettings()
 {
     // Load defaults from settings
     QString tmp;
-    int itmp;
-    bool ok;
+//    int itmp;
+//    bool ok;
     QSettings settings;
     QString key = getSettingsKey(true);
     settings.beginGroup("SERIAL_CONFIG_WINDOW");

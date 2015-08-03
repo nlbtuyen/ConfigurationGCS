@@ -27,8 +27,8 @@ SOURCES +=  src/main.cpp\
             src/incrementalplot.cpp \
             src/commconfigurationwindow.cpp \
             src/serialconfigurationwindow.cpp \
-            $$PWD/hudwidget.cpp \
-            $$PWD/drone.cpp
+            $$PWD/drone.cpp \
+    $$PWD/compasswidget.cpp
 
 HEADERS  += src/mainwindow.h \
             src/uavconfig.h \
@@ -60,8 +60,8 @@ HEADERS  += src/mainwindow.h \
             src/incrementalplot.h \
             src/commconfigurationwindow.h \
             src/serialconfigurationwindow.h \
-            $$PWD/hudwidget.h \
-            $$PWD/drone.h
+            $$PWD/drone.h \
+    $$PWD/compasswidget.h
 
 FORMS    += src/mainwindow.ui \
             src/uasinfo.ui \
@@ -70,7 +70,6 @@ FORMS    += src/mainwindow.ui \
             src/aq_telemetryView.ui \
             src/AQLinechart.ui \
             src/linechart.ui \
-            src/configaq.ui \
             src/commsettings.ui \
             src/serialsettings.ui
 

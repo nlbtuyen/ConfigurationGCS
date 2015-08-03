@@ -13,10 +13,6 @@ Entity {
             }
         }
     ]
-    Configuration {
-        controlledCamera:  mainCamera
-    }
-
     BasicCamera {
             id: mainCamera
             position: Qt.vector3d( 0.0, 0.0, 80.0 )

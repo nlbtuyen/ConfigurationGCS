@@ -154,7 +154,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QScrollArea" name="scrollArea_HUD">
+       <widget class="QScrollArea" name="scrollArea_Compass">
         <property name="minimumSize">
          <size>
           <width>170</width>

@@ -79,7 +79,7 @@ void AQTelemetryView::initChart(UASInterface *uav) {
 }
 
 float AQTelemetryView::getTelemValue(const int idx) {
-    float ret = 0.0f, x, y, z;
+    float ret = 0.0f;
     switch(idx) {
     case 1 : //@trung
         ret = testValue->pitch;

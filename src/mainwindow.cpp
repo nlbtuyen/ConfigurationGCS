@@ -16,7 +16,6 @@
 #include <QVariant>
 #include <QToolBar>
 
-
 #include <Qt3DRenderer/qrenderaspect.h>
 #include <Qt3DInput/QInputAspect>
 #include <Qt3DQuick/QQmlAspectEngine>
@@ -28,10 +27,8 @@
 #include <QQmlProperty>
 #include <QOpenGLContext>
 #include <QGraphicsObject>
-#include <QTimer>
+
 #include "drone.h"
-
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qgc.h"
@@ -45,8 +42,7 @@
 #include "uasinfowidget.h"
 #include "aqpramwidget.h"
 #include "primaryflightdisplay.h"
-#include "hudwidget.h"
-
+#include "compasswidget.h"
 
 static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
 
@@ -63,16 +59,17 @@ MainWindow::MainWindow(QWidget *parent) :
     paramaq(NULL),
     autoReconnect(false),
     styleFileName(""),
+    connectFlag(true),
     QMainWindow(parent),
     sys_mode(MAV_MODE_PREFLIGHT),
-//    drone(0),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     // Set dock options
-    setDockOptions(AnimatedDocks | AllowTabbedDocks | AllowNestedDocks);
+//    setDockOptions(AnimatedDocks | AllowTabbedDocks | AllowNestedDocks);
     statusBar()->setSizeGripEnabled(true);
 
+    //UAV Config Widget
     config = new UAVConfig();
     ui->mainConfig->setWidget(config);
 
@@ -87,12 +84,10 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         this->addLink(link);
     }
-
     connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
 
+    //load style sheet
     loadStyle();
-
-    connectFlag = true;
 }
 
 MainWindow::~MainWindow()
@@ -113,6 +108,8 @@ MainWindow::~MainWindow()
         link->wait();
         LinkManager::instance()->removeLink(link);
         link->deleteLater();
+
+        view.releaseResources();
     }
     delete ui;
 
@@ -129,23 +126,27 @@ void MainWindow::initActionsConnections()
     //ui->actionQuit->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
 
-    //Add Widget: Status Detail + OnBoard Parameter
+    //Add Widget: Status Detail : test
     infoDockWidget = new QDockWidget(tr("Status Details"), this);
     infoDockWidget->setWidget( new UASInfoWidget(this));
     infoDockWidget->setObjectName("UAS_STATUS_DETAILS_DOCKWIDGET");
     addTool(infoDockWidget, tr("Status Details"), Qt::LeftDockWidgetArea);
     infoDockWidget->hide();
 
+    //Add Widget: OnBoard Parameter: test
     parametersDockWidget = new QDockWidget(tr("Onboard Parameters"), this);
     parametersDockWidget->setWidget( new ParameterInterface(this) );
     parametersDockWidget->setObjectName("PARAMETER_INTERFACE_DOCKWIDGET");
     addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
     parametersDockWidget->hide();
 
+    //Primary Flight Display on Pitch + Roll
     ui->scrollArea_heading->setWidget(new PrimaryFlightDisplay(this));
-    ui->scrollArea_HUD->setWidget(new HUDWidget(this));
 
+    //Compass Display on Yaw
+    ui->scrollArea_Compass->setWidget(new CompassWidget(this));
 
+    //3D Model: load qml and connect between QML & C++
     QWidget *container = QWidget::createWindowContainer(&view);
     QSurfaceFormat format;
     format.setMajorVersion(3);
@@ -156,11 +157,13 @@ void MainWindow::initActionsConnections()
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.clearBeforeRendering();
     view.engine()->clearComponentCache();
-    view.rootContext()->setContextProperty("drone",&drone);
-    view.setSource(QUrl("qrc:/src/main.qml"));
+    view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
+    view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
     ui->scrollArea_3D->setWidget(container);
 
-    //===== Toolbar Status =====
+    /*
+     * ===== Toolbar Status =====
+     */
 
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status, interval since last message if timed out."));

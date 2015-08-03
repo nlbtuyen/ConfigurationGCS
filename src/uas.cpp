@@ -1351,6 +1351,7 @@ void UAS::startPressureCalibration()
 
 void UAS::parseTextMessage(QString *msg, int severity)
 {
+    Q_UNUSED(severity);
     if (msg->contains(QRegExp("^(#audio:|Warning|Error)", Qt::CaseInsensitive))) {
         msg->remove("#audio:");
 //        GAudioOutput::instance()->say(*msg, severity);

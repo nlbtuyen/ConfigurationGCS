@@ -21,8 +21,8 @@
 #include "parameterinterface.h"
 #include "mavlinkdecoder.h"
 #include "commconfigurationwindow.h"
-#include "hudwidget.h"
 #include "drone.h"
+#include "compasswidget.h"
 
 #include <Qt3DRenderer/qrenderaspect.h>
 #include <Qt3DInput/QInputAspect>
@@ -56,7 +56,7 @@ class UASInfoWidget;
 class CommConfigurationWindow;
 class PrimaryFlightDisplay;
 class HDDisplay;
-class HUDWidget;
+class CompassWidget;
 
 class MainWindow : public QMainWindow
 {

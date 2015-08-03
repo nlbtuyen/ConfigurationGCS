@@ -8,10 +8,11 @@ Entity {
 
     property real rollCpp: drone.roll
     property real pitchCpp: drone.pitch
+    property real yawCpp: drone.yaw
+
     components: [ transform, mesh, model.material ]
 
     Transform {
-
         id: transform
         objectName: "MyModel"
 
@@ -27,17 +28,18 @@ Entity {
             axis: Qt.vector3d(1,0,0)
             angle: drone.pitch
         }
+        Rotate {
+            axis: Qt.vector2d(0,1)
+            angle: -drone.yaw
+        }
+        Rotate {
+            axis: Qt.vector3d(0,1,0)
+            angle: 180
+        }
     }
 
     Mesh {
         id: mesh
         source: "qrc:/3dmodel/Drone.obj"
     }
-
-    //    QQ2.SequentialAnimation {
-    //        QQ2.SequentialAnimation {
-    //            QQ2.NumberAnimation { target: transform; property: "rollAngle"; from: 0; to: transform.rollAngle; easing.type: QQ2.Easing.OutQuad }
-    //        }
-    //    }
-
 }

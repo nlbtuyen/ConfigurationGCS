@@ -53,13 +53,6 @@ protected:
     /** @brief Stop updating widget */
     void hideEvent(QHideEvent* event);
 
-    // dongfang: We have no context menu. Viewonly.
-    // void contextMenuEvent (QContextMenuEvent* event);
-
-    // dongfang: What is that?
-    // dongfang: OK it's for UI interaction. Presently, there is none.
-    void createActions();
-
 signals:
     void visibilityChanged(bool visible);
 

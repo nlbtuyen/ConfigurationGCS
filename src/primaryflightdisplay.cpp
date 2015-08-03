@@ -1,3 +1,8 @@
+/*
+ * Primary Flight Display
+ * Pitch + Roll
+ */
+
 #include "primaryflightdisplay.h"
 #include "uasmanager.h"
 #include "mainwindow.h"
@@ -10,7 +15,6 @@
 #include <QResizeEvent>
 #include <qmath.h>
 
-#define SEPARATE_COMPASS_ASPECTRATIO (3.0f/4.0f)
 #define LINEWIDTH 0.0036f
 #define SMALL_TEXT_SIZE 0.03f
 #define MEDIUM_TEXT_SIZE (SMALL_TEXT_SIZE*1.2f)
@@ -1164,13 +1168,16 @@ inline qreal tapesGaugeWidthFor(qreal containerWidth, qreal preferredAIWidth) {
     return result;
 }
 
+/*
+ * =========================================
+ * ============= Main: Paint ===============
+ * =========================================
+ */
 void PrimaryFlightDisplay::doPaint() {
     QPainter painter;
     painter.begin(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-
-    qreal margin = height()/100.0f;
 
     // The AI centers on this area.
     QRectF AIMainArea;
@@ -1180,75 +1187,11 @@ void PrimaryFlightDisplay::doPaint() {
     QRectF compassArea;
     QRectF altimeterArea;
     QRectF velocityMeterArea;
-    QRectF sensorsStatsArea;
-    QRectF linkStatsArea;
-    QRectF sysStatsArea;
-    QRectF missionStatsArea;
 
     painter.fillRect(rect(), Qt::black);
     qreal tapeGaugeWidth;
 
-    qreal compassHalfSpan = 180;
     float compassAIIntrusion = 0;
-
-//    tapeGaugeWidth = tapesGaugeWidthFor(width(), width());
-//    qreal aiheight = height();
-//    qreal aiwidth = width()-tapeGaugeWidth*2;
-//    if (aiheight > aiwidth) aiheight = aiwidth;
-
-//    AIMainArea = QRectF(
-//                tapeGaugeWidth,
-//                0,
-//                aiwidth,
-//                aiheight);
-
-//    AIPaintArea = QRectF(
-//                0,
-//                0,
-//                width(),
-//                height());
-
-//    // Tape gauges get so much width that the AI area not covered by them is perfectly square.
-//    velocityMeterArea = QRectF (0, 0, tapeGaugeWidth, aiheight);
-//    altimeterArea = QRectF(AIMainArea.right(), 0, tapeGaugeWidth, aiheight);
-
-//    if (style == NO_OVERLAYS) {
-//        applyMargin(AIMainArea, margin, TOP|BOTTOM);
-//        applyMargin(altimeterArea, margin, TOP|BOTTOM|RIGHT);
-//        applyMargin(velocityMeterArea, margin, TOP|BOTTOM|LEFT);
-//        setMarginsForInlineLayout(margin, sensorsStatsArea, linkStatsArea, sysStatsArea, missionStatsArea);
-//    }
-
-//    qreal compassRelativeWidth = 0.75;
-//    qreal compassBottomMargin = 0.78;
-
-//    qreal compassSize = compassRelativeWidth  * AIMainArea.width();  // Diameter is this times the width.
-
-//    qreal compassCenterY;
-//    compassCenterY = AIMainArea.bottom() + compassSize / 4;
-
-//    if (height() - compassCenterY > AIMainArea.width()/2*compassBottomMargin)
-//        compassCenterY = height()-AIMainArea.width()/2*compassBottomMargin;
-
-//    compassCenterY = (compassCenterY * 2 + AIMainArea.bottom() + compassSize / 4) / 3;
-
-//    compassArea = QRectF(AIMainArea.x()+(1-compassRelativeWidth)/2*AIMainArea.width(),
-//                         compassCenterY-compassSize/2,
-//                         compassSize,
-//                         compassSize);
-
-//    if (height()-compassCenterY < compassSize/2) {
-//        compassHalfSpan = acos((compassCenterY-height())*2/compassSize) * 180/M_PI + COMPASS_DISK_RESOLUTION;
-//        if (compassHalfSpan > 180) compassHalfSpan = 180;
-//    }
-
-//    compassAIIntrusion = compassSize/2 + AIMainArea.bottom() - compassCenterY;
-//    if (compassAIIntrusion<0) compassAIIntrusion = 0;
-
-
-//    QPoint compassCenter = QPoint(width()/2, AIMainArea.bottom()+width()/2);
-//    qreal compassDiam = width() * 0.8;
-//    compassArea = QRectF(compassCenter.x()-compassDiam/2, compassCenter.y()-compassDiam/2, compassDiam, compassDiam);
 
     tapeGaugeWidth = tapesGaugeWidthFor(width(), width());
 
@@ -1275,15 +1218,17 @@ void PrimaryFlightDisplay::doPaint() {
     qreal compassDiam = width() * 0.8;
     compassArea = QRectF(compassCenter.x()-compassDiam/2, compassCenter.y()-compassDiam/2, compassDiam, compassDiam);
 
-    //======
+    //============
 
     bool hadClip = painter.hasClipping();
 
     painter.setClipping(true);
     painter.setClipRect(AIPaintArea);
 
-    drawAIGlobalFeatures(painter, AIMainArea, AIPaintArea); //@Leo: ve background
-    drawAIAttitudeScales(painter, AIMainArea, compassAIIntrusion); //@Leo: ve compass tren
+    //@Leo: Ve Background
+    drawAIGlobalFeatures(painter, AIMainArea, AIPaintArea);
+    //@Leo: Ve compass tren
+    drawAIAttitudeScales(painter, AIMainArea, compassAIIntrusion);
     drawAIAirframeFixedFeatures(painter, AIMainArea);
 
 //   drawAICompassDisk(painter, compassArea, compassHalfSpan); //compass
@@ -1296,5 +1241,3 @@ void PrimaryFlightDisplay::doPaint() {
 
     painter.end();
 }
-
-void PrimaryFlightDisplay:: createActions() {}
