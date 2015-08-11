@@ -1,92 +1,27 @@
 /*
-	 TabWidget
+	QWidget
 */
-QTabBar::tab{
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
-                                stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
-    border: 2px solid #C4C4C3;
-    border-bottom-color: #C2C7CB; /* same as the pane color */
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    width: 60px;
-	height: 18px;
-    padding: 4px;
-	margin: 4px;
-	font-size: 8px;
-	color: #0586CC;
-	margin-right: 30px;
+QWidget {
+	background-color: #E4DBBF;
+	color: #DC5B21;
+	background-clip: border;
 }
 
-QTabBar::tab:selected, QTabBar::tab:hover {
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
-                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
-}
-
-QTabBar::tab:selected {
-    border-color: #9B9B9B;
-    border-bottom-color: #05B8CC; /* same as pane color */
+QGroupBox#groupBox_Pitch_PID, 
+QGroupBox#groupBox_Roll_PID,
+QGroupBox#groupBox_Yaw_PID, 
+QGroupBox#groupBox_Limit_PID,
+QGroupBox#groupBox_Position_Attitude_PID,
+QGroupBox#groupBox_Speed_Attitude_PID,
+QGroupBox#groupBox_Position_NAV_PID,
+QGroupBox#groupBox_Speed_NAV_PID,
+QGroupBox#groupBox_SelectFW{
+    border: 1px solid #DC5B21;
+	padding-top: 15px; 
 }
 
 /*
-    QPushButton
-*/
-QPushButton:hover{
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
-                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
-}
 
-QPushButton {
-	padding: 5px 15px 2px 5px;
-	background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
-			stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
-	color: #006aff;
-	height: 20px;
-	width: 60px;
-	border-style: outset;
-    border-width: 1px;
-    border-radius: 3px;
-    border-color: #05B8CC;
-    padding: 6px;
-}
-
-QPushButton:pressed {
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
-        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
-        padding-top: 2px;
-        padding-left: 3px;
-}
-
-QPushButton:clicked{
-        background-color: #05B8CC;
-    border-style: inset;
-        margin-top: 2px;
-}
-
-QPushButton:on {
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
-        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
-        padding-top: 2px;
-        padding-left: 3px;
-}
-
-QPushButton:disabled {
-        background: transparent #e5e9ee;
-        padding-top: 2px;        
-        padding-left: 3px;
-        color: black;
-}
-
-/*
-    GroupBox
-
-QGroupBox {
-    border: 1px solid #66666B;
-    border-radius: 3px;
-    padding: 8px 0px 0px 0px;
-    margin-top: 2ex; 
-}
 QGroupBox:flat {
     border-left: 0;
     border-right: 0;
@@ -95,34 +30,80 @@ QGroupBox:flat {
 }
 QGroupBox::title {
     subcontrol-origin: margin;
-    left: 10px;
+	left: 10px;
     margin: 0 3px 0px 3px;
     padding: 0 3px 0px 0px;
     font-weight: bold;
-    font-size: 8px;
-    color: #05B8CC;
-	etch-disabled-text: 0;
-}
-QGroupBox::title:disabled {
-    color: #05B8CC;
-    font-weight: normal;
-	 etch-disabled-text: 0;
+    font-size: 16px;
+    color: #DC5B21;
 }
 */
+
 /*
-	QLabel
+	 TabWidget
 */
-QLabel {
-    padding: 2px;
-	color: #05B8CC;
+QTabBar::tab{
+    background: #383127;
+	color: #E4DBBF;
+    width: 60px;
+	height: 18px;
+    padding: 4px;
+	margin-right: 15px;
+	font-size: 16px;
+	border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected, QTabBar::tab:hover {
+    color: #DC5B21;	
+}
+
+QTabBar::tab:selected {
+    border-color: #E4DBBF;
+    border-bottom-color: #05B8CC;
+}
+
+QTabBar::tab:!selected {
+    padding-top: 2px; /* make non-selected tabs look smaller */
 }
 
 /*
-	 QSlider
+    QPushButton
 */
+
+QPushButton {
+	background: #383127;
+	color: #E4DBBF;
+	width: 80px;
+	height: 40px;
+	margin: 0px 15px 5px 0px;	
+	border-style: outset;
+    border-radius: 4px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+QPushButton:hover, QPushButton:clicked{
+    color: #DC5B21;	 
+	padding-top: 2px;
+    padding-left: 3px;
+	margin-left: 5px;
+}
+
+/*
+	QLabel
+
+QLabel {
+    padding: 2px;
+	color: #DC5B21;
+}
+*/
+/*
+	 QSlider
+
 QSlider::groove:horizontal {
     border: 1px solid #999999;
-    height: 6px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    height: 6px; 
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
     margin: 2px 0;
 }
@@ -131,9 +112,9 @@ QSlider::handle:horizontal {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);
     border: 1px solid #5c5c5c;
     width: 18px;
-    margin: -2px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
+    margin: -2px 0;  
     border-radius: 3px;
-}
+}*/
 /*
 	 ProgressBar
 */
@@ -151,7 +132,7 @@ QProgressBar:disabled {
 	background-color: #CFCFCF;
 	etch-disabled-text: 0;
 }
-QProgressBar:horizontal {/*ngang*/
+QProgressBar:horizontal {
 	 max-height: 1em;
 	 min-height: 0.8em;
 }

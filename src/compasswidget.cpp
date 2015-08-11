@@ -306,7 +306,7 @@ void CompassWidget::drawAICompassDisk(QPainter &painter, QRectF area, float half
 
     QPen pen;
     pen.setWidthF(lineWidth);
-    pen.setColor(Qt::white);
+    pen.setColor(QColor(220,91,33));
     painter.setPen(pen);
 
     drawTextCenter(painter, s_digitalCompass, LeoTextSize, 0, -radius*0.38-digitalCompassUpshift);
@@ -352,7 +352,12 @@ void CompassWidget::doPaint()
 
     // The AI paints on this area. It should contain the AIMainArea.
     QRectF AIPaintArea;
-    painter.fillRect(rect(), Qt::blue);
+
+    QBrush *brush = new QBrush();
+    brush->setColor(Qt::SolidPattern);
+    brush->setColor(QColor(228, 219, 191));
+
+    painter.fillRect(rect(), *brush);
     qreal compassHalfSpan = 180;
 
     AIPaintArea = QRectF(
