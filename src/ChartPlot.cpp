@@ -57,10 +57,6 @@ ChartPlot::ChartPlot(QWidget *parent):
     {
         colors.append(baseColors[i]);
     }
-
-    // Now that all objects have been initialized, color everything.
-    //styleChanged(MainWindow::instance()->getStyle());
-//    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(styleChanged(int)));
 }
 
 ChartPlot::~ChartPlot()
@@ -99,21 +95,9 @@ void ChartPlot::styleChanged(int style)
     Q_UNUSED(style);
     QColor minPen(0x8C, 0x8C, 0x8C, 150);
     QColor majPen(0xB7, 0xB7, 0xB7, 150);
-    //QColor minPen(0x80, 0x80, 0x80);
     QColor rbPen(0xB8, 0xD3, 0xE6);
     QColor trackPen(0x4A, 0xEB, 0xF7);
     QColor bgColor(0, 0, 0);
-
-//    // Generate a new color list for curves and recolor them.
-//    if (style != MainWindow::QGC_MAINWINDOW_STYLE_DARK) {
-////        for (int i = 0; i < numColors; ++i)
-////            colors[i] = baseColors[i].darker(120);
-//        minPen = minPen.darker(200);
-//        majPen = minPen.darker(200);
-//        rbPen = rbPen.darker(200);
-//        trackPen = trackPen.darker(200);
-//        bgColor = QColor(245, 245, 245);
-//    }
 
     resetColor();
     shuffleColors();

@@ -13,7 +13,7 @@ QTabBar::tab{
 	height: 18px;
     padding: 4px;
 	margin: 4px;
-	font-size: 14px;
+	font-size: 8px;
 	color: #0586CC;
 	margin-right: 30px;
 }
@@ -80,12 +80,12 @@ QPushButton:disabled {
 
 /*
     GroupBox
-*/
+
 QGroupBox {
     border: 1px solid #66666B;
     border-radius: 3px;
     padding: 8px 0px 0px 0px;
-    margin-top: 2ex; /* leave space at the top for the title */
+    margin-top: 2ex; 
 }
 QGroupBox:flat {
     border-left: 0;
@@ -108,13 +108,12 @@ QGroupBox::title:disabled {
     font-weight: normal;
 	 etch-disabled-text: 0;
 }
-
+*/
 /*
 	QLabel
 */
 QLabel {
     padding: 2px;
-	font: 14px;
 	color: #05B8CC;
 }
 

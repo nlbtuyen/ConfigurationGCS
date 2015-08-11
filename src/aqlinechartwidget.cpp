@@ -33,7 +33,6 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     updateTimer(new QTimer()),
     selectedMAV(-1)
 {
-    // Add elements defined in Qt Designer
     ui.setupUi(this);
     this->setMinimumSize(300, 200);
 
@@ -41,8 +40,8 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     curvesWidget = new QWidget(ui.curveListWidget);
     ui.curveListWidget->setWidget(curvesWidget);
     curvesWidgetLayout = new QGridLayout(curvesWidget);
-    curvesWidgetLayout->setMargin(2);
-    curvesWidgetLayout->setSpacing(4);
+    curvesWidgetLayout->setMargin(0);
+    curvesWidgetLayout->setSpacing(2);
     curvesWidgetLayout->setAlignment(Qt::AlignTop);
 
     curvesWidgetLayout->setColumnStretch(0, 0);
@@ -65,16 +64,20 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     connect(selectAllCheckBox, SIGNAL(clicked(bool)), this, SLOT(selectAllCurves(bool)));
     curvesWidgetLayout->addWidget(selectAllCheckBox, labelRow, 0, 1, 2);
 
+    // Name
     label = new QLabel(this);
     label->setText("Name");
+    label->setStyleSheet("font-size:12px");
     curvesWidgetLayout->addWidget(label, labelRow, 2);
 
     // Value
     value = new QLabel(this);
-    value->setText("Val");
+    value->setText("Value");
+    value->setStyleSheet("font-size:12px");
+    value->setAlignment(Qt::AlignCenter);
     curvesWidgetLayout->addWidget(value, labelRow, 3);
 
-    // Create the layout
+    // Create the layout of chart
     createLayout();
 
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
@@ -131,6 +134,7 @@ void AQLinechartWidget::readSettings()
     settings.endGroup();
 }
 
+// create chart
 void AQLinechartWidget::createLayout()
 {
     int colIdx = 0;
@@ -158,11 +162,8 @@ void AQLinechartWidget::createLayout()
 
     ui.AQdiagramGroupBox->setLayout(layout);
 
-    // Add actions
-
     // Connect notifications from the user interface to the plot
     connect(this, SIGNAL(curveRemoved(QString)), activePlot, SLOT(hideCurve(QString)));
-
     connect(activePlot, SIGNAL(curveRemoved(QString)), this, SLOT(removeCurve(QString)));
 
     // Update plot when scrollbar is moved (via translator method setPlotWindowPosition()
@@ -178,7 +179,6 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         return;
     bool isDouble = type == QMetaType::Float || type == QMetaType::Double;
 
-    // if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
     if ((selectedMAV == -1 ) || (selectedMAV == uasId ))
     {
         // Order matters here, first append to plot, then update curve list
@@ -188,7 +188,6 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         // Make sure the curve will be created if it does not yet exist
         if(!label)
         {
-            //qDebug() << "ADDING CURVE" << curve << "IN APPENDDATA DOUBLE";
             if (!isDouble)
                 intData.insert(curve+unit, 0);
             addCurve(curve, unit);
@@ -229,9 +228,7 @@ void AQLinechartWidget::refresh()
 }
 
 /**
- * The average window size defines the width of the sliding average
- * filter. It also defines the width of the sliding median filter.
- *
+ * Defines the width of the sliding average filter and the width of the sliding median filter.
  * @param windowSize with (in values) of the sliding average/median filter. Minimum is 2
  */
 void AQLinechartWidget::setAverageWindow(int windowSize)
@@ -240,10 +237,8 @@ void AQLinechartWidget::setAverageWindow(int windowSize)
 }
 
 /**
- * @brief Add a curve to the curve list
- *
+ * Add a curve to the curve list
  * @param curve The id-string of the curve
- * @see removeCurve()
  **/
 void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 {
@@ -278,7 +273,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     label->setText(curve);
     curvesWidgetLayout->addWidget(label, labelRow, 2);
 
-    QColor color(Qt::gray);// = plot->getColorForCurve(curve+unit);
+    QColor color(Qt::gray);
     QString colorstyle;
     colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
     colorIcon->setStyleSheet(colorstyle);
@@ -286,7 +281,6 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 
     // Label
     curveNameLabels.insert(curve+unit, label);
-//    curveLabels->insert(curve+unit, value);
 
     // Value
     value = new QLabel(this);
@@ -308,10 +302,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 }
 
 /**
- * @brief Remove the curve from the curve list.
- *
- * @param curve The curve to remove
- * @see addCurve()
+ * Remove the curve from the curve list.
  **/
 void AQLinechartWidget::removeCurve(QString curve)
 {
@@ -393,12 +384,9 @@ void AQLinechartWidget::setActive(bool active)
 }
 
 /**
- * @brief Set the position of the plot window.
- * The plot covers only a portion of the complete time series. The scrollbar
- * allows to select a window of the time series. The right edge of the window is
- * defined proportional to the position of the scrollbar.
- *
- * @param scrollBarValue The value of the scrollbar, in the range from MIN_TIME_SCROLLBAR_VALUE to MAX_TIME_SCROLLBAR_VALUE
+ * @brief Set the position of the plot window. The plot covers only a portion of the complete time series.
+ * The scrollbar allows to select a window of the time series.
+ * The right edge of the window is defined proportional to the position of the scrollbar.
  **/
 void AQLinechartWidget::setPlotWindowPosition(int scrollBarValue)
 {
@@ -424,26 +412,13 @@ void AQLinechartWidget::setPlotWindowPosition(int scrollBarValue)
         }
         emit plotWindowPositionUpdated(rightPosition);
     }
-
-
-    // The slider position must be mapped onto an interval of datainterval - plotinterval,
-    // because the slider position defines the right edge of the plot window. The leftmost
-    // slider position must therefore map to the start of the data interval + plot interval
-    // to ensure that the plot is not empty
-
-    //  start> |-- plot interval --||-- (data interval - plotinterval) --| <end
-
-    //@TODO Add notification of scrollbar here
-    //plot->setWindowPosition(rightPosition);
-
     plotWindowLock.unlock();
 }
 
 /**
  * @brief Receive an updated plot window position.
- * The plot window can be changed by the arrival of new data or by
- * other user interaction. The scrollbar and other UI components
- * can be notified by calling this method.
+ * The plot window can be changed by the arrival of new data or by other user interaction.
+ * The scrollbar and other UI components can be notified by calling this method.
  *
  * @param position The absolute position of the right edge of the plot window, in milliseconds
  **/
@@ -452,18 +427,12 @@ void AQLinechartWidget::setPlotWindowPosition(quint64 position)
     plotWindowLock.lockForWrite();
     // Calculate the relative position
     double pos;
-
     // A relative position makes only sense if the plot is filled
     if(activePlot->getDataInterval() > activePlot->getPlotInterval()) {
         //TODO @todo Implement the scrollbar enabling in a more elegant way
-        //scrollbar->setDisabled(false);
         quint64 scrollInterval = position - activePlot->getMinTime() - activePlot->getPlotInterval();
-
-
-
         pos = (static_cast<double>(scrollInterval) / (activePlot->getDataInterval() - activePlot->getPlotInterval()));
     } else {
-        //scrollbar->setDisabled(true);
         pos = 1;
     }
     plotWindowLock.unlock();
@@ -472,10 +441,8 @@ void AQLinechartWidget::setPlotWindowPosition(quint64 position)
 }
 
 /**
- * @brief Set the time interval the plot displays.
- * The time interval of the plot can be adjusted by this method. If the
- * data covers less time than the interval, the plot will be filled from
- * the right to left
+ * Set the time interval the plot displays. The time interval of the plot can be adjusted by this method.
+ * If the data covers less time than the interval, the plot will be filled from the right to left.
  *
  * @param interval The time interval to plot
  **/
@@ -488,8 +455,8 @@ void AQLinechartWidget::setPlotInterval(int interval)
 
 /**
  * @brief Take the click of a curve activation / deactivation button.
- * This method allows to map a button to a plot curve.The text of the
- * button must equal the curve name to activate / deactivate.
+ * This method allows to map a button to a plot curve.
+ * The text of the button must equal the curve name to activate / deactivate.
  *
  * @param checked The visibility of the curve: true to display the curve, false otherwise
  **/

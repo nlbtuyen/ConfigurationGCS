@@ -75,18 +75,6 @@ void MAVLinkProtocol::loadSettings()
     enableVersionCheck(settings.value("VERSION_CHECK_ENABLED", m_enable_version_check).toBool());
     enableMultiplexing(settings.value("MULTIPLEXING_ENABLED", m_multiplexingEnabled).toBool());
 
-//    // Only set logfile if there is a name present in settings
-//    if (settings.contains("LOGFILE_NAME") && m_logfile == NULL)
-//    {
-//        m_logfile = new QFile(settings.value("LOGFILE_NAME").toString());
-//    }
-//    else if (m_logfile == NULL)
-//    {
-//        m_logfile = new QFile(DEFAULT_STORAGE_PATH + "/qgroundcontrol_packetlog.mavlink");
-//    }
-//    // Enable logging
-//    enableLogging(settings.value("LOGGING_ENABLED", m_loggingEnabled).toBool());
-
     // Only set system id if it was valid
     int temp = settings.value("SYSTEM_ID", systemId).toInt();
     if (temp > 0 && temp < 256)
@@ -131,7 +119,6 @@ void MAVLinkProtocol::storeSettings()
     settings.setValue("PARAMETER_TRANSMISSION_GUARD_ENABLED", m_paramGuardEnabled);
     settings.endGroup();
     settings.sync();
-    //qDebug() << "Storing settings!";
 }
 
 MAVLinkProtocol::~MAVLinkProtocol()
@@ -151,14 +138,7 @@ MAVLinkProtocol::~MAVLinkProtocol()
 
 QString MAVLinkProtocol::getLogfileName()
 {
-//    if (m_logfile)
-//    {
         return 0;
-//    }
-//    else
-//    {
-//        return DEFAULT_STORAGE_PATH + "/qgroundcontrol_packetlog.mavlink";
-//    }
 }
 
 /**
@@ -171,9 +151,6 @@ QString MAVLinkProtocol::getLogfileName()
  **/
 void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: receive
 {
-//    qDebug() << "receive";
-
-//    receiveMutex.lock();
     mavlink_message_t message;
     mavlink_status_t status;
 
@@ -196,23 +173,6 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
         if (decodeState == 1)
         {
             decodedFirstPacket = true;
-
-            // Log data
-            if (m_loggingEnabled && m_logfile)
-            {
-//                uint8_t buf[MAVLINK_MAX_PACKET_LEN+sizeof(quint64)];
-//                quint64 time = QGC::groundTimeUsecs();
-//                memcpy(buf, (void*)&time, sizeof(quint64));
-//                // Write message to buffer
-//                int len = mavlink_msg_to_send_buffer(buf+sizeof(quint64), &message);
-//                QByteArray b((const char*)buf, len);
-//                if(m_logfile->write(b) != len)
-//                {
-//                    emit protocolStatusMessage(tr("MAVLink Logging failed"), tr("Could not write to file %1, disabling logging.").arg(m_logfile->fileName()));
-//                    // Stop logging
-//                    enableLogging(false);
-//                }
-            }
 
             // ORDER MATTERS HERE!
             // If the matching UAS object does not yet exist, it has to be created
@@ -287,7 +247,6 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
                 }
 
                 // Make some noise if a message was skipped
-                //qDebug() << "SYSID" << message.sysid << "COMPID" << message.compid << "MSGID" << message.msgid << "EXPECTED INDEX:" << expectedIndex << "SEQ" << message.seq;
                 if (message.seq != expectedIndex)
                 {
                     // Determine how many messages were skipped accounting for 0-wraparound
@@ -296,11 +255,6 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
                     {
                         // Usually, this happens in the case of an out-of order packet
                         lostMessages = 0;
-                    }
-                    else
-                    {
-                        // Console generates excessive load at high loss rates, needs better GUI visualization
-                        //qDebug() << QString("Lost %1 messages for comp %4: expected sequence ID %2 but received %3.").arg(lostMessages).arg(expectedIndex).arg(message.seq).arg(message.compid);
                     }
                     totalLossCounter += lostMessages;
                     currLossCounter += lostMessages;
@@ -343,8 +297,6 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b) //@Leo: re
             }
         }
     }
-
-//    receiveMutex.unlock();
 }
 
 /**
@@ -385,7 +337,6 @@ void MAVLinkProtocol::sendMessage(mavlink_message_t message)
     for (i = links.begin(); i != links.end(); ++i)
     {
         sendMessage(*i, message);
-        qDebug() << __FILE__ << __LINE__ << "SENT MESSAGE OVER" << ((LinkInterface*)*i)->getName() << "LIST SIZE:" << links.size();
     }
 }
 

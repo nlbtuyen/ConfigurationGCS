@@ -16,7 +16,7 @@ WinBuild {
 
         QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\styles\\*.css" "$$TARGETDIR_WIN\\styles" $$escape_expand(\\n\\t))
 
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\3dmodel\\*" "$$TARGETDIR_WIN\\3dmodel" $$escape_expand(\\n\\t))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\3dmodel\\*.obj" "$$TARGETDIR_WIN\\3dmodel" $$escape_expand(\\n\\t))
 
         QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\src\\*.qml" "$$TARGETDIR_WIN\\src" $$escape_expand(\\n\\t))
 
@@ -28,12 +28,9 @@ WinBuild {
                         $$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll \
                         $$(QTDIR)\\bin\\icu*.dll \
 
-                QT_DLL_LIST = Core Gui Multimedia Network OpenGL Sql Svg Test WebKit Xml XmlPatterns
-                QT_PLUGIN_LIST = imageformats iconengines
-                greaterThan(QT_MAJOR_VERSION, 4) {
-                        QT_DLL_LIST += Concurrent MultimediaWidgets Positioning PrintSupport Qml Quick Sensors WebChannel WebKitWidgets Widgets 3DInput 3DCore 3DRenderer 3DQuick
-                        QT_PLUGIN_LIST += mediaservice platforms
-                }
+                QT_DLL_LIST = Core Gui Multimedia Network OpenGL Sql Svg Test WebKit Xml XmlPatterns Qml Concurrent MultimediaWidgets Positioning PrintSupport Quick Sensors WebChannel WebKitWidgets Widgets 3DInput 3DCore 3DRenderer 3DQuick 3DQuickRenderer
+                QT_PLUGIN_LIST = imageformats iconengines mediaservice platforms
+
                 for(QT_DLL, QT_DLL_LIST) {
                         COPY_DLL_LIST += $$(QTDIR)\\bin\\$${QTLIBDLLPFX}$${QT_DLL}.dll
                 }

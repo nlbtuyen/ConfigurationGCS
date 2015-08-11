@@ -1,4 +1,3 @@
-
 #include <QDebug>
 
 #include "mg.h"
@@ -72,11 +71,6 @@ SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidge
     connect(ui.portName, SIGNAL(activated(QString)), this, SLOT(setPortName(QString)));
     connect(ui.portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
 
-    //connect(this->link, SIGNAL(connected(bool)), this, SLOT());
-    //portCheckTimer = new QTimer(this);
-    //portCheckTimer->setInterval(5000);
-    //connect(portCheckTimer, SIGNAL(timeout()), this, SLOT(setupPortList()));
-
     // Display the widget
     setLinkName(this->link->getName());
     this->window()->setWindowTitle(tr("Serial Communication Settings"));
@@ -90,14 +84,12 @@ void SerialConfigurationWindow::showEvent(QShowEvent* event)
 {
     Q_UNUSED(event);
     setupPortList();
-    //portCheckTimer->start();
 }
 
 void SerialConfigurationWindow::hideEvent(QHideEvent* event)
 {
     Q_UNUSED(event);
     writeSettings();
-    //portCheckTimer->stop();
 }
 
 void SerialConfigurationWindow::loadSettings()
@@ -139,8 +131,6 @@ void SerialConfigurationWindow::loadPortSettings()
 {
     // Load defaults from settings
     QString tmp;
-//    int itmp;
-//    bool ok;
     QSettings settings;
     QString key = getSettingsKey(true);
     settings.beginGroup("SERIAL_CONFIG_WINDOW");
@@ -205,8 +195,6 @@ void SerialConfigurationWindow::setupPortList()
     if (!link)
         return;
 
-//    QString selected = ui.portName->currentText();
-
     QStringList usedPorts;
     foreach (LinkInterface *li, LinkManager::instance()->getLinksForType(LinkInterface::LINK_INTERFACE_TYPE_SERIAL)) {
         if (li->getId() != link->getId())
@@ -214,15 +202,12 @@ void SerialConfigurationWindow::setupPortList()
     }
 
     ui.portName->blockSignals(true);
-    // Get the ports available on this system
-    //QVector<QString>* ports = link->getCurrentPorts();
     QList<QextPortInfo> ports = portEnumerator->getPorts();
     QList<QString> portNames;
     QString txt;
 
     // add any new ports
     foreach (const QextPortInfo &p, ports) {
-        //qDebug() << __FILE__ << __LINE__ << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
         if (!p.portName.length())
             continue;
         portNames.append(p.portName);
@@ -252,14 +237,6 @@ void SerialConfigurationWindow::setupPortList()
 
     if (!ui.portName->count())
         ui.portName->addItem(tr("No ports are available"), "[no ports]");
-
-//    if (!selected.length() && ui.portName->count())
-//        selected = ui.portName->itemData(0);
-
-//    selected = selected.split(" - ").first().remove(" ");
-
-//    if (!userConfigured && selected.length() && link->isPortValid(selected))
-//        setPortName(selected);
 
     ui.portName->blockSignals(false);
 }

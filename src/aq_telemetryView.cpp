@@ -13,33 +13,30 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     AqTeleChart(NULL),
     uas(NULL)
 {
-
     ui->setupUi(this);
 
     // define all data fields
-
-    //valueCallback callback = &AQTelemetryView::getTelemValue;
     QString unit = "float";
     telemDatasets dset = TELEM_DATASET_DEFAULT;
     int msgidx = AQMAV_DATASET_LEGACY1;
 
-    telemDataFields.append(telemFieldsMeta("PITCH", unit, 1, msgidx, dset)); //@trung
-    telemDataFields.append(telemFieldsMeta("ROLL", unit, 2, msgidx, dset));
-    telemDataFields.append(telemFieldsMeta("YAW", unit, 3, msgidx, dset));
-    telemDataFields.append(telemFieldsMeta("PITCH RATE", unit, 4, msgidx, dset));
-    telemDataFields.append(telemFieldsMeta("RATE RATE", unit, 5, msgidx, dset));
-    telemDataFields.append(telemFieldsMeta("YAW RATE", unit, 6, msgidx, dset));
-    telemDataFields.append(telemFieldsMeta("MOTOR A", unit, 7, msgidx, dset));
-    telemDataFields.append(telemFieldsMeta("MOTOR B", unit, 8, msgidx, dset));
-    telemDataFields.append(telemFieldsMeta("MOTOR C", unit, 9, msgidx, dset));
-    telemDataFields.append(telemFieldsMeta("MOTOR D", unit, 10, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Pitch", unit, 1, msgidx, dset)); //@trung
+    telemDataFields.append(telemFieldsMeta("Roll", unit, 2, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Yaw", unit, 3, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Pitch Rate", unit, 4, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Roll Rate", unit, 5, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Yaw Rate", unit, 6, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Motor A", unit, 7, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Motor B", unit, 8, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Motor C", unit, 9, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Motor D", unit, 10, msgidx, dset));
 
     // save size of this data set
     totalDatasetFields[dset] = telemDataFields.size();
-init();
-//    setupDataFields();
-//    qDebug() << "connect";
 
+    //init before connect
+    init();
+    //init after connect
     initChart(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);
 }
@@ -55,9 +52,7 @@ void AQTelemetryView::setupCurves() {
 
     int uasId = uas->getUASID();
 
-    // AqTeleChart->clearCurves();
-
-    // populate curves
+    // view curves
     for (int i=0; i < telemDataFields.size(); i++) {
         if (telemDataFields[i].dataSet == currentDataSet) {
             QVariant var = QVariant::fromValue(0.0f);
@@ -100,16 +95,16 @@ float AQTelemetryView::getTelemValue(const int idx) {
         ret = testValue->yawspeed;
         break;
     case 7 :
-
+        //Motor A
         break;
     case 8 :
-
+        //Motor B
         break;
     case 9 :
-
+        //Motor C
         break;
     case 10 :
-
+        //Motor D
         break;
     }
     return ret;
@@ -138,7 +133,7 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
         if (valIdx == telemDataFields[i].msgValueIndex) {
             val = getTelemValue(telemDataFields[i].valueIndex);
 
-            if (ui->tab_val_chart->isVisible()) { // AqTeleChart->CurveIsActive[i]
+            if (ui->tab_val_chart->isVisible()) {
                 QVariant var = QVariant::fromValue(val);
                 AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec);
             }

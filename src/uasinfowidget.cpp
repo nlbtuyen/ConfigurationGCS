@@ -14,16 +14,8 @@ UASInfoWidget::UASInfoWidget(QWidget *parent, QString name) : QWidget(parent)
     this->name = name;
 
     activeUAS = NULL;
-
-    //instruments = new QMap<QString, QProgressBar*>();
-
-    // Set default battery type
-    //    setBattery(0, LIPOLY, 3);
     startTime = MG::TIME::getGroundTimeNow();
-    //    startVoltage = 0.0f;
 
-    //    lastChargeLevel = 0.5f;
-    //    lastRemainingTime = 1;
 
     // Set default values
     /** Set two voltage decimals and zero charge level decimals **/
@@ -114,7 +106,6 @@ void UASInfoWidget::updateBattery(UASInterface* uas, double voltage, double perc
 
 void UASInfoWidget::updateErrorCount(int uasid, QString component, QString device, int count)
 {
-    //qDebug() << __FILE__ << __LINE__ << activeUAS->getUASID() << "=" << uasid;
     if (activeUAS->getUASID() == uasid) {
         errors.remove(component + ":" + device);
         errors.insert(component + ":" + device, count);

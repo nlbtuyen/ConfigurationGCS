@@ -36,7 +36,6 @@
 #include "linkmanager.h"
 #include "seriallink.h"
 #include "mavlinkprotocol.h"
-#include "mavlinkdecoder.h"
 #include "uavconfig.h"
 #include "parameterinterface.h"
 #include "uasinfowidget.h"
@@ -44,7 +43,7 @@
 #include "compasswidget.h"
 #include "hudwidget.h"
 
-static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
+static MainWindow* _instance = NULL;   //MainWindow singleton
 
 MainWindow* MainWindow::instance(void)
 {
@@ -61,12 +60,10 @@ MainWindow::MainWindow(QWidget *parent) :
     styleFileName(""),
     connectFlag(true),
     QMainWindow(parent),
-    sys_mode(MAV_MODE_PREFLIGHT),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     // Set dock options
-//    setDockOptions(AnimatedDocks | AllowTabbedDocks | AllowNestedDocks);
     statusBar()->setSizeGripEnabled(true);
 
     //UAV Config Widget
@@ -92,6 +89,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    view.releaseResources();
+
     foreach(LinkInterface* link,LinkManager::instance()->getLinks())
     {
         int linkIndex = LinkManager::instance()->getLinks().indexOf(link);
@@ -104,12 +103,8 @@ MainWindow::~MainWindow()
         }
 
         link->disconnect();
-        if (link->isRunning()) link->terminate();
-        link->wait();
         LinkManager::instance()->removeLink(link);
-        link->deleteLater();
 
-        view.releaseResources();
     }
     delete ui;
 
@@ -123,7 +118,6 @@ void MainWindow::initActionsConnections()
 
     //Add action to ToolBar
     ui->actionConnect->setEnabled(true);
-    //ui->actionQuit->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
 
     //Add Widget: Status Detail : test
@@ -147,6 +141,7 @@ void MainWindow::initActionsConnections()
     ui->scrollArea_Compass->setWidget(new CompassWidget(this));
 
     //3D Model: load qml and connect between QML & C++
+    view.releaseResources();
     QWidget *container = QWidget::createWindowContainer(&view);
     QSurfaceFormat format;
     format.setMajorVersion(3);
@@ -166,13 +161,15 @@ void MainWindow::initActionsConnections()
      */
 
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
-    toolBarTimeoutLabel->setToolTip(tr("System connection status, interval since last message if timed out."));
+    toolBarTimeoutLabel->setToolTip(tr("System connection status."));
     toolBarTimeoutLabel->setObjectName("toolBarTimeoutLabel");
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #05B8CC; }"));
     ui->mainToolBar->addWidget(toolBarTimeoutLabel);
 
     toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
     toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
     toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
+    toolBarSafetyLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #05B8CC; }"));
     ui->mainToolBar->addWidget(toolBarSafetyLabel);
 
     toolBarBatteryBar = new QProgressBar(this);
@@ -182,11 +179,14 @@ void MainWindow::initActionsConnections()
     toolBarBatteryBar->setMaximumWidth(100);
     toolBarBatteryBar->setToolTip(tr("Battery charge level"));
     toolBarBatteryBar->setObjectName("toolBarBatteryBar");
+    toolBarBatteryBar->setStyleSheet(QString("QLabel { padding: 2px }"));
+
     ui->mainToolBar->addWidget(toolBarBatteryBar);
 
     toolBarBatteryVoltageLabel = new QLabel("0.0 V");
     toolBarBatteryVoltageLabel->setToolTip(tr("Battery current"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
+    toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #05B8CC; }"));
     ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
 
     setActiveUAS(UASManager::instance()->getActiveUAS());
@@ -329,7 +329,6 @@ void MainWindow::setActiveUAS(UASInterface *uas)
     if (uas == NULL) return;
 
     connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
-
     //    //update battery
     connect(uas, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
     //    //update arm or not
@@ -410,7 +409,11 @@ void MainWindow::closeSerialPort()
     ui->statusBar->showMessage(tr("Disconnected"));
 }
 
-//Update CONNECTION status
+/*
+ * ================================================
+ * ========== Update CONNECTION status ============
+ * ================================================
+ */
 void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
 {
     if (timeout)
@@ -475,7 +478,7 @@ void MainWindow::loadStyle()
     {
         QString style = QString(styleSheet->readAll());
         qApp->setStyleSheet(style);
-        styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
+//        styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
 
     }
     else

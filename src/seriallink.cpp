@@ -7,6 +7,7 @@
 #include <QSettings>
 #include <QMutexLocker>
 #include <QTimer>
+
 SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl, bool parity,
                        int dataBits, int stopBits) :
     port(0),
@@ -84,15 +85,14 @@ QVector<QString>* SerialLink::getCurrentPorts()
     ports->clear();
     foreach (const QextPortInfo &p, portEnumerator->getPorts()) {
         if (p.portName.length())
-            ports->append(p.portName);//  + " - " + p.friendName);
-//      qDebug() << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
+            ports->append(p.portName);
     }
 
     return this->ports;
 }
 
 /**
- * @brief Runs the thread
+ *   Runs the thread
  *
  **/
 void SerialLink::run()
@@ -135,21 +135,16 @@ void SerialLink::deviceRemoved(const QextPortInfo &pi)
     if (!isValid && pi.vendorID == SERIAL_AQUSB_VENDOR_ID && pi.productID == SERIAL_AQUSB_PRODUCT_ID)
         waitingToReconnect = MG::TIME::getGroundTimeNow();
 
-    //qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName() << waitingToReconnect;
-
     if (!port || !port->isOpen() || isValid)
         return;
 
     emit portError();
     if (!m_linkLossExpected)
         emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected!").arg(this->porthandle));
-    //qWarning() << __FILE__ << __LINE__ << "device removed" << port->lastError() << port->errorString();
 }
 
 void SerialLink::deviceDiscovered(const QextPortInfo &pi)
 {
-//    qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName()
-//             << waitingToReconnect << MG::TIME::getGroundTimeNow() << MG::TIME::getGroundTimeNow() - waitingToReconnect;
     Q_UNUSED(pi);
     if (waitingToReconnect && !port) {
         if (MG::TIME::getGroundTimeNow() - waitingToReconnect > reconnect_wait_timeout) {
@@ -159,7 +154,6 @@ void SerialLink::deviceDiscovered(const QextPortInfo &pi)
         if (isPortHandleValid()) {
             QTimer::singleShot(m_reconnectDelayMs, this, SLOT(connect()));
             waitingToReconnect = 0;
-            //this->connect();
         }
     }
 }
@@ -173,7 +167,6 @@ void SerialLink::writeBytes(const char* data, qint64 size)
     if (b > 0) {
         // Increase write counter
         bitsSentTotal += b * 8;
-        //qDebug() << "Serial link " << this->getName() << "transmitted" << b << "bytes:";
     } else if (b == -1) {
         emit portError();
         if (!m_linkLossExpected)
@@ -182,7 +175,7 @@ void SerialLink::writeBytes(const char* data, qint64 size)
 }
 
 /**
- * @brief Read a number of bytes from the interface.
+ * Read a number of bytes from the interface.
  *
  * @param data Pointer to the data byte array to write the bytes to
  * @param maxLength The maximum number of bytes to write
@@ -197,12 +190,10 @@ void SerialLink::readBytes()
 
     const qint64 maxLength = 2048;
     char data[maxLength];
-    qint64 numBytes = 0, rBytes = 0; //port->bytesAvailable();
+    qint64 numBytes = 0, rBytes = 0;
 
     dataMutex.lock();
     while ((numBytes = port->bytesAvailable())) {
-    //if(rBytes) {
-        //qDebug() << "numBytes: " << numBytes;
         /* Read as much data in buffer as possible without overflow */
         rBytes = numBytes;
         if(maxLength < rBytes) rBytes = maxLength;
@@ -218,16 +209,11 @@ void SerialLink::readBytes()
         emit bytesReceived(this, b);
         bitsReceivedTotal += rBytes * 8;
 
-//        for (int i=0; i<rBytes; i++){
-//            unsigned int v=data[i];
-//            fprintf(stderr,"%02x ", v);
-//        } fprintf(stderr,"\n");
     }
     dataMutex.unlock();
 }
 
 void SerialLink::readEsc32Tele(){
-    //dataMutex.lock();
     qint64 numBytes = 0;
 
     if (!validateConnection())
@@ -243,7 +229,7 @@ void SerialLink::readEsc32Tele(){
         }
         this->firstRead = 2;
     }
-    retryA:
+retryA:
     if (!port->isOpen() || !mode_port)
         return;
 
@@ -268,7 +254,7 @@ void SerialLink::readEsc32Tele(){
         }
     }
     else {
-         this->firstRead = 0;
+        this->firstRead = 0;
     }
 
     while( true) {
@@ -325,7 +311,6 @@ void SerialLink::readEsc32Tele(){
     cols = data[1];
     int length_array = (((cols*rows)*sizeof(float))+2);
     if ( length_array > 300) {
-        qDebug() << "bad col " << cols << " rows " << rows;
         goto retryA;
     }
     while( true) {
@@ -336,7 +321,6 @@ void SerialLink::readEsc32Tele(){
         if (!port->isOpen() || !mode_port)
             break;
     }
-    //qDebug() << "avalible" << numBytes;
     numBytes = port->read(data,length_array);
     if (numBytes == length_array ){
         QByteArray b(data, numBytes);
@@ -344,12 +328,10 @@ void SerialLink::readEsc32Tele(){
     }
 
     goto retryA;
-
-    //dataMutex.unlock();
-}
+    }
 
 /**
- * @brief Disconnect the connection.
+ * Disconnect the connection.
  *
  * @return True if connection has been disconnected, false if connection couldn't be disconnected.
  **/
@@ -358,7 +340,6 @@ bool SerialLink::disconnect()
     if(this->isRunning() && !m_stopp) {
         m_stoppMutex.lock();
         this->m_stopp = true;
-        //m_waitCond.wakeOne();
         m_stoppMutex.unlock();
         this->wait();
     }
@@ -380,7 +361,7 @@ bool SerialLink::disconnect()
 }
 
 /**
- * @brief Connect the connection.
+ * Connect the connection.
  *
  * @return True if connection has been established, false if connection couldn't be established.
  **/
@@ -404,7 +385,7 @@ bool SerialLink::connect()
 }
 
 /**
- * @brief This function is called indirectly by the connect() call.
+ * This function is called indirectly by the connect() call.
  *
  * The connect() function starts the thread and indirectly calls this method.
  *
@@ -425,7 +406,6 @@ bool SerialLink::hardwareConnect()
             return false;
         }
         QObject::connect(port, SIGNAL(aboutToClose()), this, SIGNAL(disconnected()));
-        //QObject::connect(port, SIGNAL(readyRead()), this, SLOT(readBytes()), Qt::DirectConnection);
     }
 
     if (port->isOpen())
@@ -443,10 +423,6 @@ bool SerialLink::hardwareConnect()
 
     if (!port->open(portOpenMode)) {
         err = tr("Failed to open serial port %1").arg(this->porthandle);
-//        if (port->lastError() != E_NO_ERROR)
-//            err = err % tr(" with error: %1 (%2)").arg(port->errorString()).arg(port->lastError());
-//        else
-//            err = err % tr(". It may already be in use, please check your connections.");
     }
 
     if (err.length()) {
@@ -468,10 +444,6 @@ bool SerialLink::hardwareConnect()
     if(isConnected()) {
         emit connected();
         emit connected(true);
-//        writeSettings();
-//        qDebug() << "Connected Serial" << porthandle  << "with settings" \
-//                 << port->portName() << port->baudRate() << "db:" << port->dataBits() \
-//                 << "p:" << port->parity() << "sb:" << port->stopBits() << "fc:" << port->flowControl();
     } else
         return false;
 
@@ -490,11 +462,8 @@ void SerialLink::setUsbDeviceInfo()
 
 }
 
-
 // verify that a port still exists on the system
 bool SerialLink::isPortValid(const QString &pname) {
-//    QSerialPortInfo pi(pname);
-//    return pi.isValid();
     return getCurrentPorts()->contains(pname);
 }
 
@@ -506,7 +475,7 @@ bool SerialLink::isPortHandleValid() {
 bool SerialLink::isConnected()
 {
     if (port)
-        return port->isOpen(); //isPortHandleValid() &&
+        return port->isOpen();
     else
         return false;
 }
@@ -536,8 +505,7 @@ bool SerialLink::setPortName(QString portName)
             this->wait();
 
         this->porthandle = portName;
-//        loadSettings();
-        setName(tr("serial port ") + portName);
+       setName(tr("serial port ") + portName);
     }
     return true;
 }
@@ -684,12 +652,12 @@ qint64 SerialLink::getTotalUpstream()
 
 qint64 SerialLink::getCurrentUpstream()
 {
-    return 0; // TODO
+    return 0;
 }
 
 qint64 SerialLink::getMaxUpstream()
 {
-    return 0; // TODO
+    return 0;
 }
 
 qint64 SerialLink::getBitsSent()
@@ -710,12 +678,12 @@ qint64 SerialLink::getTotalDownstream()
 
 qint64 SerialLink::getCurrentDownstream()
 {
-    return 0; // TODO
+    return 0;
 }
 
 qint64 SerialLink::getMaxDownstream()
 {
-    return 0; // TODO
+    return 0;
 }
 
 bool SerialLink::isFullDuplex()

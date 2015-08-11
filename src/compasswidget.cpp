@@ -352,7 +352,7 @@ void CompassWidget::doPaint()
 
     // The AI paints on this area. It should contain the AIMainArea.
     QRectF AIPaintArea;
-    painter.fillRect(rect(), Qt::black);
+    painter.fillRect(rect(), Qt::blue);
     qreal compassHalfSpan = 180;
 
     AIPaintArea = QRectF(

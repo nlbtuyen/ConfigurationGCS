@@ -34,5 +34,9 @@
         <file>3dmodel/Drone.mtl</file>
         <file>3dmodel/Drone.obj</file>
         <file>src/ModelView.qml</file>
+        <file>images/background.jpg</file>
+        <file>images/background2.png</file>
+        <file>images/configurationBackground.PNG</file>
+        <file>images/drone_texture.png</file>
     </qresource>
 </RCC>

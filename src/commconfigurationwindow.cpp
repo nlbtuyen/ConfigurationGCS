@@ -24,8 +24,6 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
 
     // add link types
     ui.linkType->addItem(tr("Serial"), QGC_LINK_SERIAL);
-//    ui.linkType->addItem(tr("UDP"), QGC_LINK_UDP);
-    //ui.linkType->addItem(tr("Simulation"), QGC_LINK_SIMULATION);
     ui.linkType->setEditable(false);
 
     ui.connectionType->addItem("MAVLink", QGC_PROTOCOL_MAVLINK);
@@ -56,17 +54,13 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
 
     // Fill in the current data
     if(this->link->isConnected()) ui.connectButton->setChecked(true);
-    //connect(this->link, SIGNAL(connected(bool)), ui.connectButton, SLOT(setChecked(bool)));
 
     if(this->link->isConnected()) {
         ui.connectionStatusLabel->setText(tr("Connected"));
-
-        // TODO Deactivate all settings to force user to manually disconnect first
     } else {
         ui.connectionStatusLabel->setText(tr("Disconnected"));
     }
 
-    // TODO Move these calls to each link so that dynamic casts vanish
 
     // Open details pane for serial link if necessary
     SerialLink* serial = dynamic_cast<SerialLink*>(link);
@@ -147,27 +141,12 @@ void CommConfigurationWindow::setLinkType(int linktype)
     }
 
     LinkInterface *tmpLink(NULL);
-    switch(linktype)
-    {
-        case 1:
-            {
-//                UDPLink *udp = new UDPLink();
-//                tmpLink = udp;
-                break;
-            }
-        case 2:
-            {
-//                MAVLinkSimulationLink *sim = new MAVLinkSimulationLink();
-//                tmpLink = sim;
-                break;
-            }
-        default:
-        case 0:
-            SerialLink *serial = new SerialLink();
-            tmpLink = serial;
-            MainWindow::instance()->addLink(tmpLink);
 
-            break;
+    if (linktype == 0) {
+        SerialLink *serial = new SerialLink();
+        tmpLink = serial;
+        MainWindow::instance()->addLink(tmpLink);
+
     }
 
     const int32_t& linkIndex(LinkManager::instance()->getLinks().indexOf(tmpLink));
@@ -211,19 +190,15 @@ void CommConfigurationWindow::setLinkName(QString name)
 void CommConfigurationWindow::remove()
 {
     if(action) delete action; //delete action first since it has a pointer to link
-    action=NULL;
 
     if(link) {
         link->disconnect(); //disconnect port, and also calls terminate() to stop the thread
-        //if (link->isRunning()) link->terminate(); // terminate() the serial thread just in case it is still running
         link->wait(); // wait() until thread is stoped before deleting
         LinkManager::instance()->removeLink(link); //remove link from LinkManager list
         link->deleteLater();
     }
-    link=NULL;
 
     this->window()->close();
-    this->deleteLater();
 }
 
 void CommConfigurationWindow::connectionState(bool connect)

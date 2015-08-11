@@ -19,7 +19,7 @@ LinkManager* LinkManager::instance()
 }
 
 /**
- * @brief Private singleton constructor
+ *   Private singleton constructor
  *
  * This class implements the singleton design pattern and has therefore only a private constructor.
  **/
@@ -66,7 +66,6 @@ void LinkManager::addProtocol(LinkInterface* link, ProtocolInterface* protocol)
         // Store the connection information in the protocol links map
         protocolLinks.insertMulti(protocol, link);
     }
-    //qDebug() << __FILE__ << __LINE__ << "ADDED LINK TO PROTOCOL" << link->getName() << protocol->getName() << "NEW SIZE OF LINK LIST:" << protocolLinks.size();
 }
 
 QList<LinkInterface *> LinkManager::getLinksForProtocol(ProtocolInterface* protocol)

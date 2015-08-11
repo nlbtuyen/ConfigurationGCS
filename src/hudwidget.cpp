@@ -376,9 +376,9 @@ void HUDWidget::drawPitchScale(QPainter &painter, QRectF area, float intrusion, 
                 QString s_number;
                 s_number.sprintf("%d", displayDegrees);
                 if (drawNumbersLeft)
-                    drawTextRightCenter(painter, s_number, LeoTextSize, -0.1 * w, 0); //@Leo
+                    drawTextRightCenter(painter, s_number, LeoTextSize, -0.1 * w, 0); //@Leo : length cua thanh doc
                 if (drawNumbersRight)
-                    drawTextLeftCenter(painter, s_number, LeoTextSize, 0.1 * w, 0); //@Leo
+                    drawTextLeftCenter(painter, s_number, LeoTextSize, 0.1 * w, 0); //@Leo : length cua thanh doc
             }
         }
         painter.setTransform(savedTransform);

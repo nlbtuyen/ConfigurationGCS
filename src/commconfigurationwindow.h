@@ -39,12 +39,12 @@ protected:
 
 public slots:
     void setLinkType(int linktype);
-    /** @brief Set the protocol for this link */
+    // Set the protocol for this link
     void setProtocol(int protocol);
     void setConnection();
     void connectionState(bool connect);
     void setLinkName(QString name);
-    /** @brief Disconnects the associated link, removes it from all menus and closes the window. */
+    // Disconnects the associated link, removes it from all menus and closes the window.
     void remove();
 
 private slots:

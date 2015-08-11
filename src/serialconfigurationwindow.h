@@ -60,7 +60,6 @@ private:
     QextSerialEnumerator *portEnumerator;
     QAction* action;
     QString defaultPortName;
-    //QTimer* portCheckTimer;
 
 };
 

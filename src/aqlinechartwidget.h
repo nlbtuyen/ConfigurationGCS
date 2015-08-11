@@ -40,40 +40,37 @@ public:
     static const int MAX_CURVE_MENUITEM_NUMBER = 8;
     static const int PAGESTEP_TIME_SCROLLBAR_VALUE = (MAX_TIME_SCROLLBAR_VALUE - MIN_TIME_SCROLLBAR_VALUE) / 10;
 
-//    bool CurveIsActive[100];
-
 public slots:
     void addCurve(const QString& curve, const QString& unit);
     void removeCurve(QString curve);
-    /** @brief Remove all curves */
+    /** Remove all curves */
     void clearCurves();
-    /** @brief Set short names for curves */
+    /** Set short names for curves */
     void setShortNames(bool enable);
-    /** @brief Append double data to the given curve. */
+    /** Append double data to the given curve. */
     void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec);
 
     void takeButtonClick(bool checked);
     void setPlotWindowPosition(int scrollBarValue);
     void setPlotWindowPosition(quint64 position);
     void setPlotInterval(int interval);
-    /** @brief Start automatic updates once visible */
+    /** Start automatic updates once visible */
     void showEvent(QShowEvent* event);
-    /** @brief Stop automatic updates once hidden */
+    /** Stop automatic updates once hidden */
     void hideEvent(QHideEvent* event);
     void setActive(bool active);
-    /** @brief Select one MAV for curve display */
+    /** Select one MAV for curve display */
     void selectActiveSystem(int mav);
-    /** @brief Set the number of values to average over */
+    /** Set the number of values to average over */
     void setAverageWindow(int windowSize);
-    /** @brief Refresh the view */
+    /** Refresh the view */
     void refresh();
-    /** @brief Write the current configuration to disk */
+    /** Write the current configuration to disk */
     void writeSettings();
-    /** @brief Read the current configuration from disk */
+    /** Read the current configuration from disk */
     void readSettings();
-    /** @brief Select all curves */
+    /** Select all curves */
     void selectAllCurves(bool all);
-
 
 protected:
     void addCurveToList(QString curve);
@@ -81,7 +78,7 @@ protected:
     QToolButton* createButton(QWidget* parent);
     void createCurveItem(QString curve);
     void createLayout();
-    /** @brief Get the name for a curve key */
+    /** Get the name for a curve key */
     QString getCurveName(const QString& key, bool shortEnabled);
 
     int sysid;                            ///< ID of the unmanned system this plot belongs to
@@ -91,7 +88,7 @@ protected:
 
     int curveListIndex;
     int curveListCounter;                 ///< Counter of curves in curve list
-    QList<QString>* ListItems;         ///< Curves listed
+    QList<QString>* ListItems;            ///< Curves listed
     QList<QString>* listedCurves;         ///< Curves listed
     QMap<QString, QLabel*>* curveLabels;  ///< References to the curve labels
     QMap<QString, QLabel*> curveNameLabels;  ///< References to the curve labels
@@ -124,14 +121,14 @@ private:
 
 signals:
     /**
-         * @brief This signal is emitted if a curve is removed from the list
+         * This signal is emitted if a curve is removed from the list
          *
          * @param curve The removed plot curve
          **/
     void curveRemoved(QString curve);
 
     /**
-         * @brief This signal is emitted if a curve has been moved or added
+         * This signal is emitted if a curve has been moved or added
          *
          * @param curve The moved or added curve
          * @param position The x-position of the curve (The centerline)
@@ -139,7 +136,7 @@ signals:
     void curveSet(QString curve, int position);
 
     /**
-         * @brief This signal is emitted to change the visibility of a curve
+         * This signal is emitted to change the visibility of a curve
          *
          * @param curve The changed curve
          * @pram visible The visibility

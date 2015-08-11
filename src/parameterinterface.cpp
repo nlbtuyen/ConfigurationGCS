@@ -13,8 +13,6 @@ ParameterInterface::ParameterInterface(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-//    m_ui->sensorSettings->hide();
-
     // Get current MAV list
     QList<UASInterface*> systems = UASManager::instance()->getUASList();
 
@@ -37,7 +35,6 @@ ParameterInterface::~ParameterInterface()
 void ParameterInterface::selectUAS(int index)
 {
     m_ui->stackedWidget->setCurrentIndex(index);
-//    m_ui->sensorSettings->setCurrentIndex(index);
     curr = index;
 }
 
@@ -53,14 +50,8 @@ void ParameterInterface::addUAS(UASInterface* uas)
 
     param->requestParameterList();;
 
-
-//    QGCSensorSettingsWidget* sensor = new QGCSensorSettingsWidget(uas, this);
-//    m_ui->sensorSettings->addWidget(sensor);
-
     // Set widgets as default
     if (curr == -1) {
-        // Clear
-//        m_ui->sensorSettings->setCurrentWidget(sensor);
         m_ui->stackedWidget->setCurrentWidget(param);
         curr = 0;
     }

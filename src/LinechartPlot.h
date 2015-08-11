@@ -24,21 +24,18 @@ public:
 
     virtual QwtText label(double v) const {
         QDateTime time = MG::TIME::msecToQDateTime(static_cast<quint64>(v));
-        return time.toString("hh:mm:ss"); // was hh:mm:ss:zzz
-        // Show seconds since system startup
-        //return QString::number(static_cast<int>(v)/1000000);
+        return time.toString("hh:mm:ss");
     }
-
 };
 
 
 /**
- * @brief Data container
+ * Data container
  */
 class QwtPlotCurve;
 
 /**
- * @brief Container class for the time series data
+ * Container class for the time series data
  *
  **/
 class TimeSeriesData
@@ -66,13 +63,6 @@ public:
     double getMinValue();
     double getMaxValue();
     double getZeroValue();
-    /** @brief Get the short-term mean */
-    double getMean();
-    /** @brief Get the short-term median */
-    double getMedian();
-    /** @brief Get the short-term variance */
-    double getVariance();
-    /** @brief Get the current value */
     double getCurrentValue();
     void setZeroValue(double zeroValue);
     void setInterval(quint64 ms);
@@ -104,9 +94,6 @@ private:
     quint64 count;
     QVector<double> ms;
     QVector<double> value;
-    double mean;
-    double median;
-    double variance;
     unsigned int averageWindow;
     QVector<double> outputMs;
     QVector<double> outputValue;
@@ -117,7 +104,7 @@ private:
 
 
 /**
- * @brief Time series plot
+ * Time series plot
  **/
 class LinechartPlot : public ChartPlot
 {
@@ -131,11 +118,11 @@ public:
 
     QList<QwtPlotCurve*> getCurves();
     bool isVisible(QString id);
-    /** @brief Check if any curve is visible */
+    /** Check if any curve is visible */
     bool anyCurveVisible();
 
     int getPlotId();
-    /** @brief Get the number of values to average over */
+    /** Get the number of values to average over */
     int getAverageWindow();
 
     quint64 getMinTime();
@@ -144,13 +131,13 @@ public:
     quint64 getDataInterval();
     quint64 getWindowPosition();
 
-    /** @brief Get the short-term mean of a curve */
+    /** Get the short-term mean of a curve */
     double getMean(QString id);
-    /** @brief Get the short-term median of a curve */
+    /** Get the short-term median of a curve */
     double getMedian(QString id);
-    /** @brief Get the short-term variance of a curve */
+    /** Get the short-term variance of a curve */
     double getVariance(QString id);
-    /** @brief Get the last inserted value */
+    /** Get the last inserted value */
     double getCurrentValue(QString id);
 
     static const int SCALE_ABSOLUTE = 0;
@@ -163,37 +150,20 @@ public:
 
 public slots:
     void setRefreshRate(int ms);
-    /**
-     * @brief Append data to the plot
-     *
-     * The new data point is appended to the curve with the id-String id. If the curve
-     * doesn't yet exist it is created and added to the plot.
-     *
-     * @param uasId id of originating UAS
-     * @param dataname unique string (also used to label the data)
-     * @param ms time measure of the data point, in milliseconds
-     * @param value value of the data point
-     */
     void appendData(QString dataname, quint64 ms, double value);
     void hideCurve(QString id);
     void showCurve(QString id);
-    /** @brief Enable auto-refreshing of plot */
+    /** Enable auto-refreshing of plot */
     void setActive(bool active);
 
     // Functions referring to the currently active plot
     void setVisibleById(QString id, bool visible);
 
-    /**
-     * @brief Set the color of a curve and its symbols.
-     *
-     * @param id The id-string of the curve
-     * @param color The newly assigned color
-     **/
     void setCurveColor(QString id, QColor color);
 
-    /** @brief Enforce the use of the receive timestamp */
+    /** Enforce the use of the receive timestamp */
     void enforceGroundTime(bool enforce);
-    /** @brief Check if the receive timestamp is enforced */
+    /** Check if the receive timestamp is enforced */
     bool groundTime();
 
     // General interaction
@@ -203,12 +173,12 @@ public slots:
     void setAutoScroll(bool active);
     void paintRealtime();
 
-    /** @brief Set logarithmic plot y-axis scaling */
+    /** Set logarithmic plot y-axis scaling */
     void setLogarithmicScaling();
-    /** @brief Set linear plot y-axis scaling */
+    /** Set linear plot y-axis scaling */
     void setLinearScaling();
 
-    /** @brief Set the number of values to average over */
+    /** Set the number of values to average over */
     void setAverageWindow(int windowSize);
     void removeTimedOutCurves();
 
@@ -218,13 +188,13 @@ protected:
     QMap<QString, quint64> lastUpdate;
 
     //static const quint64 MAX_STORAGE_INTERVAL = Q_UINT64_C(300000);
-    static const quint64 MAX_STORAGE_INTERVAL = Q_UINT64_C(0);  ///< The maximum interval which is stored
-    // TODO CHECK THIS!!!
+    static const quint64 MAX_STORAGE_INTERVAL = Q_UINT64_C(0);  // The maximum interval which is stored
+
     int scaling;
     QwtScaleEngine* yScaleEngine;
-    quint64 minTime; ///< The smallest timestamp occured so far
-    quint64 lastTime; ///< Last added timestamp
-    quint64 maxTime; ///< The biggest timestamp occured so far
+    quint64 minTime;            ///< The smallest timestamp occured so far
+    quint64 lastTime;           ///< Last added timestamp
+    quint64 maxTime;            ///< The biggest timestamp occured so far
     quint64 maxInterval;
     quint64 storageInterval;
 
@@ -232,7 +202,7 @@ protected:
     double minValue;
     double valueInterval;
 
-    int averageWindowSize; ///< Size of sliding average / sliding median
+    int averageWindowSize;      ///< Size of sliding average / sliding median
 
     quint64 plotInterval;
     quint64 plotPosition;
@@ -243,8 +213,8 @@ protected:
     bool automaticScrollActive;
     QTime lastMaxTimeAdded;
     int plotid;
-    bool m_active; ///< Decides wether the plot is active or not
-    bool m_groundTime; ///< Enforce the use of the receive timestamp instead of the data timestamp
+    bool m_active;              ///< Decides wether the plot is active or not
+    bool m_groundTime;          ///< Enforce the use of the receive timestamp instead of the data timestamp
     QTimer timeoutTimer;
 
     // Methods
@@ -257,24 +227,8 @@ private:
     QwtPlotCurve* d_curve;
 
 signals:
-
-    /**
-         * @brief This signal is emitted when a new curve is added
-         *
-         * @param color The curve color in the diagram
-         **/
     void curveAdded(QString idstring);
-    /**
-         * @brief This signal is emitted when a curve is removed
-         *
-         * @param name The id-string of the curve
-         **/
     void curveRemoved(QString name);
-    /**
-         * @brief This signal is emitted when the plot window position changes
-         *
-         * @param position The position of the right edge of the window, in milliseconds
-         **/
     void windowPositionChanged(quint64 position);
 };
 

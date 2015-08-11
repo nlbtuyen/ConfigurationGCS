@@ -68,19 +68,19 @@ private slots:
     void prtstdout();
     QString extProcessError(QProcess::ProcessError err);
 
-    void on_RADIOpushButton_clicked();
+    void on_btn_RADIO_clicked();
 
-    void on_MOTORpushButton_clicked();
+    void on_btn_MOTOR_clicked();
 
-    void on_IMUpushButton_clicked();
+    void on_btn_IMU_clicked();
 
-    void on_PIDTURNINGpushButton_clicked();
+    void on_btn_PID_clicked();
 
-    void on_CHARTpushButton_clicked();
+    void on_btn_CHART_clicked();
 
-    void on_UPGRADEpushButton_clicked();
+    void on_btn_UPGRADE_clicked();
 
-    void on_OSDpushButton_clicked();
+    void on_btn_OSD_clicked();
 
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
@@ -113,6 +113,7 @@ protected:
     bool fwFlashActive;
     QString LastFilePath;
 
+    void updateButtonView();
 
 };
 
