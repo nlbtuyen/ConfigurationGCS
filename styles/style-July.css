@@ -7,6 +7,13 @@ QWidget {
 	background-clip: border;
 }
 
+QToolBar {
+	background-color: #D5C79C;
+}
+
+QStatusBar {
+	background-color: #D5C79C;
+}
 QGroupBox#groupBox_Pitch_PID, 
 QGroupBox#groupBox_Roll_PID,
 QGroupBox#groupBox_Yaw_PID, 

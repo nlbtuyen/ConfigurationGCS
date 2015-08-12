@@ -163,13 +163,13 @@ void MainWindow::initActionsConnections()
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status."));
     toolBarTimeoutLabel->setObjectName("toolBarTimeoutLabel");
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; }"));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold; }"));
     ui->mainToolBar->addWidget(toolBarTimeoutLabel);
 
     toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
     toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
     toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
-    toolBarSafetyLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; }"));
+    toolBarSafetyLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold; }"));
     ui->mainToolBar->addWidget(toolBarSafetyLabel);
 
     toolBarBatteryBar = new QProgressBar(this);
@@ -179,14 +179,14 @@ void MainWindow::initActionsConnections()
     toolBarBatteryBar->setMaximumWidth(100);
     toolBarBatteryBar->setToolTip(tr("Battery charge level"));
     toolBarBatteryBar->setObjectName("toolBarBatteryBar");
-    toolBarBatteryBar->setStyleSheet(QString("QLabel { padding: 2px }"));
+    toolBarBatteryBar->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold;}"));
 
     ui->mainToolBar->addWidget(toolBarBatteryBar);
 
     toolBarBatteryVoltageLabel = new QLabel("0.0 V");
     toolBarBatteryVoltageLabel->setToolTip(tr("Battery current"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
-    toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; }"));
+    toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold;}"));
     ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
 
     setActiveUAS(UASManager::instance()->getActiveUAS());
@@ -421,18 +421,18 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
         if (ms > 10000)
         {
             toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; color: blue }"));
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #70AB8F; background-color: #D5C79C; font-weight: bold; }"));
             return;
         }
         else
         {
             if ((ms / 1000) % 2 == 0)
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; color: #05A7CC }"));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel {padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold; }"));
             }
             else
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; color: #0555CC }"));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #70AB8F; background-color: #D5C79C; font-weight: bold; }"));
             }
             toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
         }
@@ -440,7 +440,7 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
     else
     {
 
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; color: #05B8CC }"));
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #993F17; background-color: #D5C79C; font-weight: bold; }"));
         toolBarTimeoutLabel->setText(tr("CONNECTED"));
     }
 }
@@ -522,7 +522,7 @@ void MainWindow::updateState(UASInterface *system, QString name, QString descrip
     if (state != name)
         changed = true;
     state = name;
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding:0 3px; color : #05B8CC; }"));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #993F17; background-color: #D5C79C; font-weight: bold;  }"));
     toolBarTimeoutLabel->setText(tr("CONNECTION"));
 
     /* important, immediately update */
@@ -541,12 +541,12 @@ void MainWindow::updateView()
 
     if (systemArmed)
     {
-        toolBarSafetyLabel->setStyleSheet(QString("QLabel {margin: 0px 2px; color: %1; }").arg(QGC::colorRed.name()));
+        toolBarSafetyLabel->setStyleSheet(QString("QLabel {padding: 2px; font: 16px; color: #70AB8F; background-color: #D5C79C; font-weight: bold;  }").arg(QGC::colorRed.name()));
         toolBarSafetyLabel->setText(tr("ARMED"));
     }
     else
     {
-        toolBarSafetyLabel->setStyleSheet("QLabel {margin: 0px 2px; color: #14C814; }");
+        toolBarSafetyLabel->setStyleSheet("QLabel {padding: 2px; font: 16px; color: #993F17; background-color: #D5C79C; font-weight: bold;  }");
         toolBarSafetyLabel->setText(tr("SAFE"));
     }
     changed = false;

@@ -258,26 +258,25 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     qreal miny = min4(topLeft.y(), topRight.y(), bottomLeft.y(), bottomRight.y());
     qreal maxy = max4(topLeft.y(), topRight.y(), bottomLeft.y(), bottomRight.y());
 
-    QPointF hzonLeft = QPoint(minx, 0);
-    QPointF hzonRight = QPoint(maxx, 0);
+    qreal width = maxx - minx;
+    qreal height = maxy - miny;
 
-    QPainterPath skyPath(hzonLeft);
-    skyPath.lineTo(QPointF(minx, miny));
-    skyPath.lineTo(QPointF(maxx, miny));
-    skyPath.lineTo(hzonRight);
+    QPainterPath skyPath;
+    //@Leo: sky circle
+    skyPath.moveTo(0,0);
+    skyPath.arcTo(minx,miny,width,height,0,180);
     skyPath.closeSubpath();
 
-    // TODO: The gradient is wrong now.
     QLinearGradient skyGradient(0, -gradientEnd, 0, 0);
     skyGradient.setColorAt(0, QColor::fromHsvF(0.6, 1.0, 0.7));
     skyGradient.setColorAt(1, QColor::fromHsvF(0.6, 0.25, 0.9));
     QBrush skyBrush(skyGradient);
     painter.fillPath(skyPath, skyBrush);
 
-    QPainterPath groundPath(hzonRight);
-    groundPath.lineTo(maxx, maxy);
-    groundPath.lineTo(minx, maxy);
-    groundPath.lineTo(hzonLeft);
+    QPainterPath groundPath;
+    //@Leo: groundPath circle
+    groundPath.moveTo(0,0);
+    groundPath.arcTo(minx,miny,width,height,180,180);
     groundPath.closeSubpath();
 
     QLinearGradient groundGradient(0, gradientEnd, 0, 0);
@@ -294,6 +293,7 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     QPointF start(-mainArea.width(), 0);
     QPoint end(mainArea.width(), 0);
     painter.drawLine(start, end);
+
 }
 
 void HUDWidget::drawAIAirframeFixedFeatures(QPainter &painter, QRectF area)
@@ -443,6 +443,7 @@ inline qreal tapesGaugeWidthFor(qreal containerWidth, qreal preferredAIWidth) {
     if (result < minimum) result = minimum;
     return result;
 }
+
 /*
  * =========================================
  * ============= Main: Paint ===============
@@ -493,6 +494,5 @@ void HUDWidget::doPaint()
 
     painter.setClipping(hadClip);
     painter.end();
-
 }
 

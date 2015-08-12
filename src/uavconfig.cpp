@@ -692,8 +692,6 @@ void UAVConfig::on_btn_MOTOR_clicked()
     updateButtonView();
 }
 
-
-
 void UAVConfig::on_btn_IMU_clicked()
 {
     ui->tab_aq_setting->setCurrentIndex(2);
@@ -727,8 +725,96 @@ void UAVConfig::on_btn_OSD_clicked()
 
 void UAVConfig::updateButtonView()
 {
-//    int index = ui->tab_aq_setting->currentIndex();
-//    if(index == 1)
+    int index = ui->tab_aq_setting->currentIndex();
+    switch (index) {
+    case 0:
+    {
+        ui->btn_RADIO->setStyleSheet(QString("color: #DC5B21; padding-top: 2px; padding-left: 3px; margin-left: 5px;"));
+        ui->btn_MOTOR->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_IMU->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_PID->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_CHART->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_OSD->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        break;
+    }
+    case 1:
+    {
+        ui->btn_MOTOR->setStyleSheet(QString("color: #DC5B21; padding-top: 2px; padding-left: 3px; margin-left: 5px;"));
+        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_IMU->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_PID->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_CHART->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_OSD->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        break;
+    }
+    case 2:
+    {
+        ui->btn_IMU->setStyleSheet(QString("color: #DC5B21; padding-top: 2px; padding-left: 3px; margin-left: 5px;"));
+        ui->btn_MOTOR->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_PID->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_CHART->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_OSD->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        break;
+    }
+    case 3:
+    {
+        ui->btn_PID->setStyleSheet(QString("color: #DC5B21; padding-top: 2px; padding-left: 3px; margin-left: 5px;"));
+        ui->btn_MOTOR->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_IMU->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_CHART->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_OSD->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        break;
+    }
+    case 4:
+    {
+        ui->btn_CHART->setStyleSheet(QString("color: #DC5B21; padding-top: 2px; padding-left: 3px; margin-left: 5px;"));
+        ui->btn_MOTOR->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_IMU->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_PID->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_OSD->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        break;
+    }
+    case 5:
+    {
+        ui->btn_UPGRADE->setStyleSheet(QString("color: #DC5B21; padding-top: 2px; padding-left: 3px; margin-left: 5px;"));
+        ui->btn_MOTOR->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_IMU->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_PID->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_CHART->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_OSD->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        break;
+    }
+    case 6:
+    {
+        ui->btn_OSD->setStyleSheet(QString("color: #DC5B21; padding-top: 2px; padding-left: 3px; margin-left: 5px;"));
+        ui->btn_MOTOR->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_IMU->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_PID->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_CHART->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: #383127;color: #E4DBBF;width: 80px;height: 40px;margin: 0px 15px 5px 0px;border-style: outset; border-radius: 4px;font-size: 12px;font-weight: bold;} QPushButton:hover { color: #DC5B21; padding-top: 2px; padding-left: 3px;margin-left: 5px;}"));
+        break;
+    }
+    default:
+    {
+        break;
+    }
+        break;
+    }
+
+//    if (index ==0) {
+
+//    }
+//    else if(index == 1)
 //    {
 //        ui->btn_MOTOR->setStyleSheet(QString("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa, stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);"));
 //        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff); padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px;} QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
