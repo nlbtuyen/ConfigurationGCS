@@ -258,13 +258,18 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     qreal miny = min4(topLeft.y(), topRight.y(), bottomLeft.y(), bottomRight.y());
     qreal maxy = max4(topLeft.y(), topRight.y(), bottomLeft.y(), bottomRight.y());
 
-    qreal width = maxx - minx;
-    qreal height = maxy - miny;
+    QPointF hzonLeft = QPoint(minx, 0);
+    QPointF hzonRight = QPoint(maxx, 0);
 
-    QPainterPath skyPath;
-    //@Leo: sky circle
-    skyPath.moveTo(0,0);
-    skyPath.arcTo(minx,miny,width,height,0,180);
+//    QPainterPath skyPath;
+//    //@Leo: sky circle
+//    skyPath.moveTo(0,0);
+//    skyPath.arcTo(minx,miny,width,height,0,180);
+//    skyPath.closeSubpath();
+    QPainterPath skyPath(hzonLeft);
+    skyPath.lineTo(QPointF(minx, miny));
+    skyPath.lineTo(QPointF(maxx, miny));
+    skyPath.lineTo(hzonRight);
     skyPath.closeSubpath();
 
     QLinearGradient skyGradient(0, -gradientEnd, 0, 0);
@@ -273,11 +278,17 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     QBrush skyBrush(skyGradient);
     painter.fillPath(skyPath, skyBrush);
 
-    QPainterPath groundPath;
-    //@Leo: groundPath circle
-    groundPath.moveTo(0,0);
-    groundPath.arcTo(minx,miny,width,height,180,180);
+//    QPainterPath groundPath;
+//    //@Leo: groundPath circle
+//    groundPath.moveTo(0,0);
+//    groundPath.arcTo(minx,miny,width,height,180,180);
+//    groundPath.closeSubpath();
+    QPainterPath groundPath(hzonRight);
+    groundPath.lineTo(maxx, maxy);
+    groundPath.lineTo(minx, maxy);
+    groundPath.lineTo(hzonLeft);
     groundPath.closeSubpath();
+
 
     QLinearGradient groundGradient(0, gradientEnd, 0, 0);
     groundGradient.setColorAt(0, QColor::fromHsvF(0.25, 1, 0.5));

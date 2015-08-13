@@ -49,6 +49,9 @@ private:
     void setupCurves();
     float getTelemValue(const int idx);
     void init(); //@Leo
+    //@trung
+    void chartReset();
+    int currentRefreshRate;
 
 public slots:
     void initChart(UASInterface *uav);

@@ -27,7 +27,7 @@ public:
 public slots:
 
     /** @brief Generate coloring for this plot canvas based on current window theme */
-    void styleChanged(int style);
+    void styleChanged();
 
 protected:
     const static int numColors = 20;

@@ -101,16 +101,6 @@ int LinechartPlot::getAverageWindow()
     return averageWindowSize;
 }
 
-/**
- * Set the plot refresh rate
- * The default refresh rate is defined by LinechartPlot::DEFAULT_REFRESH_RATE.
- * @param ms The refresh rate in milliseconds
- **/
-void LinechartPlot::setRefreshRate(int ms)
-{
-    updateTimer->setInterval(ms);
-}
-
 void LinechartPlot::setActive(bool active)
 {
     m_active = active;

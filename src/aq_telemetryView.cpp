@@ -15,6 +15,18 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    currentRefreshRate = 2;
+    // add content combobox refresh rate
+    ui->combo_refreshRate->addItem("1 ms", 100000);
+    ui->combo_refreshRate->addItem("50 ms", 20);
+    ui->combo_refreshRate->addItem("100 ms", 10);
+    ui->combo_refreshRate->addItem("200 ms", 5);
+    ui->combo_refreshRate->setCurrentIndex(2);
+
+    ui->combo_selectCurve->addItem("Pitch, Roll, Yaw");
+    ui->combo_selectCurve->addItem("Pitch|Roll|Yaw Rate");
+    ui->combo_selectCurve->setCurrentIndex(0);
+
     // define all data fields
     QString unit = "float";
     telemDatasets dset = TELEM_DATASET_DEFAULT;
@@ -38,7 +50,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     init();
     //init after connect
     initChart(UASManager::instance()->getActiveUAS());
-    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);
+    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);    
 }
 
 AQTelemetryView::~AQTelemetryView()
@@ -125,15 +137,33 @@ void AQTelemetryView::init()
     }
 }
 
+void AQTelemetryView::chartReset(){
+    if (!uas)
+        return;
+
+    // stop telemetry
+    disconnect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)));
+    float freq = ui->combo_refreshRate->itemData(ui->combo_refreshRate->currentIndex()).toFloat();
+
+    // start telemetry
+    connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)));    
+    uas->startStopTelemetry(true, freq, 0);
+}
+
 void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
     float val;
     msec = 0;
 
+    // check refresh rate
+//    if (ui->combo_refreshRate->currentIndex() != this->currentRefreshRate){
+//        chartReset();
+//        this->currentRefreshRate = ui->combo_refreshRate->currentIndex();
+//    }
+
     for (int i=0; i < telemDataFields.size(); i++) {
         if (valIdx == telemDataFields[i].msgValueIndex) {
             val = getTelemValue(telemDataFields[i].valueIndex);
-
-            if (ui->tab_val_chart->isVisible()) {
+            if (ui->tab_val_chart->isVisible() && i < 3) {
                 QVariant var = QVariant::fromValue(val);
                 AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec);
             }
@@ -145,6 +175,5 @@ void AQTelemetryView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t value
     currentValuesF = &values;
     testValue = &value;
     currentValueType = TELEM_VALUETYPE_FLOAT;
-//    qDebug() << "run";
     getNewTelemetry(uasId, values.Index);
 }

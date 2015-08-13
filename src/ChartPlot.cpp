@@ -57,6 +57,8 @@ ChartPlot::ChartPlot(QWidget *parent):
     {
         colors.append(baseColors[i]);
     }
+
+    styleChanged();
 }
 
 ChartPlot::~ChartPlot()
@@ -90,9 +92,8 @@ void ChartPlot::shuffleColors()
     }
 }
 
-void ChartPlot::styleChanged(int style)
-{
-    Q_UNUSED(style);
+void ChartPlot::styleChanged()
+{    
     QColor minPen(0x8C, 0x8C, 0x8C, 150);
     QColor majPen(0xB7, 0xB7, 0xB7, 150);
     QColor rbPen(0xB8, 0xD3, 0xE6);

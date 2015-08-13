@@ -55,27 +55,27 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     curvesWidget->setLayout(curvesWidgetLayout);
     ListItems = new QList<QString>;
     // Create curve list headings
-    QLabel* label;
-    QLabel* value;
+//    QLabel* label;
+//    QLabel* value;
 
-    int labelRow = curvesWidgetLayout->rowCount();
+//    int labelRow = curvesWidgetLayout->rowCount();
 
-    selectAllCheckBox = new QCheckBox("", this);
-    connect(selectAllCheckBox, SIGNAL(clicked(bool)), this, SLOT(selectAllCurves(bool)));
-    curvesWidgetLayout->addWidget(selectAllCheckBox, labelRow, 0, 1, 2);
+//    selectAllCheckBox = new QCheckBox("", this);
+//    connect(selectAllCheckBox, SIGNAL(clicked(bool)), this, SLOT(selectAllCurves(bool)));
+//    curvesWidgetLayout->addWidget(selectAllCheckBox, labelRow, 0, 1, 2);
 
     // Name
-    label = new QLabel(this);
-    label->setText("Name");
-    label->setStyleSheet("font-size:12px");
-    curvesWidgetLayout->addWidget(label, labelRow, 2);
+//    label = new QLabel(this);
+//    label->setText("Name");
+//    label->setStyleSheet("font-size:12px");
+//    curvesWidgetLayout->addWidget(label, labelRow, 2);
 
     // Value
-    value = new QLabel(this);
-    value->setText("Value");
-    value->setStyleSheet("font-size:12px");
-    value->setAlignment(Qt::AlignCenter);
-    curvesWidgetLayout->addWidget(value, labelRow, 3);
+//    value = new QLabel(this);
+//    value->setText("Value");
+//    value->setStyleSheet("font-size:12px");
+//    value->setAlignment(Qt::AlignCenter);
+//    curvesWidgetLayout->addWidget(value, labelRow, 3);
 
     // Create the layout of chart
     createLayout();
@@ -146,7 +146,7 @@ void AQLinechartWidget::createLayout()
     layout->setMargin(2);
 
     // Create plot container widget
-    activePlot = new LinechartPlot(this, sysid);
+    activePlot = new LinechartPlot(this, sysid);    
     // Activate automatic scrolling
     activePlot->setAutoScroll(true);
 
@@ -190,7 +190,7 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         {
             if (!isDouble)
                 intData.insert(curve+unit, 0);
-            addCurve(curve, unit);
+//            addCurve(curve, unit);
         }
         // Add int data
         if (!isDouble)
@@ -242,63 +242,63 @@ void AQLinechartWidget::setAverageWindow(int windowSize)
  **/
 void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 {
-    LinechartPlot* plot = activePlot;
-    QCheckBox *checkBox;
-    QLabel* label;
-    QLabel* value;
+//    LinechartPlot* plot = activePlot;
+//    QCheckBox *checkBox;
+//    QLabel* label;
+//    QLabel* value;
 
-    curveNames.insert(curve+unit, curve);
-    curveUnits.insert(curve, unit);
-    ListItems->append(curve);
+//    curveNames.insert(curve+unit, curve);
+//    curveUnits.insert(curve, unit);
+//    ListItems->append(curve);
 
-    int labelRow = curvesWidgetLayout->rowCount();
+//    int labelRow = curvesWidgetLayout->rowCount();
 
-    checkBox = new QCheckBox(this);
-    checkBoxes.insert(curve+unit, checkBox);
-    checkBox->setCheckable(true);
-    checkBox->setObjectName(curve+unit);
-    checkBox->setToolTip(tr("Enable the curve in the graph window"));
-    checkBox->setWhatsThis(tr("Enable the curve in the graph window"));
+//    checkBox = new QCheckBox(this);
+//    checkBoxes.insert(curve+unit, checkBox);
+//    checkBox->setCheckable(true);
+//    checkBox->setObjectName(curve+unit);
+//    checkBox->setToolTip(tr("Enable the curve in the graph window"));
+//    checkBox->setWhatsThis(tr("Enable the curve in the graph window"));
 
-    curvesWidgetLayout->addWidget(checkBox, labelRow, 0);
+//    curvesWidgetLayout->addWidget(checkBox, labelRow, 0);
 
-    QWidget* colorIcon = new QWidget(this);
-    colorIcons.insert(curve+unit, colorIcon);
-    colorIcon->setMinimumSize(5, 14);
-    colorIcon->setMaximumSize(5, 14);
+//    QWidget* colorIcon = new QWidget(this);
+//    colorIcons.insert(curve+unit, colorIcon);
+//    colorIcon->setMinimumSize(5, 14);
+//    colorIcon->setMaximumSize(5, 14);
 
-    curvesWidgetLayout->addWidget(colorIcon, labelRow, 1);
+//    curvesWidgetLayout->addWidget(colorIcon, labelRow, 1);
 
-    label = new QLabel(this);
-    label->setText(curve);
-    curvesWidgetLayout->addWidget(label, labelRow, 2);
+//    label = new QLabel(this);
+//    label->setText(curve);
+//    curvesWidgetLayout->addWidget(label, labelRow, 2);
 
-    QColor color(Qt::gray);
-    QString colorstyle;
-    colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
-    colorIcon->setStyleSheet(colorstyle);
-    colorIcon->setAutoFillBackground(true);
+//    QColor color(Qt::gray);
+//    QString colorstyle;
+//    colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
+//    colorIcon->setStyleSheet(colorstyle);
+//    colorIcon->setAutoFillBackground(true);
 
     // Label
-    curveNameLabels.insert(curve+unit, label);
+//    curveNameLabels.insert(curve+unit, label);
 
     // Value
-    value = new QLabel(this);
-    value->setNum(0.00);
-    value->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold;}"));
-    value->setToolTip(tr("Current value of %1 in %2 units").arg(curve, unit));
-    value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
-    curveLabels->insert(curve+unit, value);
-    curvesWidgetLayout->addWidget(value, labelRow, 3);
+//    value = new QLabel(this);
+//    value->setNum(0.00);
+//    value->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold;}"));
+//    value->setToolTip(tr("Current value of %1 in %2 units").arg(curve, unit));
+//    value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
+//    curveLabels->insert(curve+unit, value);
+//    curvesWidgetLayout->addWidget(value, labelRow, 3);
 
     // Connect actions
-    connect(selectAllCheckBox, SIGNAL(clicked(bool)), checkBox, SLOT(setChecked(bool)));
-    QObject::connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(takeButtonClick(bool)));
-    QObject::connect(this, SIGNAL(curveVisible(QString, bool)), plot, SLOT(setVisibleById(QString, bool)));
+//    connect(selectAllCheckBox, SIGNAL(clicked(bool)), checkBox, SLOT(setChecked(bool)));
+//    QObject::connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(takeButtonClick(bool)));
+//    QObject::connect(this, SIGNAL(curveVisible(QString, bool)), plot, SLOT(setVisibleById(QString, bool)));
 
     // Set UI components to initial state
-    checkBox->setChecked(false);
-    plot->setVisibleById(curve+unit, false);
+//    checkBox->setChecked(false);
+//    plot->setVisibleById(curve+unit, false);
 }
 
 /**
