@@ -38,7 +38,6 @@
 #include "mavlinkprotocol.h"
 #include "uavconfig.h"
 #include "parameterinterface.h"
-#include "uasinfowidget.h"
 #include "aqpramwidget.h"
 #include "compasswidget.h"
 #include "hudwidget.h"
@@ -120,13 +119,6 @@ void MainWindow::initActionsConnections()
     ui->actionConnect->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
 
-    //Add Widget: Status Detail : test
-    infoDockWidget = new QDockWidget(tr("Status Details"), this);
-    infoDockWidget->setWidget( new UASInfoWidget(this));
-    infoDockWidget->setObjectName("UAS_STATUS_DETAILS_DOCKWIDGET");
-    addTool(infoDockWidget, tr("Status Details"), Qt::LeftDockWidgetArea);
-    infoDockWidget->hide();
-
     //Add Widget: OnBoard Parameter: test
     parametersDockWidget = new QDockWidget(tr("Onboard Parameters"), this);
     parametersDockWidget->setWidget( new ParameterInterface(this) );
@@ -155,20 +147,20 @@ void MainWindow::initActionsConnections()
     view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
     view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
     ui->scrollArea_3D->setWidget(container);
+//    ui->scrollArea_heading->setStyleSheet(QString("border-image: url(qrc:/images/hudBackground.png);"));
 
+    ui->scrollArea_heading->setStyleSheet(QString("border-radius: 10px;"));
     /*
      * ===== Toolbar Status =====
      */
 
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status."));
-    toolBarTimeoutLabel->setObjectName("toolBarTimeoutLabel");
     toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold; }"));
     ui->mainToolBar->addWidget(toolBarTimeoutLabel);
 
     toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
     toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
-    toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
     toolBarSafetyLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold; }"));
     ui->mainToolBar->addWidget(toolBarSafetyLabel);
 
@@ -178,7 +170,6 @@ void MainWindow::initActionsConnections()
     toolBarBatteryBar->setMinimumWidth(20);
     toolBarBatteryBar->setMaximumWidth(100);
     toolBarBatteryBar->setToolTip(tr("Battery charge level"));
-    toolBarBatteryBar->setObjectName("toolBarBatteryBar");
     toolBarBatteryBar->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold;}"));
 
     ui->mainToolBar->addWidget(toolBarBatteryBar);
@@ -279,6 +270,7 @@ void MainWindow::addLinkImmediately()
         else
         {
             MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please plugin your device to begin."));
+
         }
     }
     else
@@ -329,14 +321,13 @@ void MainWindow::setActiveUAS(UASInterface *uas)
     if (uas == NULL) return;
 
     connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
-    //    //update battery
+    ///update battery
     connect(uas, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
-    //    //update arm or not
+    ///update arm or not
     connect(uas, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
-
+    ///update heartbeat
     connect(uas,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
-
-    //    //update value
+    ///update value
     systemArmed = uas->isArmed();
 }
 
@@ -364,16 +355,6 @@ void MainWindow::UASCreated(UASInterface* uas)
         return;
 
     connect(uas, SIGNAL(systemSpecsChanged(int)), this, SLOT(UASSpecsChanged(int)));
-
-    if (infoDockWidget)
-    {
-        UASInfoWidget *infoWidget = dynamic_cast<UASInfoWidget*>(infoDockWidget->widget());
-        if (infoWidget)
-        {
-            infoWidget->addUAS(uas);
-            infoWidget->refresh();
-        }
-    }
 }
 
 void MainWindow::UASDeleted(UASInterface *uas)
@@ -461,6 +442,9 @@ void MainWindow::updateArmingState(bool armed)
     updateView();
 }
 
+/*
+ * Load style sheet
+ */
 void MainWindow::loadStyle()
 {
     QString path = "/styles/";
@@ -478,11 +462,9 @@ void MainWindow::loadStyle()
     {
         QString style = QString(styleSheet->readAll());
         qApp->setStyleSheet(style);
-//        styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
-
     }
     else
-        showCriticalMessage(tr("VSKConfigUAV did not load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
+        showCriticalMessage(tr("VSKConfigUAV cann't load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
 
     delete styleSheet;
 }

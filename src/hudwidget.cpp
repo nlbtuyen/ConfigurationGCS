@@ -261,11 +261,11 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     QPointF hzonLeft = QPoint(minx, 0);
     QPointF hzonRight = QPoint(maxx, 0);
 
-//    QPainterPath skyPath;
-//    //@Leo: sky circle
-//    skyPath.moveTo(0,0);
-//    skyPath.arcTo(minx,miny,width,height,0,180);
-//    skyPath.closeSubpath();
+    ///@Leo: sky circle
+    //    QPainterPath skyPath;
+    //    skyPath.moveTo(0,0);
+    //    skyPath.arcTo(minx,miny,width,height,0,180);
+    //    skyPath.closeSubpath();
     QPainterPath skyPath(hzonLeft);
     skyPath.lineTo(QPointF(minx, miny));
     skyPath.lineTo(QPointF(maxx, miny));
@@ -278,17 +278,16 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     QBrush skyBrush(skyGradient);
     painter.fillPath(skyPath, skyBrush);
 
-//    QPainterPath groundPath;
-//    //@Leo: groundPath circle
-//    groundPath.moveTo(0,0);
-//    groundPath.arcTo(minx,miny,width,height,180,180);
-//    groundPath.closeSubpath();
+    ///@Leo: groundPath circle
+    //    QPainterPath groundPath;
+    //    groundPath.moveTo(0,0);
+    //    groundPath.arcTo(minx,miny,width,height,180,180);
+    //    groundPath.closeSubpath();
     QPainterPath groundPath(hzonRight);
     groundPath.lineTo(maxx, maxy);
     groundPath.lineTo(minx, maxy);
     groundPath.lineTo(hzonLeft);
     groundPath.closeSubpath();
-
 
     QLinearGradient groundGradient(0, gradientEnd, 0, 0);
     groundGradient.setColorAt(0, QColor::fromHsvF(0.25, 1, 0.5));
@@ -296,15 +295,14 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     QBrush groundBrush(groundGradient);
     painter.fillPath(groundPath, groundBrush);
 
+    ///Green Middle Line
     QPen pen;
     pen.setWidthF(lineWidth);
     pen.setColor(greenColor);
     painter.setPen(pen);
-
     QPointF start(-mainArea.width(), 0);
     QPoint end(mainArea.width(), 0);
     painter.drawLine(start, end);
-
 }
 
 void HUDWidget::drawAIAirframeFixedFeatures(QPainter &painter, QRectF area)
@@ -396,7 +394,7 @@ void HUDWidget::drawPitchScale(QPainter &painter, QRectF area, float intrusion, 
     }
 }
 
-//Ve Roll - Compass goi
+//Ve Roll - Vong cung
 void HUDWidget::drawRollScale(QPainter &painter, QRectF area, bool drawTicks, bool drawNumbers)
 {
     qreal w = area.width();
@@ -445,7 +443,7 @@ void HUDWidget::drawAIAttitudeScales(QPainter &painter, QRectF area, float intru
 
     drawRollScale(painter, area, true, true); //vong cung
     painter.setTransform(saved);
-    drawPitchScale(painter, area, intrusion, true, true); //doc
+    drawPitchScale(painter, area, intrusion, true, true); //line doc
 }
 
 inline qreal tapesGaugeWidthFor(qreal containerWidth, qreal preferredAIWidth) {
@@ -492,7 +490,6 @@ void HUDWidget::doPaint()
                     width(),
                     height() - panelsHeight) : AIMainArea;
 
-
     bool hadClip = painter.hasClipping();
     painter.setClipping(true);
     painter.setClipRect(AIPaintArea);
@@ -502,6 +499,47 @@ void HUDWidget::doPaint()
     //@Leo: Ve compass tren
     drawAIAttitudeScales(painter, AIMainArea, compassAIIntrusion);
     drawAIAirframeFixedFeatures(painter, AIMainArea);
+
+    QRectF area = QRectF(-85,-85,170,170);
+    painter.setBrush(instrumentBackground);
+    painter.setPen(instrumentEdgePen);
+    painter.drawEllipse(area);
+
+    ///circle of widget
+    QBrush color(QColor(228,219,191));
+    QPointF top = QPoint(0,-85);
+    QPointF right = QPoint(85,0);
+    QPointF bottom = QPoint(0,85);
+    QPointF left = QPoint(-85,0);
+    QRectF rect = QRect(-85,-85,170,170);
+
+    //Top Right
+    QPainterPath topRight(top);
+    topRight.lineTo(85,-85);
+    topRight.lineTo(right);
+    topRight.arcTo(rect,0,90.0);
+    painter.fillPath(topRight,color);
+
+    //Top Left
+    QPainterPath topLeft(left);
+    topLeft.lineTo(-85,-85);
+    topLeft.lineTo(top);
+    topLeft.arcTo(rect,90,90);
+    painter.fillPath(topLeft,color);
+
+    //Bottom Left
+    QPainterPath bottomLeft(bottom);
+    bottomLeft.lineTo(-85,85);
+    bottomLeft.lineTo(left);
+    bottomLeft.arcTo(rect,180.0,90.0);
+    painter.fillPath(bottomLeft,color);
+
+    //Bottom Right
+    QPainterPath bottomRight(right);
+    bottomRight.lineTo(85,85);
+    bottomRight.lineTo(bottom);
+    bottomRight.arcTo(rect,270,90);
+    painter.fillPath(bottomRight,color);
 
     painter.setClipping(hadClip);
     painter.end();

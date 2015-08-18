@@ -247,21 +247,20 @@ void CompassWidget::drawAICompassDisk(QPainter &painter, QRectF area, float half
         {
             if (displayTick % COMPASS_DISK_ARROWTICK == 0)
             {
-                if (displayTick!=0)
+                //draw arrow
+                QPainterPath markerPath(QPointF(0, -innerRadius*(1-COMPASS_DISK_MARKERHEIGHT/2)));
+                markerPath.lineTo(innerRadius*COMPASS_DISK_MARKERWIDTH/4, -innerRadius);
+                markerPath.lineTo(-innerRadius*COMPASS_DISK_MARKERWIDTH/4, -innerRadius);
+                markerPath.closeSubpath();
+                painter.setPen(scalePen);
+                painter.setBrush(Qt::SolidPattern);
+                painter.drawPath(markerPath);
+                painter.setBrush(Qt::NoBrush);
+                drewArrow = true;
+
+                if ((displayTick%90 == 0))
                 {
-                    QPainterPath markerPath(QPointF(0, -innerRadius*(1-COMPASS_DISK_MARKERHEIGHT/2)));
-                    markerPath.lineTo(innerRadius*COMPASS_DISK_MARKERWIDTH/4, -innerRadius);
-                    markerPath.lineTo(-innerRadius*COMPASS_DISK_MARKERWIDTH/4, -innerRadius);
-                    markerPath.closeSubpath();
-                    painter.setPen(scalePen);
-                    painter.setBrush(Qt::SolidPattern);
-                    painter.drawPath(markerPath);
-                    painter.setBrush(Qt::NoBrush);
-                    drewArrow = true;
-                }
-                if (displayTick%90 == 0)
-                {
-                    // Also draw a label
+                    // Also draw a label for 0 90 180 && 270
                     QString name = compassWindNames[displayTick / 45];
                     painter.setPen(scalePen);
                     drawTextCenter(painter, name, LeoTextSize, 0, -innerRadius*0.75);
@@ -287,13 +286,12 @@ void CompassWidget::drawAICompassDisk(QPainter &painter, QRectF area, float half
 
     qreal digitalCompassYCenter = -radius*0.52;
     qreal digitalCompassHeight = radius*0.28;
-
     QPointF digitalCompassBottom(0, digitalCompassYCenter+digitalCompassHeight);
     QPointF  digitalCompassAbsoluteBottom = painter.transform().map(digitalCompassBottom);
-
     qreal digitalCompassUpshift = digitalCompassAbsoluteBottom.y()>height() ? digitalCompassAbsoluteBottom.y()-height() : 0;
-
     QRectF digitalCompassRect(-radius/3, -radius*0.52-digitalCompassUpshift, radius*2/3, radius*0.28);
+
+    ///draw rect cover center number
     painter.setPen(instrumentEdgePen);
     painter.drawRoundedRect(digitalCompassRect, instrumentEdgePen.widthF()*2/3, instrumentEdgePen.widthF()*2/3);
 
@@ -311,31 +309,6 @@ void CompassWidget::drawAICompassDisk(QPainter &painter, QRectF area, float half
 
     drawTextCenter(painter, s_digitalCompass, LeoTextSize, 0, -radius*0.38-digitalCompassUpshift);
 
-    // The CDI
-    if (shouldDisplayNavigationData() && navigationTargetBearing != UNKNOWN_ATTITUDE && !isinf(navigationCrosstrackError)) {
-        painter.resetTransform();
-        painter.translate(area.center());
-        bool errorBeyondRadius = false;
-        if (abs(navigationCrosstrackError) > CROSSTRACK_MAX) {
-            errorBeyondRadius = true;
-            navigationCrosstrackError = navigationCrosstrackError>0 ? CROSSTRACK_MAX : -CROSSTRACK_MAX;
-        }
-
-        float r = radius * CROSSTRACK_RADIUS;
-        float x = navigationCrosstrackError / CROSSTRACK_MAX * r;
-        float y = qSqrt(r*r - x*x); // the positive y, there is also a negative.
-
-        float sillyHeading = 0;
-        float angle = sillyHeading - navigationTargetBearing;
-        painter.rotate(-angle);
-
-        QPen pen;
-        pen.setWidthF(lineWidth);
-        pen.setColor(Qt::black);
-        painter.setPen(pen);
-
-        painter.drawLine(QPointF(x, y), QPointF(x, -y));
-    }
 }
 
 /*

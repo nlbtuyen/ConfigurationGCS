@@ -38,5 +38,6 @@
         <file>images/background2.png</file>
         <file>images/configurationBackground.PNG</file>
         <file>images/drone_texture.png</file>
+        <file>images/hudBackground.png</file>
     </qresource>
 </RCC>

@@ -178,13 +178,6 @@ void UASManager::wgs84ToEnu(const double& lat, const double& lon, const double& 
     *up = enu.z();
 }
 
-//void UASManager::wgs84ToNed(const double& lat, const double& lon, const double& alt, double* north, double* east, double* down)
-//{
-
-//}
-
-
-
 void UASManager::enuToWgs84(const double& x, const double& y, const double& z, double* lat, double* lon, double* alt)
 {
     *lat=homeLat+y/MEAN_EARTH_DIAMETER*360./PI;
@@ -225,7 +218,7 @@ void UASManager::uavChangedHomePosition(int uav, double lat, double lon, double 
 }
 
 /**
- * @brief Private singleton constructor
+ *   Private singleton constructor
  *
  * This class implements the singleton design pattern and has therefore only a private constructor.
  **/

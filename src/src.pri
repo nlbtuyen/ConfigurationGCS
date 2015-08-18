@@ -16,7 +16,6 @@ SOURCES +=  src/main.cpp\
             src/mavlinkuasfactory.cpp \
             src/seriallink.cpp \
             src/mavlinkdecoder.cpp \
-            src/uasinfowidget.cpp \
             src/aq_telemetryView.cpp \
             src/aqlinechartwidget.cpp \
             src/ChartPlot.cpp \
@@ -48,7 +47,6 @@ HEADERS  += src/mainwindow.h \
             src/seriallink.h \
             src/seriallinkinterface.h \
             src/mavlinkdecoder.h \
-            src/uasinfowidget.h \
             src/mg.h \
             src/aq_telemetryView.h \
             src/aqlinechartwidget.h \

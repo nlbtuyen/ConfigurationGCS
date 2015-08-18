@@ -172,8 +172,6 @@ AQParamWidget::AQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     connect(&retransmissionTimer, SIGNAL(timeout()), this, SLOT(retransmissionGuardTick()));
 
     retranslateUi();
-    // Get parameters
-    //if (uas_ext) requestParameterList();
 }
 
 AQParamWidget::~AQParamWidget() {

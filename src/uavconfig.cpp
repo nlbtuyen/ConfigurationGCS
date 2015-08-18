@@ -204,7 +204,7 @@ void UAVConfig::getGUIPara(QWidget *parent)
             else
                 cb->setCurrentIndex(abs(val.toInt(&ok)));
         } else if (QSlider* prb = qobject_cast<QSlider *>(w)) {
-            //@Zyrter Fix here to change display value
+            // Fix here to change display value
             if(val.toFloat() < 0.01){
                 prb->setValue((int)(val.toFloat()*100/0.01));
             } else if (val.toFloat() < 1) {
