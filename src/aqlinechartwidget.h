@@ -30,6 +30,7 @@ class AQLinechartWidget : public QWidget
 public:
     AQLinechartWidget(int systemid, QWidget *parent = 0);
     ~AQLinechartWidget();
+    void setCurveVisible(QString curve, bool visible); //@trung
 
     static const int MIN_TIME_SCROLLBAR_VALUE = 0; ///< The minimum scrollbar value
     static const int MAX_TIME_SCROLLBAR_VALUE = 16383; ///< The maximum scrollbar value
@@ -48,7 +49,7 @@ public slots:
     /** Set short names for curves */
     void setShortNames(bool enable);
     /** Append double data to the given curve. */
-    void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec);
+    void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec, bool isRunning, int row);
 
     void takeButtonClick(bool checked);
     void setPlotWindowPosition(int scrollBarValue);
@@ -73,7 +74,7 @@ public slots:
     void selectAllCurves(bool all);
 
 protected:
-    void addCurveToList(QString curve);
+    void addCurveToList(QString curve, double value, bool isRunning, int row);
     void removeCurveFromList(QString curve);
     QToolButton* createButton(QWidget* parent);
     void createCurveItem(QString curve);
@@ -93,9 +94,6 @@ protected:
     QMap<QString, QLabel*>* curveLabels;  ///< References to the curve labels
     QMap<QString, QLabel*> curveNameLabels;  ///< References to the curve labels
     QMap<QString, QString> curveNames;    ///< Full curve names
-    QMap<QString, QLabel*>* curveMeans;   ///< References to the curve means
-    QMap<QString, QLabel*>* curveMedians; ///< References to the curve medians
-    QMap<QString, QLabel*>* curveVariances; ///< References to the curve variances
     QMap<QString, int> intData;           ///< Current values for integer-valued curves
     QMap<QString, QWidget*> colorIcons;    ///< Reference to color icons
     QMap<QString, QCheckBox*> checkBoxes;    ///< Reference to curve selection checkboxes
@@ -114,7 +112,7 @@ protected:
 
     QTimer* updateTimer;
     QCheckBox* selectAllCheckBox;
-    int selectedMAV; ///< The MAV for which plot items are accepted, -1 for all systems
+    int selectedMAV; ///< The MAV for which plot items are accepted, -1 for all systems    
 
 private:
     Ui::AQLinechart ui;

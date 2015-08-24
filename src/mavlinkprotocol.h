@@ -23,123 +23,123 @@ public:
     MAVLinkProtocol();
     ~MAVLinkProtocol();
 
-    /** @brief Get the human-friendly name of this protocol */
+    /**  Get the human-friendly name of this protocol */
     QString getName();
-    /** @brief Get the system id of this application */
+    /**  Get the system id of this application */
     int getSystemId();
-    /** @brief Get the component id of this application */
+    /**  Get the component id of this application */
     int getComponentId();
-    /** @brief The auto heartbeat emission rate in Hertz */
+    /**  The auto heartbeat emission rate in Hertz */
     int getHeartbeatRate();
-    /** @brief Get heartbeat state */
+    /**  Get heartbeat state */
     bool heartbeatsEnabled() const {
         return m_heartbeatsEnabled;
     }
-    /** @brief Get logging state */
+    /**  Get logging state */
     bool loggingEnabled() const {
         return m_loggingEnabled;
     }
-    /** @brief Get protocol version check state */
+    /**  Get protocol version check state */
     bool versionCheckEnabled() const {
         return m_enable_version_check;
     }
-    /** @brief Get the multiplexing state */
+    /**  Get the multiplexing state */
     bool multiplexingEnabled() const {
         return m_multiplexingEnabled;
     }
-    /** @brief Get the authentication state */
+    /**  Get the authentication state */
     bool getAuthEnabled() {
         return m_authEnabled;
     }
-    /** @brief Get the protocol version */
+    /**  Get the protocol version */
     int getVersion() {
         return MAVLINK_VERSION;
     }
-    /** @brief Get the auth key */
+    /**  Get the auth key */
     QString getAuthKey() {
         return m_authKey;
     }
-    /** @brief Get the name of the packet log file */
+    /**  Get the name of the packet log file */
     QString getLogfileName();
-    /** @brief Get state of parameter retransmission */
+    /**  Get state of parameter retransmission */
     bool paramGuardEnabled() {
         return m_paramGuardEnabled;
     }
-    /** @brief Get parameter read timeout */
+    /**  Get parameter read timeout */
     int getParamRetransmissionTimeout() {
         return m_paramRetransmissionTimeout;
     }
-    /** @brief Get parameter write timeout */
+    /**  Get parameter write timeout */
     int getParamRewriteTimeout() {
         return m_paramRewriteTimeout;
     }
-    /** @brief Get state of action retransmission */
+    /**  Get state of action retransmission */
     bool actionGuardEnabled() {
         return m_actionGuardEnabled;
     }
-    /** @brief Get parameter read timeout */
+    /**  Get parameter read timeout */
     int getActionRetransmissionTimeout() {
         return m_actionRetransmissionTimeout;
     }
 
 public slots:
-    /** @brief Receive bytes from a communication interface */
+    /**  Receive bytes from a communication interface */
     void receiveBytes(LinkInterface* link, QByteArray b);
-    /** @brief Send MAVLink message through serial interface */
+    /**  Send MAVLink message through serial interface */
     void sendMessage(mavlink_message_t message);
-    /** @brief Send MAVLink message */
+    /**  Send MAVLink message */
     void sendMessage(LinkInterface* link, mavlink_message_t message);
-    /** @brief Send MAVLink message with correct system / component ID */
+    /**  Send MAVLink message with correct system / component ID */
     void sendMessage(LinkInterface* link, mavlink_message_t message, quint8 systemid, quint8 componentid);
-    /** @brief Set the rate at which heartbeats are emitted */
+    /**  Set the rate at which heartbeats are emitted */
     void setHeartbeatRate(int rate);
-    /** @brief Set the system id of this application */
+    /**  Set the system id of this application */
     void setSystemId(int id);
 
-    /** @brief Enable / disable the heartbeat emission */
+    /**  Enable / disable the heartbeat emission */
     void enableHeartbeats(bool enabled);
 
-    /** @brief Enable/disable binary packet logging */
+    /**  Enable/disable binary packet logging */
     void enableLogging(bool enabled);
 
-    /** @brief Enabled/disable packet multiplexing */
+    /**  Enabled/disable packet multiplexing */
     void enableMultiplexing(bool enabled);
 
-    /** @brief Enable / disable parameter retransmission */
+    /**  Enable / disable parameter retransmission */
     void enableParamGuard(bool enabled);
 
-    /** @brief Enable / disable action retransmission */
+    /**  Enable / disable action retransmission */
     void enableActionGuard(bool enabled);
 
-    /** @brief Set parameter read timeout */
+    /**  Set parameter read timeout */
     void setParamRetransmissionTimeout(int ms);
 
-    /** @brief Set parameter write timeout */
+    /**  Set parameter write timeout */
     void setParamRewriteTimeout(int ms);
 
-    /** @brief Set parameter read timeout */
+    /**  Set parameter read timeout */
     void setActionRetransmissionTimeout(int ms);
 
-    /** @brief Set log file name */
+    /**  Set log file name */
     void setLogfileName(const QString& filename);
 
-    /** @brief Enable / disable version check */
+    /**  Enable / disable version check */
     void enableVersionCheck(bool enabled);
 
-    /** @brief Enable / disable authentication */
+    /**  Enable / disable authentication */
     void enableAuth(bool enable);
 
-    /** @brief Set authentication token */
+    /**  Set authentication token */
     void setAuthKey(QString key) {
         m_authKey = key;
     }
 
-    /** @brief Send an extra heartbeat to all connected units */
+    /**  Send an extra heartbeat to all connected units */
     void sendHeartbeat();
 
-    /** @brief Load protocol settings */
+    /**  Load protocol settings */
     void loadSettings();
-    /** @brief Store protocol settings */
+    /**  Store protocol settings */
     void storeSettings();
 
 protected:
@@ -167,33 +167,33 @@ protected:
     int systemId;
 
 signals:
-    /** @brief Message received and directly copied via signal */
+    /**  Message received and directly copied via signal */
     void messageReceived(LinkInterface* link, mavlink_message_t message);
-    /** @brief Emitted if heartbeat emission mode is changed */
+    /**  Emitted if heartbeat emission mode is changed */
     void heartbeatChanged(bool heartbeats);
-    /** @brief Emitted if logging is started / stopped */
+    /**  Emitted if logging is started / stopped */
     void loggingChanged(bool enabled);
-    /** @brief Emitted if multiplexing is started / stopped */
+    /**  Emitted if multiplexing is started / stopped */
     void multiplexingChanged(bool enabled);
-    /** @brief Emitted if authentication support is enabled / disabled */
+    /**  Emitted if authentication support is enabled / disabled */
     void authKeyChanged(QString key);
-    /** @brief Authentication changed */
+    /**  Authentication changed */
     void authChanged(bool enabled);
-    /** @brief Emitted if version check is enabled / disabled */
+    /**  Emitted if version check is enabled / disabled */
     void versionCheckChanged(bool enabled);
-    /** @brief Emitted if a message from the protocol should reach the user */
+    /**  Emitted if a message from the protocol should reach the user */
     void protocolStatusMessage(const QString& title, const QString& message);
-    /** @brief Emitted if a new system ID was set */
+    /**  Emitted if a new system ID was set */
     void systemIdChanged(int systemId);
-    /** @brief Emitted if param guard status changed */
+    /**  Emitted if param guard status changed */
     void paramGuardChanged(bool enabled);
-    /** @brief Emitted if param read timeout changed */
+    /**  Emitted if param read timeout changed */
     void paramRetransmissionTimeoutChanged(int ms);
-    /** @brief Emitted if param write timeout changed */
+    /**  Emitted if param write timeout changed */
     void paramRewriteTimeoutChanged(int ms);
-    /** @brief Emitted if action guard status changed */
+    /**  Emitted if action guard status changed */
     void actionGuardChanged(bool enabled);
-    /** @brief Emitted if actiion request timeout changed */
+    /**  Emitted if actiion request timeout changed */
     void actionRetransmissionTimeoutChanged(int ms);
 };
 

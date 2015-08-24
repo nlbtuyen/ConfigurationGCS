@@ -131,12 +131,6 @@ public:
     quint64 getDataInterval();
     quint64 getWindowPosition();
 
-    /** Get the short-term mean of a curve */
-    double getMean(QString id);
-    /** Get the short-term median of a curve */
-    double getMedian(QString id);
-    /** Get the short-term variance of a curve */
-    double getVariance(QString id);
     /** Get the last inserted value */
     double getCurrentValue(QString id);
 

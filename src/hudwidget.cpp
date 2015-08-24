@@ -18,7 +18,6 @@
 #define isnan(x) ((x)!=(x))
 #endif
 
-
 #define LINEWIDTH 0.0036f
 #define SMALL_TEXT_SIZE 0.03f
 #define MEDIUM_TEXT_SIZE (SMALL_TEXT_SIZE*1.2f)
@@ -261,11 +260,7 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     QPointF hzonLeft = QPoint(minx, 0);
     QPointF hzonRight = QPoint(maxx, 0);
 
-    ///@Leo: sky circle
-    //    QPainterPath skyPath;
-    //    skyPath.moveTo(0,0);
-    //    skyPath.arcTo(minx,miny,width,height,0,180);
-    //    skyPath.closeSubpath();
+    //Sky
     QPainterPath skyPath(hzonLeft);
     skyPath.lineTo(QPointF(minx, miny));
     skyPath.lineTo(QPointF(maxx, miny));
@@ -278,11 +273,7 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     QBrush skyBrush(skyGradient);
     painter.fillPath(skyPath, skyBrush);
 
-    ///@Leo: groundPath circle
-    //    QPainterPath groundPath;
-    //    groundPath.moveTo(0,0);
-    //    groundPath.arcTo(minx,miny,width,height,180,180);
-    //    groundPath.closeSubpath();
+    //Ground
     QPainterPath groundPath(hzonRight);
     groundPath.lineTo(maxx, maxy);
     groundPath.lineTo(minx, maxy);
@@ -295,7 +286,7 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
     QBrush groundBrush(groundGradient);
     painter.fillPath(groundPath, groundBrush);
 
-    ///Green Middle Line
+    //Green Middle Line
     QPen pen;
     pen.setWidthF(lineWidth);
     pen.setColor(greenColor);
@@ -501,11 +492,10 @@ void HUDWidget::doPaint()
     drawAIAirframeFixedFeatures(painter, AIMainArea);
 
     QRectF area = QRectF(-85,-85,170,170);
-    painter.setBrush(instrumentBackground);
     painter.setPen(instrumentEdgePen);
     painter.drawEllipse(area);
 
-    ///circle of widget
+    ///@Leo: circle of widget
     QBrush color(QColor(228,219,191));
     QPointF top = QPoint(0,-85);
     QPointF right = QPoint(85,0);

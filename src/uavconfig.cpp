@@ -60,6 +60,9 @@ UAVConfig::UAVConfig(QWidget *parent) :
     ui->scrollArea_Charts->setWidget(aqtelemetry);
 
     updateButtonView();
+
+    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
+    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
 }
 
 UAVConfig::~UAVConfig()
@@ -98,33 +101,15 @@ void UAVConfig::loadParametersToUI()
 
     QVariant val;
     getGUIPara(ui->tab_aq_setting);
-    //ui->groupBox_roll_angle->setDisabled(1);
-    // convert old radio type value if switching to new system
 
-    //    if (useRadioSetupParam && paramaq->getParaAQ("RADIO_SETUP").toInt() == 0 && paramaq->paramExistsAQ("RADIO_TYPE")) {
-    //        int idx = ui->RADIO_SETUP->findData(paramaq->getParaAQ("RADIO_TYPE").toInt() + 1);
-    //        ui->RADIO_SETUP->setCurrentIndex(idx);
-    //        //radioType_changed(idx);
-    //    }
+
     val = paramaq->getParaAQ("RADIO_SETUP");
-    //    uint8_t idx = val.toInt();
-    //    qDebug() << "RADIO SETUP " <<val;
     QMap<int, QString> radioTypes;
     radioTypes.insert(0, tr("No Radio"));
     radioTypes.insert(1, tr("Spektrum 11Bit"));
     radioTypes.insert(2, tr("Spektrum 10Bit"));
     radioTypes.insert(3, tr("S-BUS (Futaba, others)"));
     radioTypes.insert(4, tr("PPM"));
-
-    //    ui->RADIO_SETUP->blockSignals(true);
-    //    ui->RADIO_SETUP->clear();
-    //    QMapIterator<int, QString> i(radioTypes);
-    //    while (i.hasNext()) {
-    //        i.next();
-    //        ui->RADIO_SETUP->addItem(i.value(), i.key());
-    //    }
-    //    ui->RADIO_SETUP->setCurrentIndex(idx);
-    //    ui->RADIO_SETUP->blockSignals(false);
 
 }
 
@@ -153,73 +138,34 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
     bar->setValue(val);
 }
 
+/*
+ * @Leo: update UI
+ */
 void UAVConfig::getGUIPara(QWidget *parent)
 {
     Q_UNUSED(parent);
-    useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
-
-    bool ok;
-    //    int precision;
-    int tmp;
-    QString paraName;
-    //    QString valstr;
+    int precision = 6;
+    QString paraName; //parameter editted
+    QString valstr; //chuyen value -> string roi add vao QLineEdit
     QVariant val;
-    QLabel *paraLabel;
-    QWidget *paraContainer;
     QList<QWidget*> wdgtList = ui->tab_aq_setting->findChildren<QWidget *>(fldnameRx);
-    foreach (QWidget* w, wdgtList) {
-        //            qDebug() << "QWidget Name" <<w->objectName();
+    foreach (QWidget* w, wdgtList)
+    {
+        //get param name
         paraName = paramNameGuiToOnboard(w->objectName());
-        paraLabel = ui->tab_aq_setting->findChild<QLabel *>(QString("label_%1").arg(w->objectName()));
-        paraContainer = ui->tab_aq_setting->findChild<QWidget *>(QString("container_%1").arg(w->objectName()));
-
-        //            qDebug() << paraName;
-        //            qDebug() << paraLabel;
-        //            qDebug() << paraContainer;
-
+        //get param value
         val = paramaq->getParaAQ(paraName);
-        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL")
-            val = fabs(val.toFloat());
-        else if (paraName == "RADIO_SETUP")
-            val = val.toInt() & 0x0f;
 
-        //            qDebug() << val;
-
-        if (QComboBox* cb = qobject_cast<QComboBox *>(w)) {
-            //                qDebug() << "QComboBox" <<cb->objectName();
-            if (cb->isEditable()) {
-                //                    qDebug() << "Editable";
-                if ((tmp = cb->findText(val.toString())) > -1)
-                {
-                    cb->setCurrentIndex(tmp);
-                    //                        qDebug() << "Set Current Index";
-                }
-                else {
-                    cb->insertItem(0, val.toString());
-                    cb->setCurrentIndex(0);
-                }
-            }
-            else if ((tmp = cb->findData(val)) > -1)
-                cb->setCurrentIndex(tmp);
-            else
-                cb->setCurrentIndex(abs(val.toInt(&ok)));
-        } else if (QSlider* prb = qobject_cast<QSlider *>(w)) {
-            // Fix here to change display value
-            if(val.toFloat() < 0.01){
-                prb->setValue((int)(val.toFloat()*100/0.01));
-            } else if (val.toFloat() < 1) {
-                prb->setValue((int)(val.toFloat()*100));
-            }  else if (val.toFloat() < 10) {
-                prb->setValue((int)(val.toFloat()*100/10));
-            } else if (val.toFloat() < 100) {
-                prb->setValue((int)(val.toFloat()));
-            } else if (val.toFloat() < 1000) {
-                prb->setValue((int)(val.toFloat()*100/1000));
-            } else if (val.toFloat() < 10000) {
-                prb->setValue((int)(val.toFloat()*100/10000));
-            }
+        /*
+         * Update
+         */
+        if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
+        {
+            //change Float to String
+            valstr.setNum(val.toFloat(), 'g', precision);
+            le->setText(valstr);
+            le->setValidator(new QDoubleValidator(-1000000.0, 1000000.0, 8, le));
         }
-        else continue;
     }
 }
 
@@ -723,6 +669,20 @@ void UAVConfig::on_btn_OSD_clicked()
     updateButtonView();
 }
 
+void UAVConfig::setValueLineEdit(QString str)
+{
+    int val = str.toInt();
+    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
+}
+
+void UAVConfig::updateTextEdit(int i)
+{
+    i = i*1000/100;
+    QString str;
+    str.setNum(i, 10);
+    ui->CTRL_YAW_RTE_D->setText(str);
+}
+
 void UAVConfig::updateButtonView()
 {
     int index = ui->tab_aq_setting->currentIndex();
@@ -810,72 +770,4 @@ void UAVConfig::updateButtonView()
     }
         break;
     }
-
-//    if (index ==0) {
-
-//    }
-//    else if(index == 1)
-//    {
-//        ui->btn_MOTOR->setStyleSheet(QString("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa, stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);"));
-//        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff); padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px;} QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_IMU->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_PID->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_CHART->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_OSD->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//    }
-//    else if(index == 2)
-//    {
-//        ui->btn_IMU->setStyleSheet(QString("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa, stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);"));
-
-//        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff); padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px;} QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_MOTOR->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_PID->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_CHART->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_OSD->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//    }
-//    else if (index == 3)
-//    {
-//        ui->btn_PID->setStyleSheet(QString("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa, stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);"));
-//        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff); padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px;} QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_IMU->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_MOTOR->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_CHART->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_OSD->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//    }
-//    else if (index ==4)
-//    {
-//        ui->btn_CHART->setStyleSheet(QString("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa, stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);"));
-//        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff); padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px;} QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_IMU->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_PID->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_MOTOR->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_OSD->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//    }
-//    else if (index == 5)
-//    {
-//        ui->btn_UPGRADE->setStyleSheet(QString("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa, stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);"));
-//        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff); padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px;} QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_IMU->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_PID->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_CHART->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_MOTOR->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_OSD->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//    }
-//    else if( index == 6)
-//    {
-//        ui->btn_OSD->setStyleSheet(QString("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa, stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);"));
-//        ui->btn_RADIO->setStyleSheet(QString("QPushButton { background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff); padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px;} QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_IMU->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_PID->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_CHART->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_UPGRADE->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-//        ui->btn_MOTOR->setStyleSheet(QString("QPushButton {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff, stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);padding: 5px 15px 2px 5px; color: #006aff; height: 20px;width: 60px;border-style: outset;border-width: 1px;border-radius: 3px;padding: 6px; } QPushButton::hover {  background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);} QPushButton:pressed {background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff, stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff); padding-top: 2px; padding-left: 3px; }"));
-
-//    }
-
-
 }

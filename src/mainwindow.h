@@ -65,7 +65,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    /// @brief Returns the MainWindow singleton. Will not create the MainWindow if it has not already
+    ///   Returns the MainWindow singleton. Will not create the MainWindow if it has not already
     ///         been created.
     static MainWindow* instance(void);
 
@@ -107,6 +107,8 @@ protected:
     bool changed;
     bool systemArmed;
     QTimer updateViewTimer;
+    QTimer updateAddLink;
+    QTimer updateAddLinkImm;
 
     QPointer<QDockWidget> mavlinkSenderWidget;
     QPointer<QDockWidget> HeadingWidget;
@@ -137,7 +139,7 @@ protected:
     Drone drone;
 signals:
     /**
-     * @brief This signal is emitted instantly when the link is connected
+     *   This signal is emitted instantly when the link is connected
      **/
     void connected();
     void portError();
@@ -149,40 +151,39 @@ public slots:
 //    virtual void readData();
     void showTool(bool visible);
 
-    /** @brief Add a communication link */
+    /**   Add a communication link */
     void addLink();
     void addLink(LinkInterface* link);
     void addLinkImmediately();
 
-    /** @brief Shows an info or warning message */
+    /**   Shows an info or warning message */
     void showMessage(const QString &title, const QString &message, const QString &details, const QString severity = "info");
-    /** @brief Shows a critical message as popup or as widget */
+    /**   Shows a critical message as popup or as widget */
     void showCriticalMessage(const QString& title, const QString& message);
 
-    /** @brief Set the system state */
+    /**   Set the system state */
     void updateState(UASInterface* system, QString name, QString description);
 
-    /** @brief Add a new UAS */
+    /**   Add a new UAS */
     void UASCreated(UASInterface* uas);
-    /** @brief Set the system that is currently displayed by this widget */
+    /**   Set the system that is currently displayed by this widget */
     void setActiveUAS(UASInterface* active);
-    /** @brief Update system specs of a UAS */
+    /**   Update system specs of a UAS */
     void UASSpecsChanged(int uas);
     /** Delete an UAS */
     void UASDeleted(UASInterface* uas);
 
 
-    /** @brief Repaint widgets */
-    void updateView();
+    /**   Repaint widgets */
+    void updateToolBarView();
     void updateBattery();
     void closeSerialPort();
 
-
-    /** @brief Update connection timeout time */
+    /**   Update connection timeout time */
     void heartbeatTimeout(bool timeout, unsigned int ms);
-    /** @brief Update battery charge state */
+    /**   Update battery charge state */
     void updateBatteryRemaining(UASInterface* uas, double voltage, double percent, int seconds);
-    /** @brief Update arming state */
+    /**   Update arming state */
     void updateArmingState(bool armed);
 
     void loadStyle();
@@ -190,7 +191,5 @@ public slots:
 public:
     Ui::MainWindow *ui;
 };
-
-//Q_DECLARE_METATYPE( initActionsConnections )
 
 #endif // MAINWINDOW_H

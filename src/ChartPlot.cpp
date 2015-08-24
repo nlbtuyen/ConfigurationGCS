@@ -32,7 +32,7 @@ ChartPlot::ChartPlot(QWidget *parent):
     QwtPlot(parent),
     nextColorIndex(0),
     symbolWidth(4.0f),
-    curveWidth(1.0f),
+    curveWidth(2.0f),
     gridWidth(0.8f),
     zoomerWidth(2.0f)
 {

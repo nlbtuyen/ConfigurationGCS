@@ -170,7 +170,8 @@ void AQLinechartWidget::createLayout()
     connect(this, SIGNAL(plotWindowPositionUpdated(quint64)), activePlot, SLOT(setWindowPosition(quint64)));
 }
 
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant, quint64 usec)
+void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant,
+                                   quint64 usec, bool isRunning, int row)
 {
     QMetaType::Type type = static_cast<QMetaType::Type>(variant.type());
     bool ok;
@@ -183,19 +184,111 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
     {
         // Order matters here, first append to plot, then update curve list
         activePlot->appendData(curve+unit, usec, value);
+        // Add to curve list
+
         // Store data
         QLabel* label = curveLabels->value(curve+unit, NULL);
+//        qDebug() << curve << " " << curveLabels->count();
         // Make sure the curve will be created if it does not yet exist
         if(!label)
         {
+//            qDebug() << curve << " ok1";
             if (!isDouble)
                 intData.insert(curve+unit, 0);
 //            addCurve(curve, unit);
+            addCurveToList(curve, value, isRunning, row);
+        }else{
+//            qDebug() << curve << " ok2";
+//            addCurveToList(curve, value, isRunning, row);
         }
         // Add int data
         if (!isDouble)
             intData.insert(curve+unit, value);
     }
+}
+
+void AQLinechartWidget::addCurveToList(QString curve, double val, bool isRunning, int row){
+    if (isRunning){
+        QLabel* label;
+        QLabel* value;
+        if (row > 3)
+            row -= 3;
+
+        label = new QLabel(this);
+        label->setText(curve);
+        curvesWidgetLayout->addWidget(label, row, 0);
+        curveNameLabels.insert(curve, label);
+
+        value = new QLabel(this);
+        value->setNum(val);
+        curveLabels->insert(curve, value);
+        curvesWidgetLayout->addWidget(value, row, 1);
+    }
+}
+
+/**
+ * Add a curve to the curve list
+ * @param curve The id-string of the curve
+ **/
+void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
+{
+    LinechartPlot* plot = activePlot;
+//    QCheckBox *checkBox;
+    QLabel* label;
+    QLabel* value;
+
+    curveNames.insert(curve+unit, curve);
+    curveUnits.insert(curve, unit);
+    ListItems->append(curve);
+
+    int labelRow = curvesWidgetLayout->rowCount();
+
+//    checkBox = new QCheckBox(this);
+//    checkBoxes.insert(curve+unit, checkBox);
+//    checkBox->setCheckable(true);
+//    checkBox->setObjectName(curve+unit);
+//    checkBox->setToolTip(tr("Enable the curve in the graph window"));
+//    checkBox->setWhatsThis(tr("Enable the curve in the graph window"));
+
+//    curvesWidgetLayout->addWidget(checkBox, labelRow, 0);
+
+//    QWidget* colorIcon = new QWidget(this);
+//    colorIcons.insert(curve+unit, colorIcon);
+//    colorIcon->setMinimumSize(5, 14);
+//    colorIcon->setMaximumSize(5, 14);
+
+//    curvesWidgetLayout->addWidget(colorIcon, labelRow, 1);
+
+    label = new QLabel(this);
+    label->setText(curve);
+    curvesWidgetLayout->addWidget(label, labelRow, 2);
+
+//    QColor color(Qt::gray);
+//    QString colorstyle;
+//    colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
+//    colorIcon->setStyleSheet(colorstyle);
+//    colorIcon->setAutoFillBackground(true);
+
+    // Label
+    curveNameLabels.insert(curve+unit, label);
+
+    // Value
+    value = new QLabel(this);
+    value->setNum(0.00);
+    value->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold;}"));
+    value->setToolTip(tr("Current value of %1 in %2 units").arg(curve, unit));
+    value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
+    curveLabels->insert(curve+unit, value);
+    curvesWidgetLayout->addWidget(value, labelRow, 3);
+
+    // Connect actions
+//    connect(selectAllCheckBox, SIGNAL(clicked(bool)), checkBox, SLOT(setChecked(bool)));
+//    QObject::connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(takeButtonClick(bool)));
+//    QObject::connect(this, SIGNAL(curveVisible(QString, bool)), plot, SLOT(setVisibleById(QString, bool)));
+
+    // Set UI components to initial state
+//    checkBox->setChecked(false);
+    plot->setVisibleById(curve+unit, false);
 }
 
 void AQLinechartWidget::refresh()
@@ -234,71 +327,6 @@ void AQLinechartWidget::refresh()
 void AQLinechartWidget::setAverageWindow(int windowSize)
 {
     if (windowSize > 1) activePlot->setAverageWindow(windowSize);
-}
-
-/**
- * Add a curve to the curve list
- * @param curve The id-string of the curve
- **/
-void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
-{
-//    LinechartPlot* plot = activePlot;
-//    QCheckBox *checkBox;
-//    QLabel* label;
-//    QLabel* value;
-
-//    curveNames.insert(curve+unit, curve);
-//    curveUnits.insert(curve, unit);
-//    ListItems->append(curve);
-
-//    int labelRow = curvesWidgetLayout->rowCount();
-
-//    checkBox = new QCheckBox(this);
-//    checkBoxes.insert(curve+unit, checkBox);
-//    checkBox->setCheckable(true);
-//    checkBox->setObjectName(curve+unit);
-//    checkBox->setToolTip(tr("Enable the curve in the graph window"));
-//    checkBox->setWhatsThis(tr("Enable the curve in the graph window"));
-
-//    curvesWidgetLayout->addWidget(checkBox, labelRow, 0);
-
-//    QWidget* colorIcon = new QWidget(this);
-//    colorIcons.insert(curve+unit, colorIcon);
-//    colorIcon->setMinimumSize(5, 14);
-//    colorIcon->setMaximumSize(5, 14);
-
-//    curvesWidgetLayout->addWidget(colorIcon, labelRow, 1);
-
-//    label = new QLabel(this);
-//    label->setText(curve);
-//    curvesWidgetLayout->addWidget(label, labelRow, 2);
-
-//    QColor color(Qt::gray);
-//    QString colorstyle;
-//    colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
-//    colorIcon->setStyleSheet(colorstyle);
-//    colorIcon->setAutoFillBackground(true);
-
-    // Label
-//    curveNameLabels.insert(curve+unit, label);
-
-    // Value
-//    value = new QLabel(this);
-//    value->setNum(0.00);
-//    value->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold;}"));
-//    value->setToolTip(tr("Current value of %1 in %2 units").arg(curve, unit));
-//    value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
-//    curveLabels->insert(curve+unit, value);
-//    curvesWidgetLayout->addWidget(value, labelRow, 3);
-
-    // Connect actions
-//    connect(selectAllCheckBox, SIGNAL(clicked(bool)), checkBox, SLOT(setChecked(bool)));
-//    QObject::connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(takeButtonClick(bool)));
-//    QObject::connect(this, SIGNAL(curveVisible(QString, bool)), plot, SLOT(setVisibleById(QString, bool)));
-
-    // Set UI components to initial state
-//    checkBox->setChecked(false);
-//    plot->setVisibleById(curve+unit, false);
 }
 
 /**
@@ -451,6 +479,13 @@ void AQLinechartWidget::setPlotInterval(int interval)
     if (interval < 1000) // convert to ms
         interval *= 1000;
     activePlot->setPlotInterval(static_cast<quint64>(interval));
+}
+
+/**
+ * Set the curve be visible or not
+ **/
+void AQLinechartWidget::setCurveVisible(QString curve, bool visible){
+    activePlot->setVisibleById(curve, visible);
 }
 
 /**

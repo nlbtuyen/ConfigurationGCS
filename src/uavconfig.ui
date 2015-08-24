@@ -43,7 +43,7 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_21">
    <item>
     <layout class="QVBoxLayout" name="Layout_Button_AQSetting">
      <item>
@@ -325,7 +325,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_Pitch">
              <attribute name="title">
@@ -437,44 +437,62 @@
                         <widget class="QLineEdit" name="lineEdit_P">
                          <property name="minimumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_I">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_D">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_Rate">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
@@ -626,44 +644,62 @@
                         <widget class="QLineEdit" name="lineEdit_P_2">
                          <property name="minimumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_I_2">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_D_2">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_Rate_2">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
@@ -671,13 +707,6 @@
                       </layout>
                      </item>
                     </layout>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_LinkPitch">
-                    <property name="text">
-                     <string>Link Pitch</string>
-                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -730,21 +759,21 @@
                      <item>
                       <layout class="QVBoxLayout" name="verticalLayout_17">
                        <item>
-                        <widget class="QLabel" name="label_P_4">
+                        <widget class="QLabel" name="label_CTRL_YAW_RTE_P">
                          <property name="text">
                           <string>P</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_I_4">
+                        <widget class="QLabel" name="label_CTRL_YAW_RTE_I">
                          <property name="text">
                           <string>I</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_D_4">
+                        <widget class="QLabel" name="label_CTRL_YAW_RTE_D">
                          <property name="text">
                           <string>D</string>
                          </property>
@@ -762,7 +791,7 @@
                      <item>
                       <layout class="QVBoxLayout" name="verticalLayout_18">
                        <item>
-                        <widget class="QSlider" name="horizontalSlider_P_4">
+                        <widget class="QSlider" name="slider_CTRL_YAW_RTE_P">
                          <property name="minimumSize">
                           <size>
                            <width>200</width>
@@ -778,17 +807,20 @@
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
+                         <property name="tickPosition">
+                          <enum>QSlider::NoTicks</enum>
+                         </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QSlider" name="horizontalSlider_I_4">
+                        <widget class="QSlider" name="slider_CTRL_YAW_RTE_I">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QSlider" name="horizontalSlider_D_4">
+                        <widget class="QSlider" name="slider_CTRL_YAW_RTE_D">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
@@ -806,47 +838,65 @@
                      <item>
                       <layout class="QVBoxLayout" name="verticalLayout_19">
                        <item>
-                        <widget class="QLineEdit" name="lineEdit_P_4">
+                        <widget class="QLineEdit" name="CTRL_YAW_RTE_P">
                          <property name="minimumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
-                          </size>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLineEdit" name="lineEdit_I_4">
-                         <property name="maximumSize">
-                          <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="lineEdit_D_4">
+                        <widget class="QLineEdit" name="CTRL_YAW_RTE_I">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="CTRL_YAW_RTE_D">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_Rate_4">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>0</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
@@ -914,13 +964,13 @@
                    <widget class="QGroupBox" name="groupBox_Limit_PID">
                     <property name="minimumSize">
                      <size>
-                      <width>150</width>
+                      <width>170</width>
                       <height>0</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>150</width>
+                      <width>170</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -966,44 +1016,62 @@
                         <widget class="QLineEdit" name="lineEdit_P_5">
                          <property name="minimumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_I_5">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_D_5">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QLineEdit" name="lineEdit_Rate_5">
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>20</width>
-                           <height>20</height>
+                           <width>50</width>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
@@ -1045,24 +1113,11 @@
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="tab_Attitude">
+            <widget class="QWidget" name="tab_Altitude">
              <attribute name="title">
-              <string>Attitude</string>
+              <string>Altitude</string>
              </attribute>
-             <layout class="QHBoxLayout" name="horizontalLayout_21">
-              <item>
-               <spacer name="horizontalSpacer_18">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>110</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_30">
                 <item>
@@ -1080,6 +1135,12 @@
                 </item>
                 <item>
                  <widget class="QGroupBox" name="groupBox_Position_Attitude_PID">
+                  <property name="maximumSize">
+                   <size>
+                    <width>245</width>
+                    <height>107</height>
+                   </size>
+                  </property>
                   <property name="title">
                    <string>Position</string>
                   </property>
@@ -1132,24 +1193,30 @@
                       <widget class="QLineEdit" name="lineEdit_P_6">
                        <property name="minimumSize">
                         <size>
-                         <width>20</width>
-                         <height>20</height>
+                         <width>50</width>
+                         <height>30</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
-                         <width>20</width>
-                         <height>20</height>
+                         <width>50</width>
+                         <height>30</height>
                         </size>
                        </property>
                       </widget>
                      </item>
                      <item>
                       <widget class="QLineEdit" name="lineEdit_I_6">
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>30</height>
+                        </size>
+                       </property>
                        <property name="maximumSize">
                         <size>
-                         <width>20</width>
-                         <height>20</height>
+                         <width>50</width>
+                         <height>30</height>
                         </size>
                        </property>
                       </widget>
@@ -1175,19 +1242,6 @@
                </layout>
               </item>
               <item>
-               <spacer name="horizontalSpacer_17">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
                <layout class="QVBoxLayout" name="verticalLayout_31">
                 <item>
                  <spacer name="verticalSpacer_14">
@@ -1204,6 +1258,12 @@
                 </item>
                 <item>
                  <widget class="QGroupBox" name="groupBox_Speed_Attitude_PID">
+                  <property name="maximumSize">
+                   <size>
+                    <width>245</width>
+                    <height>107</height>
+                   </size>
+                  </property>
                   <property name="title">
                    <string>Speed</string>
                   </property>
@@ -1256,24 +1316,30 @@
                       <widget class="QLineEdit" name="lineEdit_P_7">
                        <property name="minimumSize">
                         <size>
-                         <width>20</width>
-                         <height>20</height>
+                         <width>50</width>
+                         <height>30</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
-                         <width>20</width>
-                         <height>20</height>
+                         <width>50</width>
+                         <height>30</height>
                         </size>
                        </property>
                       </widget>
                      </item>
                      <item>
                       <widget class="QLineEdit" name="lineEdit_I_7">
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>30</height>
+                        </size>
+                       </property>
                        <property name="maximumSize">
                         <size>
-                         <width>20</width>
-                         <height>20</height>
+                         <width>50</width>
+                         <height>30</height>
                         </size>
                        </property>
                       </widget>
@@ -1298,156 +1364,13 @@
                 </item>
                </layout>
               </item>
-              <item>
-               <spacer name="horizontalSpacer_19">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>110</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
              </layout>
             </widget>
             <widget class="QWidget" name="tab_NAV">
              <attribute name="title">
               <string>NAV</string>
              </attribute>
-             <layout class="QHBoxLayout" name="horizontalLayout_18">
-              <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>28</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_36">
-                <item>
-                 <spacer name="verticalSpacer_18">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QGroupBox" name="groupBox_Position_NAV_PID">
-                  <property name="maximumSize">
-                   <size>
-                    <width>220</width>
-                    <height>87</height>
-                   </size>
-                  </property>
-                  <property name="title">
-                   <string>Position</string>
-                  </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_23">
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_37">
-                     <item>
-                      <widget class="QLabel" name="label_P_9">
-                       <property name="text">
-                        <string>P</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="label_I_9">
-                       <property name="text">
-                        <string>I</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_38">
-                     <item>
-                      <widget class="QSlider" name="horizontalSlider_P_8">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QSlider" name="horizontalSlider_I_8">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_39">
-                     <item>
-                      <widget class="QLineEdit" name="lineEdit_P_9">
-                       <property name="minimumSize">
-                        <size>
-                         <width>20</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>20</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="lineEdit_I_9">
-                       <property name="maximumSize">
-                        <size>
-                         <width>20</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_19">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
+             <layout class="QHBoxLayout" name="horizontalLayout">
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_32">
                 <item>
@@ -1464,15 +1387,15 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QGroupBox" name="groupBox_Speed_NAV_PID">
+                 <widget class="QGroupBox" name="groupBox_Position_NAV_PID">
                   <property name="maximumSize">
                    <size>
-                    <width>220</width>
-                    <height>87</height>
+                    <width>245</width>
+                    <height>107</height>
                    </size>
                   </property>
                   <property name="title">
-                   <string>Speed</string>
+                   <string>Position</string>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_22">
                    <item>
@@ -1523,24 +1446,30 @@
                       <widget class="QLineEdit" name="lineEdit_P_8">
                        <property name="minimumSize">
                         <size>
-                         <width>20</width>
-                         <height>20</height>
+                         <width>50</width>
+                         <height>30</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
-                         <width>20</width>
-                         <height>20</height>
+                         <width>50</width>
+                         <height>30</height>
                         </size>
                        </property>
                       </widget>
                      </item>
                      <item>
                       <widget class="QLineEdit" name="lineEdit_I_8">
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>30</height>
+                        </size>
+                       </property>
                        <property name="maximumSize">
                         <size>
-                         <width>20</width>
-                         <height>20</height>
+                         <width>50</width>
+                         <height>30</height>
                         </size>
                        </property>
                       </widget>
@@ -1566,17 +1495,127 @@
                </layout>
               </item>
               <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>28</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
+               <layout class="QVBoxLayout" name="verticalLayout_36">
+                <item>
+                 <spacer name="verticalSpacer_18">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="groupBox_Speed_NAV_PID">
+                  <property name="maximumSize">
+                   <size>
+                    <width>245</width>
+                    <height>107</height>
+                   </size>
+                  </property>
+                  <property name="title">
+                   <string>Speed</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_23">
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_37">
+                     <item>
+                      <widget class="QLabel" name="label_P_9">
+                       <property name="text">
+                        <string>P</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="label_I_9">
+                       <property name="text">
+                        <string>I</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_38">
+                     <item>
+                      <widget class="QSlider" name="horizontalSlider_P_8">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QSlider" name="horizontalSlider_I_8">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_39">
+                     <item>
+                      <widget class="QLineEdit" name="lineEdit_P_9">
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>50</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="lineEdit_I_9">
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>50</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_19">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>

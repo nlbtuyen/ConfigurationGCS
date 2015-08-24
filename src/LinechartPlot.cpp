@@ -316,7 +316,7 @@ void LinechartPlot::setVisibleById(QString id, bool visible)
     if(curves.contains(id)) {
         curves.value(id)->setVisible(visible);
         if(visible)
-        {
+        {            
             curves.value(id)->attach(this);
         }
         else

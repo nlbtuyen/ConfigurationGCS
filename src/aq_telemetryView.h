@@ -19,6 +19,8 @@ public:
     explicit AQTelemetryView(QWidget *parent = 0);
     ~AQTelemetryView();
 
+    int currentRefreshRate;
+
 private:
     enum telemDatasets { TELEM_DATASET_DEFAULT, TELEM_DATASET_GROUND, TELEM_DATASET_NUM };
     enum telemValueTypes { TELEM_VALUETYPE_FLOAT, TELEM_VALUETYPE_INT };
@@ -50,8 +52,10 @@ private:
     float getTelemValue(const int idx);
     void init(); //@Leo
     //@trung
-    void chartReset();
-    int currentRefreshRate;
+    bool isRunning;
+
+//    int currentRefreshRate;
+    int currentCurvedList;
 
 public slots:
     void initChart(UASInterface *uav);
@@ -59,6 +63,7 @@ public slots:
 private slots:
     void getNewTelemetry(int uasId, int valIdx);
     void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value);
+    void chartReset(int);
 
 protected:
     AQLinechartWidget* AqTeleChart;

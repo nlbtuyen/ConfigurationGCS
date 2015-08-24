@@ -10,7 +10,6 @@
 #include <QProgressBar>
 #include <QComboBox>
 
-
 #include "linkmanager.h"
 #include "seriallinkinterface.h"
 #include "seriallink.h"
@@ -18,8 +17,6 @@
 #include "aqpramwidget.h"
 #include "uasmanager.h"
 #include "aq_telemetryView.h"
-
-
 
 class AQParamWidget;
 
@@ -53,7 +50,7 @@ private slots:
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void getGUIPara(QWidget *parent);
 
-    //@Tuyen: AQ FW Flashing
+    //@Leo: AQ FW Flashing
     void flashFW();
     bool checkProcRunning(bool warn = true);
     bool checkAqSerialConnection(QString port = "");
@@ -63,24 +60,22 @@ private slots:
     void saveAQSetting();
     bool validateRadioSettings(int);
     void saveDialogButtonClicked(QAbstractButton *btn);
-
     void prtstexit(int stat);
     void prtstdout();
     QString extProcessError(QProcess::ProcessError err);
 
+    //Fix UI when click to Tab-Button
     void on_btn_RADIO_clicked();
-
     void on_btn_MOTOR_clicked();
-
     void on_btn_IMU_clicked();
-
     void on_btn_PID_clicked();
-
     void on_btn_CHART_clicked();
-
     void on_btn_UPGRADE_clicked();
-
     void on_btn_OSD_clicked();
+
+    //connect between QSlider & QLineEdit
+    void setValueLineEdit(QString str);
+    void updateTextEdit(int i);
 
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
@@ -93,14 +88,11 @@ private:
     bool aqCanReboot;               // can system accept remote restart command?
     bool useRadioSetupParam;
 
-
-    //@Tuyen
+    //@Leo : Upgrade Firmware
     QProcess ps_master;
     QString portName;
     QSettings settings;
     QString fileToFlash;
-
-
 
 protected:
     Ui::UAVConfig *ui;

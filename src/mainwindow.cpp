@@ -82,8 +82,12 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
 
-    //load style sheet
+    // Load style sheet
     loadStyle();
+
+    // Set the toolbar to be updated every 2s
+    connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateToolBarView()));
+    updateViewTimer.start(2000);
 }
 
 MainWindow::~MainWindow()
@@ -147,9 +151,7 @@ void MainWindow::initActionsConnections()
     view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
     view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
     ui->scrollArea_3D->setWidget(container);
-//    ui->scrollArea_heading->setStyleSheet(QString("border-image: url(qrc:/images/hudBackground.png);"));
 
-    ui->scrollArea_heading->setStyleSheet(QString("border-radius: 10px;"));
     /*
      * ===== Toolbar Status =====
      */
@@ -171,11 +173,10 @@ void MainWindow::initActionsConnections()
     toolBarBatteryBar->setMaximumWidth(100);
     toolBarBatteryBar->setToolTip(tr("Battery charge level"));
     toolBarBatteryBar->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold;}"));
-
     ui->mainToolBar->addWidget(toolBarBatteryBar);
 
     toolBarBatteryVoltageLabel = new QLabel("0.0 V");
-    toolBarBatteryVoltageLabel->setToolTip(tr("Battery current"));
+    toolBarBatteryVoltageLabel->setToolTip(tr("Battery Voltage"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
     toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #DC5B21; background-color: #D5C79C; font-weight: bold;}"));
     ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
@@ -261,16 +262,16 @@ void MainWindow::addLinkImmediately()
             if (link->connect())
             {
                 ui->actionConfigure->setEnabled(false);
-                connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
-                updateViewTimer.start(500);
+                connect(&updateAddLinkImm, SIGNAL(timeout()), this, SLOT(updateBattery()));
+                updateAddLinkImm.start(500);
                 ui->statusBar->showMessage(tr("Connected"));
                 connectFlag = false;
             }
         }
         else
         {
+            LinkManager::instance()->removeLink(link);
             MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please plugin your device to begin."));
-
         }
     }
     else
@@ -293,8 +294,8 @@ void MainWindow::addLink()
     if (link->isPortHandleValid())
     {
         ui->actionConfigure->setEnabled(false);
-        connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateBattery()));
-        updateViewTimer.start(500);
+        connect(&updateAddLink, SIGNAL(timeout()), this, SLOT(updateBattery()));
+        updateAddLink.start(500);
     }
 }
 
@@ -439,11 +440,13 @@ void MainWindow::updateArmingState(bool armed)
 {
     systemArmed = armed;
     changed = true;
-    updateView();
+    updateToolBarView();
 }
 
 /*
- * Load style sheet
+ * ================================================
+ * ============== Load Style Sheet ===============
+ * ================================================
  */
 void MainWindow::loadStyle()
 {
@@ -488,7 +491,6 @@ void MainWindow::showMessage(const QString &title, const QString &message, const
     msgBox.exec();
 }
 
-
 void MainWindow::showCriticalMessage(const QString& title, const QString& message)
 {
     showMessage(title, message, "", "critical");
@@ -507,12 +509,17 @@ void MainWindow::updateState(UASInterface *system, QString name, QString descrip
     toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 2px; font: 16px; color: #993F17; background-color: #D5C79C; font-weight: bold;  }"));
     toolBarTimeoutLabel->setText(tr("CONNECTION"));
 
-    /* important, immediately update */
-    updateView();
+    // immediately update toolbar
+    updateToolBarView();
 }
 
+/*
+ * ================================================
+ * ============ Update TOOLBAR View ===============
+ * ================================================
+ */
 
-void MainWindow::updateView()
+void MainWindow::updateToolBarView()
 {
     if (!changed) return;
 
@@ -537,5 +544,4 @@ void MainWindow::updateView()
 void MainWindow::updateBattery()
 {
     toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
-
 }
