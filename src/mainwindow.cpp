@@ -467,7 +467,7 @@ void MainWindow::loadStyle()
         qApp->setStyleSheet(style);
     }
     else
-        showCriticalMessage(tr("VSKConfigUAV cann't load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
+        showCriticalMessage(tr("VSKConfigUAV can't load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
 
     delete styleSheet;
 }
@@ -475,7 +475,8 @@ void MainWindow::loadStyle()
 void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)
 {
     QMessageBox msgBox(this);
-    msgBox.setWindowFlags(Qt::Dialog);
+    msgBox.setWindowFlags(Qt::WindowStaysOnTopHint);
+    msgBox.setParent(0);
     if (severity == "critical")
         msgBox.setIcon(QMessageBox::Critical);
     else if  (severity == "warning")
@@ -535,7 +536,7 @@ void MainWindow::updateToolBarView()
     }
     else
     {
-        toolBarSafetyLabel->setStyleSheet("QLabel {padding: 2px; font: 16px; color: #993F17; background-color: #D5C79C; font-weight: bold;  }");
+        toolBarSafetyLabel->setStyleSheet(QString("QLabel {padding: 2px; font: 16px; color: #993F17; background-color: #D5C79C; font-weight: bold;  }"));
         toolBarSafetyLabel->setText(tr("SAFE"));
     }
     changed = false;

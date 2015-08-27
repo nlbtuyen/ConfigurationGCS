@@ -705,6 +705,10 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message) //@Leo 
         {
             mavlink_rc_channels_raw_t channels;
             mavlink_msg_rc_channels_raw_decode(&message, &channels);
+            qDebug() << "channel 1: " << channels.chan1_raw;
+            qDebug() << "channel 2: " << channels.chan2_raw;
+            qDebug() << "channel 3: " << channels.chan3_raw;
+            qDebug() << "channel 4: " << channels.chan4_raw;
             emit remoteControlRSSIChanged(channels.rssi);
             emit remoteControlChannelRawChanged(0 + (channels.port * 8), channels.chan1_raw);
             emit remoteControlChannelRawChanged(1 + (channels.port * 8), channels.chan2_raw);

@@ -243,11 +243,15 @@ void SerialConfigurationWindow::setupPortList()
 
 void SerialConfigurationWindow::portError(const QString &err) {
     QMessageBox msgBox(this);
+//    msgBox.setWindowFlags(Qt::Dialog);
+    msgBox.setWindowFlags(Qt::WindowStaysOnTopHint);
     msgBox.setIcon(QMessageBox::Critical);
     msgBox.setText(tr("Error in port settings"));
     msgBox.setInformativeText(tr("Can't set %1").arg(err));
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setParent(0);
+
     msgBox.exec();
 }
 

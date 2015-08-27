@@ -39,5 +39,16 @@
         <file>images/configurationBackground.PNG</file>
         <file>images/drone_texture.png</file>
         <file>images/hudBackground.png</file>
+        <file>images/arrow_down.gif</file>
+        <file>images/arrow_left.gif</file>
+        <file>images/arrow_right.gif</file>
+        <file>images/arrow_up.gif</file>
+        <file>images/arr_down.gif</file>
+        <file>images/arr_left.gif</file>
+        <file>images/arr_right.gif</file>
+        <file>images/arr_up.gif</file>
+        <file>images/arr_down_160.gif</file>
+        <file>images/arr_left_160.gif</file>
+        <file>images/arr_up_160.gif</file>
     </qresource>
 </RCC>

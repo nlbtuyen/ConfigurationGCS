@@ -128,7 +128,7 @@ protected:
     void initActionsConnections();
 
     bool autoReconnect;
-        QString state;
+    QString state;
 
 
     MAVLinkProtocol* mavlink;

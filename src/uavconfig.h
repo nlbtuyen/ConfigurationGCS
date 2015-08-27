@@ -77,12 +77,28 @@ private slots:
     void setValueLineEdit(QString str);
     void updateTextEdit(int i);
 
+    //RC Config
+    void sendRcRefreshFreq();
+
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_4_clicked();
+
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
 
-    QList<QComboBox *> allRadioChanCombos;
+    //RC Config
+    QTimer delayedSendRCTimer;  // for setting radio channel refresh freq.
     QList<QProgressBar *> allRadioChanProgressBars;
+
+
+    QList<QComboBox *> allRadioChanCombos;
     quint8 paramSaveType;
     bool restartAfterParamSave;
     bool aqCanReboot;               // can system accept remote restart command?
@@ -93,6 +109,15 @@ private:
     QString portName;
     QSettings settings;
     QString fileToFlash;
+
+    QMovie *movie_left ;
+    QMovie *movie_right;
+    QMovie *movie_up;
+    QMovie *movie_down;
+    QMovie *movie_up_160;
+    QMovie *movie_down_160;
+    QMovie *movie_left_160;
+
 
 protected:
     Ui::UAVConfig *ui;
@@ -106,6 +131,7 @@ protected:
     QString LastFilePath;
 
     void updateButtonView();
+
 
 };
 

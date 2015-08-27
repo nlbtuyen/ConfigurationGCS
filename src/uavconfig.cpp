@@ -19,6 +19,7 @@
 #include <QDoubleSpinBox>
 #include <QDialogButtonBox>
 #include <QBoxLayout>
+#include <QMovie>
 
 UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),
@@ -35,10 +36,17 @@ UAVConfig::UAVConfig(QWidget *parent) :
     platformExeExt = ".exe";
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
-    //    for(int i=0; i < 6; i++ )
-    //    {
-    //        allRadioChanProgressBars << ui->widget_2->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
-    //    }
+    for(int i=0; i < 4; i++ )
+    {
+        if (i == 0 || i ==3)
+        {
+            allRadioChanProgressBars << ui->frame->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
+        }
+        else
+        {
+            allRadioChanProgressBars << ui->frame_2->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
+        }
+    }
 
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -63,6 +71,41 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
     connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
+
+//    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
+//    delayedSendRCTimer.start(800);
+    sendRcRefreshFreq();
+
+    movie_left = new QMovie(":/images/arr_left.gif");
+    movie_right = new QMovie(":/images/arr_right.gif");
+    movie_up = new QMovie(":/images/arr_up.gif");
+    movie_down = new QMovie(":/images/arr_down.gif");
+    movie_up_160 = new QMovie(":/images/arr_up_160.gif");
+    movie_down_160 = new QMovie(":/images/arr_down_160.gif");
+    movie_left_160 = new QMovie(":/images/arr_left_160.gif");
+
+    ui->label_left_1->setMovie(movie_down);
+    ui->label_left_2->setMovie(movie_up);
+
+    ui->label_right_1->setMovie(movie_down);
+    ui->label_right_2->setMovie(movie_up);
+
+    ui->label_bottom_left_1->setMovie(movie_right);
+    ui->label_bottom_left_2->setMovie(movie_left);
+
+    ui->label_bottom_right_1->setMovie(movie_right);
+    ui->label_bottom_right_2->setMovie(movie_left);
+
+    ui->label_left_160->hide();
+    ui->label_right_160->hide();
+    ui->label_bottom_left->hide();
+    ui->label_bottom_right->hide();
+
+    movie_left->start();
+    movie_right->start();
+    movie_up->start();
+    movie_down->start();
+
 }
 
 UAVConfig::~UAVConfig()
@@ -102,7 +145,6 @@ void UAVConfig::loadParametersToUI()
     QVariant val;
     getGUIPara(ui->tab_aq_setting);
 
-
     val = paramaq->getParaAQ("RADIO_SETUP");
     QMap<int, QString> radioTypes;
     radioTypes.insert(0, tr("No Radio"));
@@ -123,19 +165,54 @@ void UAVConfig::createAQParamWidget(UASInterface *uastmp)
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
 }
 
+void UAVConfig::sendRcRefreshFreq()
+{
+    if (!uas) return;
+
+    int min, max, tmin, tmax;
+    tmax = -500;
+    tmin = 1500;
+    max = -1500;
+    min = 1500;
+
+    foreach (QProgressBar* pb, allRadioChanProgressBars) {
+//        qDebug() << "progresbar: " << pb->objectName();
+        if (pb->objectName().contains("chan_0")) {
+            pb->setMaximum(tmax);
+            pb->setMinimum(tmin);
+            qDebug() << "pd max chan_0: " << pb->maximum();
+            qDebug() << "pd min chan_0: " << pb->minimum();
+        } else {
+
+            pb->setMaximum(max);
+            pb->setMinimum(min);
+            qDebug() << "pd max chan_1: " << pb->maximum();
+            qDebug() << "pd min chan_1: " << pb->minimum();
+        }
+    }
+
+//    delayedSendRCTimer.stop();
+
+}
+
 void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
 {
     int val;
     if (channelId >= allRadioChanProgressBars.size())
         return;
+
     QProgressBar* bar = allRadioChanProgressBars.at(channelId);
+
     val = (int)(normalized-1024);
 
-    if (val > bar->maximum())
-        val = bar->maximum();
-    if (val < bar->minimum())
-        val = bar->minimum();
-    bar->setValue(val);
+    if (bar) {
+        if (val > bar->maximum())
+            val = bar->maximum();
+        if (val < bar->minimum())
+            val = bar->minimum();
+        bar->setValue(val);
+//        qDebug() << "channelID: " << channelId << "bar: " << bar->value();
+    }
 }
 
 /*
@@ -770,4 +847,82 @@ void UAVConfig::updateButtonView()
     }
         break;
     }
+}
+
+void UAVConfig::on_pushButton_clicked()
+{
+    ui->label_left_1->hide();
+    ui->label_left_2->hide();
+    ui->label_right_1->hide();
+    ui->label_right_2->hide();
+    ui->label_bottom_left_1->hide();
+    ui->label_bottom_left_2->hide();
+    ui->label_bottom_right_1->hide();
+    ui->label_bottom_right_2->hide();
+    ui->label_left_160->show();
+    ui->label_right_160->hide();
+    ui->label_bottom_left->hide();
+    ui->label_bottom_right->hide();
+
+    ui->label_left_160->setMovie(movie_down_160);
+    movie_down_160->start();
+
+}
+
+void UAVConfig::on_pushButton_2_clicked()
+{
+    ui->label_left_1->hide();
+    ui->label_left_2->hide();
+    ui->label_right_1->hide();
+    ui->label_right_2->hide();
+    ui->label_bottom_left_1->hide();
+    ui->label_bottom_left_2->hide();
+    ui->label_bottom_right_1->hide();
+    ui->label_bottom_right_2->hide();
+    ui->label_left_160->hide();
+    ui->label_right_160->hide();
+    ui->label_bottom_left->show();
+    ui->label_bottom_right->hide();
+
+    ui->label_bottom_left->setMovie(movie_left_160);
+    movie_left_160->start();
+}
+
+void UAVConfig::on_pushButton_3_clicked()
+{
+    ui->label_left_1->hide();
+    ui->label_left_2->hide();
+    ui->label_right_1->hide();
+    ui->label_right_2->hide();
+    ui->label_bottom_left_1->hide();
+    ui->label_bottom_left_2->hide();
+    ui->label_bottom_right_1->hide();
+    ui->label_bottom_right_2->hide();
+    ui->label_left_160->hide();
+    ui->label_right_160->hide();
+    ui->label_bottom_left->hide();
+    ui->label_bottom_right->show();
+
+    ui->label_bottom_right->setMovie(movie_left_160);
+    movie_left_160->start();
+
+}
+
+void UAVConfig::on_pushButton_4_clicked()
+{
+    ui->label_left_1->hide();
+    ui->label_left_2->hide();
+    ui->label_right_1->hide();
+    ui->label_right_2->hide();
+    ui->label_bottom_left_1->hide();
+    ui->label_bottom_left_2->hide();
+    ui->label_bottom_right_1->hide();
+    ui->label_bottom_right_2->hide();
+    ui->label_left_160->hide();
+    ui->label_right_160->show();
+    ui->label_bottom_left->hide();
+    ui->label_bottom_right->hide();
+
+    ui->label_right_160->setMovie(movie_up_160);
+    movie_up_160->start();
 }

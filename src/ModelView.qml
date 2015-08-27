@@ -15,7 +15,7 @@ Entity {
     ]
     BasicCamera {
             id: mainCamera
-            position: Qt.vector3d( 0.0, 0.0,80.0 )
+            position: Qt.vector3d( 0.0, 0.0, 80.0 )
         }
 
     Model {
