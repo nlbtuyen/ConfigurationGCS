@@ -2,7 +2,7 @@
 #include "scrollbar.h"
 #include "mainwindow.h"
 #include "scrollzoomer.h"
-
+#include <qwt/qwt_legend.h>
 #include <qwt_plot_canvas.h>
 
 const QColor ChartPlot::baseColors[numColors] = {
@@ -58,6 +58,15 @@ ChartPlot::ChartPlot(QWidget *parent):
         colors.append(baseColors[i]);
     }
 
+    // @trung
+    this->enableAxis(QwtPlot::xBottom, false);
+//    this->setAxisAutoScale(QwtPlot::yLeft, false);
+    this->setAxisScale(QwtPlot::yLeft, -5, 5, 1);
+
+    QwtLegend *legend = new QwtLegend;
+    legend->setFrameStyle(QFrame::Box|QFrame::Sunken);
+    this->insertLegend(legend, QwtPlot::BottomLegend);
+
     styleChanged();
 }
 
@@ -111,4 +120,8 @@ void ChartPlot::styleChanged()
 
     // And finally refresh the widget to make sure all color changes are redrawn.
     replot();
+}
+
+void ChartPlot::changeMaxMinValue(int max, int min){
+    this->setAxisScale(QwtPlot::yLeft, min, max, 1);
 }

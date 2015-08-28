@@ -34,7 +34,12 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     selectedMAV(-1)
 {
     ui.setupUi(this);
-    this->setMinimumSize(300, 200);
+    this->setMinimumSize(500, 210);
+
+    maxValue = 5;
+    minValue = -5;
+    ui.maxValue->setText(QString("5"));
+    ui.minValue->setText(QString("-5"));
 
     // Add and customize curve list elements (left side)
     curvesWidget = new QWidget(ui.curveListWidget);
@@ -54,28 +59,6 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 
     curvesWidget->setLayout(curvesWidgetLayout);
     ListItems = new QList<QString>;
-    // Create curve list headings
-//    QLabel* label;
-//    QLabel* value;
-
-//    int labelRow = curvesWidgetLayout->rowCount();
-
-//    selectAllCheckBox = new QCheckBox("", this);
-//    connect(selectAllCheckBox, SIGNAL(clicked(bool)), this, SLOT(selectAllCurves(bool)));
-//    curvesWidgetLayout->addWidget(selectAllCheckBox, labelRow, 0, 1, 2);
-
-    // Name
-//    label = new QLabel(this);
-//    label->setText("Name");
-//    label->setStyleSheet("font-size:12px");
-//    curvesWidgetLayout->addWidget(label, labelRow, 2);
-
-    // Value
-//    value = new QLabel(this);
-//    value->setText("Value");
-//    value->setStyleSheet("font-size:12px");
-//    value->setAlignment(Qt::AlignCenter);
-//    curvesWidgetLayout->addWidget(value, labelRow, 3);
 
     // Create the layout of chart
     createLayout();
@@ -85,6 +68,10 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     updateTimer->setInterval(UPDATE_INTERVAL);
     readSettings();
 
+    // @trung
+//    if (checkMaxMin()){
+//        activePlot->changeMaxMin(maxValue, minValue);
+//    }
 }
 
 AQLinechartWidget::~AQLinechartWidget()
@@ -146,7 +133,7 @@ void AQLinechartWidget::createLayout()
     layout->setMargin(2);
 
     // Create plot container widget
-    activePlot = new LinechartPlot(this, sysid);    
+    activePlot = new LinechartPlot(this, sysid);
     // Activate automatic scrolling
     activePlot->setAutoScroll(true);
 
@@ -171,7 +158,7 @@ void AQLinechartWidget::createLayout()
 }
 
 void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant,
-                                   quint64 usec, bool isRunning, int row)
+                                   quint64 usec, bool isRunning, int row, bool listChanged)
 {
     QMetaType::Type type = static_cast<QMetaType::Type>(variant.type());
     bool ok;
@@ -184,7 +171,6 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
     {
         // Order matters here, first append to plot, then update curve list
         activePlot->appendData(curve+unit, usec, value);
-        // Add to curve list
 
         // Store data
         QLabel* label = curveLabels->value(curve+unit, NULL);
@@ -192,18 +178,39 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         // Make sure the curve will be created if it does not yet exist
         if(!label)
         {
-//            qDebug() << curve << " ok1";
             if (!isDouble)
                 intData.insert(curve+unit, 0);
 //            addCurve(curve, unit);
             addCurveToList(curve, value, isRunning, row);
-        }else{
-//            qDebug() << curve << " ok2";
-//            addCurveToList(curve, value, isRunning, row);
+        }else if (listChanged == true){
+            updateCurveList(curve, value, isRunning, row);
         }
         // Add int data
         if (!isDouble)
             intData.insert(curve+unit, value);
+    }
+
+    // @trung
+    if (checkMaxMin()){
+        activePlot->changeMaxMin(maxValue, minValue);
+    }
+
+}
+
+void AQLinechartWidget::updateCurveList(QString curve, double val, bool isRunning, int row){
+    if (isRunning){
+        QLabel* label;
+        QLabel* value;
+        if (row > 2){
+            row = row % 3 + 1;
+        }else row += 1;
+        label = new QLabel(this);
+        label->setText(curve);
+        curvesWidgetLayout->addWidget(label, row, 0);
+
+        value = new QLabel(this);
+        value->setNum(val);
+        curvesWidgetLayout->addWidget(value, row, 1);
     }
 }
 
@@ -211,9 +218,9 @@ void AQLinechartWidget::addCurveToList(QString curve, double val, bool isRunning
     if (isRunning){
         QLabel* label;
         QLabel* value;
-        if (row > 3)
-            row -= 3;
-
+        if (row > 2){
+            row = row % 3 + 1;
+        }else row += 1;
         label = new QLabel(this);
         label->setText(curve);
         curvesWidgetLayout->addWidget(label, row, 0);
@@ -531,4 +538,13 @@ QToolButton* AQLinechartWidget::createButton(QWidget* parent)
     button->setMaximumSize(60, 20);
     button->setGeometry(button->x(), button->y(), 20, 20);
     return button;
+}
+
+bool AQLinechartWidget::checkMaxMin(){
+    if (ui.maxValue->text().toDouble() != maxValue || ui.minValue->text().toDouble() != minValue){
+        maxValue = ui.maxValue->text().toDouble();
+        minValue = ui.minValue->text().toDouble();
+        return true;
+    }
+    return false;
 }

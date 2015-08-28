@@ -21,6 +21,9 @@
 #include <QBoxLayout>
 #include <QMovie>
 
+const int UAVConfig::i_const[] = {0,1,2,3,4,5,6};
+const int UAVConfig::x_loca[] = {50,120,290,320,400,500,600};
+
 UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),
     paramaq(NULL),
@@ -72,6 +75,9 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
     connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
 
+    //RC Charts
+    connect(ui->btn_OK_RC, SIGNAL(clicked()), this, SLOT(pitchCharts()));
+
 //    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
 //    delayedSendRCTimer.start(800);
     sendRcRefreshFreq();
@@ -105,6 +111,9 @@ UAVConfig::UAVConfig(QWidget *parent) :
     movie_right->start();
     movie_up->start();
     movie_down->start();
+
+    //update variable for RC Chart
+    rc_rate = 50;
 
 }
 
@@ -925,4 +934,39 @@ void UAVConfig::on_pushButton_4_clicked()
 
     ui->label_right_160->setMovie(movie_up_160);
     movie_up_160->start();
+}
+
+void UAVConfig::pitchCharts()
+{
+    if (ui->lineEdit_expo8->text() == NULL || ui->lineEdit_rarate->text()==NULL)
+    {
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Empty value"));
+    }
+    QString expo8_str = ui->lineEdit_expo8->text();
+    expo8 = expo8_str.toInt();
+    QString ra_rate_str = ui->lineEdit_rarate->text();
+    ra_rate = ra_rate_str.toInt();
+    calculateResult1_RC();
+    calculateYLoca();
+}
+
+void UAVConfig::calculateResult1_RC()
+{
+    int i;
+    for (i = 0; i <= 6; i++)
+    {
+        result1[i] = (float)(2500 + expo8*(i*i-25))*i*ra_rate/2500;
+//        qDebug() << result1[i];
+    }
+
+}
+
+void UAVConfig::calculateYLoca()
+{
+    int i;
+    for (i = 0; i <= 6; i++)
+    {
+        y_local[i] = (float)result1[i] + (x_loca[i] - i*100)*(result1[i+1] - result1[i])/100;
+        qDebug() << y_local[i];
+    }
 }

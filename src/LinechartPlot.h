@@ -142,6 +142,9 @@ public:
     static const int DEFAULT_PLOT_INTERVAL = 1000 * 16; ///< The default plot interval is 15 seconds
     static const int DEFAULT_SCALE_INTERVAL = 1000 * 8;
 
+    // @trung
+    void changeMaxMin(int max, int min);
+
 public slots:    
     void appendData(QString dataname, quint64 ms, double value);
     void hideCurve(QString id);

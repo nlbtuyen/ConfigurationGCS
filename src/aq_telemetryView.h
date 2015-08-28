@@ -20,6 +20,7 @@ public:
     ~AQTelemetryView();
 
     int currentRefreshRate;
+    bool listChanged;
 
 private:
     enum telemDatasets { TELEM_DATASET_DEFAULT, TELEM_DATASET_GROUND, TELEM_DATASET_NUM };
@@ -42,7 +43,7 @@ private:
     int totalDatasetFields[TELEM_DATASET_NUM];
     int datasetFieldsSetup;
     QGridLayout* linLayoutPlot;
-    mavlink_attitude_t *testValue; //@trung
+    mavlink_attitude_t *testValue; // @trung
     mavlink_aq_telemetry_f_t *currentValuesF;
     telemValueTypes currentValueType;
     telemDatasets currentDataSet;
@@ -51,7 +52,7 @@ private:
     void setupCurves();
     float getTelemValue(const int idx);
     void init(); //@Leo
-    //@trung
+    // @trung
     bool isRunning;
 
 //    int currentRefreshRate;
@@ -64,6 +65,8 @@ private slots:
     void getNewTelemetry(int uasId, int valIdx);
     void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value);
     void chartReset(int);
+//    void changeMaxValue(QString);
+//    void changeMinValue(QString);
 
 protected:
     AQLinechartWidget* AqTeleChart;

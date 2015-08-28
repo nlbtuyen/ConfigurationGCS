@@ -16,6 +16,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     ui->setupUi(this);
 
     isRunning = false;
+    listChanged = false;
     currentRefreshRate = 2;
     // add content combobox refresh rate
     ui->combo_refreshRate->addItem("1 ms", 1000000);
@@ -34,7 +35,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     telemDatasets dset = TELEM_DATASET_DEFAULT;
     int msgidx = AQMAV_DATASET_LEGACY1;
 
-    telemDataFields.append(telemFieldsMeta("Pitch", unit, 1, msgidx, dset)); //@trung
+    telemDataFields.append(telemFieldsMeta("Pitch", unit, 1, msgidx, dset)); // @trung
     telemDataFields.append(telemFieldsMeta("Roll", unit, 2, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("Yaw", unit, 3, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("Pitch Rate", unit, 4, msgidx, dset));
@@ -70,7 +71,7 @@ void AQTelemetryView::setupCurves() {
     for (int i=0; i < telemDataFields.size(); i++) {
         if (telemDataFields[i].dataSet == currentDataSet) {
             QVariant var = QVariant::fromValue(0.0f);
-            AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, 0, isRunning, i+1);
+            AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, 0, isRunning, i+1, listChanged);
         }
     }
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)));
@@ -90,7 +91,7 @@ void AQTelemetryView::initChart(UASInterface *uav) {
 float AQTelemetryView::getTelemValue(const int idx) {
     float ret = 0.0f;
     switch(idx) {
-    case 1 : //@trung
+    case 1 : // @trung
         ret = testValue->pitch;
         break;
     case 2 :
@@ -134,7 +135,7 @@ void AQTelemetryView::init()
     for (int i=0; i < telemDataFields.size(); i++) {
         if (telemDataFields[i].dataSet == currentDataSet) {
             QVariant var = QVariant::fromValue(0.0f);
-            AqTeleChart->appendData(0, telemDataFields[i].label, "", var, 0, isRunning, i+1);
+            AqTeleChart->appendData(0, telemDataFields[i].label, "", var, 0, isRunning, i, listChanged);
         }
     }
 }
@@ -158,30 +159,34 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
     msec = 0;
     isRunning = true;
     // check refresh rate
-//    if (ui->combo_refreshRate->currentIndex() != currentRefreshRate){
-//        currentRefreshRate = ui->combo_refreshRate->currentIndex();
-//        chartReset();
-//    }
+    if (ui->combo_refreshRate->currentIndex() != currentRefreshRate){
+        currentRefreshRate = ui->combo_refreshRate->currentIndex();
+        chartReset(currentRefreshRate);
+    }
 
     // check selected curve list
-    if (ui->combo_selectCurve->currentIndex() != currentCurvedList)
+    if (ui->combo_selectCurve->currentIndex() != currentCurvedList){
         currentCurvedList = ui->combo_selectCurve->currentIndex();
+        listChanged = true;
+    }
 
 
     for (int i=0; i < telemDataFields.size(); i++) {
         if (valIdx == telemDataFields[i].msgValueIndex) {
             val = getTelemValue(telemDataFields[i].valueIndex);
-            if (ui->tab_val_chart->isVisible()) {                
+            if (ui->plotFrameTele->isVisible()) {
                 if (currentCurvedList == 0 && i < 3){
 //                    qDebug() << i+1 << " before append";
                     QVariant var = QVariant::fromValue(val);
-                    AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec, isRunning, i+1);
+                    AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec, isRunning, i, listChanged);
                     AqTeleChart->setCurveVisible(telemDataFields[i].label, true);
+                    if (i == 2) listChanged = false;
                 }else if (currentCurvedList == 1 && i >= 3 && i < 6){
 //                    qDebug() << i+1 << " before append";
                     QVariant var = QVariant::fromValue(val);
-                    AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec, isRunning, i+1);
+                    AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec, isRunning, i, listChanged);
                     AqTeleChart->setCurveVisible(telemDataFields[i].label, true);
+                    if (i == 5) listChanged = false;
                 }
                 // Set visible curve
                 if (currentCurvedList == 1 && i < 3){
@@ -200,3 +205,4 @@ void AQTelemetryView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t value
     currentValueType = TELEM_VALUETYPE_FLOAT;
     getNewTelemetry(uasId, values.Index);
 }
+

@@ -30,7 +30,10 @@ class AQLinechartWidget : public QWidget
 public:
     AQLinechartWidget(int systemid, QWidget *parent = 0);
     ~AQLinechartWidget();
-    void setCurveVisible(QString curve, bool visible); //@trung
+    void setCurveVisible(QString curve, bool visible); // @trung
+    double maxValue;
+    double minValue;
+    bool checkMaxMin();
 
     static const int MIN_TIME_SCROLLBAR_VALUE = 0; ///< The minimum scrollbar value
     static const int MAX_TIME_SCROLLBAR_VALUE = 16383; ///< The maximum scrollbar value
@@ -49,7 +52,8 @@ public slots:
     /** Set short names for curves */
     void setShortNames(bool enable);
     /** Append double data to the given curve. */
-    void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec, bool isRunning, int row);
+    void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec,
+                    bool isRunning, int row, bool listChanged);
 
     void takeButtonClick(bool checked);
     void setPlotWindowPosition(int scrollBarValue);
@@ -75,6 +79,7 @@ public slots:
 
 protected:
     void addCurveToList(QString curve, double value, bool isRunning, int row);
+    void updateCurveList(QString curve, double value, bool isRunning, int row);
     void removeCurveFromList(QString curve);
     QToolButton* createButton(QWidget* parent);
     void createCurveItem(QString curve);

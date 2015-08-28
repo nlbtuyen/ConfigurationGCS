@@ -13,16 +13,19 @@ public:
     ChartPlot(QWidget *parent = NULL);
     virtual ~ChartPlot();
 
-    /** @brief Get next color of color map */
+    /** Get next color of color map */
     QColor getNextColor();
 
-    /** @brief Get color for curve id */
+    /** Get color for curve id */
     QColor getColorForCurve(const QString &id);
 
-    /** @brief Reset color map */
+    /** Reset color map */
     void shuffleColors();
 
     void resetColor() { nextColorIndex = 0; }
+
+    // @trung
+    void changeMaxMinValue(int max, int min);
 
 public slots:
 

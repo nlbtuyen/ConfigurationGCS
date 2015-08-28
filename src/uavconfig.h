@@ -79,16 +79,15 @@ private slots:
 
     //RC Config
     void sendRcRefreshFreq();
-
-
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
-
     void on_pushButton_3_clicked();
-
     void on_pushButton_4_clicked();
 
+    //RC Chart
+    void pitchCharts();
+    void calculateResult1_RC();
+    void calculateYLoca();
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
@@ -117,6 +116,16 @@ private:
     QMovie *movie_up_160;
     QMovie *movie_down_160;
     QMovie *movie_left_160;
+
+    //RC Chart
+    int expo8;
+    int ra_rate;
+    int rc_rate;
+    static const int i_const[];
+    static const int x_loca[];
+    float y_local[7];
+    float result1[7];
+//    float result2[];
 
 
 protected:

@@ -49,8 +49,8 @@ LinechartPlot::LinechartPlot(QWidget *parent, int plotid, quint64 interval):
 
     // Set bottom scale
     setAxisScaleDraw(QwtPlot::xBottom, new TimeScaleDraw());
-    setAxisLabelRotation(QwtPlot::xBottom, -25.0);
-    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+    setAxisLabelRotation(QwtPlot::xBottom, 0);
+    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignCenter | Qt::AlignBottom);
 
     // Add some space on the left and right side of the scale to prevent flickering
 
@@ -574,6 +574,10 @@ void LinechartPlot::removeAllData()
     }
     datalock.unlock();
     replot();
+}
+
+void LinechartPlot::changeMaxMin(int max, int min){
+    this->changeMaxMinValue(max, min);
 }
 
 
