@@ -8,6 +8,8 @@
 #include "uasmanager.h"
 #include "uasinterface.h"
 #include "aq_telemetryView.h"
+#include "qwt_plot_marker.h"
+#include "qwt_symbol.h"
 
 #include <QDebug>
 #include <QWidget>
@@ -79,8 +81,8 @@ UAVConfig::UAVConfig(QWidget *parent) :
     //RC Charts
     connect(ui->btn_OK_RC, SIGNAL(clicked()), this, SLOT(pitchCharts()));
 
-//    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
-//    delayedSendRCTimer.start(800);
+    //    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
+    //    delayedSendRCTimer.start(800);
     sendRcRefreshFreq();
 
     movie_left = new QMovie(":/images/arr_left.gif");
@@ -903,7 +905,7 @@ void UAVConfig::sendRcRefreshFreq()
     min = 1500;
 
     foreach (QProgressBar* pb, allRadioChanProgressBars) {
-//        qDebug() << "progresbar: " << pb->objectName();
+        //        qDebug() << "progresbar: " << pb->objectName();
         if (pb->objectName().contains("chan_0")) {
             pb->setMaximum(tmax);
             pb->setMinimum(tmin);
@@ -918,7 +920,7 @@ void UAVConfig::sendRcRefreshFreq()
         }
     }
 
-//    delayedSendRCTimer.stop();
+    //    delayedSendRCTimer.stop();
 
 }
 
@@ -939,10 +941,11 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
         if (val < bar->minimum())
             val = bar->minimum();
         bar->setValue(val);
-//        qDebug() << "channelID: " << channelId << "bar: " << bar->value();
+        //        qDebug() << "channelID: " << channelId << "bar: " << bar->value();
     }
 }
 
+//Main func of RC Tab
 void UAVConfig::pitchCharts()
 {
     if (ui->lineEdit_expo8->text() == NULL || ui->lineEdit_rarate->text()==NULL)
@@ -953,9 +956,9 @@ void UAVConfig::pitchCharts()
     expo8 = expo8_str.toInt();
     QString ra_rate_str = ui->lineEdit_rarate->text();
     ra_rate = ra_rate_str.toInt();
-    calculateResult1_RC();
-    calculateYLoca();
-    drawCharts();
+    calculateResult1_RC(); //calculate result1
+    calculateYLoca(); //calculate y location
+    drawCharts(); //Draw Pitch + Roll Chart
 }
 
 void UAVConfig::calculateResult1_RC()
@@ -964,9 +967,7 @@ void UAVConfig::calculateResult1_RC()
     for (i = 0; i <= 6; i++)
     {
         result1[i] = (float)(2500 + expo8*(i*i-25))*i*ra_rate/2500;
-//        qDebug() << result1[i];
     }
-
 }
 
 void UAVConfig::calculateYLoca()
@@ -975,11 +976,49 @@ void UAVConfig::calculateYLoca()
     for (i = 0; i <= 6; i++)
     {
         y_loca[i] = (float)result1[i] + (x_loca[i] - i*100)*(result1[i+1] - result1[i])/100;
-        qDebug() << y_loca[i];
+        qDebug() << "x: " << x_loca[i] << "y: " << y_loca[i];
     }
 }
 
 void UAVConfig::drawCharts()
 {
+    QPolygonF poly;
+    for (int i = 0; i<=6; i++)
+    {
+        poly << QPointF(x_loca[i], y_loca[i]);
+    }
 
+    QWidget *widget = new QWidget();
+
+    QwtPlot *plot = new QwtPlot(widget);
+
+    //Point Marker
+    for (int i = 0; i<=6; i++)
+    {
+        QwtSymbol *sym=new QwtSymbol(QwtSymbol::Triangle,QBrush(QColor(51,102,204)),QPen(QColor(0,51,153)),QSize(10,10));
+        QwtPlotMarker *mark=new QwtPlotMarker();
+        mark->setSymbol(sym);
+        mark->setValue(QPointF(x_loca[i], y_loca[i]));
+        mark->attach(plot);
+    }
+
+    //Grid
+    QwtPlotGrid *grid = new QwtPlotGrid();
+    grid->attach(plot);
+    grid->setPen( Qt::gray, 0.0, Qt::DotLine );
+
+    //Curve
+    QwtPlotCurve *c = new QwtPlotCurve();
+    c->setPen( QPen(QColor(102,153,255), 4));
+    c->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+    c->setSamples(poly);
+    c->attach(plot);
+
+    plot->resize(420,235);
+    plot->replot();
+    plot->show();
+
+    ui->scrollArea_Charts_RC->setWidget(widget);
+
+    qDebug() << "========done";
 }

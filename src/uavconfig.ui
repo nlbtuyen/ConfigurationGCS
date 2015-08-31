@@ -763,8 +763,8 @@ border-radius: 80;
             <rect>
              <x>131</x>
              <y>9</y>
-             <width>421</width>
-             <height>251</height>
+             <width>420</width>
+             <height>240</height>
             </rect>
            </property>
            <property name="widgetResizable">
@@ -775,8 +775,8 @@ border-radius: 80;
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>419</width>
-              <height>249</height>
+              <width>418</width>
+              <height>238</height>
              </rect>
             </property>
            </widget>
