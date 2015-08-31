@@ -88,6 +88,7 @@ private slots:
     void pitchCharts();
     void calculateResult1_RC();
     void calculateYLoca();
+    void drawCharts();
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
@@ -123,7 +124,7 @@ private:
     int rc_rate;
     static const int i_const[];
     static const int x_loca[];
-    float y_local[7];
+    float y_loca[7];
     float result1[7];
 //    float result2[];
 

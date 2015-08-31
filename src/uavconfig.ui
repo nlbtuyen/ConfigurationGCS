@@ -683,48 +683,71 @@ border-radius: 80;
           <attribute name="title">
            <string>Tab 2</string>
           </attribute>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
             <rect>
-             <x>140</x>
-             <y>10</y>
-             <width>411</width>
-             <height>241</height>
-            </rect>
-           </property>
-           <property name="title">
-            <string>GroupBox</string>
-           </property>
-          </widget>
-          <widget class="QWidget" name="">
-           <property name="geometry">
-            <rect>
-             <x>11</x>
-             <y>31</y>
-             <width>121</width>
-             <height>77</height>
+             <x>9</x>
+             <y>9</y>
+             <width>111</width>
+             <height>107</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayout">
             <item row="0" column="0">
              <widget class="QLabel" name="label_expo8">
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>expo8:</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_expo8"/>
+             <widget class="QLineEdit" name="lineEdit_expo8">
+              <property name="minimumSize">
+               <size>
+                <width>50</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_rarate">
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>ra rate:</string>
               </property>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_rarate"/>
+             <widget class="QLineEdit" name="lineEdit_rarate">
+              <property name="minimumSize">
+               <size>
+                <width>50</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item row="2" column="0" colspan="2">
              <widget class="QPushButton" name="btn_OK_RC">
@@ -734,6 +757,29 @@ border-radius: 80;
              </widget>
             </item>
            </layout>
+          </widget>
+          <widget class="QScrollArea" name="scrollArea_Charts_RC">
+           <property name="geometry">
+            <rect>
+             <x>131</x>
+             <y>9</y>
+             <width>421</width>
+             <height>251</height>
+            </rect>
+           </property>
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>419</width>
+              <height>249</height>
+             </rect>
+            </property>
+           </widget>
           </widget>
          </widget>
         </widget>

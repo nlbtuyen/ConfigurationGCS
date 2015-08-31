@@ -230,6 +230,7 @@ void AQLinechartWidget::addCurveToList(QString curve, double val, bool isRunning
         value->setNum(val);
         curveLabels->insert(curve, value);
         curvesWidgetLayout->addWidget(value, row, 1);
+
     }
 }
 

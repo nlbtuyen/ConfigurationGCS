@@ -21,6 +21,7 @@
 #include <QBoxLayout>
 #include <QMovie>
 
+
 const int UAVConfig::i_const[] = {0,1,2,3,4,5,6};
 const int UAVConfig::x_loca[] = {50,120,290,320,400,500,600};
 
@@ -172,56 +173,6 @@ void UAVConfig::createAQParamWidget(UASInterface *uastmp)
     //    qDebug() << "create AQParamWidget";
     paramaq = new AQParamWidget(uas, this);
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
-}
-
-void UAVConfig::sendRcRefreshFreq()
-{
-    if (!uas) return;
-
-    int min, max, tmin, tmax;
-    tmax = -500;
-    tmin = 1500;
-    max = -1500;
-    min = 1500;
-
-    foreach (QProgressBar* pb, allRadioChanProgressBars) {
-//        qDebug() << "progresbar: " << pb->objectName();
-        if (pb->objectName().contains("chan_0")) {
-            pb->setMaximum(tmax);
-            pb->setMinimum(tmin);
-            qDebug() << "pd max chan_0: " << pb->maximum();
-            qDebug() << "pd min chan_0: " << pb->minimum();
-        } else {
-
-            pb->setMaximum(max);
-            pb->setMinimum(min);
-            qDebug() << "pd max chan_1: " << pb->maximum();
-            qDebug() << "pd min chan_1: " << pb->minimum();
-        }
-    }
-
-//    delayedSendRCTimer.stop();
-
-}
-
-void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
-{
-    int val;
-    if (channelId >= allRadioChanProgressBars.size())
-        return;
-
-    QProgressBar* bar = allRadioChanProgressBars.at(channelId);
-
-    val = (int)(normalized-1024);
-
-    if (bar) {
-        if (val > bar->maximum())
-            val = bar->maximum();
-        if (val < bar->minimum())
-            val = bar->minimum();
-        bar->setValue(val);
-//        qDebug() << "channelID: " << channelId << "bar: " << bar->value();
-    }
 }
 
 /*
@@ -936,6 +887,62 @@ void UAVConfig::on_pushButton_4_clicked()
     movie_up_160->start();
 }
 
+/*
+ * ================= RC-Config ===============
+ */
+
+//set min max for RCConfig
+void UAVConfig::sendRcRefreshFreq()
+{
+    if (!uas) return;
+
+    int min, max, tmin, tmax;
+    tmax = -500;
+    tmin = 1500;
+    max = -1500;
+    min = 1500;
+
+    foreach (QProgressBar* pb, allRadioChanProgressBars) {
+//        qDebug() << "progresbar: " << pb->objectName();
+        if (pb->objectName().contains("chan_0")) {
+            pb->setMaximum(tmax);
+            pb->setMinimum(tmin);
+            qDebug() << "pd max chan_0: " << pb->maximum();
+            qDebug() << "pd min chan_0: " << pb->minimum();
+        } else {
+
+            pb->setMaximum(max);
+            pb->setMinimum(min);
+            qDebug() << "pd max chan_1: " << pb->maximum();
+            qDebug() << "pd min chan_1: " << pb->minimum();
+        }
+    }
+
+//    delayedSendRCTimer.stop();
+
+}
+
+//set value RCconfig
+void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
+{
+    int val;
+    if (channelId >= allRadioChanProgressBars.size())
+        return;
+
+    QProgressBar* bar = allRadioChanProgressBars.at(channelId);
+
+    val = (int)(normalized-1024);
+
+    if (bar) {
+        if (val > bar->maximum())
+            val = bar->maximum();
+        if (val < bar->minimum())
+            val = bar->minimum();
+        bar->setValue(val);
+//        qDebug() << "channelID: " << channelId << "bar: " << bar->value();
+    }
+}
+
 void UAVConfig::pitchCharts()
 {
     if (ui->lineEdit_expo8->text() == NULL || ui->lineEdit_rarate->text()==NULL)
@@ -948,6 +955,7 @@ void UAVConfig::pitchCharts()
     ra_rate = ra_rate_str.toInt();
     calculateResult1_RC();
     calculateYLoca();
+    drawCharts();
 }
 
 void UAVConfig::calculateResult1_RC()
@@ -966,7 +974,12 @@ void UAVConfig::calculateYLoca()
     int i;
     for (i = 0; i <= 6; i++)
     {
-        y_local[i] = (float)result1[i] + (x_loca[i] - i*100)*(result1[i+1] - result1[i])/100;
-        qDebug() << y_local[i];
+        y_loca[i] = (float)result1[i] + (x_loca[i] - i*100)*(result1[i+1] - result1[i])/100;
+        qDebug() << y_loca[i];
     }
+}
+
+void UAVConfig::drawCharts()
+{
+
 }
