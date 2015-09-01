@@ -91,10 +91,7 @@ QPushButton {
 }
 
 QPushButton:hover, QPushButton:clicked{
-    color: #DC5B21;	 
-	padding-top: 2px;
-    padding-left: 3px;
-	margin-left: 5px;
+    color: #DC5B21;	
 }
 
 /*

@@ -3,13 +3,6 @@ import QtQuick.Window 2.2
 import QtQuick.Scene3D 2.0
 
 Item {
-
-    Rectangle {
-        id: screne
-        width: 170;
-        height: width;
-        anchors.centerIn: parent
-    }
     Scene3D {
         id: dd
         anchors.fill: parent

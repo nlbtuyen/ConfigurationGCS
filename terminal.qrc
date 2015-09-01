@@ -50,5 +50,12 @@
         <file>images/arr_down_160.gif</file>
         <file>images/arr_left_160.gif</file>
         <file>images/arr_up_160.gif</file>
+        <file>images/border-tuyen.png</file>
+        <file>images/radiocontrol-24.png</file>
+        <file>images/radiocontrol-32.png</file>
+        <file>images/radiocontrol-48.png</file>
+        <file>images/save.png</file>
+        <file>images/get-defaults-24.png</file>
+        <file>images/connect-24.png</file>
     </qresource>
 </RCC>

@@ -88,11 +88,12 @@ MainWindow::MainWindow(QWidget *parent) :
     // Set the toolbar to be updated every 2s
     connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateToolBarView()));
     updateViewTimer.start(2000);
+
 }
 
 MainWindow::~MainWindow()
 {
-    view.releaseResources();
+    //view.releaseResources();
 
     foreach(LinkInterface* link,LinkManager::instance()->getLinks())
     {
@@ -130,27 +131,13 @@ void MainWindow::initActionsConnections()
     addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
     parametersDockWidget->hide();
 
-    //Primary Flight Display on Pitch + Roll
-    ui->scrollArea_heading->setWidget(new HUDWidget(this));
+//    //Primary Flight Display on Pitch + Roll
+//    ui->scrollArea_heading->setWidget(new HUDWidget(this));
 
-    //Compass Display on Yaw
-    ui->scrollArea_Compass->setWidget(new CompassWidget(this));
+//    //Compass Display on Yaw
+//    ui->scrollArea_Compass->setWidget(new CompassWidget(this));
 
-    //3D Model: load qml and connect between QML & C++
-    view.releaseResources();
-    QWidget *container = QWidget::createWindowContainer(&view);
-    QSurfaceFormat format;
-    format.setMajorVersion(3);
-    format.setMinorVersion(3);
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setDepthBufferSize(24);
-    view.setFormat(format);
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.clearBeforeRendering();
-    view.engine()->clearComponentCache();
-    view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
-    view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
-    ui->scrollArea_3D->setWidget(container);
+
 
     /*
      * ===== Toolbar Status =====
@@ -220,6 +207,8 @@ void MainWindow::connectCommonWidgets()
 //Connect common actions
 void MainWindow::connectCommonActions()
 {
+    UAVConfig *conf = new UAVConfig();
+    connect(ui->actionSave, SIGNAL(triggered()),conf, SLOT(saveAQSetting()));
     connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(addLinkImmediately()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionConfigure, SIGNAL(triggered()), this, SLOT(addLink()));

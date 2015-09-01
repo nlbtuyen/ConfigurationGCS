@@ -37,9 +37,6 @@ Entity {
             angle: 180
         }
     }
-
-
-
     Mesh {
         id: mesh
         source: "qrc:/3dmodel/Drone.obj"

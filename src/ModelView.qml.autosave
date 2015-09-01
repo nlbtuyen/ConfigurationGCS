@@ -16,7 +16,7 @@ Entity {
 
     BasicCamera {
             id: mainCamera
-            position: Qt.vector3d( 0.0, 40.0,90.0) //z: near - far view
+            position: Qt.vector3d( 0.0, 0.0,90.0) //z: near - far view
         }
 
     Model {

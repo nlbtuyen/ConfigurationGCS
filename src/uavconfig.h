@@ -18,6 +18,21 @@
 #include "uasmanager.h"
 #include "aq_telemetryView.h"
 
+#include "drone.h"
+
+#include <Qt3DRenderer/qrenderaspect.h>
+#include <Qt3DInput/QInputAspect>
+#include <Qt3DQuick/QQmlAspectEngine>
+#include <QtQml>
+#include <QQuickView>
+#include <QQuickItem>
+#include <QQmlEngine>
+#include <QQmlComponent>
+#include <QQmlProperty>
+#include <QOpenGLContext>
+#include <QGraphicsObject>
+#include <QTimer>
+
 class AQParamWidget;
 
 namespace Ui {
@@ -57,7 +72,6 @@ private slots:
     void flashFwDfu();
     void selectFWToFlash();
     void loadSettings();
-    void saveAQSetting();
     bool validateRadioSettings(int);
     void saveDialogButtonClicked(QAbstractButton *btn);
     void prtstexit(int stat);
@@ -89,6 +103,13 @@ private slots:
     void calculateResult1_RC();
     void calculateYLoca();
     void drawCharts();
+
+    //3D Model
+    void load3DModel();
+
+public slots:
+    void saveAQSetting();
+
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
@@ -141,6 +162,9 @@ protected:
     QString LastFilePath;
 
     void updateButtonView();
+
+    QQuickView view;
+    Drone drone;
 
 
 };

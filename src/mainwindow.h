@@ -20,22 +20,9 @@
 #include "parameterinterface.h"
 #include "mavlinkdecoder.h"
 #include "commconfigurationwindow.h"
-#include "drone.h"
 #include "compasswidget.h"
 #include "hudwidget.h"
 
-#include <Qt3DRenderer/qrenderaspect.h>
-#include <Qt3DInput/QInputAspect>
-#include <Qt3DQuick/QQmlAspectEngine>
-#include <QtQml>
-#include <QQuickView>
-#include <QQuickItem>
-#include <QQmlEngine>
-#include <QQmlComponent>
-#include <QQmlProperty>
-#include <QOpenGLContext>
-#include <QGraphicsObject>
-#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -135,8 +122,7 @@ protected:
     AQParamWidget* paramaq;
     UAVConfig *config; //main tab configuration VSK
     QSettings setting;
-    QQuickView view;
-    Drone drone;
+
 signals:
     /**
      *   This signal is emitted instantly when the link is connected
