@@ -57,5 +57,11 @@
         <file>images/save.png</file>
         <file>images/get-defaults-24.png</file>
         <file>images/connect-24.png</file>
+        <file>images/firmware-update-24.png</file>
+        <file>images/line-chart-24.png</file>
+        <file>images/new_profile_24.png</file>
+        <file>images/OSD-24.png</file>
+        <file>images/PID-24.png</file>
+        <file>images/profile-24.png</file>
     </qresource>
 </RCC>

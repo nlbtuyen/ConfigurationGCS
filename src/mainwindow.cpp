@@ -207,8 +207,8 @@ void MainWindow::connectCommonWidgets()
 //Connect common actions
 void MainWindow::connectCommonActions()
 {
-    UAVConfig *conf = new UAVConfig();
-    connect(ui->actionSave, SIGNAL(triggered()),conf, SLOT(saveAQSetting()));
+
+    connect(ui->actionSave, SIGNAL(triggered()),config, SLOT(saveAQSetting()));
     connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(addLinkImmediately()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionConfigure, SIGNAL(triggered()), this, SLOT(addLink()));
@@ -253,7 +253,7 @@ void MainWindow::addLinkImmediately()
                 ui->actionConfigure->setEnabled(false);
                 connect(&updateAddLinkImm, SIGNAL(timeout()), this, SLOT(updateBattery()));
                 updateAddLinkImm.start(500);
-                ui->statusBar->showMessage(tr("Connected"));
+                config->loggingConsole(tr("Connectted"));
                 connectFlag = false;
             }
         }
@@ -377,7 +377,7 @@ void MainWindow::closeSerialPort()
         link->deleteLater();
     }
     ui->actionConfigure->setEnabled(true);
-    ui->statusBar->showMessage(tr("Disconnected"));
+    config->loggingConsole(tr("Disconnected"));
 }
 
 /*

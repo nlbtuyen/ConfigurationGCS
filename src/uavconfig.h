@@ -109,6 +109,7 @@ private slots:
 
 public slots:
     void saveAQSetting();
+    void loggingConsole(QString str);
 
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params

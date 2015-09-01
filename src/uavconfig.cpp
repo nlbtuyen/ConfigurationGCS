@@ -409,6 +409,13 @@ void UAVConfig::saveAQSetting()
     saveSettingsToAq(ui->tab_aq_setting);
 }
 
+void UAVConfig::loggingConsole(QString str)
+{
+    QTime curtime = QTime::currentTime();
+    QString time = curtime.toString("hh:mm:ss");
+    ui->plainTextEdit_Status->appendHtml("<span style=\" font-weight:bold\">" + time + "</span>"  + " -- " + str + ".");
+}
+
 bool UAVConfig::validateRadioSettings(int)
 {
     QList<QString> conflictPorts, portsUsed, essentialPorts;
@@ -700,13 +707,13 @@ void UAVConfig::on_btn_CHART_clicked()
 
 void UAVConfig::on_btn_UPGRADE_clicked()
 {
-    ui->tab_aq_setting->setCurrentIndex(5);
+    ui->tab_aq_setting->setCurrentIndex(6);
     updateButtonView();
 }
 
 void UAVConfig::on_btn_OSD_clicked()
 {
-    ui->tab_aq_setting->setCurrentIndex(6);
+    ui->tab_aq_setting->setCurrentIndex(5);
     updateButtonView();
 }
 
@@ -978,7 +985,7 @@ void UAVConfig::calculateYLoca()
     for (i = 0; i <= 6; i++)
     {
         y_loca[i] = (float)result1[i] + (x_loca[i] - i*100)*(result1[i+1] - result1[i])/100;
-//        qDebug() << "x: " << x_loca[i] << "y: " << y_loca[i];
+        //        qDebug() << "x: " << x_loca[i] << "y: " << y_loca[i];
     }
 }
 
@@ -1016,7 +1023,7 @@ void UAVConfig::drawCharts()
     c->setSamples(poly);
     c->attach(plot);
 
-    plot->resize(456,266);
+    plot->resize(456,256);
     plot->replot();
     plot->show();
 
