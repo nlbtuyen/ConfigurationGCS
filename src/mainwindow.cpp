@@ -263,7 +263,7 @@ void MainWindow::addLinkImmediately()
                 ui->actionConfigure->setEnabled(false);
                 connect(&updateAddLinkImm, SIGNAL(timeout()), this, SLOT(updateBattery()));
                 updateAddLinkImm.start(500);
-                config->loggingConsole(tr("Connectted"));
+                config->loggingConsole(tr("Connected"));
                 connectFlag = false;
             }
         }
@@ -271,6 +271,7 @@ void MainWindow::addLinkImmediately()
         {
             LinkManager::instance()->removeLink(link);
             MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please plugin your device to begin."));
+            config->loggingConsole("Error! Please plugin your device to begin");
         }
     }
     else
@@ -457,17 +458,19 @@ void MainWindow::loadStyle()
     QFile *styleSheet;
     if (!styleFileName_tmp.isEmpty())
         styleSheet = new QFile(styleFileName_tmp);
-    else
+    else{
         showCriticalMessage(tr("No style sheet"), tr("Please make sure you have style file in your directory"));
-
+        config->loggingConsole("No style sheet! Please make sure you have style file in your directory");
+    }
     if (styleSheet->open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QString style = QString(styleSheet->readAll());
         qApp->setStyleSheet(style);
     }
-    else
+    else{
         showCriticalMessage(tr("VSKConfigUAV can't load a new style"), tr("Stylesheet file %1 was not readable").arg(stylePath));
-
+        config->loggingConsole("VSKConfigUAV can't load a new style! Stylesheet file was not readable");
+    }
     delete styleSheet;
 }
 

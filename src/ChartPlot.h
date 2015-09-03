@@ -25,7 +25,7 @@ public:
     void resetColor() { nextColorIndex = 0; }
 
     // @trung
-    void changeMaxMinValue(int max, int min);
+    void changeMaxMinValue(double max, double min);
 
 public slots:
 

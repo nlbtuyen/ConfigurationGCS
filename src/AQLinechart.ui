@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>240</height>
+    <width>680</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>530</width>
+    <width>680</width>
     <height>240</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>550</width>
+    <width>680</width>
     <height>300</height>
    </size>
   </property>
@@ -64,13 +64,13 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>150</width>
+        <width>180</width>
         <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>150</width>
+        <width>180</width>
         <height>16777215</height>
        </size>
       </property>
@@ -100,14 +100,14 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>160</width>
            <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>140</width>
-           <height>100</height>
+           <width>160</width>
+           <height>150</height>
           </size>
          </property>
          <property name="layoutDirection">
@@ -142,8 +142,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>130</width>
-            <height>100</height>
+            <width>160</width>
+            <height>150</height>
            </rect>
           </property>
          </widget>
@@ -161,7 +161,23 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="maxValue"/>
+            <widget class="QLineEdit" name="maxValue">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -175,7 +191,23 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="minValue"/>
+            <widget class="QLineEdit" name="minValue">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
