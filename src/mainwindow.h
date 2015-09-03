@@ -174,6 +174,8 @@ public slots:
 
     void loadStyle();
 
+    void updateUIButton(int i);
+
 public:
     Ui::MainWindow *ui;
 };

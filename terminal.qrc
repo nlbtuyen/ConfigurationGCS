@@ -63,5 +63,6 @@
         <file>images/OSD-24.png</file>
         <file>images/PID-24.png</file>
         <file>images/profile-24.png</file>
+        <file>images/imu-24.png</file>
     </qresource>
 </RCC>

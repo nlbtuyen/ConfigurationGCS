@@ -53,9 +53,12 @@ public:
     const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
 
     bool saveSettingsToAq(QWidget *parent, bool interactive = true);
-void indexHide(int i);
+    void indexHide(int i);
+
 signals:
     void hardwareInfoUpdated(void);
+
+    void TabClicked(int i);
 
 private slots:
     //@Hai: update Param to UI
@@ -77,15 +80,6 @@ private slots:
     void prtstexit(int stat);
     void prtstdout();
     QString extProcessError(QProcess::ProcessError err);
-
-    //Fix UI when click to Tab-Button
-    void on_btn_RADIO_clicked();
-    void on_btn_MOTOR_clicked();
-    void on_btn_IMU_clicked();
-    void on_btn_PID_clicked();
-    void on_btn_CHART_clicked();
-    void on_btn_UPGRADE_clicked();
-    void on_btn_OSD_clicked();
 
     //connect between QSlider & QLineEdit
     void setValueLineEdit(QString str);
@@ -110,6 +104,14 @@ private slots:
 public slots:
     void saveAQSetting();
     void loggingConsole(QString str);
+
+    void TabRadio();
+    void TabMotor();
+    void TabIMU();
+    void TabPID();
+    void TabChart();
+    void TabOSD();
+    void TabUpgrade();
 
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
@@ -148,8 +150,6 @@ private:
     static const int x_loca[];
     float y_loca[7];
     float result1[7];
-//    float result2[];
-
 
 protected:
     Ui::UAVConfig *ui;

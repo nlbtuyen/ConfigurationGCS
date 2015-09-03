@@ -44,58 +44,408 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QScrollArea" name="mainConfig">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
+   <widget class="QScrollArea" name="mainConfig">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>0</y>
+      <width>730</width>
+      <height>546</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>1024</width>
+      <height>800</height>
+     </size>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="acceptDrops">
+     <bool>true</bool>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>730</width>
+       <height>546</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QScrollArea" name="scrollArea">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>70</width>
+      <height>546</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>70</width>
+      <height>546</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>70</width>
+      <height>550</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0));
+border: 0px;</string>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>70</width>
+       <height>546</height>
+      </rect>
+     </property>
+     <widget class="QToolButton" name="btn_RADIO">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>70</width>
+        <height>50</height>
+       </rect>
       </property>
-      <property name="maximumSize">
-       <size>
-        <width>1024</width>
-        <height>800</height>
-       </size>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::DefaultContextMenu</enum>
-      </property>
-      <property name="acceptDrops">
-       <bool>true</bool>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+        <kerning>true</kerning>
+       </font>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">QToolButton { 
+	background-color: #E7E7E7;
+	color: #000000;
+	border: 0px;
+}
+
+QToolButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
+	color: #000000;
+	border:0px;
+}
+</string>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+      <property name="text">
+       <string>Radio</string>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
+      <property name="icon">
+       <iconset resource="../terminal.qrc">
+        <normaloff>:/images/radiocontrol-32.png</normaloff>:/images/radiocontrol-32.png</iconset>
       </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
       </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
+      <property name="popupMode">
+       <enum>QToolButton::DelayedPopup</enum>
       </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>782</width>
-         <height>508</height>
-        </rect>
-       </property>
-      </widget>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextUnderIcon</enum>
+      </property>
      </widget>
-    </item>
-   </layout>
+     <widget class="QToolButton" name="btn_MOTOR">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>50</y>
+        <width>70</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton { 
+	color: #FFFFFF;
+	border: 0px;
+}
+
+QToolButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
+	color: #000000;
+	border:0px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>Motor</string>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="btn_IMU">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>100</y>
+        <width>70</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton { 
+	color: #FFFFFF;
+	border: 0px;
+}
+
+QToolButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
+	color: #000000;
+	border:0px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>IMU</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../terminal.qrc">
+        <normaloff>:/images/imu-24.png</normaloff>:/images/imu-24.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextUnderIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="btn_PID">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>150</y>
+        <width>70</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton { 
+	color: #FFFFFF;
+	border: 0px;
+}
+
+QToolButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
+	color: #000000;
+	border:0px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>PID</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../terminal.qrc">
+        <normaloff>:/images/PID-24.png</normaloff>:/images/PID-24.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextUnderIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="btn_CHART">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>200</y>
+        <width>70</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton { 
+	color: #FFFFFF;
+	border: 0px;
+}
+
+QToolButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
+	color: #000000;
+	border:0px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>Chart</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../terminal.qrc">
+        <normaloff>:/images/line-chart-24.png</normaloff>:/images/line-chart-24.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextUnderIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="btn_OSD">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>250</y>
+        <width>70</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton { 
+	color: #FFFFFF;
+	border: 0px;
+}
+
+QToolButton:hover{
+	background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
+	color: #000000;
+	border:0px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>OSD</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../terminal.qrc">
+        <normaloff>:/images/OSD-24.png</normaloff>:/images/OSD-24.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextUnderIcon</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="btn_UPGRADE">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>300</y>
+        <width>70</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton { 
+	color: #FFFFFF;
+	border: 0px;
+}
+
+QToolButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
+	color: #000000;
+	border:0px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>Upgrade</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../terminal.qrc">
+        <normaloff>:/images/firmware-update-24.png</normaloff>:/images/firmware-update-24.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextUnderIcon</enum>
+      </property>
+     </widget>
+    </widget>
+   </widget>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="sizePolicy">
@@ -166,14 +516,6 @@
    <addaction name="menuTools"/>
    <addaction name="menuWidgets"/>
    <addaction name="menuHelp"/>
-  </widget>
-  <widget class="QStatusBar" name="statusBar">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="sizeGripEnabled">
-    <bool>true</bool>
-   </property>
   </widget>
   <action name="actionConnect">
    <property name="icon">
