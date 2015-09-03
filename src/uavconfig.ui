@@ -2263,8 +2263,8 @@ border-radius: 80;
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>692</width>
-             <height>334</height>
+             <width>600</width>
+             <height>200</height>
             </rect>
            </property>
           </widget>
@@ -2472,7 +2472,7 @@ border-radius: 80;
     <rect>
      <x>200</x>
      <y>396</y>
-     <width>530</width>
+     <width>529</width>
      <height>150</height>
     </rect>
    </property>
