@@ -177,29 +177,30 @@ border-right: 1px solid ;
        <string notr="true">QToolButton { 
 	background-color: #E7E7E7;
 	color: #000000;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
-	border:0px;
+	border-top: 1px solid white;
+	border-right: 1px solid;
+	border-bottom: 1px solid white;
 }
 
 QToolButton:hover{
 	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
 	color: #000000;
-	border:0px;
-}
-</string>
+	border-top: 1px solid white;
+	border-right: 1px solid;
+	border-bottom: 1px solid white;
+}</string>
       </property>
       <property name="text">
        <string>Radio</string>
       </property>
       <property name="icon">
        <iconset resource="../terminal.qrc">
-        <normaloff>:/images/radiocontrol-32.png</normaloff>:/images/radiocontrol-32.png</iconset>
+        <normaloff>:/images/radiocontrol-48.png</normaloff>:/images/radiocontrol-48.png</iconset>
       </property>
       <property name="iconSize">
        <size>
-        <width>32</width>
-        <height>32</height>
+        <width>48</width>
+        <height>48</height>
        </size>
       </property>
       <property name="popupMode">
@@ -207,6 +208,12 @@ QToolButton:hover{
       </property>
       <property name="toolButtonStyle">
        <enum>Qt::ToolButtonTextUnderIcon</enum>
+      </property>
+      <property name="autoRaise">
+       <bool>false</bool>
+      </property>
+      <property name="arrowType">
+       <enum>Qt::NoArrow</enum>
       </property>
      </widget>
      <widget class="QToolButton" name="btn_MOTOR">
@@ -228,14 +235,17 @@ QToolButton:hover{
        <string notr="true">QToolButton { 
 	color: #FFFFFF;
 	border: 0px;
+	border-right: 1px solid;
 }
 
 QToolButton:hover{
 	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
 	color: #000000;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
+	border-top: 1px solid white;
+	border-right: 1px solid;
+	border-bottom: 1px solid white;
 }
+
 </string>
       </property>
       <property name="text">
@@ -261,14 +271,17 @@ QToolButton:hover{
        <string notr="true">QToolButton { 
 	color: #FFFFFF;
 	border: 0px;
+	border-right: 1px solid;
 }
 
 QToolButton:hover{
 	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
 	color: #000000;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
+	border-top: 1px solid white;
+	border-right: 1px solid;
+	border-bottom: 1px solid white;
 }
+
 </string>
       </property>
       <property name="text">
@@ -307,13 +320,15 @@ QToolButton:hover{
        <string notr="true">QToolButton { 
 	color: #FFFFFF;
 	border: 0px;
+	border-right: 1px solid;
 }
 
 QToolButton:hover{
 	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
 	color: #000000;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
+	border-top: 1px solid white;
+	border-right: 1px solid;
+	border-bottom: 1px solid white;
 }
 </string>
       </property>
@@ -353,13 +368,15 @@ QToolButton:hover{
        <string notr="true">QToolButton { 
 	color: #FFFFFF;
 	border: 0px;
+	border-right: 1px solid;
 }
 
 QToolButton:hover{
 	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
 	color: #000000;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
+	border-top: 1px solid white;
+	border-right: 1px solid;
+	border-bottom: 1px solid white;
 }
 </string>
       </property>
@@ -399,15 +416,17 @@ QToolButton:hover{
        <string notr="true">QToolButton { 
 	color: #FFFFFF;
 	border: 0px;
+	border-right: 1px solid;
 }
 
 QToolButton:hover{
-	background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
 	color: #000000;
-	border:0px;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
+	border-top: 1px solid white;
+	border-right: 1px solid;
+	border-bottom: 1px solid white;
 }
+
 </string>
       </property>
       <property name="text">
@@ -446,13 +465,15 @@ QToolButton:hover{
        <string notr="true">QToolButton { 
 	color: #FFFFFF;
 	border: 0px;
+	border-right: 1px solid;
 }
 
 QToolButton:hover{
 	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
 	color: #000000;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
+	border-top: 1px solid white;
+	border-right: 1px solid;
+	border-bottom: 1px solid white;
 }
 </string>
       </property>

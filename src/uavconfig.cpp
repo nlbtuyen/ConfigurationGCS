@@ -75,8 +75,8 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     updateButtonView();
 
-    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
-    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
+//    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
+//    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
 
     //RC Charts
     connect(ui->btn_OK_RC, SIGNAL(clicked()), this, SLOT(pitchCharts()));
@@ -723,16 +723,16 @@ bool UAVConfig::checkAqSerialConnection(QString port)
 
 void UAVConfig::setValueLineEdit(QString str)
 {
-    int val = str.toInt();
-    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
+//    int val = str.toInt();
+//    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
 }
 
 void UAVConfig::updateTextEdit(int i)
 {
-    i = i*1000/100;
-    QString str;
-    str.setNum(i, 10);
-    ui->CTRL_YAW_RTE_D->setText(str);
+//    i = i*1000/100;
+//    QString str;
+//    str.setNum(i, 10);
+//    ui->CTRL_YAW_RTE_D->setText(str);
 }
 
 void UAVConfig::updateButtonView()
@@ -992,7 +992,7 @@ void UAVConfig::drawCharts()
     c->setSamples(poly);
     c->attach(plot);
 
-    plot->resize(566,292);
+    plot->resize(507,281);
     plot->replot();
     plot->show();
 
