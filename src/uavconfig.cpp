@@ -926,12 +926,12 @@ void UAVConfig::pitchCharts()
     }
     QString expo8_str = ui->lineEdit_expo8->text();
     if (expo8_str.toInt() != expo8){
-        loggingConsole("expo8 has changed from " + QString::number(expo8) + " to " + expo8_str);
+//        loggingConsole("expo8 has changed from " + QString::number(expo8) + " to " + expo8_str);
     }
     expo8 = expo8_str.toInt();
     QString ra_rate_str = ui->lineEdit_rarate->text();
     if (ra_rate_str.toInt() != ra_rate){
-        loggingConsole("ra rate has changed from " + QString::number(ra_rate) + " to " + ra_rate_str);
+//        loggingConsole("ra rate has changed from " + QString::number(ra_rate) + " to " + ra_rate_str);
     }
     ra_rate = ra_rate_str.toInt();
     calculateResult1_RC(); //calculate result1

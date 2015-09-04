@@ -2223,54 +2223,58 @@ border-radius: 80;
        <property name="flat">
         <bool>true</bool>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <item>
-         <widget class="QScrollArea" name="scrollArea_Charts">
-          <property name="minimumSize">
-           <size>
-            <width>600</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>800</width>
-            <height>600</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <property name="lineWidth">
-           <number>0</number>
-          </property>
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>600</width>
-             <height>200</height>
-            </rect>
-           </property>
-          </widget>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QScrollArea" name="scrollArea_Charts">
+        <property name="geometry">
+         <rect>
+          <x>1</x>
+          <y>24</y>
+          <width>721</width>
+          <height>371</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>600</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>800</width>
+          <height>600</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>721</width>
+           <height>371</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -2487,6 +2491,9 @@ border-radius: 80;
      <width>530</width>
      <height>150</height>
     </size>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>
