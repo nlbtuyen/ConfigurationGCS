@@ -576,7 +576,7 @@ void LinechartPlot::removeAllData()
     replot();
 }
 
-void LinechartPlot::changeMaxMin(int max, int min){
+void LinechartPlot::changeMaxMin(double max, double min){
     this->changeMaxMinValue(max, min);
 }
 
