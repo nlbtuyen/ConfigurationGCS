@@ -992,7 +992,7 @@ void UAVConfig::drawCharts()
     c->setSamples(poly);
     c->attach(plot);
 
-    plot->resize(507,281);
+    plot->resize(480,255);
     plot->replot();
     plot->show();
 
