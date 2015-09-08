@@ -1,101 +1,64 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2015-05-16T09:52:19
-#
-#-------------------------------------------------
-
-QT       += core gui widgets
-
-CONFIG += extserialport static qesp_static
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+message(Qt version $$[QT_VERSION])
 
 TARGET = SerialConnectorMavlink
 TEMPLATE = app
 
-BASEDIR = $$_PRO_FILE_PWD_
+win* {
+        message(Windows build)
+        CONFIG += WinBuild
+}
+
+# debug/release
+CONFIG(debug, debug|release) {
+        message(Debug build)
+        CONFIG += DebugBuild
+} else:CONFIG(release, debug|release) {
+        message(Release build)
+        CONFIG += ReleaseBuild
+} else {
+        error(Unsupported build type)
+}
+
+# Qt configuration
+QT += network \
+         opengl \
+         svg \
+         xml \
+         webkit \
+         sql
+
+QT += widgets webkitwidgets multimedia printsupport concurrent quickwidgets 3dcore 3drenderer 3dinput 3dquick qml quick gui
+
+# build directories
+DESTDIR = $${OUT_PWD}
+BUILDDIR = $${OUT_PWD}/build
+OBJECTS_DIR = $${BUILDDIR}/obj
 MOC_DIR = $${BUILDDIR}/moc
+UI_DIR = $${BUILDDIR}/ui
+RCC_DIR = $${BUILDDIR}/rcc
+MOC_DIR = $${BUILDDIR}/moc
+# root of project files
+BASEDIR = $$_PRO_FILE_PWD_
 
-INCLUDEPATH += $$BASEDIR/libs/lib/sdl/msvc/include \
-                $$BASEDIR/libs/lib/sdl/include
+MAVLINK_CONF = "autoquad"
+MAVLINKPATH = $$BASEDIR/mavlink
 
-LIBS += -L$$BASEDIR/libs/lib/sdl/msvc/lib
+# OS-specific external libs and settings
+WinBuild: include(config_Windows.pri)
 
-LIBS +=  -lSDLmain -lSDL -lsetupapi -lsetupapi -ladvapi32 -luser32
+# common external libs
+include(config_external_libs.pri)
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    uavconfig.cpp \
-    aqpramwidget.cpp \
-    uasparammanager.cpp \
-    uas.cpp \
-    mavlinkprotocol.cpp \
-    parameterinterface.cpp \
-    qgc.cpp \
-    uasmanager.cpp \
-    mavlinkmessagesender.cpp \
-    linkmanager.cpp \
-    mavlinkuasfactory.cpp \
-    seriallink.cpp \
-    mavlinkdecoder.cpp \
-    uasinfowidget.cpp \
-    serialconfigurationwindow.cpp \
-    commconfigurationwindow.cpp \
-    debugconsole.cpp \
-    qextserialport.cpp \
-    qextserialenumerator.cpp \
-    qextserialport_win.cpp \
-    qextserialenumerator_win.cpp
+# post-build steps
+include(install.pri)
 
-
-HEADERS  += mainwindow.h \
-common\* \
-    uavconfig.h \
-    aqpramwidget.h \
-    uasparammanager.h \
-    uasinterface.h \
-    uas.h \
-    mavlinkprotocol.h \
-    protocolinterface.h \
-    autoquad\* \
-    parameterinterface.h \
-    autoquadmav.h \
-    qgc.h \
-    uasmanager.h \
-    eigen\* \
-    mavlinkmessagesender.h \
-    linkinterface.h \
-    linkmanager.h \
-    mavlinkuasfactory.h \
-    seriallink.h \
-    seriallinkinterface.h \
-    mavlinkdecoder.h \
-    uasinfowidget.h \
-    mg.h \
-    serialconfigurationwindow.h \
-    commconfigurationwindow.h \
-    debugconsole.h \
-    qextserialport.h \
-    qextserialport_global.h \
-    qextserialport_p.h \
-    qextserialenumerator.h \
-    qextserialenumerator_p.h
-
-
-FORMS    += mainwindow.ui \
-    serialsettings.ui \
-    uasinfo.ui \
-    uavconfig.ui \
-    parameterinterface.ui \
-    mavlinkmessagesender.ui \
-    commsettings.ui \
-    debugconsole.ui
-
+# Input
+include(src/src.pri)
 
 
 RESOURCES += \
     terminal.qrc
 
-
-
 DEFINES *= QT_USE_QSTRINGBUILDER
+
+OTHER_FILES += styles/*.css

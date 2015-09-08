@@ -22,5 +22,47 @@
         <file>images/config/write.png</file>
         <file>images/network-wired.png</file>
         <file>images/view-refresh.png</file>
+        <file>images/down_arrow.png</file>
+        <file>src/BasicCamera.qml</file>
+        <file>src/main.qml</file>
+        <file>src/WireframeMaterial.qml</file>
+        <file>3dmodel/180 FPV FULL.stl</file>
+        <file>3dmodel/rocket.obj</file>
+        <file>3dmodel/toyplane.obj</file>
+        <file>3dmodel/trefoil.obj</file>
+        <file>src/Model.qml</file>
+        <file>3dmodel/Drone.mtl</file>
+        <file>3dmodel/Drone.obj</file>
+        <file>src/ModelView.qml</file>
+        <file>images/background.jpg</file>
+        <file>images/background2.png</file>
+        <file>images/configurationBackground.PNG</file>
+        <file>images/drone_texture.png</file>
+        <file>images/hudBackground.png</file>
+        <file>images/arrow_down.gif</file>
+        <file>images/arrow_left.gif</file>
+        <file>images/arrow_right.gif</file>
+        <file>images/arrow_up.gif</file>
+        <file>images/arr_down.gif</file>
+        <file>images/arr_left.gif</file>
+        <file>images/arr_right.gif</file>
+        <file>images/arr_up.gif</file>
+        <file>images/arr_down_160.gif</file>
+        <file>images/arr_left_160.gif</file>
+        <file>images/arr_up_160.gif</file>
+        <file>images/border-tuyen.png</file>
+        <file>images/radiocontrol-24.png</file>
+        <file>images/radiocontrol-32.png</file>
+        <file>images/radiocontrol-48.png</file>
+        <file>images/save.png</file>
+        <file>images/get-defaults-24.png</file>
+        <file>images/connect-24.png</file>
+        <file>images/firmware-update-24.png</file>
+        <file>images/line-chart-24.png</file>
+        <file>images/new_profile_24.png</file>
+        <file>images/OSD-24.png</file>
+        <file>images/PID-24.png</file>
+        <file>images/profile-24.png</file>
+        <file>images/imu-24.png</file>
     </qresource>
 </RCC>
