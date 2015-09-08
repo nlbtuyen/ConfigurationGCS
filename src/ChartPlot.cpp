@@ -46,9 +46,9 @@ ChartPlot::ChartPlot(QWidget *parent):
     grid->attach(this);
 
     // Enable zooming
-    QwtPlotCanvas *c = static_cast<QwtPlotCanvas*>(canvas());
-    zoomer = new ScrollZoomer(c);
-    zoomer->setTrackerMode(QwtPicker::AlwaysOn);
+//    QwtPlotCanvas *c = static_cast<QwtPlotCanvas*>(canvas());
+//    zoomer = new ScrollZoomer(c);
+//    zoomer->setTrackerMode(QwtPicker::AlwaysOn);
 
     colors = QList<QColor>();
 
@@ -115,8 +115,8 @@ void ChartPlot::styleChanged()
 
     grid->setMinorPen(QPen(minPen, gridWidth, Qt::DotLine));
     grid->setMajorPen(QPen(majPen, gridWidth, Qt::DotLine));
-    zoomer->setRubberBandPen(QPen(rbPen, zoomerWidth, Qt::DotLine));
-    zoomer->setTrackerPen(QPen(trackPen));
+//    zoomer->setRubberBandPen(QPen(rbPen, zoomerWidth, Qt::DotLine));
+//    zoomer->setTrackerPen(QPen(trackPen));
     setCanvasBackground(bgColor);
 
     // And finally refresh the widget to make sure all color changes are redrawn.

@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
+    <width>720</width>
     <height>350</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>700</width>
+    <width>720</width>
     <height>350</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>700</width>
+    <width>720</width>
     <height>350</height>
    </size>
   </property>
@@ -30,13 +30,13 @@
     <rect>
      <x>8</x>
      <y>8</y>
-     <width>680</width>
+     <width>700</width>
      <height>300</height>
     </rect>
    </property>
    <property name="maximumSize">
     <size>
-     <width>680</width>
+     <width>700</width>
      <height>300</height>
     </size>
    </property>
@@ -46,49 +46,36 @@
     <rect>
      <x>9</x>
      <y>316</y>
-     <width>681</width>
+     <width>701</width>
      <height>24</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Refresh Rate:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="combo_refreshRate"/>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
+     <layout class="QHBoxLayout" name="horizontalLayout"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Select:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="combo_selectCurve"/>
+       <widget class="QComboBox" name="combo_selectCurve">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
