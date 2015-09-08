@@ -75,8 +75,8 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     updateButtonView();
 
-    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
-    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
+//    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
+//    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
 
     //RC Charts
     connect(ui->btn_OK_RC, SIGNAL(clicked()), this, SLOT(pitchCharts()));
@@ -217,8 +217,10 @@ void UAVConfig::getGUIPara(QWidget *parent)
 bool UAVConfig::checkAqConnected(bool interactive)
 {
     if (!uas || !paramaq || uas->getCommunicationStatus() != uas->COMM_CONNECTED ) {
-        if (interactive)
+        if (interactive){
             MainWindow::instance()->showCriticalMessage("Error", "No AutoQuad connected!");
+            loggingConsole("Error! No Autoquad Connected");
+        }
         return false;
     } else
         return true;
@@ -244,6 +246,7 @@ void UAVConfig::selectFWToFlash()
         {
             MainWindow::instance()->showCriticalMessage(tr("Warning!"),
                                                         tr("Could not open firmware file. %1").arg(file.errorString()));
+            loggingConsole("Warning! Could not open firmware file");
             return;
         }
         ui->fileLabel->setText(fileNameLocale);
@@ -307,6 +310,7 @@ bool UAVConfig::checkProcRunning(bool warn)
             MainWindow::instance()->showCriticalMessage(
                         tr("Process already running."),
                         tr("There appears to be an external process (calculation step or firmware flashing) already running. Please abort it first."));
+        loggingConsole("Process already running. There appears to be an external process (calculation step or firmware) already running. Please abort it first");
         return true;
     }
     return false;
@@ -404,6 +408,7 @@ void UAVConfig::saveAQSetting()
 {
     if (!validateRadioSettings(0)) {
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("You have the same port assigned to multiple controls!"));
+        loggingConsole("Error! You have the same port assigned to multiple controls");
         return;
     }
     saveSettingsToAq(ui->tab_aq_setting);
@@ -684,8 +689,10 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
 
         return true;
     } else {
-        if (interactive)
+        if (interactive){
             MainWindow::instance()->showCriticalMessage(tr("Warning"), tr("No changed parameters detected.  Nothing saved."));
+            loggingConsole("Warning! No changed parameters detected. Nothing saved");
+        }
         return false;
     }
 }
@@ -716,16 +723,16 @@ bool UAVConfig::checkAqSerialConnection(QString port)
 
 void UAVConfig::setValueLineEdit(QString str)
 {
-    int val = str.toInt();
-    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
+//    int val = str.toInt();
+//    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
 }
 
 void UAVConfig::updateTextEdit(int i)
 {
-    i = i*1000/100;
-    QString str;
-    str.setNum(i, 10);
-    ui->CTRL_YAW_RTE_D->setText(str);
+//    i = i*1000/100;
+//    QString str;
+//    str.setNum(i, 10);
+//    ui->CTRL_YAW_RTE_D->setText(str);
 }
 
 void UAVConfig::updateButtonView()
@@ -915,10 +922,17 @@ void UAVConfig::pitchCharts()
     if (ui->lineEdit_expo8->text() == NULL || ui->lineEdit_rarate->text()==NULL)
     {
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Empty value"));
+        loggingConsole("Error! Empty value");
     }
     QString expo8_str = ui->lineEdit_expo8->text();
+    if (expo8_str.toInt() != expo8){
+//        loggingConsole("expo8 has changed from " + QString::number(expo8) + " to " + expo8_str);
+    }
     expo8 = expo8_str.toInt();
     QString ra_rate_str = ui->lineEdit_rarate->text();
+    if (ra_rate_str.toInt() != ra_rate){
+//        loggingConsole("ra rate has changed from " + QString::number(ra_rate) + " to " + ra_rate_str);
+    }
     ra_rate = ra_rate_str.toInt();
     calculateResult1_RC(); //calculate result1
     calculateYLoca(); //calculate y location
@@ -978,7 +992,7 @@ void UAVConfig::drawCharts()
     c->setSamples(poly);
     c->attach(plot);
 
-    plot->resize(566,292);
+    plot->resize(480,255);
     plot->replot();
     plot->show();
 
