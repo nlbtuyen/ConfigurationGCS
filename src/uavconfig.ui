@@ -125,7 +125,7 @@
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_aq_setting_Radio">
     <property name="focusPolicy">
@@ -2224,33 +2224,18 @@ border-radius: 80;
         <bool>true</bool>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
         <item>
          <widget class="QScrollArea" name="scrollArea_Charts">
           <property name="minimumSize">
            <size>
-            <width>700</width>
-            <height>350</height>
+            <width>600</width>
+            <height>200</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>700</width>
-            <height>350</height>
+            <width>800</width>
+            <height>600</height>
            </size>
           </property>
           <property name="font">
@@ -2278,8 +2263,8 @@ border-radius: 80;
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>700</width>
-             <height>350</height>
+             <width>692</width>
+             <height>334</height>
             </rect>
            </property>
           </widget>

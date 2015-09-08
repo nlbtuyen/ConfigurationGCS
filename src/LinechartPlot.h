@@ -143,7 +143,7 @@ public:
     static const int DEFAULT_SCALE_INTERVAL = 1000 * 8;
 
     // @trung
-    void changeMaxMin(double max, double min);
+    void changeMaxMin(int max, int min);
 
 public slots:    
     void appendData(QString dataname, quint64 ms, double value);

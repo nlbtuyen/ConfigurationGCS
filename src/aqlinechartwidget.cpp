@@ -94,6 +94,14 @@ void AQLinechartWidget::selectActiveSystem(int mav)
     selectedMAV = mav;
 }
 
+void AQLinechartWidget::selectAllCurves(bool all)
+{
+    QMap<QString, QLabel*>::iterator i;
+    for (i = curveLabels->begin(); i != curveLabels->end(); ++i) {
+        activePlot->setVisibleById(i.key(), all);
+    }
+}
+
 void AQLinechartWidget::writeSettings()
 {
     QSettings settings;
@@ -174,10 +182,9 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
                 intData.insert(curve+unit, 0);
 //            addCurve(curve, unit);
             addCurveToList(curve, value, isRunning, row);
-
-        }/*else if (listChanged == true){
+        }else if (listChanged == true){
             updateCurveList(curve, value, isRunning, row);
-        }*/
+        }
         // Add int data
         if (!isDouble)
             intData.insert(curve+unit, value);
@@ -187,10 +194,11 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
     if (checkMaxMin()){
         activePlot->changeMaxMin(maxValue, minValue);
     }
+
 }
 
 void AQLinechartWidget::updateCurveList(QString curve, double val, bool isRunning, int row){
-    if (isRunning){        
+    if (isRunning){
         QLabel* label;
         QLabel* value;
         if (row > 2){
@@ -210,9 +218,9 @@ void AQLinechartWidget::addCurveToList(QString curve, double val, bool isRunning
     if (isRunning){
         QLabel* label;
         QLabel* value;
-//        if (row > 2){
-//            row = row % 3 + 1;
-//        }else row += 1;
+        if (row > 2){
+            row = row % 3 + 1;
+        }else row += 1;
         label = new QLabel(this);
         label->setText(curve);
         curvesWidgetLayout->addWidget(label, row, 0);
@@ -222,6 +230,7 @@ void AQLinechartWidget::addCurveToList(QString curve, double val, bool isRunning
         value->setNum(val);
         curveLabels->insert(curve, value);
         curvesWidgetLayout->addWidget(value, row, 1);
+
     }
 }
 
@@ -299,10 +308,8 @@ void AQLinechartWidget::refresh()
     QMap<QString, QLabel*>::iterator i;
     for (i = curveLabels->begin(); i != curveLabels->end(); ++i) {
         if (intData.contains(i.key())) {
-//            qDebug() << "1"; // @trung
             str.sprintf("% 11i", intData.value(i.key()));
         } else {
-//            qDebug() << i.key();
             double val = activePlot->getCurrentValue(i.key());
             int intval = static_cast<int>(val);
             if (intval >= 100000 || intval <= -100000) {
@@ -314,11 +321,9 @@ void AQLinechartWidget::refresh()
             } else {
                 str.sprintf("% 11.6f", val);
             }
-//            qDebug() << "2"; // @trung
         }
         // Value
         i.value()->setText(str);
-//        qDebug() << str; // @trung
     }
     setUpdatesEnabled(true);
 }
@@ -380,6 +385,14 @@ QString AQLinechartWidget::getCurveName(const QString& key, bool shortEnabled)
 {
     Q_UNUSED(shortEnabled);
     return curveNames.value(key);
+}
+
+void AQLinechartWidget::setShortNames(bool enable)
+{
+    foreach (QString key, curveNames.keys())
+    {
+        curveNameLabels.value(key)->setText(getCurveName(key, enable));
+    }
 }
 
 void AQLinechartWidget::showEvent(QShowEvent* event)

@@ -49,6 +49,8 @@ public slots:
     void removeCurve(QString curve);
     /** Remove all curves */
     void clearCurves();
+    /** Set short names for curves */
+    void setShortNames(bool enable);
     /** Append double data to the given curve. */
     void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec,
                     bool isRunning, int row, bool listChanged);
@@ -72,6 +74,8 @@ public slots:
     void writeSettings();
     /** Read the current configuration from disk */
     void readSettings();
+    /** Select all curves */
+    void selectAllCurves(bool all);
 
 protected:
     void addCurveToList(QString curve, double value, bool isRunning, int row);
@@ -89,16 +93,16 @@ protected:
     QReadWriteLock plotWindowLock;        ///< A lock (mutex) for the concurrent access on the window position
 
     int curveListIndex;
-    int curveListCounter;                   ///< Counter of curves in curve list
-    QList<QString>* ListItems;              ///< Curves listed
-    QList<QString>* listedCurves;           ///< Curves listed
-    QMap<QString, QLabel*>* curveLabels;    ///< References to the curve labels
-    QMap<QString, QLabel*> curveNameLabels; ///< References to the curve labels
-    QMap<QString, QString> curveNames;      ///< Full curve names
-    QMap<QString, int> intData;             ///< Current values for integer-valued curves
-    QMap<QString, QWidget*> colorIcons;     ///< Reference to color icons
-    QMap<QString, QCheckBox*> checkBoxes;   ///< Reference to curve selection checkboxes
-    QMap<QString, QString> curveUnits;      ///< Curve units by name
+    int curveListCounter;                 ///< Counter of curves in curve list
+    QList<QString>* ListItems;            ///< Curves listed
+    QList<QString>* listedCurves;         ///< Curves listed
+    QMap<QString, QLabel*>* curveLabels;  ///< References to the curve labels
+    QMap<QString, QLabel*> curveNameLabels;  ///< References to the curve labels
+    QMap<QString, QString> curveNames;    ///< Full curve names
+    QMap<QString, int> intData;           ///< Current values for integer-valued curves
+    QMap<QString, QWidget*> colorIcons;    ///< Reference to color icons
+    QMap<QString, QCheckBox*> checkBoxes;    ///< Reference to curve selection checkboxes
+    QMap<QString, QString> curveUnits;    ///< Curve units by name
 
     QWidget* curvesWidget;                ///< The QWidget containing the curve selection button
     QGridLayout* curvesWidgetLayout;      ///< The layout for the curvesWidget QWidget

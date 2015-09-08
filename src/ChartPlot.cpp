@@ -4,7 +4,6 @@
 #include "scrollzoomer.h"
 #include <qwt/qwt_legend.h>
 #include <qwt_plot_canvas.h>
-#include <qmath.h>
 
 const QColor ChartPlot::baseColors[numColors] = {
     QColor(70,80,242),
@@ -108,7 +107,7 @@ void ChartPlot::styleChanged()
     QColor majPen(0xB7, 0xB7, 0xB7, 150);
     QColor rbPen(0xB8, 0xD3, 0xE6);
     QColor trackPen(0x4A, 0xEB, 0xF7);
-    QColor bgColor(255,255,255);
+    QColor bgColor(0, 0, 0);
 
     resetColor();
     shuffleColors();
@@ -123,16 +122,6 @@ void ChartPlot::styleChanged()
     replot();
 }
 
-void ChartPlot::changeMaxMinValue(double max, double min){
-    if ((max - min) <= 2){
-        this->setAxisScale(QwtPlot::yLeft, min, max, 0.1);
-    }else if ((max - min) >= 20 && (max - min) < 50){
-        this->setAxisScale(QwtPlot::yLeft, min, max, 5);
-    }else if ((max - min) < 20 && (max - min) > 2){
-        this->setAxisScale(QwtPlot::yLeft, min, max, 1);
-    }else if ((max - min) >= 50 && (max - min) <= 200){
-        this->setAxisScale(QwtPlot::yLeft, min, max, 10);
-    }else{
-        this->setAxisScale(QwtPlot::yLeft, min, max, 50);
-    }
+void ChartPlot::changeMaxMinValue(int max, int min){
+    this->setAxisScale(QwtPlot::yLeft, min, max, 1);
 }
