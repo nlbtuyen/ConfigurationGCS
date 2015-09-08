@@ -2755,9 +2755,9 @@ border-radius: 80;
      <widget class="QScrollArea" name="scrollArea_Charts">
       <property name="geometry">
        <rect>
-        <x>-9</x>
-        <y>24</y>
-        <width>731</width>
+        <x>-2</x>
+        <y>21</y>
+        <width>741</width>
         <height>361</height>
        </rect>
       </property>
@@ -2798,7 +2798,7 @@ border-radius: 80;
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>731</width>
+         <width>741</width>
          <height>361</height>
         </rect>
        </property>

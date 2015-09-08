@@ -180,13 +180,7 @@ border-right: 1px solid ;
 	border-right: 1px solid;	
 	border-bottom: 1px solid;
 }
-
-QToolButton:hover{
-	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
-	color: #000000;
-	border-right: 1px solid;	
-	border-bottom: 1px solid;
-}</string>
+</string>
       </property>
       <property name="text">
        <string>Radio</string>
@@ -249,6 +243,12 @@ QToolButton:hover{
       <property name="text">
        <string>Motor</string>
       </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextUnderIcon</enum>
+      </property>
+      <property name="autoRaise">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QToolButton" name="btn_IMU">
       <property name="geometry">
@@ -294,6 +294,9 @@ QToolButton:hover{
         <width>32</width>
         <height>32</height>
        </size>
+      </property>
+      <property name="popupMode">
+       <enum>QToolButton::DelayedPopup</enum>
       </property>
       <property name="toolButtonStyle">
        <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -484,21 +487,21 @@ QToolButton:hover{
       </property>
       <property name="iconSize">
        <size>
-        <width>24</width>
-        <height>24</height>
+        <width>48</width>
+        <height>48</height>
        </size>
       </property>
       <property name="toolButtonStyle">
        <enum>Qt::ToolButtonTextUnderIcon</enum>
       </property>
      </widget>
+     <zorder>btn_RADIO</zorder>
      <zorder>btn_UPGRADE</zorder>
      <zorder>btn_OSD</zorder>
      <zorder>btn_CHART</zorder>
      <zorder>btn_PID</zorder>
      <zorder>btn_IMU</zorder>
      <zorder>btn_MOTOR</zorder>
-     <zorder>btn_RADIO</zorder>
     </widget>
    </widget>
   </widget>
@@ -520,7 +523,7 @@ QToolButton:hover{
    </property>
    <property name="styleSheet">
     <string notr="true">QToolBar {
-background-color: rgb(134, 134, 134);
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(115, 115, 115, 255), stop:0.505682 rgba(71, 71, 71, 255), stop:0.982955 rgba(115, 115, 115, 255));
 border-top: 1px solid;
 border-bottom: 1px solid;
 }</string>
@@ -600,7 +603,7 @@ border-bottom: 1px solid;
      <normaloff>:/images/connect-24.png</normaloff>:/images/connect-24.png</iconset>
    </property>
    <property name="text">
-    <string>C&amp;onnect</string>
+    <string>Connect</string>
    </property>
    <property name="toolTip">
     <string>Connect to serial port</string>
@@ -615,7 +618,7 @@ border-bottom: 1px solid;
      <normaloff>:/images/settings.png</normaloff>:/images/settings.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Configure</string>
+    <string>Configure</string>
    </property>
    <property name="toolTip">
     <string>Configure serial port</string>
@@ -630,7 +633,7 @@ border-bottom: 1px solid;
      <normaloff>:/images/application-exit.png</normaloff>:/images/application-exit.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Quit</string>
+    <string>Quit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
