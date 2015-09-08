@@ -50,8 +50,8 @@ public slots:
     /** Remove all curves */
     void clearCurves();
     /** Append double data to the given curve. */
-    void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec,
-                    bool isRunning, int row, bool listChanged);
+    void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec);
+//                    , bool isRunning, int row, bool listChanged);
 
     void takeButtonClick(bool checked);
     void setPlotWindowPosition(int scrollBarValue);
@@ -75,7 +75,6 @@ public slots:
 
 protected:
     void addCurveToList(QString curve, double value, bool isRunning, int row);
-    void updateCurveList(QString curve, double value, bool isRunning, int row);
     void removeCurveFromList(QString curve);
     QToolButton* createButton(QWidget* parent);
     void createCurveItem(QString curve);

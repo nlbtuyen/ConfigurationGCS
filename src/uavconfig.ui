@@ -127,7 +127,7 @@ margin: 10px 0 0 10px;
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="tab_aq_setting_Radio">
     <property name="focusPolicy">
@@ -976,7 +976,7 @@ border-radius: 80;
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_Pitch">
        <attribute name="title">
@@ -2755,7 +2755,7 @@ border-radius: 80;
      <widget class="QScrollArea" name="scrollArea_Charts">
       <property name="geometry">
        <rect>
-        <x>-2</x>
+        <x>-8</x>
         <y>21</y>
         <width>741</width>
         <height>361</height>

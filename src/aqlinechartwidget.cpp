@@ -150,7 +150,7 @@ void AQLinechartWidget::createLayout()
 }
 
 void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant,
-                                   quint64 usec, bool isRunning, int row, bool listChanged)
+                                   quint64 usec) //, bool isRunning, int row, bool listChanged)
 {
     QMetaType::Type type = static_cast<QMetaType::Type>(variant.type());
     bool ok;
@@ -166,18 +166,14 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
 
         // Store data
         QLabel* label = curveLabels->value(curve+unit, NULL);
-//        qDebug() << curve << " " << curveLabels->count();
         // Make sure the curve will be created if it does not yet exist
         if(!label)
         {
             if (!isDouble)
                 intData.insert(curve+unit, 0);
-//            addCurve(curve, unit);
-            addCurveToList(curve, value, isRunning, row);
-
-        }/*else if (listChanged == true){
-            updateCurveList(curve, value, isRunning, row);
-        }*/
+            addCurve(curve, unit);
+//            addCurveToList(curve, value, isRunning, row);
+        }
         // Add int data
         if (!isDouble)
             intData.insert(curve+unit, value);
@@ -189,40 +185,23 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
     }
 }
 
-void AQLinechartWidget::updateCurveList(QString curve, double val, bool isRunning, int row){
-    if (isRunning){        
-        QLabel* label;
-        QLabel* value;
-        if (row > 2){
-            row = row % 3 + 1;
-        }else row += 1;
-        label = new QLabel(this);
-        label->setText(curve);
-        curvesWidgetLayout->addWidget(label, row, 0);
-
-        value = new QLabel(this);
-        value->setNum(val);
-        curvesWidgetLayout->addWidget(value, row, 1);
-    }
-}
-
 void AQLinechartWidget::addCurveToList(QString curve, double val, bool isRunning, int row){
-    if (isRunning){
-        QLabel* label;
-        QLabel* value;
+//    if (isRunning){
+//        QLabel* label;
+//        QLabel* value;
 //        if (row > 2){
 //            row = row % 3 + 1;
 //        }else row += 1;
-        label = new QLabel(this);
-        label->setText(curve);
-        curvesWidgetLayout->addWidget(label, row, 0);
-        curveNameLabels.insert(curve, label);
+//        label = new QLabel(this);
+//        label->setText(curve);
+//        curvesWidgetLayout->addWidget(label, row, 0);
+//        curveNameLabels.insert(curve, label);
 
-        value = new QLabel(this);
-        value->setNum(val);
-        curveLabels->insert(curve, value);
-        curvesWidgetLayout->addWidget(value, row, 1);
-    }
+//        value = new QLabel(this);
+//        value->setNum(val);
+//        curveLabels->insert(curve, value);
+//        curvesWidgetLayout->addWidget(value, row, 1);
+//    }
 }
 
 /**
@@ -260,7 +239,8 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 
     label = new QLabel(this);
     label->setText(curve);
-    curvesWidgetLayout->addWidget(label, labelRow, 2);
+    label->setStyleSheet(QString("QLabel {font-size: 13px;}"));
+    curvesWidgetLayout->addWidget(label, labelRow, 1);
 
 //    QColor color(Qt::gray);
 //    QString colorstyle;
@@ -274,11 +254,11 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     // Value
     value = new QLabel(this);
     value->setNum(0.00);
-    value->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold;}"));
+    value->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold; font-size: 13px;}"));
     value->setToolTip(tr("Current value of %1 in %2 units").arg(curve, unit));
     value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
     curveLabels->insert(curve+unit, value);
-    curvesWidgetLayout->addWidget(value, labelRow, 3);
+    curvesWidgetLayout->addWidget(value, labelRow, 2);
 
     // Connect actions
 //    connect(selectAllCheckBox, SIGNAL(clicked(bool)), checkBox, SLOT(setChecked(bool)));
@@ -287,7 +267,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 
     // Set UI components to initial state
 //    checkBox->setChecked(false);
-    plot->setVisibleById(curve+unit, false);
+//    plot->setVisibleById(curve+unit, false);
 }
 
 void AQLinechartWidget::refresh()
