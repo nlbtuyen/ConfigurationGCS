@@ -20,7 +20,6 @@ SOURCES +=  $$PWD/main.cpp\
             $$PWD/aqlinechartwidget.cpp \
             $$PWD/ChartPlot.cpp \
             $$PWD/LinechartPlot.cpp \
-            $$PWD/scrollzoomer.cpp \
             $$PWD/scrollbar.cpp \
             $$PWD/incrementalplot.cpp \
             $$PWD/commconfigurationwindow.cpp \
@@ -52,7 +51,6 @@ HEADERS  += $$PWD/mainwindow.h \
             $$PWD/aqlinechartwidget.h \
             $$PWD/ChartPlot.h \
             $$PWD/LinechartPlot.h \
-            $$PWD/scrollzoomer.h \
             $$PWD/scrollbar.h \
             $$PWD/incrementalplot.h \
             $$PWD/commconfigurationwindow.h \

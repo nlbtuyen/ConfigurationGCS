@@ -1,7 +1,6 @@
 #include "ChartPlot.h"
 #include "scrollbar.h"
 #include "mainwindow.h"
-#include "scrollzoomer.h"
 #include <qwt/qwt_legend.h>
 #include <qwt_plot_canvas.h>
 #include <qmath.h>
@@ -11,9 +10,9 @@ const QColor ChartPlot::baseColors[numColors] = {
     QColor(232,33,47),
     QColor(116,251,110),
     QColor(81,183,244),
-    QColor(234,38,107),
-    QColor(92,247,217),
+    QColor(234,38,107),    
     QColor(151,59,239),
+    QColor(242,255,128),
     QColor(231,72,28),
     QColor(236,48,221),
     QColor(75,133,243),
@@ -26,7 +25,7 @@ const QColor ChartPlot::baseColors[numColors] = {
     QColor(161,252,116),
     QColor(87,231,246),
     QColor(230,126,23),
-    QColor(242,255,128)
+    QColor(92,247,217)
 };
 
 ChartPlot::ChartPlot(QWidget *parent):
@@ -34,8 +33,7 @@ ChartPlot::ChartPlot(QWidget *parent):
     nextColorIndex(0),
     symbolWidth(4.0f),
     curveWidth(2.0f),
-    gridWidth(0.8f),
-    zoomerWidth(2.0f)
+    gridWidth(0.8f)
 {
     // Initialize the list of curves.
     curves = QMap<QString, QwtPlotCurve*>();
@@ -44,11 +42,6 @@ ChartPlot::ChartPlot(QWidget *parent):
     grid = new QwtPlotGrid;
     grid->enableXMin(true);
     grid->attach(this);
-
-    // Enable zooming
-//    QwtPlotCanvas *c = static_cast<QwtPlotCanvas*>(canvas());
-//    zoomer = new ScrollZoomer(c);
-//    zoomer->setTrackerMode(QwtPicker::AlwaysOn);
 
     colors = QList<QColor>();
 
@@ -60,8 +53,8 @@ ChartPlot::ChartPlot(QWidget *parent):
     }
 
     // @trung
+    // Disable bottom scale and set max min value of left scale
     this->enableAxis(QwtPlot::xBottom, false);
-//    this->setAxisAutoScale(QwtPlot::yLeft, false);
     this->setAxisScale(QwtPlot::yLeft, -5, 5, 1);
 
     QwtLegend *legend = new QwtLegend;
@@ -106,8 +99,6 @@ void ChartPlot::styleChanged()
 {    
     QColor minPen(0x8C, 0x8C, 0x8C, 150);
     QColor majPen(0xB7, 0xB7, 0xB7, 150);
-    QColor rbPen(0xB8, 0xD3, 0xE6);
-    QColor trackPen(0x4A, 0xEB, 0xF7);
     QColor bgColor(255,255,255);
 
     resetColor();
@@ -115,8 +106,6 @@ void ChartPlot::styleChanged()
 
     grid->setMinorPen(QPen(minPen, gridWidth, Qt::DotLine));
     grid->setMajorPen(QPen(majPen, gridWidth, Qt::DotLine));
-//    zoomer->setRubberBandPen(QPen(rbPen, zoomerWidth, Qt::DotLine));
-//    zoomer->setTrackerPen(QPen(trackPen));
     setCanvasBackground(bgColor);
 
     // And finally refresh the widget to make sure all color changes are redrawn.

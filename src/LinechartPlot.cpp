@@ -6,7 +6,6 @@
 #include <qwt_plot_curve.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_layout.h>
-#include <qwt_plot_zoomer.h>
 #include <qwt_symbol.h>
 #include "LinechartPlot.h"
 #include "mg.h"
@@ -47,16 +46,7 @@ LinechartPlot::LinechartPlot(QWidget *parent, int plotid, quint64 interval):
     yScaleEngine = new QwtLinearScaleEngine();
     setAxisScaleEngine(QwtPlot::yLeft, yScaleEngine);
 
-    // Set bottom scale
-    setAxisScaleDraw(QwtPlot::xBottom, new TimeScaleDraw());
-    setAxisLabelRotation(QwtPlot::xBottom, 0);
-    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignCenter | Qt::AlignBottom);
-
     // Add some space on the left and right side of the scale to prevent flickering
-
-    QwtScaleWidget* bottomScaleWidget = axisWidget(QwtPlot::xBottom);
-    const int fontMetricsX = QFontMetrics(bottomScaleWidget->font()).height();
-    bottomScaleWidget->setMinBorderDist(fontMetricsX * 2, fontMetricsX / 2);
 
     plotLayout()->setAlignCanvasToScales(true);
 
@@ -528,16 +518,6 @@ void LinechartPlot::paintRealtime()
         }
 
         windowLock.unlock();
-
-        // Only set current view as zoombase if zoomer is not active
-        // else we could not zoom out any more
-
-        // @trung
-//        if(zoomer->zoomStack().size() < 2) {
-//            zoomer->setZoomBase(true);
-//        } else {
-//            replot();
-//        }
         replot();
     }
 }

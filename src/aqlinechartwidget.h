@@ -30,17 +30,22 @@ class AQLinechartWidget : public QWidget
 public:
     AQLinechartWidget(int systemid, QWidget *parent = 0);
     ~AQLinechartWidget();
-    void setCurveVisible(QString curve, bool visible); // @trung
+    // @trung
+    /** Set curve visible */
+    void setCurveVisible(QString curve, bool visible);
+    /** Set maxValue of left scale */
     double maxValue;
+    /** Set minValue of left scale */
     double minValue;
+    /** Check max and min value change */
     bool checkMaxMin();
 
-    static const int MIN_TIME_SCROLLBAR_VALUE = 0; ///< The minimum scrollbar value
-    static const int MAX_TIME_SCROLLBAR_VALUE = 16383; ///< The maximum scrollbar value
-    static const int DEFAULT_CURVE_LIST_WIDTH = 200; // default width of curve listing frame
-    static const int DEFAULT_AVG_WINDOW = 200; // default average window value
-    static const quint64 DEFAULT_PLOT_INTERVAL = 10; // plot interval - time length of X axis
-    static const int UPDATE_INTERVAL = 500; ///< Time between number updates, in milliseconds
+    static const int MIN_TIME_SCROLLBAR_VALUE = 0;      ///< The minimum scrollbar value
+    static const int MAX_TIME_SCROLLBAR_VALUE = 16383;  ///< The maximum scrollbar value
+    static const int DEFAULT_CURVE_LIST_WIDTH = 200;    // default width of curve listing frame
+    static const int DEFAULT_AVG_WINDOW = 200;          // default average window value
+    static const quint64 DEFAULT_PLOT_INTERVAL = 10;    // plot interval - time length of X axis
+    static const int UPDATE_INTERVAL = 500;             ///< Time between number updates, in milliseconds
     static const int MAX_CURVE_MENUITEM_NUMBER = 8;
     static const int PAGESTEP_TIME_SCROLLBAR_VALUE = (MAX_TIME_SCROLLBAR_VALUE - MIN_TIME_SCROLLBAR_VALUE) / 10;
 
@@ -51,7 +56,6 @@ public slots:
     void clearCurves();
     /** Append double data to the given curve. */
     void appendData(int uasId, const QString& curve, const QString& unit, QVariant& variant, quint64 usec);
-//                    , bool isRunning, int row, bool listChanged);
 
     void takeButtonClick(bool checked);
     void setPlotWindowPosition(int scrollBarValue);
@@ -74,7 +78,6 @@ public slots:
     void readSettings();
 
 protected:
-    void addCurveToList(QString curve, double value, bool isRunning, int row);
     void removeCurveFromList(QString curve);
     QToolButton* createButton(QWidget* parent);
     void createCurveItem(QString curve);

@@ -11,7 +11,6 @@
 #include <qwt_scale_engine.h>
 #include "incrementalplot.h"
 #include "scrollbar.h"
-#include "scrollzoomer.h"
 #include <float.h>
 #include <qpaintengine.h>
 
@@ -229,7 +228,6 @@ void IncrementalPlot::updateScale()
     }
     setAxisScale(xBottom, xMinRange, xMaxRange);
     setAxisScale(yLeft, yMinRange, yMaxRange);
-    zoomer->setZoomBase(true);
 }
 
 void IncrementalPlot::appendData(const QString &key, double x, double y)

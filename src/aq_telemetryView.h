@@ -20,7 +20,6 @@ public:
     ~AQTelemetryView();
 
     int currentRefreshRate;
-    bool listChanged;
 
 private:
     enum telemDatasets { TELEM_DATASET_DEFAULT, TELEM_DATASET_GROUND, TELEM_DATASET_NUM };
@@ -31,10 +30,10 @@ private:
         telemFieldsMeta(QString label, QString unit, int valueIndex, int msgValueIndex = 0, telemDatasets dataSet = TELEM_DATASET_DEFAULT) :
             label(label), unit(unit), valueIndex(valueIndex), msgValueIndex(msgValueIndex), dataSet(dataSet) {}
 
-        QString label; // human-readable name of field
-        QString unit; // value type (float|int)
-        int valueIndex; // index of telemtry value in mavlink msg
-        int msgValueIndex; // __mavlink_aq_telemetry_[f|i]_t.Index
+        QString label;          // human-readable name of field
+        QString unit;           // value type (float|int)
+        int valueIndex;         // index of telemtry value in mavlink msg
+        int msgValueIndex;      // __mavlink_aq_telemetry_[f|i]_t.Index
         telemDatasets dataSet;
     };
 
@@ -52,10 +51,6 @@ private:
     void setupCurves();
     float getTelemValue(const int idx);
     void init(); //@Leo
-    // @trung
-    bool isRunning;
-
-//    int currentRefreshRate;
     int currentCurvedList;
 
 public slots:
@@ -65,8 +60,6 @@ private slots:
     void getNewTelemetry(int uasId, int valIdx);
     void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value);
     void chartReset(int);
-//    void changeMaxValue(QString);
-//    void changeMinValue(QString);
 
 protected:
     AQLinechartWidget* AqTeleChart;

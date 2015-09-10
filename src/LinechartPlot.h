@@ -143,6 +143,7 @@ public:
     static const int DEFAULT_SCALE_INTERVAL = 1000 * 8;
 
     // @trung
+    /** Change max and min value of left scale */
     void changeMaxMin(double max, double min);
 
 public slots:    

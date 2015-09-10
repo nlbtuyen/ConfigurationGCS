@@ -136,7 +136,7 @@
        </property>
        <property name="styleSheet">
         <string notr="true">QScrollArea{
-	padding: 6px;
+	padding: 8px;
 }</string>
        </property>
        <property name="frameShape">
@@ -162,8 +162,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>153</width>
-          <height>168</height>
+          <width>149</width>
+          <height>164</height>
          </rect>
         </property>
        </widget>
