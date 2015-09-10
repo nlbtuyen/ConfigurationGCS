@@ -67,6 +67,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 
     updateTimer->setInterval(UPDATE_INTERVAL);
     readSettings();
+    connect(ui.maxValue, SIGNAL(textChanged(QString)), this, SLOT(checkMaxMin(QString)));
 }
 
 AQLinechartWidget::~AQLinechartWidget()
@@ -171,11 +172,6 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         // Add int data
         if (!isDouble)
             intData.insert(curve+unit, value);
-    }
-
-    // @trung
-    if (checkMaxMin()){
-        activePlot->changeMaxMin(maxValue, minValue);
     }
 }
 
@@ -444,11 +440,11 @@ QToolButton* AQLinechartWidget::createButton(QWidget* parent)
     return button;
 }
 
-bool AQLinechartWidget::checkMaxMin(){
+void AQLinechartWidget::checkMaxMin(QString str){
+    Q_UNUSED(str);
     if (ui.maxValue->text().toDouble() != maxValue || ui.minValue->text().toDouble() != minValue){
         maxValue = ui.maxValue->text().toDouble();
         minValue = ui.minValue->text().toDouble();
-        return true;
+        activePlot->changeMaxMin(maxValue, minValue);
     }
-    return false;
 }

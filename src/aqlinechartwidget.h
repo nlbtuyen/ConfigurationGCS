@@ -36,9 +36,7 @@ public:
     /** Set maxValue of left scale */
     double maxValue;
     /** Set minValue of left scale */
-    double minValue;
-    /** Check max and min value change */
-    bool checkMaxMin();
+    double minValue;    
 
     static const int MIN_TIME_SCROLLBAR_VALUE = 0;      ///< The minimum scrollbar value
     static const int MAX_TIME_SCROLLBAR_VALUE = 16383;  ///< The maximum scrollbar value
@@ -76,6 +74,8 @@ public slots:
     void writeSettings();
     /** Read the current configuration from disk */
     void readSettings();
+    /** Check max and min value change */
+    void checkMaxMin(QString str);
 
 protected:
     void removeCurveFromList(QString curve);
