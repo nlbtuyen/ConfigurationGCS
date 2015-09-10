@@ -127,7 +127,7 @@ margin: 10px 0 0 10px;
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_aq_setting_Radio">
     <property name="focusPolicy">
@@ -210,7 +210,7 @@ margin: 10px 0 0 10px;
        </font>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -960,6 +960,7 @@ border-radius: 80;
       </property>
       <property name="font">
        <font>
+        <family>Arial</family>
         <pointsize>10</pointsize>
        </font>
       </property>
@@ -976,7 +977,7 @@ border-radius: 80;
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_Pitch">
        <attribute name="title">
@@ -1114,6 +1115,9 @@ border-radius: 80;
              </property>
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="tickPosition">
+              <enum>QSlider::NoTicks</enum>
              </property>
             </widget>
            </item>
@@ -2775,7 +2779,8 @@ border-radius: 80;
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <family>Arial</family>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="styleSheet">

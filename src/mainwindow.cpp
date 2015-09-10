@@ -98,13 +98,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btn_CHART, SIGNAL(clicked()), config, SLOT(TabChart()));
     connect(config, SIGNAL(TabClicked(int)), this, SLOT(updateUIButton(int)));
 
-
+    updateUIButton(0);
 }
 
 MainWindow::~MainWindow()
 {
-    //view.releaseResources();
-
     foreach(LinkInterface* link,LinkManager::instance()->getLinks())
     {
         int linkIndex = LinkManager::instance()->getLinks().indexOf(link);
@@ -115,13 +113,10 @@ MainWindow::~MainWindow()
             if (act->data().toInt() == linkID)
                 ui->menuWidgets->removeAction(act);
         }
-
         link->disconnect();
         LinkManager::instance()->removeLink(link);
-
     }
     delete ui;
-
 }
 
 void MainWindow::initActionsConnections()
@@ -149,11 +144,9 @@ void MainWindow::initActionsConnections()
 
 
 
-    /*
+    /**
      * ===== Toolbar Status =====
      */
-
-
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status."));
     toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: white; }"));
@@ -178,10 +171,6 @@ void MainWindow::initActionsConnections()
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
     toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel { padding: 2px; color: white; }"));
     ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
-
-    //layout->
-//    ui->mainToolBar->setLayout(layout);
-
 
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));

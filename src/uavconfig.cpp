@@ -179,7 +179,7 @@ void UAVConfig::createAQParamWidget(UASInterface *uastmp)
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
 }
 
-/*
+/**
  * @Leo: update UI
  */
 void UAVConfig::getGUIPara(QWidget *parent)
@@ -387,7 +387,7 @@ void UAVConfig::loadSettings()
             settings.setValue(childKey, aq_settings.value(childKey));
         settings.sync();
         QFile("Aq.ini").rename("Aq.ini.bak");
-        qDebug() << "Copied settings from Aq.ini to QGC shared config storage.";
+//        qDebug() << "Copied settings from Aq.ini to QGC shared config storage.";
     }
 
     if (settings.contains("AUTOQUAD_FW_FILE") && settings.value("AUTOQUAD_FW_FILE").toString().length()) {
@@ -398,11 +398,9 @@ void UAVConfig::loadSettings()
 
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
-
     settings.endGroup();
     settings.sync();
 }
-
 
 void UAVConfig::saveAQSetting()
 {
@@ -600,8 +598,6 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
         else
             errLevel = 1;
     }
-
-
 
     if ( changeList.size() ) {
         paramSaveType = 1;  // save to volatile

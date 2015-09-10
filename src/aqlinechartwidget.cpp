@@ -239,7 +239,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 
     label = new QLabel(this);
     label->setText(curve);
-    label->setStyleSheet(QString("QLabel {font-size: 13px;}"));
+//    label->setStyleSheet(QString("QLabel {font-family:\"Arial\";}"));
     curvesWidgetLayout->addWidget(label, labelRow, 1);
 
 //    QColor color(Qt::gray);
@@ -254,9 +254,9 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     // Value
     value = new QLabel(this);
     value->setNum(0.00);
-    value->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold; font-size: 13px;}"));
-    value->setToolTip(tr("Current value of %1 in %2 units").arg(curve, unit));
-    value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
+//    value->setStyleSheet(QString("QLabel {font-family:\"Arial\";}"));
+//    value->setToolTip(tr("Current value of %1 in %2 units").arg(curve, unit));
+//    value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
     curveLabels->insert(curve+unit, value);
     curvesWidgetLayout->addWidget(value, labelRow, 2);
 

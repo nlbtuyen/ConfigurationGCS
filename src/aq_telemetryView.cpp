@@ -26,7 +26,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
 //    ui->combo_refreshRate->setCurrentIndex(2);
 
     ui->combo_selectCurve->addItem("Pitch, Roll, Yaw");
-    ui->combo_selectCurve->addItem("Pitch|Roll|Yaw Rate");
+    ui->combo_selectCurve->addItem("Pitch Rate, Roll Rate, Yaw Rate");
     ui->combo_selectCurve->setCurrentIndex(0);
     currentCurvedList = ui->combo_selectCurve->currentIndex();
 
