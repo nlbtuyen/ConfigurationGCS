@@ -13,7 +13,7 @@
 
 #include "common/common.h"
 #include "common/mavlink.h"
-#include "common/mavlink_types.h"
+#include "mavlink_types.h"
 #include "ui_mainwindow.h"
 #include "linkinterface.h"
 #include "uasinterface.h"

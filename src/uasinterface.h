@@ -8,9 +8,9 @@
 #include <QPointer>
 #include "linkinterface.h"
 #include "protocolinterface.h"
-#include "autoquad/mavlink_msg_aq_telemetry_f.h"
+#include "vskyline/mavlink_msg_aq_telemetry_f.h"
 #include "uasparammanager.h"
-
+#include "vskyline/vskyline.h"
 
 
 /**

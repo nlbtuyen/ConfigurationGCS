@@ -25,7 +25,7 @@
 
 
 const int UAVConfig::i_const[] = {0,0,1,2,3,4,5,6};
-const int UAVConfig::x_loca[] = {0,50,150,250,350,450,550,600};
+const int UAVConfig::x_loca[] = {0,75,150,250,350,450,550,600};
 
 UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),

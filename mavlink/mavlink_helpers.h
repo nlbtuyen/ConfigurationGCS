@@ -5,7 +5,7 @@
 #include "checksum.h"
 #include "mavlink_types.h"
 #include "mavlink_conversions.h"
-#include "common/mavlink.h"
+
 #ifndef MAVLINK_HELPER
 #define MAVLINK_HELPER
 #endif
@@ -226,7 +226,7 @@ MAVLINK_HELPER void mavlink_update_checksum(mavlink_message_t* msg, uint8_t c)
  * A typical use scenario of this function call is:
  *
  * @code
- * #include <inttypes.h> // For fixed-width uint8_t type
+ * #include <mavlink.h>
  *
  * mavlink_message_t msg;
  * int chan = 0;

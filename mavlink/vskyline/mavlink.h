@@ -1,5 +1,5 @@
 /** @file
- *	@brief MAVLink comm protocol built from autoquad.xml
+ *	@brief MAVLink comm protocol built from vskyline.xml
  *	@see http://mavlink.org
  */
 #ifndef MAVLINK_H
@@ -22,6 +22,6 @@
 #endif
 
 #include "version.h"
-#include "autoquad.h"
+#include "vskyline.h"
 
 #endif // MAVLINK_H

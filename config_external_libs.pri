@@ -6,7 +6,7 @@
 
 INCLUDEPATH += $$MAVLINKPATH
 isEmpty(MAVLINK_CONF) {
-	 INCLUDEPATH += $$MAVLINKPATH/common
+         INCLUDEPATH += $$MAVLINKPATH/common
 } else {
 	 message("Adding support for additional MAVLink messages for: " $$MAVLINK_CONF)
 	 INCLUDEPATH += $$MAVLINKPATH/$$MAVLINK_CONF

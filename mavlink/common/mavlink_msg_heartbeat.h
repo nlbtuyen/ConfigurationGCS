@@ -1,7 +1,5 @@
 // MESSAGE HEARTBEAT PACKING
 
-#include "protocol.h"
-
 #define MAVLINK_MSG_ID_HEARTBEAT 0
 
 typedef struct __mavlink_heartbeat_t
@@ -121,11 +119,11 @@ static inline uint16_t mavlink_msg_heartbeat_pack_chan(uint8_t system_id, uint8_
 #endif
 
 	msg->msgid = MAVLINK_MSG_ID_HEARTBEAT;
-//#if MAVLINK_CRC_EXTRA
-//    return mavlink_finalize_message_chan(msg, system_id, component_id, chan, MAVLINK_MSG_ID_HEARTBEAT_LEN, MAVLINK_MSG_ID_HEARTBEAT_CRC);
-//#else
-//    return mavlink_finalize_message_chan(msg, system_id, component_id, chan, MAVLINK_MSG_ID_HEARTBEAT_LEN);
-//#endif
+#if MAVLINK_CRC_EXTRA
+    return mavlink_finalize_message_chan(msg, system_id, component_id, chan, MAVLINK_MSG_ID_HEARTBEAT_LEN, MAVLINK_MSG_ID_HEARTBEAT_CRC);
+#else
+    return mavlink_finalize_message_chan(msg, system_id, component_id, chan, MAVLINK_MSG_ID_HEARTBEAT_LEN);
+#endif
 }
 
 /**

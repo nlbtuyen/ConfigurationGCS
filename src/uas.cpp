@@ -1,4 +1,4 @@
-#include "autoquad/autoquad.h"
+#include "vskyline/vskyline.h"
 #include <QList>
 #include <QMessageBox>
 #include <QTimer>
@@ -15,7 +15,7 @@
 #include "linkmanager.h"
 #include "seriallink.h"
 #include "autoquadmav.h"
-#include "mavlink.h"
+#include "vskyline/mavlink.h"
 
 #ifndef isinf
 #define isinf(x) ((x)!=(x))
