@@ -65,5 +65,7 @@
         <file>images/profile-24.png</file>
         <file>images/imu-24.png</file>
         <file>images/redpoint.png</file>
+        <file>images/Undo-icon.png</file>
+        <file>images/default.png</file>
     </qresource>
 </RCC>

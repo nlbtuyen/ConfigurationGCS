@@ -968,7 +968,7 @@ void UAVConfig::TPAChart()
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Empty value"));
         loggingConsole("Error! TPA or TPA Breakpoint value is empty");
     }
-    TPA = ui->lineEdit_TPA->text().toInt();
+    TPA = ui->lineEdit_TPA->text().toDouble();
 
     TPA_breakpoint = ui->lineEdit_TPA_Breakpoint->text().toInt();
 

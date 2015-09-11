@@ -210,7 +210,7 @@ margin: 10px 0 0 10px;
        </font>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_RCCalib">
        <attribute name="title">
@@ -3353,7 +3353,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>15</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_47">
@@ -3440,12 +3440,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_startup">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -3483,7 +3491,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>14</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_48">
@@ -3567,12 +3575,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_tempe">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -3610,7 +3626,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>13</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_49">
@@ -3697,12 +3713,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_motor">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -3740,7 +3764,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>13</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_50">
@@ -3827,12 +3851,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_demeg">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -3870,7 +3902,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>13</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_51">
@@ -3957,12 +3989,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_PWM">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -4000,7 +4040,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>13</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_52">
@@ -4084,12 +4124,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_enable">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -4127,7 +4175,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>13</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_54">
@@ -4214,12 +4262,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_polarity">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -4257,7 +4313,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>13</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_55">
@@ -4344,12 +4400,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_beep">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -4387,7 +4451,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>13</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_65">
@@ -4474,12 +4538,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_strength">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -4517,7 +4589,7 @@ padding: 10px;</string>
          <x>10</x>
          <y>13</y>
          <width>191</width>
-         <height>51</height>
+         <height>54</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_67">
@@ -4604,12 +4676,20 @@ padding: 10px;</string>
             <property name="text">
              <string>...</string>
             </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="default_delay">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
             </property>
            </widget>
           </item>
@@ -4659,6 +4739,8 @@ padding: 10px;
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../terminal.qrc"/>
+ </resources>
  <connections/>
 </ui>
