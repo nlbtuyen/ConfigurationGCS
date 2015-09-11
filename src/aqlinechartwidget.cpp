@@ -181,7 +181,6 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
  **/
 void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 {
-    LinechartPlot* plot = activePlot;
     QLabel* label;
     QLabel* value;
 

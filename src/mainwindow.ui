@@ -161,9 +161,9 @@ border-right: 1px solid ;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>76</y>
+        <y>67</y>
         <width>70</width>
-        <height>77</height>
+        <height>68</height>
        </rect>
       </property>
       <property name="font">
@@ -203,9 +203,9 @@ QToolButton:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>153</y>
+        <y>135</y>
         <width>70</width>
-        <height>77</height>
+        <height>68</height>
        </rect>
       </property>
       <property name="font">
@@ -255,9 +255,9 @@ QToolButton:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>230</y>
+        <y>203</y>
         <width>70</width>
-        <height>77</height>
+        <height>68</height>
        </rect>
       </property>
       <property name="font">
@@ -303,9 +303,9 @@ QToolButton:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>307</y>
+        <y>271</y>
         <width>70</width>
-        <height>77</height>
+        <height>68</height>
        </rect>
       </property>
       <property name="font">
@@ -351,9 +351,9 @@ QToolButton:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>384</y>
+        <y>339</y>
         <width>70</width>
-        <height>78</height>
+        <height>68</height>
        </rect>
       </property>
       <property name="font">
@@ -400,9 +400,9 @@ QToolButton:hover{
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>462</y>
+        <y>407</y>
         <width>70</width>
-        <height>78</height>
+        <height>68</height>
        </rect>
       </property>
       <property name="font">
@@ -450,7 +450,7 @@ QToolButton:hover{
         <x>0</x>
         <y>-1</y>
         <width>70</width>
-        <height>77</height>
+        <height>68</height>
        </rect>
       </property>
       <property name="font">
@@ -483,6 +483,54 @@ QToolButton:hover{
        <bool>false</bool>
       </property>
      </widget>
+     <widget class="QToolButton" name="btn_BLHeli">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>475</y>
+        <width>70</width>
+        <height>65</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton { 
+	color: #FFFFFF;
+	border: 0px;
+	border-right: 1px solid;
+}
+
+QToolButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));
+	color: #000000;
+	border-top: 1px solid;
+	border-right: 1px solid;	
+	border-bottom: 1px solid;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>BLHeli</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../terminal.qrc">
+        <normaloff>:/images/firmware-update-24.png</normaloff>:/images/firmware-update-24.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>48</width>
+        <height>48</height>
+       </size>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextUnderIcon</enum>
+      </property>
+     </widget>
      <zorder>btn_RADIO</zorder>
      <zorder>btn_UPGRADE</zorder>
      <zorder>btn_OSD</zorder>
@@ -490,6 +538,7 @@ QToolButton:hover{
      <zorder>btn_PID</zorder>
      <zorder>btn_IMU</zorder>
      <zorder>btn_MOTOR</zorder>
+     <zorder>btn_BLHeli</zorder>
     </widget>
    </widget>
   </widget>

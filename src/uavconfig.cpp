@@ -24,8 +24,8 @@
 #include <QMovie>
 
 
-const int UAVConfig::i_const[] = {0,1,2,3,4,5,6};
-const int UAVConfig::x_loca[] = {50,120,290,320,400,500,600};
+const int UAVConfig::i_const[] = {0,0,1,2,3,4,5,6};
+const int UAVConfig::x_loca[] = {0,50,150,250,350,450,550,600};
 
 UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),
@@ -75,50 +75,29 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     updateButtonView();
 
-//    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
-//    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
+    //    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
+    //    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
+
+    if(ui->lineEdit_expoPitch && ui->lineEdit_ratePitch)
+        pitchCharts();
 
     //RC Charts
-    connect(ui->btn_OK_RC, SIGNAL(clicked()), this, SLOT(pitchCharts()));
+    connect(ui->btn_OK_ExpoPitch, SIGNAL(clicked()), this, SLOT(pitchCharts()));
 
     //    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     //    delayedSendRCTimer.start(800);
     sendRcRefreshFreq();
 
-    movie_left = new QMovie(":/images/arr_left.gif");
-    movie_right = new QMovie(":/images/arr_right.gif");
-    movie_up = new QMovie(":/images/arr_up.gif");
-    movie_down = new QMovie(":/images/arr_down.gif");
-    movie_up_160 = new QMovie(":/images/arr_up_160.gif");
-    movie_down_160 = new QMovie(":/images/arr_down_160.gif");
-    movie_left_160 = new QMovie(":/images/arr_left_160.gif");
-
-    ui->label_left_1->setMovie(movie_down);
-    ui->label_left_2->setMovie(movie_up);
-
-    ui->label_right_1->setMovie(movie_down);
-    ui->label_right_2->setMovie(movie_up);
-
-    ui->label_bottom_left_1->setMovie(movie_right);
-    ui->label_bottom_left_2->setMovie(movie_left);
-
-    ui->label_bottom_right_1->setMovie(movie_right);
-    ui->label_bottom_right_2->setMovie(movie_left);
-
-    ui->label_left_160->hide();
-    ui->label_right_160->hide();
-    ui->label_bottom_left->hide();
-    ui->label_bottom_right->hide();
-
-    movie_left->start();
-    movie_right->start();
-    movie_up->start();
-    movie_down->start();
-
     //update variable for RC Chart
     rc_rate = 50;
 
     load3DModel();
+
+    QPixmap left(":/images/redpoint.png");
+    ui->label_redpoint_left->setPixmap(left);
+    ui->label_redpoint_right->setPixmap(left);
+    ui->label_redpoint_left->setScaledContents(true);
+    ui->label_redpoint_right->setScaledContents(true);
 }
 
 UAVConfig::~UAVConfig()
@@ -387,7 +366,7 @@ void UAVConfig::loadSettings()
             settings.setValue(childKey, aq_settings.value(childKey));
         settings.sync();
         QFile("Aq.ini").rename("Aq.ini.bak");
-//        qDebug() << "Copied settings from Aq.ini to QGC shared config storage.";
+        //        qDebug() << "Copied settings from Aq.ini to QGC shared config storage.";
     }
 
     if (settings.contains("AUTOQUAD_FW_FILE") && settings.value("AUTOQUAD_FW_FILE").toString().length()) {
@@ -458,6 +437,12 @@ void UAVConfig::TabOSD()
 void UAVConfig::TabUpgrade()
 {
     ui->tab_aq_setting->setCurrentIndex(6);
+    updateButtonView();
+}
+
+void UAVConfig::TabBLHeli()
+{
+    ui->tab_aq_setting->setCurrentIndex(7);
     updateButtonView();
 }
 
@@ -719,16 +704,16 @@ bool UAVConfig::checkAqSerialConnection(QString port)
 
 void UAVConfig::setValueLineEdit(QString str)
 {
-//    int val = str.toInt();
-//    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
+    //    int val = str.toInt();
+    //    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
 }
 
 void UAVConfig::updateTextEdit(int i)
 {
-//    i = i*1000/100;
-//    QString str;
-//    str.setNum(i, 10);
-//    ui->CTRL_YAW_RTE_D->setText(str);
+    //    i = i*1000/100;
+    //    QString str;
+    //    str.setNum(i, 10);
+    //    ui->CTRL_YAW_RTE_D->setText(str);
 }
 
 void UAVConfig::updateButtonView()
@@ -770,90 +755,17 @@ void UAVConfig::updateButtonView()
         emit TabClicked(6);
         break;
     }
+    case 7:
+    {
+        emit TabClicked(7);
+        break;
+    }
     default:
     {
         break;
     }
         break;
     }
-}
-
-void UAVConfig::on_pushButton_clicked()
-{
-    ui->label_left_1->hide();
-    ui->label_left_2->hide();
-    ui->label_right_1->hide();
-    ui->label_right_2->hide();
-    ui->label_bottom_left_1->hide();
-    ui->label_bottom_left_2->hide();
-    ui->label_bottom_right_1->hide();
-    ui->label_bottom_right_2->hide();
-    ui->label_left_160->show();
-    ui->label_right_160->hide();
-    ui->label_bottom_left->hide();
-    ui->label_bottom_right->hide();
-
-    ui->label_left_160->setMovie(movie_down_160);
-    movie_down_160->start();
-
-}
-
-void UAVConfig::on_pushButton_2_clicked()
-{
-    ui->label_left_1->hide();
-    ui->label_left_2->hide();
-    ui->label_right_1->hide();
-    ui->label_right_2->hide();
-    ui->label_bottom_left_1->hide();
-    ui->label_bottom_left_2->hide();
-    ui->label_bottom_right_1->hide();
-    ui->label_bottom_right_2->hide();
-    ui->label_left_160->hide();
-    ui->label_right_160->hide();
-    ui->label_bottom_left->show();
-    ui->label_bottom_right->hide();
-
-    ui->label_bottom_left->setMovie(movie_left_160);
-    movie_left_160->start();
-}
-
-void UAVConfig::on_pushButton_3_clicked()
-{
-    ui->label_left_1->hide();
-    ui->label_left_2->hide();
-    ui->label_right_1->hide();
-    ui->label_right_2->hide();
-    ui->label_bottom_left_1->hide();
-    ui->label_bottom_left_2->hide();
-    ui->label_bottom_right_1->hide();
-    ui->label_bottom_right_2->hide();
-    ui->label_left_160->hide();
-    ui->label_right_160->hide();
-    ui->label_bottom_left->hide();
-    ui->label_bottom_right->show();
-
-    ui->label_bottom_right->setMovie(movie_left_160);
-    movie_left_160->start();
-
-}
-
-void UAVConfig::on_pushButton_4_clicked()
-{
-    ui->label_left_1->hide();
-    ui->label_left_2->hide();
-    ui->label_right_1->hide();
-    ui->label_right_2->hide();
-    ui->label_bottom_left_1->hide();
-    ui->label_bottom_left_2->hide();
-    ui->label_bottom_right_1->hide();
-    ui->label_bottom_right_2->hide();
-    ui->label_left_160->hide();
-    ui->label_right_160->show();
-    ui->label_bottom_left->hide();
-    ui->label_bottom_right->hide();
-
-    ui->label_right_160->setMovie(movie_up_160);
-    movie_up_160->start();
 }
 
 /*
@@ -915,49 +827,52 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
 //Main func of RC Tab
 void UAVConfig::pitchCharts()
 {
-    if (ui->lineEdit_expo8->text() == NULL || ui->lineEdit_rarate->text()==NULL)
+    if (ui->lineEdit_expoPitch->text() == NULL || ui->lineEdit_ratePitch->text()==NULL)
     {
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Empty value"));
-        loggingConsole("Error! Empty value");
+        loggingConsole("Error! Expo Pitch value or Rate Pitch value is empty");
     }
-    QString expo8_str = ui->lineEdit_expo8->text();
-    if (expo8_str.toInt() != expo8){
-//        loggingConsole("expo8 has changed from " + QString::number(expo8) + " to " + expo8_str);
+    QString expo_pitch_str = ui->lineEdit_expoPitch->text();
+    expo_pitch = expo_pitch_str.toInt();
+
+    QString rate_pitch_str = ui->lineEdit_ratePitch->text();
+    rate_pitch = rate_pitch_str.toInt();
+
+    if(expo_pitch < 0 || expo_pitch > 100 || rate_pitch < 0 || rate_pitch > 100)
+    {
+        loggingConsole("Please input Expo Pitch and Rate Pitch between 0 and 100");
     }
-    expo8 = expo8_str.toInt();
-    QString ra_rate_str = ui->lineEdit_rarate->text();
-    if (ra_rate_str.toInt() != ra_rate){
-//        loggingConsole("ra rate has changed from " + QString::number(ra_rate) + " to " + ra_rate_str);
+    else
+    {
+        calculateResult1_RC(); //calculate result1
+        calculateYLoca(); //calculate y location
+        drawCharts(); //Draw Pitch + Roll Chart
     }
-    ra_rate = ra_rate_str.toInt();
-    calculateResult1_RC(); //calculate result1
-    calculateYLoca(); //calculate y location
-    drawCharts(); //Draw Pitch + Roll Chart
 }
 
 void UAVConfig::calculateResult1_RC()
 {
     int i;
-    for (i = 0; i <= 6; i++)
+    for (i = 0; i <= 7; i++)
     {
-        result1[i] = (float)(2500 + expo8*(i*i-25))*i*ra_rate/2500;
+        result1[i] = (float)(2500 + expo_pitch*(i*i-25))*i*rate_pitch/2500;
     }
 }
 
 void UAVConfig::calculateYLoca()
 {
     int i;
-    for (i = 0; i <= 6; i++)
+    for (i = 0; i <= 7; i++)
     {
-        y_loca[i] = (float)result1[i] + (x_loca[i] - i*100)*(result1[i+1] - result1[i])/100;
-        //        qDebug() << "x: " << x_loca[i] << "y: " << y_loca[i];
+        y_loca[i] = (float)result1[i] + (x_loca[i] - i_const[i]*100)*(result1[i+1] - result1[i])/100;
+//        qDebug() << "x: " << x_loca[i] << "y: " << y_loca[i];
     }
 }
 
 void UAVConfig::drawCharts()
 {
     QPolygonF poly;
-    for (int i = 0; i<=6; i++)
+    for (int i = 0; i<=7; i++)
     {
         poly << QPointF(x_loca[i], y_loca[i]);
     }
@@ -967,11 +882,11 @@ void UAVConfig::drawCharts()
     QwtPlot *plot = new QwtPlot(widget);
 
     //Point Marker
-    for (int i = 0; i<=6; i++)
+    for (int i = 0; i<=7; i++)
     {
-        QwtSymbol *sym=new QwtSymbol(QwtSymbol::Triangle,QBrush(QColor(51,102,204)),QPen(QColor(0,51,153)),QSize(10,10));
+        //        QwtSymbol *sym=new QwtSymbol(QwtSymbol::Triangle,QBrush(QColor(51,102,204)),QPen(QColor(0,51,153)),QSize(10,10));
         QwtPlotMarker *mark=new QwtPlotMarker();
-        mark->setSymbol(sym);
+        //        mark->setSymbol(sym);
         mark->setValue(QPointF(x_loca[i], y_loca[i]));
         mark->attach(plot);
     }
@@ -992,7 +907,7 @@ void UAVConfig::drawCharts()
     plot->replot();
     plot->show();
 
-    ui->scrollArea_Charts_RC->setWidget(widget);
+    ui->scrollArea_Charts_PitchExpo->setWidget(widget);
 }
 
 void UAVConfig::load3DModel()

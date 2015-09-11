@@ -87,10 +87,6 @@ private slots:
 
     //RC Config
     void sendRcRefreshFreq();
-    void on_pushButton_clicked();
-    void on_pushButton_2_clicked();
-    void on_pushButton_3_clicked();
-    void on_pushButton_4_clicked();
 
     //RC Chart
     void pitchCharts();
@@ -112,6 +108,7 @@ public slots:
     void TabChart();
     void TabOSD();
     void TabUpgrade();
+    void TabBLHeli();
 
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
@@ -143,13 +140,13 @@ private:
     QMovie *movie_left_160;
 
     //RC Chart
-    int expo8;
-    int ra_rate;
+    int expo_pitch;
+    int rate_pitch;
     int rc_rate;
     static const int i_const[];
     static const int x_loca[];
-    float y_loca[7];
-    float result1[7];
+    float y_loca[8];
+    float result1[8];
 
 protected:
     Ui::UAVConfig *ui;
