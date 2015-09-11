@@ -143,8 +143,7 @@ void MainWindow::initActionsConnections()
 //    //Compass Display on Yaw
 //    ui->scrollArea_Compass->setWidget(new CompassWidget(this));
 
-
-
+//    connect(mavlink, SIGNAL(mess
     /**
      * ===== Toolbar Status =====
      */

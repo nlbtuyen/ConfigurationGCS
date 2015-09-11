@@ -97,6 +97,14 @@ private slots:
     //3D Model
     void load3DModel();
 
+    //Radio
+    void radioType_changed(int idx);
+    void startCalib();
+
+    // @trung: RC Chart TPA
+    void TPAChart();
+    void drawChartTPA();
+
 public slots:
     void saveAQSetting();
     void loggingConsole(QString str);
@@ -109,6 +117,9 @@ public slots:
     void TabOSD();
     void TabUpgrade();
     void TabBLHeli();
+
+    void receiveTextMessage(int uasid, int componentid, int severity, QString text);
+
 
 private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
@@ -147,6 +158,10 @@ private:
     static const int x_loca[];
     float y_loca[8];
     float result1[8];
+
+    //@trung: RC Chart TPA
+    double TPA;
+    int TPA_breakpoint;
 
 protected:
     Ui::UAVConfig *ui;

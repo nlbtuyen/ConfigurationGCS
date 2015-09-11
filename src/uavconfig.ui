@@ -210,7 +210,7 @@ margin: 10px 0 0 10px;
        </font>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tab_RCCalib">
        <attribute name="title">
@@ -517,7 +517,7 @@ margin: 10px 0 0 10px;
             <string>Pitch/Roll Deadband</string>
            </property>
           </widget>
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="RADIO_SETUP">
            <property name="geometry">
             <rect>
              <x>80</x>
@@ -671,7 +671,7 @@ margin: 10px 0 0 10px;
           <zorder>label_5</zorder>
           <zorder>label_6</zorder>
           <zorder>label_7</zorder>
-          <zorder>comboBox</zorder>
+          <zorder>RADIO_SETUP</zorder>
           <zorder>comboBox_2</zorder>
           <zorder>comboBox_3</zorder>
           <zorder>spinBox</zorder>
@@ -982,7 +982,7 @@ margin: 10px 0 0 10px;
       </widget>
       <widget class="QWidget" name="tab_YawExpo">
        <attribute name="title">
-        <string>Yall Expo</string>
+        <string>Yaw Expo</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="tab_ThrottleExpo">
@@ -999,7 +999,7 @@ margin: 10px 0 0 10px;
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>121</width>
+          <width>131</width>
           <height>58</height>
          </rect>
         </property>
@@ -1021,13 +1021,13 @@ margin: 10px 0 0 10px;
           <widget class="QLineEdit" name="lineEdit_TPA">
            <property name="minimumSize">
             <size>
-             <width>30</width>
+             <width>40</width>
              <height>25</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>30</width>
+             <width>40</width>
              <height>25</height>
             </size>
            </property>
@@ -1038,7 +1038,7 @@ margin: 10px 0 0 10px;
             </font>
            </property>
            <property name="text">
-            <string>20</string>
+            <string>0.7</string>
            </property>
           </widget>
          </item>
@@ -1059,13 +1059,13 @@ margin: 10px 0 0 10px;
           <widget class="QLineEdit" name="lineEdit_TPA_Breakpoint">
            <property name="minimumSize">
             <size>
-             <width>30</width>
+             <width>40</width>
              <height>25</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>30</width>
+             <width>40</width>
              <height>25</height>
             </size>
            </property>
@@ -1076,7 +1076,7 @@ margin: 10px 0 0 10px;
             </font>
            </property>
            <property name="text">
-            <string>90</string>
+            <string>1500</string>
            </property>
           </widget>
          </item>
@@ -1108,7 +1108,7 @@ margin: 10px 0 0 10px;
          </property>
         </widget>
        </widget>
-       <widget class="QPushButton" name="btn_OK_ExpoPitch_2">
+       <widget class="QPushButton" name="btn_OK_TPA">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -4621,59 +4621,24 @@ padding: 10px;</string>
     </widget>
    </widget>
   </widget>
-  <widget class="QScrollArea" name="scrollArea_3D">
-   <property name="geometry">
-    <rect>
-     <x>-1</x>
-     <y>397</y>
-     <width>200</width>
-     <height>150</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>200</width>
-     <height>150</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>200</width>
-     <height>150</height>
-    </size>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents_3">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>198</width>
-      <height>148</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
   <widget class="QPlainTextEdit" name="plainTextEdit_Status">
    <property name="geometry">
     <rect>
-     <x>198</x>
-     <y>397</y>
-     <width>532</width>
+     <x>0</x>
+     <y>400</y>
+     <width>730</width>
      <height>150</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>532</width>
+     <width>730</width>
      <height>150</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>532</width>
+     <width>730</width>
      <height>150</height>
     </size>
    </property>

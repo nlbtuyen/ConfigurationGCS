@@ -75,15 +75,21 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     updateButtonView();
 
+    connect(ui->btn_StartCalib, SIGNAL(clicked()), this, SLOT(startCalib()));
+    connect(ui->RADIO_SETUP, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
     //    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
     //    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
 
     if(ui->lineEdit_expoPitch && ui->lineEdit_ratePitch)
         pitchCharts();
 
+    if (ui->lineEdit_TPA && ui->lineEdit_TPA_Breakpoint)
+        TPAChart();
+
     //RC Charts
     connect(ui->btn_OK_ExpoPitch, SIGNAL(clicked()), this, SLOT(pitchCharts()));
 
+    connect(ui->btn_OK_TPA, SIGNAL(clicked()), this, SLOT(TPAChart()));
     //    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     //    delayedSendRCTimer.start(800);
     sendRcRefreshFreq();
@@ -91,7 +97,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
     //update variable for RC Chart
     rc_rate = 50;
 
-    load3DModel();
+    //    load3DModel();
 
     QPixmap left(":/images/redpoint.png");
     ui->label_redpoint_left->setPixmap(left);
@@ -865,7 +871,7 @@ void UAVConfig::calculateYLoca()
     for (i = 0; i <= 7; i++)
     {
         y_loca[i] = (float)result1[i] + (x_loca[i] - i_const[i]*100)*(result1[i+1] - result1[i])/100;
-//        qDebug() << "x: " << x_loca[i] << "y: " << y_loca[i];
+        //        qDebug() << "x: " << x_loca[i] << "y: " << y_loca[i];
     }
 }
 
@@ -926,5 +932,81 @@ void UAVConfig::load3DModel()
     view.engine()->clearComponentCache();
     view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
     view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
-    ui->scrollArea_3D->setWidget(container);
+    //    ui->scrollArea_3D->setWidget(container);
+}
+
+void UAVConfig::radioType_changed(int idx)
+{
+
+}
+
+void UAVConfig::receiveTextMessage(int uasid, int componentid, int severity, QString text)
+{
+    Q_UNUSED(uasid);
+    Q_UNUSED(componentid);
+    Q_UNUSED(severity);
+    text = text.trimmed();
+    qDebug() << text;
+    loggingConsole(text);
+}
+
+void UAVConfig::startCalib()
+{
+    if (!uas)
+        return;
+    uas->sendCommmandToAq(MAV_CMD_PREFLIGHT_CALIBRATION, 1,0.0f, 0.0f, 0.0f, 1.0f);
+
+    connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(receiveTextMessage(int,int,int,QString)));
+
+    //    loggingConsole(QString("<font color=\"%1\">(%2) %4</font>\n").arg(UASManager::instance()->getUASForId(id)->getColor().name(), name, text));
+}
+
+void UAVConfig::TPAChart()
+{
+    if (ui->lineEdit_TPA->text() == NULL || ui->lineEdit_TPA_Breakpoint->text()==NULL)
+    {
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Empty value"));
+        loggingConsole("Error! TPA or TPA Breakpoint value is empty");
+    }
+    TPA = ui->lineEdit_TPA->text().toInt();
+
+    TPA_breakpoint = ui->lineEdit_TPA_Breakpoint->text().toInt();
+
+    if(TPA < 0 || TPA > 1)
+    {
+        loggingConsole("Please input TPA between 0 and 1");
+    }else if (TPA_breakpoint < 1000 || TPA_breakpoint > 2000){
+        loggingConsole("Please input TPA Breakpoint between 1000 and 2000");
+    }else{
+        drawChartTPA(); //Draw TPA Chart
+    }
+}
+
+void UAVConfig::drawChartTPA()
+{
+    QPolygonF poly;
+    poly << QPointF(0, 100) << QPointF(TPA_breakpoint, 100) << QPointF(2000, ((1-TPA)*100));
+
+    QWidget *widget = new QWidget();
+    QwtPlot *plot = new QwtPlot(widget);
+    plot->setAxisScale(QwtPlot::yLeft, 0, 100, 10);
+    plot->setAxisScale(QwtPlot::xBottom, 1000, 2000, 250);
+
+    //Grid
+    QwtPlotGrid *grid = new QwtPlotGrid();
+    grid->attach(plot);
+    grid->setPen( Qt::gray, 0.0, Qt::DotLine );
+
+    //Curve
+    QwtPlotCurve *c = new QwtPlotCurve();
+    c->setPen( QPen(QColor(102,153,255), 4));
+    c->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+    c->setSamples(poly);
+    c->attach(plot);
+
+    plot->resize(480,255);
+    plot->replot();
+    plot->show();
+
+    ui->scrollArea_Charts_TPA->setWidget(widget);
 }
