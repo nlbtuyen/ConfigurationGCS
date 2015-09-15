@@ -109,6 +109,29 @@ private slots:
     void TPAChart();
     void drawChartTPA();
 
+    // @trung: tab BLHeli
+    void setVisibleUndoBeep(int value);
+    void setVisibleUndoDelay(int value);
+    void setVisibleUndoDemeg(int value);
+    void setVisibleUndoEnable(int value);
+    void setVisibleUndoMotor(int value);
+    void setVisibleUndoPolarity(int value);
+    void setVisibleUndoPWM(int value);
+    void setVisibleUndoStartup(int value);
+    void setVisibleUndoStrength(int value);
+    void setVisibleUndoTempe(int value);
+
+    void setVisibleDefaultBeep(int value);
+    void setVisibleDefaultDelay(int value);
+    void setVisibleDefaultDemeg(int value);
+    void setVisibleDefaultEnable(int value);
+    void setVisibleDefaultMotor(int value);
+    void setVisibleDefaultPolarity(int value);
+    void setVisibleDefaultPWM(int value);
+    void setVisibleDefaultStartup(int value);
+    void setVisibleDefaultStrength(int value);
+    void setVisibleDefaultTempe(int value);
+
 public slots:
     void saveAQSetting();
 

@@ -324,7 +324,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message) //@Leo 
         }
 
         if (componentMulti[message.msgid] == true) multiComponentSourceDetected = true;
-
+        qDebug() << message.msgid; // @trung
         switch (message.msgid)
         {
 

@@ -150,6 +150,51 @@ UAVConfig::UAVConfig(QWidget *parent) :
     mavlinkDecoder = new MAVLinkDecoder(mavlink, this);
     DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(ui->scrollArea_debugConsole->widget());
     connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), debugConsole, SLOT(receiveTextMessage(int, int, int, const QString)));
+
+    // tab BLHeli
+    // Invisible undo button
+    ui->undo_beep->setVisible(false);
+    connect(ui->slide_beep,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoBeep(int)));
+    ui->undo_delay->setVisible(false);
+    connect(ui->slide_delay,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoDelay(int)));
+    ui->undo_demeg->setVisible(false);
+    connect(ui->slide_demeg,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoDemeg(int)));
+    ui->undo_enable->setVisible(false);
+    connect(ui->slide_enable,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoEnable(int)));
+    ui->undo_motor->setVisible(false);
+    connect(ui->slide_motor,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoMotor(int)));
+    ui->undo_polarity->setVisible(false);
+    connect(ui->slide_polarity,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoPolarity(int)));
+    ui->undo_PWM->setVisible(false);
+    connect(ui->slide_PWM,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoPWM(int)));
+    ui->undo_startup->setVisible(false);
+    connect(ui->slide_startup,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoStartup(int)));
+    ui->undo_strength->setVisible(false);
+    connect(ui->slide_strength,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoStrength(int)));
+    ui->undo_tempe->setVisible(false);
+    connect(ui->slide_tempe,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoTempe(int)));
+
+    // Invisible default button
+    ui->default_beep->setVisible(false);
+    connect(ui->slide_beep,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultBeep(int)));
+    ui->default_delay->setVisible(false);
+    connect(ui->slide_delay,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultDelay(int)));
+    ui->default_demeg->setVisible(false);
+    connect(ui->slide_demeg,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultDemeg(int)));
+    ui->default_enable->setVisible(false);
+    connect(ui->slide_enable,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultEnable(int)));
+    ui->default_motor->setVisible(false);
+    connect(ui->slide_motor,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultMotor(int)));
+    ui->default_polarity->setVisible(false);
+    connect(ui->slide_polarity,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultPolarity(int)));
+    ui->default_PWM->setVisible(false);
+    connect(ui->slide_PWM,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultPWM(int)));
+    ui->default_startup->setVisible(false);
+    connect(ui->slide_startup,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultStartup(int)));
+    ui->default_strength->setVisible(false);
+    connect(ui->slide_strength,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultStrength(int)));
+    ui->default_tempe->setVisible(false);
+    connect(ui->slide_tempe,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultTempe(int)));
 }
 
 UAVConfig::~UAVConfig()
@@ -1110,4 +1155,125 @@ void UAVConfig::drawChartTPA()
     plot->show();
 
     ui->scrollArea_Charts_TPA->setWidget(widget);
+}
+
+// tab BLHeli
+void UAVConfig::setVisibleUndoBeep(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_beep->setVisible(true);
+}
+
+void UAVConfig::setVisibleUndoDelay(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_delay->setVisible(true);
+}
+
+void UAVConfig::setVisibleUndoDemeg(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_demeg->setVisible(true);
+}
+
+void UAVConfig::setVisibleUndoEnable(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_enable->setVisible(true);
+}
+
+void UAVConfig::setVisibleUndoMotor(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_motor->setVisible(true);
+}
+
+void UAVConfig::setVisibleUndoPolarity(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_polarity->setVisible(true);
+}
+
+void UAVConfig::setVisibleUndoPWM(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_PWM->setVisible(true);
+}
+
+void UAVConfig::setVisibleUndoStartup(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_startup->setVisible(true);
+}
+
+void UAVConfig::setVisibleUndoStrength(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_strength->setVisible(true);
+}
+
+void UAVConfig::setVisibleUndoTempe(int value)
+{
+    Q_UNUSED(value);
+    ui->undo_tempe->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultBeep(int value)
+{
+    Q_UNUSED(value);
+    ui->default_beep->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultDelay(int value)
+{
+    Q_UNUSED(value);
+    ui->default_delay->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultDemeg(int value)
+{
+    Q_UNUSED(value);
+    ui->default_demeg->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultEnable(int value)
+{
+    Q_UNUSED(value);
+    ui->default_enable->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultMotor(int value)
+{
+    Q_UNUSED(value);
+    ui->default_motor->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultPolarity(int value)
+{
+    Q_UNUSED(value);
+    ui->default_polarity->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultPWM(int value)
+{
+    Q_UNUSED(value);
+    ui->default_PWM->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultStartup(int value)
+{
+    Q_UNUSED(value);
+    ui->default_startup->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultStrength(int value)
+{
+    Q_UNUSED(value);
+    ui->default_strength->setVisible(true);
+}
+
+void UAVConfig::setVisibleDefaultTempe(int value)
+{
+    Q_UNUSED(value);
+    ui->default_tempe->setVisible(true);
 }
