@@ -17,7 +17,7 @@
 #include "aqpramwidget.h"
 #include "uasmanager.h"
 #include "aq_telemetryView.h"
-
+#include "mavlinkprotocol.h"
 #include "drone.h"
 
 #include <Qt3DRenderer/qrenderaspect.h>
@@ -34,7 +34,7 @@
 #include <QTimer>
 
 class AQParamWidget;
-
+class MAVLinkProtocol;
 namespace Ui {
 class UAVConfig;
 }
@@ -51,13 +51,14 @@ public:
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
+    bool useRadioSetupParam;        // firmware uses newer RADIO_SETUP parameter
 
     bool saveSettingsToAq(QWidget *parent, bool interactive = true);
     void indexHide(int i);
 
 signals:
     void hardwareInfoUpdated(void);
-
+    void firmwareInfoUpdated();
     void TabClicked(int i);
 
 private slots:
@@ -67,6 +68,8 @@ private slots:
     void createAQParamWidget(UASInterface* uas);
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void getGUIPara(QWidget *parent);
+    int calcRadioSetting();
+    void uasConnected();
 
     //@Leo: AQ FW Flashing
     void flashFW();
@@ -100,6 +103,7 @@ private slots:
     //Radio
     void radioType_changed(int idx);
     void startCalib();
+    void setupRadioTypes();
 
     // @trung: RC Chart TPA
     void TPAChart();
@@ -107,7 +111,6 @@ private slots:
 
 public slots:
     void saveAQSetting();
-    void loggingConsole(QString str);
 
     void TabRadio();
     void TabMotor();
@@ -118,7 +121,7 @@ public slots:
     void TabUpgrade();
     void TabBLHeli();
 
-    void receiveTextMessage(int uasid, int componentid, int severity, QString text);
+//    void receiveTextMessage(int uasid, int componentid, int severity, QString text);
 
 
 private:
@@ -128,13 +131,11 @@ private:
     //RC Config
     QTimer delayedSendRCTimer;  // for setting radio channel refresh freq.
     QList<QProgressBar *> allRadioChanProgressBars;
+    QList<QComboBox *> allRadioChanCombos; //contain all combobox type
 
-
-    QList<QComboBox *> allRadioChanCombos;
     quint8 paramSaveType;
     bool restartAfterParamSave;
     bool aqCanReboot;               // can system accept remote restart command?
-    bool useRadioSetupParam;
 
     //@Leo : Upgrade Firmware
     QProcess ps_master;
@@ -169,6 +170,9 @@ protected:
     UASInterface* uas;
     LinkInterface* connectedLink;
     AQTelemetryView *aqtelemetry;
+    MAVLinkProtocol *mavlink;
+    QPointer<MAVLinkDecoder> mavlinkDecoder;
+
 
     QTextEdit* activeProcessStatusWdgt;
     bool fwFlashActive;

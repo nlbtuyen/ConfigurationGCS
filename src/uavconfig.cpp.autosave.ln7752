@@ -10,9 +10,6 @@
 #include "aq_telemetryView.h"
 #include "qwt_plot_marker.h"
 #include "qwt_symbol.h"
-#include "debugconsole.h"
-#include "mavlinkprotocol.h"
-#include "mavlinkdecoder.h"
 
 #include <QDebug>
 #include <QWidget>
@@ -57,22 +54,27 @@ UAVConfig::UAVConfig(QWidget *parent) :
         }
     }
 
+
     allRadioChanCombos.append(ui->frame_RadioTab->findChildren<QComboBox *>(QRegExp("^(RADIO|NAV|GMBL|QUATOS)_.+_(CH|KNOB)")));
+    qDebug() << allRadioChanCombos;
 
     foreach (QComboBox* cb, allRadioChanCombos)
         connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
 
+
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
 
-    //Process Slots for Update Firmware
+    //Process Slots
     ps_master.setProcessChannelMode(QProcess::MergedChannels);
     connect(&ps_master, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
     connect(&ps_master, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
     connect(&ps_master, SIGNAL(error(QProcess::ProcessError)), this, SLOT(extProcessError(QProcess::ProcessError)));
 
+
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
 
+    //connect (ui->btn_save, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
     loadSettings();
     setupRadioTypes(); //update Radio Type
 
@@ -82,7 +84,6 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     updateButtonView();
 
-    connect(ui->btn_Save_RC, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
     connect(ui->btn_StartCalib, SIGNAL(clicked()), this, SLOT(startCalib()));
     connect(ui->RADIO_SETUP, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
     connect(this,SIGNAL(firmwareInfoUpdated()), this, SLOT(setupRadioTypes()));
@@ -143,13 +144,6 @@ UAVConfig::UAVConfig(QWidget *parent) :
     movie_right->start();
     movie_up->start();
     movie_down->start();
-
-    //Communication Console
-    ui->scrollArea_debugConsole->setWidget(new DebugConsole(this));
-    mavlink     = new MAVLinkProtocol();
-    mavlinkDecoder = new MAVLinkDecoder(mavlink, this);
-    DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(ui->scrollArea_debugConsole->widget());
-    connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), debugConsole, SLOT(receiveTextMessage(int, int, int, const QString)));
 }
 
 UAVConfig::~UAVConfig()
@@ -190,30 +184,17 @@ void UAVConfig::loadParametersToUI()
     useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
     emit firmwareInfoUpdated();
 
-    getGUIPara(ui->tab_aq_setting);
 
 }
 
-void UAVConfig::uasConnected()
-{
-    uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
-}
-
-// setActiveUAS()
 void UAVConfig::createAQParamWidget(UASInterface *uastmp)
 {
     uas = uastmp;
 
     connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+    //    qDebug() << "create AQParamWidget";
     paramaq = new AQParamWidget(uas, this);
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
-    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
-
-    paramaq->requestParameterList();
-
-    if (DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(ui->scrollArea_debugConsole->widget()))
-        connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), debugConsole, SLOT(receiveTextMessage(int,int,int,QString)));
-
 }
 
 /**
@@ -240,10 +221,6 @@ void UAVConfig::getGUIPara(QWidget *parent)
          */
 
         ok = true;
-
-        if (paraName == "RADIO_SETUP")
-            val = val.toInt() & 0x0f;
-
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
         {
             //change Float to String
@@ -251,32 +228,12 @@ void UAVConfig::getGUIPara(QWidget *parent)
             le->setText(valstr);
             le->setValidator(new QDoubleValidator(-1000000.0, 1000000.0, 8, le));
         }
-        //Radio Setup
-        else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
-        {
-            if (cb->isEditable())
-            {
-                if ((tmp = cb->findText(val.toString())) > -1)
-                 cb->setCurrentIndex(tmp);
-                else
-                {
-                    cb->insertItem(0, val.toString());
-                    cb->setCurrentIndex(0);
-                }
-            }
-            else if ((tmp = cb->findData(val)) > -1)
-                cb->setCurrentIndex(tmp);
-            else
-                cb->setCurrentIndex(abs(val.toInt(&ok)));
-        }
-
+        else if (paraName == "")
         //Throttle D-band && Pitch/Roll D-band
         else if (QSpinBox* sb = qobject_cast<QSpinBox *>(w))
         {
             sb->setValue(val.toInt((&ok)));
         }
-        else
-            continue;
     }
 }
 
@@ -285,7 +242,6 @@ int UAVConfig::calcRadioSetting()
     int radioSetup = ui->RADIO_SETUP->itemData(ui->RADIO_SETUP->currentIndex()).toInt();
     return radioSetup;
 }
-
 /*
  * ========= Update FW ==========
  */
@@ -295,6 +251,7 @@ bool UAVConfig::checkAqConnected(bool interactive)
     if (!uas || !paramaq || uas->getCommunicationStatus() != uas->COMM_CONNECTED ) {
         if (interactive){
             MainWindow::instance()->showCriticalMessage("Error", "No AutoQuad connected!");
+            loggingConsole("Error! No Autoquad Connected");
         }
         return false;
     } else
@@ -321,6 +278,7 @@ void UAVConfig::selectFWToFlash()
         {
             MainWindow::instance()->showCriticalMessage(tr("Warning!"),
                                                         tr("Could not open firmware file. %1").arg(file.errorString()));
+            loggingConsole("Warning! Could not open firmware file");
             return;
         }
         ui->fileLabel->setText(fileNameLocale);
@@ -384,6 +342,7 @@ bool UAVConfig::checkProcRunning(bool warn)
             MainWindow::instance()->showCriticalMessage(
                         tr("Process already running."),
                         tr("There appears to be an external process (calculation step or firmware flashing) already running. Please abort it first."));
+        loggingConsole("Process already running. There appears to be an external process (calculation step or firmware) already running. Please abort it first");
         return true;
     }
     return false;
@@ -479,9 +438,17 @@ void UAVConfig::saveAQSetting()
 {
     if (!validateRadioSettings(0)) {
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("You have the same port assigned to multiple controls!"));
+        loggingConsole("Error! You have the same port assigned to multiple controls");
         return;
     }
     saveSettingsToAq(ui->tab_aq_setting);
+}
+
+void UAVConfig::loggingConsole(QString str)
+{
+    QTime curtime = QTime::currentTime();
+    QString time = curtime.toString("hh:mm:ss");
+    ui->plainTextEdit_Status->appendHtml("<span style=\" font-weight:bold\">" + time + "</span>"  + " -- " + str + ".");
 }
 
 void UAVConfig::TabRadio()
@@ -758,6 +725,7 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
     } else {
         if (interactive){
             MainWindow::instance()->showCriticalMessage(tr("Warning"), tr("No changed parameters detected.  Nothing saved."));
+            loggingConsole("Warning! No changed parameters detected. Nothing saved");
         }
         return false;
     }
@@ -915,6 +883,7 @@ void UAVConfig::pitchCharts()
     if (ui->lineEdit_expoPitch->text() == NULL || ui->lineEdit_ratePitch->text()==NULL)
     {
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Empty value"));
+        loggingConsole("Error! Expo Pitch value or Rate Pitch value is empty");
     }
     QString expo_pitch_str = ui->lineEdit_expoPitch->text();
     expo_pitch = expo_pitch_str.toInt();
@@ -924,7 +893,7 @@ void UAVConfig::pitchCharts()
 
     if(expo_pitch < 0 || expo_pitch > 100 || rate_pitch < 0 || rate_pitch > 100)
     {
-        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input Expo Pitch and Rate Pitch between 0 and 100"));
+        loggingConsole("Please input Expo Pitch and Rate Pitch between 0 and 100");
     }
     else
     {
@@ -1027,11 +996,25 @@ void UAVConfig::radioType_changed(int idx)
     }
 }
 
+void UAVConfig::receiveTextMessage(int uasid, int componentid, int severity, QString text)
+{
+    Q_UNUSED(uasid);
+    Q_UNUSED(componentid);
+    Q_UNUSED(severity);
+    text = text.trimmed();
+    qDebug() << text;
+    loggingConsole(text);
+}
+
 void UAVConfig::startCalib()
 {
     if (!uas)
         return;
     uas->sendCommmandToAq(MAV_CMD_PREFLIGHT_CALIBRATION, 1,0.0f, 0.0f, 0.0f, 1.0f);
+
+    connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(receiveTextMessage(int,int,int,QString)));
+
+    //    loggingConsole(QString("<font color=\"%1\">(%2) %4</font>\n").arg(UASManager::instance()->getUASForId(id)->getColor().name(), name, text));
 }
 
 void UAVConfig::setupRadioTypes()
@@ -1067,7 +1050,8 @@ void UAVConfig::TPAChart()
 {
     if (ui->lineEdit_TPA->text() == NULL || ui->lineEdit_TPA_Breakpoint->text()==NULL)
     {
-        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("TPA or TPA Breakpoint value is empty"));
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Empty value"));
+        loggingConsole("Error! TPA or TPA Breakpoint value is empty");
     }
     TPA = ui->lineEdit_TPA->text().toDouble();
 
@@ -1075,13 +1059,10 @@ void UAVConfig::TPAChart()
 
     if(TPA < 0 || TPA > 1)
     {
-        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input TPA between 0 and 1"));
-    }
-    else if (TPA_breakpoint < 1000 || TPA_breakpoint > 2000){
-        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input TPA Breakpoint between 1000 and 2000"));
-    }
-    else
-    {
+        loggingConsole("Please input TPA between 0 and 1");
+    }else if (TPA_breakpoint < 1000 || TPA_breakpoint > 2000){
+        loggingConsole("Please input TPA Breakpoint between 1000 and 2000");
+    }else{
         drawChartTPA(); //Draw TPA Chart
     }
 }

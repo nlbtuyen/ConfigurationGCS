@@ -26,7 +26,8 @@ SOURCES +=  $$PWD/main.cpp\
             $$PWD/serialconfigurationwindow.cpp \
             $$PWD/drone.cpp \
             $$PWD/compasswidget.cpp \
-            $$PWD/hudwidget.cpp
+            $$PWD/hudwidget.cpp \
+    $$PWD/debugconsole.cpp
 
 HEADERS  += $$PWD/mainwindow.h \
             $$PWD/uavconfig.h \
@@ -57,7 +58,8 @@ HEADERS  += $$PWD/mainwindow.h \
             $$PWD/serialconfigurationwindow.h \
             $$PWD/drone.h \
             $$PWD/compasswidget.h \
-            $$PWD/hudwidget.h
+            $$PWD/hudwidget.h \
+    $$PWD/debugconsole.h
 
 FORMS    += $$PWD/mainwindow.ui \
             $$PWD/uasinfo.ui \
@@ -67,7 +69,8 @@ FORMS    += $$PWD/mainwindow.ui \
             $$PWD/AQLinechart.ui \
             $$PWD/linechart.ui \
             $$PWD/commsettings.ui \
-            $$PWD/serialsettings.ui
+            $$PWD/serialsettings.ui \
+    $$PWD/debugconsole.ui
 
 DISTFILES += \
             $$PWD/main.qml \
