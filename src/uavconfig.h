@@ -110,27 +110,27 @@ private slots:
     void drawChartTPA();
 
     // @trung: tab BLHeli
-    void setVisibleUndoBeep(int value);
-    void setVisibleUndoDelay(int value);
-    void setVisibleUndoDemeg(int value);
-    void setVisibleUndoEnable(int value);
-    void setVisibleUndoMotor(int value);
-    void setVisibleUndoPolarity(int value);
-    void setVisibleUndoPWM(int value);
-    void setVisibleUndoStartup(int value);
-    void setVisibleUndoStrength(int value);
-    void setVisibleUndoTempe(int value);
+    void set_Value_Title_LabelBeep(int value);
+    void set_Value_Title_LabelDelay(int value);
+    void set_Value_Title_LabelDemeg(int value);
+    void set_Value_Title_LabelEnable(int value);
+    void set_Value_Title_LabelMotor(int value);
+    void set_Value_Title_LabelPolarity(int value);
+    void set_Value_Title_LabelPWM(int value);
+    void set_Value_Title_LabelStartup(int value);
+    void set_Value_Title_LabelBeaconStr(int value);
+    void set_Value_Title_LabelTempe(int value);
 
-    void setVisibleDefaultBeep(int value);
-    void setVisibleDefaultDelay(int value);
-    void setVisibleDefaultDemeg(int value);
-    void setVisibleDefaultEnable(int value);
-    void setVisibleDefaultMotor(int value);
-    void setVisibleDefaultPolarity(int value);
-    void setVisibleDefaultPWM(int value);
-    void setVisibleDefaultStartup(int value);
-    void setVisibleDefaultStrength(int value);
-    void setVisibleDefaultTempe(int value);
+    void handle_default_beep(bool b);
+    void handle_default_beaconstr(bool b);
+    void handle_default_delay(bool b);
+    void handle_default_demeg(bool b);
+    void handle_default_enable(bool b);
+    void handle_default_motor(bool b);
+    void handle_default_polarity(bool b);
+    void handle_default_pwm(bool b);
+    void handle_default_startup(bool b);
+    void handle_default_tempe(bool b);
 
 public slots:
     void saveAQSetting();
@@ -186,6 +186,19 @@ private:
     //@trung: RC Chart TPA
     double TPA;
     int TPA_breakpoint;
+
+    // @trung: tab BLHeli
+    int current_beep, default_beep;
+    int current_delay, default_delay;
+    int current_demeg, default_demeg;
+    int current_enable, default_enable;
+    int current_motor, default_motor;
+    int current_polarity, default_polarity;
+    int current_pwm, default_pwm;
+    int current_startup, default_startup;
+    int current_beaconstr, default_beaconstr;
+    int current_tempe, default_tempe;
+
 
 protected:
     Ui::UAVConfig *ui;

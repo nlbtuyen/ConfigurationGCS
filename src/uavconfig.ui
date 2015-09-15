@@ -127,7 +127,7 @@ margin: 10px 0 0 10px;
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>7</number>
    </property>
    <widget class="QWidget" name="tab_aq_setting_Radio">
     <property name="focusPolicy">
@@ -3827,7 +3827,7 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_47">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_56">
+         <layout class="QHBoxLayout" name="horizontalLayout_startup">
           <item>
            <widget class="QLabel" name="label_startupValue">
             <property name="minimumSize">
@@ -3869,6 +3869,18 @@ padding: 10px;</string>
            <layout class="QVBoxLayout" name="verticalLayout_70">
             <item>
              <widget class="QLabel" name="label_startupTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -3887,11 +3899,26 @@ padding: 10px;</string>
             </item>
             <item>
              <widget class="QSlider" name="slide_startup">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
               <property name="maximum">
                <number>13</number>
+              </property>
+              <property name="value">
+               <number>11</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -3965,7 +3992,7 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_48">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_57">
+         <layout class="QHBoxLayout" name="horizontalLayout_tempe">
           <item>
            <widget class="QLabel" name="label_tempeValue">
             <property name="minimumSize">
@@ -4007,6 +4034,18 @@ padding: 10px;</string>
            <layout class="QVBoxLayout" name="verticalLayout_71">
             <item>
              <widget class="QLabel" name="label_tempeTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -4025,6 +4064,18 @@ padding: 10px;</string>
             </item>
             <item>
              <widget class="QSlider" name="slide_tempe">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="maximum">
                <number>1</number>
               </property>
@@ -4100,7 +4151,7 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_49">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_58">
+         <layout class="QHBoxLayout" name="horizontalLayout_motor">
           <item>
            <widget class="QLabel" name="label_motorValue">
             <property name="minimumSize">
@@ -4142,6 +4193,18 @@ padding: 10px;</string>
            <layout class="QVBoxLayout" name="verticalLayout_72">
             <item>
              <widget class="QLabel" name="label_motorTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -4160,6 +4223,18 @@ padding: 10px;</string>
             </item>
             <item>
              <widget class="QSlider" name="slide_motor">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
@@ -4238,7 +4313,7 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_50">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_59">
+         <layout class="QHBoxLayout" name="horizontalLayout_demeg">
           <item>
            <widget class="QLabel" name="label_demegValue">
             <property name="minimumSize">
@@ -4280,6 +4355,18 @@ padding: 10px;</string>
            <layout class="QVBoxLayout" name="verticalLayout_73">
             <item>
              <widget class="QLabel" name="label_demegTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -4298,6 +4385,18 @@ padding: 10px;</string>
             </item>
             <item>
              <widget class="QSlider" name="slide_demeg">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
@@ -4376,7 +4475,7 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_51">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_60">
+         <layout class="QHBoxLayout" name="horizontalLayout_pwm">
           <item>
            <widget class="QLabel" name="label_PWMValue">
             <property name="minimumSize">
@@ -4418,6 +4517,18 @@ padding: 10px;</string>
            <layout class="QVBoxLayout" name="verticalLayout_74">
             <item>
              <widget class="QLabel" name="label_PWMTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -4436,10 +4547,25 @@ padding: 10px;</string>
             </item>
             <item>
              <widget class="QSlider" name="slide_PWM">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
               <property name="maximum">
+               <number>2</number>
+              </property>
+              <property name="value">
                <number>2</number>
               </property>
               <property name="orientation">
@@ -4514,7 +4640,7 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_52">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_61">
+         <layout class="QHBoxLayout" name="horizontalLayout_enable">
           <item>
            <widget class="QLabel" name="label_enableValue">
             <property name="minimumSize">
@@ -4556,6 +4682,18 @@ padding: 10px;</string>
            <layout class="QVBoxLayout" name="verticalLayout_75">
             <item>
              <widget class="QLabel" name="label_enableTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -4574,6 +4712,18 @@ padding: 10px;</string>
             </item>
             <item>
              <widget class="QSlider" name="slide_enable">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="maximum">
                <number>1</number>
               </property>
@@ -4649,7 +4799,7 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_54">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_63">
+         <layout class="QHBoxLayout" name="horizontalLayout_polarity">
           <item>
            <widget class="QLabel" name="label_polarityValue">
             <property name="minimumSize">
@@ -4691,6 +4841,18 @@ padding: 10px;</string>
            <layout class="QVBoxLayout" name="verticalLayout_77">
             <item>
              <widget class="QLabel" name="label_polarityTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -4709,6 +4871,18 @@ padding: 10px;</string>
             </item>
             <item>
              <widget class="QSlider" name="slide_polarity">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
@@ -4787,7 +4961,7 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_55">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_64">
+         <layout class="QHBoxLayout" name="horizontalLayout_beep">
           <item>
            <widget class="QLabel" name="label_beepValue">
             <property name="minimumSize">
@@ -4829,6 +5003,18 @@ padding: 10px;</string>
            <layout class="QVBoxLayout" name="verticalLayout_78">
             <item>
              <widget class="QLabel" name="label_beepTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -4847,11 +5033,26 @@ padding: 10px;</string>
             </item>
             <item>
              <widget class="QSlider" name="slide_beep">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
               <property name="maximum">
                <number>255</number>
+              </property>
+              <property name="value">
+               <number>120</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -4925,9 +5126,9 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_65">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_66">
+         <layout class="QHBoxLayout" name="horizontalLayout_beaconstr">
           <item>
-           <widget class="QLabel" name="label_strengthValue">
+           <widget class="QLabel" name="label_beaconstrValue">
             <property name="minimumSize">
              <size>
               <width>35</width>
@@ -4966,7 +5167,19 @@ padding: 10px;</string>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_79">
             <item>
-             <widget class="QLabel" name="label_strengthTitle">
+             <widget class="QLabel" name="label_beaconstrTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -4984,12 +5197,27 @@ padding: 10px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QSlider" name="slide_strength">
+             <widget class="QSlider" name="slide_beaconstr">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
               <property name="maximum">
                <number>255</number>
+              </property>
+              <property name="value">
+               <number>200</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -5003,7 +5231,7 @@ padding: 10px;</string>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_80">
           <item>
-           <widget class="QToolButton" name="undo_strength">
+           <widget class="QToolButton" name="undo_beaconstr">
             <property name="text">
              <string>...</string>
             </property>
@@ -5014,7 +5242,7 @@ padding: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="default_strength">
+           <widget class="QToolButton" name="default_beaconstr">
             <property name="text">
              <string>...</string>
             </property>
@@ -5063,7 +5291,7 @@ padding: 10px;</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_67">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_68">
+         <layout class="QHBoxLayout" name="horizontalLayout_delay">
           <item>
            <widget class="QLabel" name="label_delayValue">
             <property name="minimumSize">
@@ -5105,6 +5333,18 @@ padding: 10px;</string>
            <layout class="QVBoxLayout" name="verticalLayout_81">
             <item>
              <widget class="QLabel" name="label_delayTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
 	background-color: yellow;
@@ -5123,11 +5363,26 @@ padding: 10px;</string>
             </item>
             <item>
              <widget class="QSlider" name="slide_delay">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
               <property name="maximum">
                <number>5</number>
+              </property>
+              <property name="value">
+               <number>4</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>

@@ -152,49 +152,86 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), debugConsole, SLOT(receiveTextMessage(int, int, int, const QString)));
 
     // tab BLHeli
-    // Invisible undo button
+    // Initialize current and default value
+    default_beep = ui->slide_beep->value();
+    default_beaconstr = ui->slide_beaconstr->value();
+    default_delay = ui->slide_delay->value();
+    default_demeg = ui->slide_demeg->value();
+    default_enable = ui->slide_enable->value();
+    default_motor = ui->slide_motor->value();
+    default_polarity = ui->slide_polarity->value();
+    default_pwm = ui->slide_PWM->value();
+    default_startup = ui->slide_startup->value();
+    default_tempe = ui->slide_tempe->value();
+
+    current_beep = default_beep;
+    current_beaconstr = default_beaconstr;
+    current_delay = default_delay;
+    current_demeg = default_demeg;
+    current_enable = default_enable;
+    current_motor = default_motor;
+    current_polarity = default_polarity;
+    current_pwm = default_pwm;
+    current_startup = default_startup;
+    current_tempe = default_tempe;
+
+    // Set invisible undo button and add connect
     ui->undo_beep->setVisible(false);
-    connect(ui->slide_beep,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoBeep(int)));
+    connect(ui->slide_beep,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelBeep(int)));
     ui->undo_delay->setVisible(false);
-    connect(ui->slide_delay,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoDelay(int)));
+    connect(ui->slide_delay,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelDelay(int)));
     ui->undo_demeg->setVisible(false);
-    connect(ui->slide_demeg,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoDemeg(int)));
+    connect(ui->slide_demeg,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelDemeg(int)));
     ui->undo_enable->setVisible(false);
-    connect(ui->slide_enable,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoEnable(int)));
+    connect(ui->slide_enable,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelEnable(int)));
     ui->undo_motor->setVisible(false);
-    connect(ui->slide_motor,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoMotor(int)));
+    connect(ui->slide_motor,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelMotor(int)));
     ui->undo_polarity->setVisible(false);
-    connect(ui->slide_polarity,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoPolarity(int)));
+    connect(ui->slide_polarity,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelPolarity(int)));
     ui->undo_PWM->setVisible(false);
-    connect(ui->slide_PWM,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoPWM(int)));
+    connect(ui->slide_PWM,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelPWM(int)));
     ui->undo_startup->setVisible(false);
-    connect(ui->slide_startup,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoStartup(int)));
-    ui->undo_strength->setVisible(false);
-    connect(ui->slide_strength,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoStrength(int)));
+    connect(ui->slide_startup,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelStartup(int)));
+    ui->undo_beaconstr->setVisible(false);
+    connect(ui->slide_beaconstr,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelBeaconStr(int)));
     ui->undo_tempe->setVisible(false);
-    connect(ui->slide_tempe,SIGNAL(valueChanged(int)), this, SLOT(setVisibleUndoTempe(int)));
+    connect(ui->slide_tempe,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelTempe(int)));
 
     // Invisible default button
     ui->default_beep->setVisible(false);
-    connect(ui->slide_beep,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultBeep(int)));
     ui->default_delay->setVisible(false);
-    connect(ui->slide_delay,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultDelay(int)));
     ui->default_demeg->setVisible(false);
-    connect(ui->slide_demeg,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultDemeg(int)));
     ui->default_enable->setVisible(false);
-    connect(ui->slide_enable,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultEnable(int)));
     ui->default_motor->setVisible(false);
-    connect(ui->slide_motor,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultMotor(int)));
     ui->default_polarity->setVisible(false);
-    connect(ui->slide_polarity,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultPolarity(int)));
     ui->default_PWM->setVisible(false);
-    connect(ui->slide_PWM,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultPWM(int)));
     ui->default_startup->setVisible(false);
-    connect(ui->slide_startup,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultStartup(int)));
-    ui->default_strength->setVisible(false);
-    connect(ui->slide_strength,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultStrength(int)));
+    ui->default_beaconstr->setVisible(false);
     ui->default_tempe->setVisible(false);
-    connect(ui->slide_tempe,SIGNAL(valueChanged(int)), this, SLOT(setVisibleDefaultTempe(int)));
+
+    // Set alight left
+    ui->horizontalLayout_beep->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_delay->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_demeg->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_enable->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_motor->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_polarity->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_pwm->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_startup->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_beaconstr->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_tempe->setAlignment(Qt::AlignLeft);
+
+    // connect undo and default button
+    connect(ui->default_beep, SIGNAL(clicked(bool)), this, SLOT(handle_default_beep(bool)));
+    connect(ui->default_beaconstr, SIGNAL(clicked(bool)), this, SLOT(handle_default_beaconstr(bool)));
+    connect(ui->default_delay, SIGNAL(clicked(bool)), this, SLOT(handle_default_delay(bool)));
+    connect(ui->default_demeg, SIGNAL(clicked(bool)), this, SLOT(handle_default_demeg(bool)));
+    connect(ui->default_enable, SIGNAL(clicked(bool)), this, SLOT(handle_default_enable(bool)));
+    connect(ui->default_motor, SIGNAL(clicked(bool)), this, SLOT(handle_default_motor(bool)));
+    connect(ui->default_polarity, SIGNAL(clicked(bool)), this, SLOT(handle_default_polarity(bool)));
+    connect(ui->default_PWM, SIGNAL(clicked(bool)), this, SLOT(handle_default_pwm(bool)));
+    connect(ui->default_startup, SIGNAL(clicked(bool)), this, SLOT(handle_default_startup(bool)));
+    connect(ui->default_tempe, SIGNAL(clicked(bool)), this, SLOT(handle_default_tempe(bool)));
 }
 
 UAVConfig::~UAVConfig()
@@ -1158,122 +1195,234 @@ void UAVConfig::drawChartTPA()
 }
 
 // tab BLHeli
-void UAVConfig::setVisibleUndoBeep(int value)
+// Set visible when slide's value changed
+// Set value and title label
+
+void UAVConfig::set_Value_Title_LabelBeep(int value)
 {
-    Q_UNUSED(value);
     ui->undo_beep->setVisible(true);
-}
-
-void UAVConfig::setVisibleUndoDelay(int value)
-{
-    Q_UNUSED(value);
-    ui->undo_delay->setVisible(true);
-}
-
-void UAVConfig::setVisibleUndoDemeg(int value)
-{
-    Q_UNUSED(value);
-    ui->undo_demeg->setVisible(true);
-}
-
-void UAVConfig::setVisibleUndoEnable(int value)
-{
-    Q_UNUSED(value);
-    ui->undo_enable->setVisible(true);
-}
-
-void UAVConfig::setVisibleUndoMotor(int value)
-{
-    Q_UNUSED(value);
-    ui->undo_motor->setVisible(true);
-}
-
-void UAVConfig::setVisibleUndoPolarity(int value)
-{
-    Q_UNUSED(value);
-    ui->undo_polarity->setVisible(true);
-}
-
-void UAVConfig::setVisibleUndoPWM(int value)
-{
-    Q_UNUSED(value);
-    ui->undo_PWM->setVisible(true);
-}
-
-void UAVConfig::setVisibleUndoStartup(int value)
-{
-    Q_UNUSED(value);
-    ui->undo_startup->setVisible(true);
-}
-
-void UAVConfig::setVisibleUndoStrength(int value)
-{
-    Q_UNUSED(value);
-    ui->undo_strength->setVisible(true);
-}
-
-void UAVConfig::setVisibleUndoTempe(int value)
-{
-    Q_UNUSED(value);
-    ui->undo_tempe->setVisible(true);
-}
-
-void UAVConfig::setVisibleDefaultBeep(int value)
-{
-    Q_UNUSED(value);
     ui->default_beep->setVisible(true);
+    ui->label_beepValue->setText(QString::number(value));
+    ui->label_beepTitle->setText(QString::number(value));
 }
 
-void UAVConfig::setVisibleDefaultDelay(int value)
+void UAVConfig::set_Value_Title_LabelDelay(int value)
 {
-    Q_UNUSED(value);
+    ui->undo_delay->setVisible(true);
     ui->default_delay->setVisible(true);
+    ui->label_delayValue->setText(QString::number(value));
+    switch (value) {
+    case 1:
+        ui->label_delayTitle->setText("1m");
+        break;
+    case 2:
+        ui->label_delayTitle->setText("2m");
+        break;
+    case 3:
+        ui->label_delayTitle->setText("5m");
+        break;
+    case 4:
+        ui->label_delayTitle->setText("10m");
+        break;
+    case 5:
+        ui->label_delayTitle->setText("Infinite");
+        break;
+    }
 }
 
-void UAVConfig::setVisibleDefaultDemeg(int value)
+void UAVConfig::set_Value_Title_LabelDemeg(int value)
 {
-    Q_UNUSED(value);
+    ui->undo_demeg->setVisible(true);
     ui->default_demeg->setVisible(true);
+    ui->label_demegValue->setText(QString::number(value));
+    switch (value) {
+    case 1:
+        ui->label_demegTitle->setText("Off");
+        break;
+    case 2:
+        ui->label_demegTitle->setText("Low");
+        break;
+    case 3:
+        ui->label_demegTitle->setText("High");
+        break;
+    }
 }
 
-void UAVConfig::setVisibleDefaultEnable(int value)
+void UAVConfig::set_Value_Title_LabelEnable(int value)
 {
-    Q_UNUSED(value);
+    ui->undo_enable->setVisible(true);
     ui->default_enable->setVisible(true);
+    ui->label_enableValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_enableTitle->setText("Off");
+    else ui->label_enableTitle->setText("On");
 }
 
-void UAVConfig::setVisibleDefaultMotor(int value)
+void UAVConfig::set_Value_Title_LabelMotor(int value)
 {
-    Q_UNUSED(value);
+    ui->undo_motor->setVisible(true);
     ui->default_motor->setVisible(true);
+    ui->label_motorValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_motorTitle->setText("Normal");
+    else ui->label_motorTitle->setText("Reversed");
 }
 
-void UAVConfig::setVisibleDefaultPolarity(int value)
+void UAVConfig::set_Value_Title_LabelPolarity(int value)
 {
-    Q_UNUSED(value);
+    ui->undo_polarity->setVisible(true);
     ui->default_polarity->setVisible(true);
+    ui->label_polarityValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_polarityTitle->setText("Positive");
+    else ui->label_polarityTitle->setText("Negative");
 }
 
-void UAVConfig::setVisibleDefaultPWM(int value)
+void UAVConfig::set_Value_Title_LabelPWM(int value)
 {
-    Q_UNUSED(value);
+    ui->undo_PWM->setVisible(true);
     ui->default_PWM->setVisible(true);
+    ui->label_PWMValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_PWMTitle->setText("High");
+    else ui->label_PWMTitle->setText("Low");
 }
 
-void UAVConfig::setVisibleDefaultStartup(int value)
+void UAVConfig::set_Value_Title_LabelStartup(int value)
 {
-    Q_UNUSED(value);
+    ui->undo_startup->setVisible(true);
     ui->default_startup->setVisible(true);
+    ui->label_startupValue->setText(QString::number(value));
+    switch (value)
+    {
+    case 1:
+        ui->label_startupTitle->setText("x0.031");
+        break;
+    case 2:
+        ui->label_startupTitle->setText("x0.047");
+        break;
+    case 3:
+        ui->label_startupTitle->setText("x0.063");
+        break;
+    case 4:
+        ui->label_startupTitle->setText("x0.094");
+        break;
+    case 5:
+        ui->label_startupTitle->setText("x0.125");
+        break;
+    case 6:
+        ui->label_startupTitle->setText("x0.188");
+        break;
+    case 7:
+        ui->label_startupTitle->setText("x0.25");
+        break;
+    case 8:
+        ui->label_startupTitle->setText("x0.38");
+        break;
+    case 9:
+        ui->label_startupTitle->setText("x0.50");
+        break;
+    case 10:
+        ui->label_startupTitle->setText("x0.75");
+        break;
+    case 11:
+        ui->label_startupTitle->setText("x1.00");
+        break;
+    case 12:
+        ui->label_startupTitle->setText("x1.25");
+        break;
+    case 13:
+        ui->label_startupTitle->setText("x1.50");
+        break;
+    }
 }
 
-void UAVConfig::setVisibleDefaultStrength(int value)
+void UAVConfig::set_Value_Title_LabelBeaconStr(int value)
 {
-    Q_UNUSED(value);
-    ui->default_strength->setVisible(true);
+    ui->undo_beaconstr->setVisible(true);
+    ui->default_beaconstr->setVisible(true);
+    ui->label_beaconstrValue->setText(QString::number(value));
+    ui->label_beaconstrTitle->setText(QString::number(value));
 }
 
-void UAVConfig::setVisibleDefaultTempe(int value)
+void UAVConfig::set_Value_Title_LabelTempe(int value)
 {
-    Q_UNUSED(value);
+    ui->undo_tempe->setVisible(true);
     ui->default_tempe->setVisible(true);
+    ui->label_tempeValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_tempeTitle->setText("On");
+    else ui->label_tempeTitle->setText("Off");
+}
+
+// Handle event when click default button
+
+void UAVConfig::handle_default_beep(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_beep->setValue(default_beep);
+    ui->default_beep->setVisible(false);
+}
+
+void UAVConfig::handle_default_beaconstr(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_beaconstr->setValue(default_beaconstr);
+    ui->default_beaconstr->setVisible(false);
+}
+
+void UAVConfig::handle_default_delay(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_delay->setValue(default_delay);
+    ui->default_delay->setVisible(false);
+}
+
+void UAVConfig::handle_default_demeg(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_demeg->setValue(default_demeg);
+    ui->default_demeg->setVisible(false);
+}
+
+void UAVConfig::handle_default_enable(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_enable->setValue(default_enable);
+    ui->default_enable->setVisible(false);
+}
+
+void UAVConfig::handle_default_motor(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_motor->setValue(default_motor);
+    ui->default_motor->setVisible(false);
+}
+
+void UAVConfig::handle_default_polarity(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_polarity->setValue(default_polarity);
+    ui->default_polarity->setVisible(false);
+}
+
+void UAVConfig::handle_default_pwm(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_PWM->setValue(default_pwm);
+    ui->default_PWM->setVisible(false);
+}
+
+void UAVConfig::handle_default_startup(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_startup->setValue(default_startup);
+    ui->default_startup->setVisible(false);
+}
+
+void UAVConfig::handle_default_tempe(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_tempe->setValue(default_tempe);
+    ui->default_tempe->setVisible(false);
 }
