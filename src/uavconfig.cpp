@@ -29,6 +29,7 @@
 
 const int UAVConfig::i_const[] = {0,0,1,2,3,4,5,6};
 const int UAVConfig::x_loca[] = {0,75,150,250,350,450,550,600};
+int max_thr, max_yaw, max_pit, max_roll, min_thr, min_yaw, min_pit, min_roll;
 
 UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),
@@ -90,18 +91,20 @@ UAVConfig::UAVConfig(QWidget *parent) :
     //    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
     //    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
 
+    //RC Config
+    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
+    delayedSendRCTimer.start(800);
+
+    //RC Charts
     if(ui->lineEdit_expoPitch && ui->lineEdit_ratePitch)
         pitchCharts();
 
     if (ui->lineEdit_TPA && ui->lineEdit_TPA_Breakpoint)
         TPAChart();
 
-    //RC Charts
     connect(ui->btn_OK_ExpoPitch, SIGNAL(clicked()), this, SLOT(pitchCharts()));
     connect(ui->btn_OK_TPA, SIGNAL(clicked()), this, SLOT(TPAChart()));
-    //    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
-    //    delayedSendRCTimer.start(800);
-    sendRcRefreshFreq();
+
 
     //update variable for RC Chart
     rc_rate = 50;
@@ -246,6 +249,7 @@ void UAVConfig::createAQParamWidget(UASInterface *uastmp)
 {
     uas = uastmp;
 
+    //RC message
     connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
     paramaq = new AQParamWidget(uas, this);
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
@@ -299,7 +303,7 @@ void UAVConfig::getGUIPara(QWidget *parent)
             if (cb->isEditable())
             {
                 if ((tmp = cb->findText(val.toString())) > -1)
-                 cb->setCurrentIndex(tmp);
+                    cb->setCurrentIndex(tmp);
                 else
                 {
                     cb->insertItem(0, val.toString());
@@ -895,60 +899,42 @@ void UAVConfig::updateButtonView()
     }
 }
 
-/*
+/**
  * ================= RC-Config ===============
  */
-
 //set min max for RCConfig
-void UAVConfig::sendRcRefreshFreq()
+void UAVConfig::toggleRadioValuesUpdate()
 {
     if (!uas) return;
 
-    int min, max, tmin, tmax;
-    tmax = -500;
-    tmin = 1500;
-    max = -1500;
-    min = 1500;
-
-    foreach (QProgressBar* pb, allRadioChanProgressBars) {
-        //        qDebug() << "progresbar: " << pb->objectName();
-        if (pb->objectName().contains("chan_0")) {
-            pb->setMaximum(tmax);
-            pb->setMinimum(tmin);
-            qDebug() << "pd max chan_0: " << pb->maximum();
-            qDebug() << "pd min chan_0: " << pb->minimum();
-        } else {
-
-            pb->setMaximum(max);
-            pb->setMinimum(min);
-            qDebug() << "pd max chan_1: " << pb->maximum();
-            qDebug() << "pd min chan_1: " << pb->minimum();
-        }
-    }
-
-    //    delayedSendRCTimer.stop();
+    max_thr = 1500;
+    min_thr = -100;
+    max_yaw = max_pit = max_roll = 1024;
+    min_yaw = min_pit = min_roll = -1024;
 
 }
 
+void UAVConfig::toggleRadioStream(int r)
+{
+    if (uas)
+        uas->enableRCChannelDataTransmission(r);
+}
+
+void UAVConfig::sendRcRefreshFreq()
+{
+    delayedSendRCTimer.stop();
+    toggleRadioValuesUpdate();
+    toggleRadioStream(800);
+}
+
+
 //set value RCconfig
 void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
-{
+{   
     int val;
-    if (channelId >= allRadioChanProgressBars.size())
-        return;
+    val = (int)(normalized-1024); //raw
 
-    QProgressBar* bar = allRadioChanProgressBars.at(channelId);
-
-    val = (int)(normalized-1024);
-
-    if (bar) {
-        if (val > bar->maximum())
-            val = bar->maximum();
-        if (val < bar->minimum())
-            val = bar->minimum();
-        bar->setValue(val);
-        //        qDebug() << "channelID: " << channelId << "bar: " << bar->value();
-    }
+    qDebug() << "channelID: " << channelId << "value: " << val;
 }
 
 //Main func of RC Tab
