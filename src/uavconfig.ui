@@ -191,10 +191,10 @@ margin: 10px 0 0 10px;
      <widget class="QTabWidget" name="tabWidget_RCConfig">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>2</x>
         <y>39</y>
-        <width>693</width>
-        <height>323</height>
+        <width>691</width>
+        <height>321</height>
        </rect>
       </property>
       <property name="maximumSize">
@@ -379,6 +379,12 @@ margin: 10px 0 0 10px;
              <height>20</height>
             </rect>
            </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
            </property>
@@ -395,6 +401,12 @@ margin: 10px 0 0 10px;
              <height>20</height>
             </rect>
            </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>-700/700</string>
            </property>
@@ -407,6 +419,12 @@ margin: 10px 0 0 10px;
              <width>61</width>
              <height>20</height>
             </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
            </property>
            <property name="text">
             <string>-700/700</string>
@@ -421,6 +439,12 @@ margin: 10px 0 0 10px;
              <height>20</height>
             </rect>
            </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>-700/700</string>
            </property>
@@ -428,8 +452,8 @@ margin: 10px 0 0 10px;
           <widget class="QLabel" name="label_RadioType">
            <property name="geometry">
             <rect>
-             <x>10</x>
-             <y>10</y>
+             <x>1</x>
+             <y>1</y>
              <width>61</width>
              <height>22</height>
             </rect>
@@ -447,8 +471,8 @@ margin: 10px 0 0 10px;
           <widget class="QLabel" name="label_RADIO_FLAP_CH">
            <property name="geometry">
             <rect>
-             <x>510</x>
-             <y>10</y>
+             <x>516</x>
+             <y>1</y>
              <width>71</width>
              <height>22</height>
             </rect>
@@ -466,8 +490,8 @@ margin: 10px 0 0 10px;
           <widget class="QLabel" name="label_5">
            <property name="geometry">
             <rect>
-             <x>510</x>
-             <y>40</y>
+             <x>516</x>
+             <y>31</y>
              <width>47</width>
              <height>22</height>
             </rect>
@@ -485,8 +509,8 @@ margin: 10px 0 0 10px;
           <widget class="QLabel" name="label_CTRL_DBAND_THRO">
            <property name="geometry">
             <rect>
-             <x>510</x>
-             <y>70</y>
+             <x>516</x>
+             <y>61</y>
              <width>91</width>
              <height>22</height>
             </rect>
@@ -504,8 +528,8 @@ margin: 10px 0 0 10px;
           <widget class="QLabel" name="label_CTRL_DEAD_BAND">
            <property name="geometry">
             <rect>
-             <x>510</x>
-             <y>100</y>
+             <x>516</x>
+             <y>91</y>
              <width>101</width>
              <height>22</height>
             </rect>
@@ -524,7 +548,7 @@ margin: 10px 0 0 10px;
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>10</y>
+             <y>1</y>
              <width>151</width>
              <height>22</height>
             </rect>
@@ -539,8 +563,8 @@ margin: 10px 0 0 10px;
           <widget class="QComboBox" name="comboBox_3">
            <property name="geometry">
             <rect>
-             <x>610</x>
-             <y>40</y>
+             <x>616</x>
+             <y>31</y>
              <width>51</width>
              <height>22</height>
             </rect>
@@ -638,8 +662,8 @@ margin: 10px 0 0 10px;
           <widget class="QSpinBox" name="CTRL_DBAND_THRO">
            <property name="geometry">
             <rect>
-             <x>610</x>
-             <y>70</y>
+             <x>616</x>
+             <y>61</y>
              <width>51</width>
              <height>22</height>
             </rect>
@@ -663,8 +687,8 @@ margin: 10px 0 0 10px;
           <widget class="QSpinBox" name="CTRL_DEAD_BAND">
            <property name="geometry">
             <rect>
-             <x>610</x>
-             <y>100</y>
+             <x>616</x>
+             <y>91</y>
              <width>51</width>
              <height>22</height>
             </rect>
@@ -688,8 +712,8 @@ margin: 10px 0 0 10px;
           <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
             <rect>
-             <x>560</x>
-             <y>210</y>
+             <x>570</x>
+             <y>220</y>
              <width>98</width>
              <height>58</height>
             </rect>
@@ -990,11 +1014,17 @@ margin: 10px 0 0 10px;
           <widget class="QComboBox" name="RADIO_FLAP_CH">
            <property name="geometry">
             <rect>
-             <x>610</x>
-             <y>10</y>
+             <x>616</x>
+             <y>1</y>
              <width>51</width>
              <height>22</height>
             </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
            </property>
            <property name="editable">
             <bool>false</bool>
@@ -5143,7 +5173,7 @@ padding: 10px;</string>
   <widget class="QScrollArea" name="scrollArea_debugConsole">
    <property name="geometry">
     <rect>
-     <x>1</x>
+     <x>0</x>
      <y>400</y>
      <width>730</width>
      <height>150</height>

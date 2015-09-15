@@ -35,6 +35,12 @@
      <height>150</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPlainTextEdit {
+	background-color: rgb(236, 236, 236);
+padding: 10px;
+}</string>
+   </property>
    <property name="frameShape">
     <enum>QFrame::NoFrame</enum>
    </property>
@@ -336,8 +342,6 @@
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="../../../Desktop/QGoundControl_aq/qgroundcontrol_aq-1.6.3/qgroundcontrol_aq-1.6.3/qgroundcontrol.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

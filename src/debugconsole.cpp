@@ -88,6 +88,8 @@ DebugConsole::DebugConsole(QWidget *parent) :
     connect(m_ui->specialComboBox, SIGNAL(highlighted(QString)), this, SLOT(specialSymbolSelected(QString)));
     // Allow to send via return
     connect(m_ui->sendText, SIGNAL(returnPressed()), this, SLOT(sendBytes()));
+
+    m_ui->receiveText->setReadOnly(true);
 }
 
 void DebugConsole::hideEvent(QHideEvent* event)

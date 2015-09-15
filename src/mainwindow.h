@@ -34,7 +34,6 @@ class ToolBar;
 class MAVLinkProtocol;
 class MAVLinkDecoder;
 class UAVConfig;
-
 class UASInterface;
 class SerialLink;
 class MAVLinkMessageSender;
@@ -76,17 +75,13 @@ protected:
     QMutex receiveMutex;
     quint64 bitsReceivedTotal;
     uint8_t sys_mode;
-
     QString styleFileName;
-
 
     // Status ToolBar define
     QLabel* toolBarTimeoutLabel;
     QLabel* toolBarSafetyLabel;
     QLabel* toolBarStateLabel;
     QLabel* toolBarMessageLabel;
-
-
     QProgressBar* toolBarBatteryBar;
     QLabel* toolBarBatteryVoltageLabel;
     float batteryPercent;
@@ -100,12 +95,9 @@ protected:
     QPointer<QDockWidget> mavlinkSenderWidget;
     QPointer<QDockWidget> HeadingWidget;
     QPointer<QDockWidget> headDown1DockWidget;
-
     QPointer<QDockWidget> infoDockWidget;
     QPointer<QDockWidget> parametersDockWidget;
     //QPointer<QDockWidget> headingWidget;
-
-
     QPointer<MAVLinkDecoder> mavlinkDecoder;
     QPointer<ToolBar> toolBar;
 
@@ -117,16 +109,12 @@ protected:
     bool autoReconnect;
     QString state;
 
-
     MAVLinkProtocol* mavlink;
     AQParamWidget* paramaq;
     UAVConfig *config; //main tab configuration VSK
     QSettings setting;
 
 signals:
-    /**
-     *   This signal is emitted instantly when the link is connected
-     **/
     void connected();
     void portError();
     void batteryChanged(double voltage, double percent);

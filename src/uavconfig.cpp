@@ -186,12 +186,9 @@ QString UAVConfig::paramNameGuiToOnboard(QString paraName) {
 
 void UAVConfig::loadParametersToUI()
 {
-
     useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
     emit firmwareInfoUpdated();
-
     getGUIPara(ui->tab_aq_setting);
-
 }
 
 void UAVConfig::uasConnected()
