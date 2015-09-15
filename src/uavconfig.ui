@@ -713,7 +713,7 @@ margin: 10px 0 0 10px;
            <property name="geometry">
             <rect>
              <x>570</x>
-             <y>220</y>
+             <y>216</y>
              <width>98</width>
              <height>58</height>
             </rect>
@@ -1624,6 +1624,7 @@ margin: 10px 0 0 10px;
      </property>
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>16</pointsize>
       </font>
      </property>
@@ -1650,6 +1651,7 @@ margin: 10px 0 0 10px;
      </property>
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>16</pointsize>
       </font>
      </property>
@@ -3496,6 +3498,7 @@ margin: 10px 0 0 10px;
      </property>
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>16</pointsize>
       </font>
      </property>
@@ -3595,6 +3598,7 @@ margin: 10px 0 0 10px;
      </property>
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>16</pointsize>
       </font>
      </property>
@@ -3765,6 +3769,9 @@ margin: 10px 0 0 10px;
        <string notr="true">background-color: white;
 padding: 10px;</string>
       </property>
+      <property name="undoRedoEnabled">
+       <bool>false</bool>
+      </property>
      </widget>
     </widget>
    </widget>
@@ -3780,6 +3787,7 @@ padding: 10px;</string>
      </property>
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>16</pointsize>
       </font>
      </property>

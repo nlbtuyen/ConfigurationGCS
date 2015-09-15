@@ -90,6 +90,9 @@ private slots:
 
     //RC Config
     void sendRcRefreshFreq();
+    // Radio channels display
+    void toggleRadioValuesUpdate();
+    void toggleRadioStream(int r);
 
     //RC Chart
     void pitchCharts();
