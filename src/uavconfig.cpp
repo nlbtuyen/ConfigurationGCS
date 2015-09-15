@@ -105,7 +105,6 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(ui->btn_OK_ExpoPitch, SIGNAL(clicked()), this, SLOT(pitchCharts()));
     connect(ui->btn_OK_TPA, SIGNAL(clicked()), this, SLOT(TPAChart()));
 
-
     //update variable for RC Chart
     rc_rate = 50;
 
