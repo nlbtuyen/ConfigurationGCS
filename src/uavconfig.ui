@@ -127,7 +127,7 @@ margin: 10px 0 0 10px;
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>7</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_aq_setting_Radio">
     <property name="focusPolicy">
