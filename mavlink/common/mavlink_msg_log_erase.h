@@ -26,7 +26,7 @@ typedef struct __mavlink_log_erase_t
 
 
 /**
- * @brief Pack a log_erase message
+ *  Pack a log_erase message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -61,7 +61,7 @@ static inline uint16_t mavlink_msg_log_erase_pack(uint8_t system_id, uint8_t com
 }
 
 /**
- * @brief Pack a log_erase message on a channel
+ *  Pack a log_erase message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -97,7 +97,7 @@ static inline uint16_t mavlink_msg_log_erase_pack_chan(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a log_erase struct
+ *  Encode a log_erase struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -110,7 +110,7 @@ static inline uint16_t mavlink_msg_log_erase_encode(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Encode a log_erase struct on a channel
+ *  Encode a log_erase struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -124,7 +124,7 @@ static inline uint16_t mavlink_msg_log_erase_encode_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Send a log_erase message
+ *  Send a log_erase message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -197,7 +197,7 @@ static inline void mavlink_msg_log_erase_send_buf(mavlink_message_t *msgbuf, mav
 
 
 /**
- * @brief Get field target_system from log_erase message
+ *  Get field target_system from log_erase message
  *
  * @return System ID
  */
@@ -207,7 +207,7 @@ static inline uint8_t mavlink_msg_log_erase_get_target_system(const mavlink_mess
 }
 
 /**
- * @brief Get field target_component from log_erase message
+ *  Get field target_component from log_erase message
  *
  * @return Component ID
  */
@@ -217,7 +217,7 @@ static inline uint8_t mavlink_msg_log_erase_get_target_component(const mavlink_m
 }
 
 /**
- * @brief Decode a log_erase message into a struct
+ *  Decode a log_erase message into a struct
  *
  * @param msg The message to decode
  * @param log_erase C-struct to decode the message contents into

@@ -26,13 +26,13 @@ public:
     QList<LinkInterface *> getLinksForProtocol(ProtocolInterface* protocol);
     QList<LinkInterface *> getLinksForType(const int linkType);
 
-    /** @brief Get the link for this id */
+    /**  Get the link for this id */
     LinkInterface* getLinkForId(int id);
 
-    /** @brief Get a list of all links */
+    /**  Get a list of all links */
     const QList<LinkInterface*> getLinks();
 
-    /** @brief Get a list of all protocols */
+    /**  Get a list of all protocols */
     const QList<ProtocolInterface*> getProtocols() {
         return protocolLinks.uniqueKeys();
     }

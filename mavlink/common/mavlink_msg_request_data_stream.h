@@ -32,7 +32,7 @@ typedef struct __mavlink_request_data_stream_t
 
 
 /**
- * @brief Pack a request_data_stream message
+ *  Pack a request_data_stream message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -76,7 +76,7 @@ static inline uint16_t mavlink_msg_request_data_stream_pack(uint8_t system_id, u
 }
 
 /**
- * @brief Pack a request_data_stream message on a channel
+ *  Pack a request_data_stream message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -121,7 +121,7 @@ static inline uint16_t mavlink_msg_request_data_stream_pack_chan(uint8_t system_
 }
 
 /**
- * @brief Encode a request_data_stream struct
+ *  Encode a request_data_stream struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -134,7 +134,7 @@ static inline uint16_t mavlink_msg_request_data_stream_encode(uint8_t system_id,
 }
 
 /**
- * @brief Encode a request_data_stream struct on a channel
+ *  Encode a request_data_stream struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -148,7 +148,7 @@ static inline uint16_t mavlink_msg_request_data_stream_encode_chan(uint8_t syste
 }
 
 /**
- * @brief Send a request_data_stream message
+ *  Send a request_data_stream message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system The target requested to send the message stream.
@@ -236,7 +236,7 @@ static inline void mavlink_msg_request_data_stream_send_buf(mavlink_message_t *m
 
 
 /**
- * @brief Get field target_system from request_data_stream message
+ *  Get field target_system from request_data_stream message
  *
  * @return The target requested to send the message stream.
  */
@@ -246,7 +246,7 @@ static inline uint8_t mavlink_msg_request_data_stream_get_target_system(const ma
 }
 
 /**
- * @brief Get field target_component from request_data_stream message
+ *  Get field target_component from request_data_stream message
  *
  * @return The target requested to send the message stream.
  */
@@ -256,7 +256,7 @@ static inline uint8_t mavlink_msg_request_data_stream_get_target_component(const
 }
 
 /**
- * @brief Get field req_stream_id from request_data_stream message
+ *  Get field req_stream_id from request_data_stream message
  *
  * @return The ID of the requested data stream
  */
@@ -266,7 +266,7 @@ static inline uint8_t mavlink_msg_request_data_stream_get_req_stream_id(const ma
 }
 
 /**
- * @brief Get field req_message_rate from request_data_stream message
+ *  Get field req_message_rate from request_data_stream message
  *
  * @return The requested interval between two messages of this type
  */
@@ -276,7 +276,7 @@ static inline uint16_t mavlink_msg_request_data_stream_get_req_message_rate(cons
 }
 
 /**
- * @brief Get field start_stop from request_data_stream message
+ *  Get field start_stop from request_data_stream message
  *
  * @return 1 to start sending, 0 to stop sending.
  */
@@ -286,7 +286,7 @@ static inline uint8_t mavlink_msg_request_data_stream_get_start_stop(const mavli
 }
 
 /**
- * @brief Decode a request_data_stream message into a struct
+ *  Decode a request_data_stream message into a struct
  *
  * @param msg The message to decode
  * @param request_data_stream C-struct to decode the message contents into

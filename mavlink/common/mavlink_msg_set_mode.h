@@ -28,7 +28,7 @@ typedef struct __mavlink_set_mode_t
 
 
 /**
- * @brief Pack a set_mode message
+ *  Pack a set_mode message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -66,7 +66,7 @@ static inline uint16_t mavlink_msg_set_mode_pack(uint8_t system_id, uint8_t comp
 }
 
 /**
- * @brief Pack a set_mode message on a channel
+ *  Pack a set_mode message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -105,7 +105,7 @@ static inline uint16_t mavlink_msg_set_mode_pack_chan(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a set_mode struct
+ *  Encode a set_mode struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -118,7 +118,7 @@ static inline uint16_t mavlink_msg_set_mode_encode(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Encode a set_mode struct on a channel
+ *  Encode a set_mode struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -132,7 +132,7 @@ static inline uint16_t mavlink_msg_set_mode_encode_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Send a set_mode message
+ *  Send a set_mode message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system The system setting the mode
@@ -210,7 +210,7 @@ static inline void mavlink_msg_set_mode_send_buf(mavlink_message_t *msgbuf, mavl
 
 
 /**
- * @brief Get field target_system from set_mode message
+ *  Get field target_system from set_mode message
  *
  * @return The system setting the mode
  */
@@ -220,7 +220,7 @@ static inline uint8_t mavlink_msg_set_mode_get_target_system(const mavlink_messa
 }
 
 /**
- * @brief Get field base_mode from set_mode message
+ *  Get field base_mode from set_mode message
  *
  * @return The new base mode
  */
@@ -230,7 +230,7 @@ static inline uint8_t mavlink_msg_set_mode_get_base_mode(const mavlink_message_t
 }
 
 /**
- * @brief Get field custom_mode from set_mode message
+ *  Get field custom_mode from set_mode message
  *
  * @return The new autopilot-specific mode. This field can be ignored by an autopilot.
  */
@@ -240,7 +240,7 @@ static inline uint32_t mavlink_msg_set_mode_get_custom_mode(const mavlink_messag
 }
 
 /**
- * @brief Decode a set_mode message into a struct
+ *  Decode a set_mode message into a struct
  *
  * @param msg The message to decode
  * @param set_mode C-struct to decode the message contents into

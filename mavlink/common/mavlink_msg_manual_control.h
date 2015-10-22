@@ -34,7 +34,7 @@ typedef struct __mavlink_manual_control_t
 
 
 /**
- * @brief Pack a manual_control message
+ *  Pack a manual_control message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -81,7 +81,7 @@ static inline uint16_t mavlink_msg_manual_control_pack(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Pack a manual_control message on a channel
+ *  Pack a manual_control message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -129,7 +129,7 @@ static inline uint16_t mavlink_msg_manual_control_pack_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Encode a manual_control struct
+ *  Encode a manual_control struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -142,7 +142,7 @@ static inline uint16_t mavlink_msg_manual_control_encode(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a manual_control struct on a channel
+ *  Encode a manual_control struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -156,7 +156,7 @@ static inline uint16_t mavlink_msg_manual_control_encode_chan(uint8_t system_id,
 }
 
 /**
- * @brief Send a manual_control message
+ *  Send a manual_control message
  * @param chan MAVLink channel to send the message
  *
  * @param target The system to be controlled.
@@ -249,7 +249,7 @@ static inline void mavlink_msg_manual_control_send_buf(mavlink_message_t *msgbuf
 
 
 /**
- * @brief Get field target from manual_control message
+ *  Get field target from manual_control message
  *
  * @return The system to be controlled.
  */
@@ -259,7 +259,7 @@ static inline uint8_t mavlink_msg_manual_control_get_target(const mavlink_messag
 }
 
 /**
- * @brief Get field x from manual_control message
+ *  Get field x from manual_control message
  *
  * @return X-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to forward(1000)-backward(-1000) movement on a joystick and the pitch of a vehicle.
  */
@@ -269,7 +269,7 @@ static inline int16_t mavlink_msg_manual_control_get_x(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field y from manual_control message
+ *  Get field y from manual_control message
  *
  * @return Y-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to left(-1000)-right(1000) movement on a joystick and the roll of a vehicle.
  */
@@ -279,7 +279,7 @@ static inline int16_t mavlink_msg_manual_control_get_y(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field z from manual_control message
+ *  Get field z from manual_control message
  *
  * @return Z-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a separate slider movement with maximum being 1000 and minimum being -1000 on a joystick and the thrust of a vehicle.
  */
@@ -289,7 +289,7 @@ static inline int16_t mavlink_msg_manual_control_get_z(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field r from manual_control message
+ *  Get field r from manual_control message
  *
  * @return R-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a twisting of the joystick, with counter-clockwise being 1000 and clockwise being -1000, and the yaw of a vehicle.
  */
@@ -299,7 +299,7 @@ static inline int16_t mavlink_msg_manual_control_get_r(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field buttons from manual_control message
+ *  Get field buttons from manual_control message
  *
  * @return A bitfield corresponding to the joystick buttons' current state, 1 for pressed, 0 for released. The lowest bit corresponds to Button 1.
  */
@@ -309,7 +309,7 @@ static inline uint16_t mavlink_msg_manual_control_get_buttons(const mavlink_mess
 }
 
 /**
- * @brief Decode a manual_control message into a struct
+ *  Decode a manual_control message into a struct
  *
  * @param msg The message to decode
  * @param manual_control C-struct to decode the message contents into

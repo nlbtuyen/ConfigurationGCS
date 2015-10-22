@@ -46,7 +46,7 @@ typedef struct __mavlink_hil_optical_flow_t
 
 
 /**
- * @brief Pack a hil_optical_flow message
+ *  Pack a hil_optical_flow message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -111,7 +111,7 @@ static inline uint16_t mavlink_msg_hil_optical_flow_pack(uint8_t system_id, uint
 }
 
 /**
- * @brief Pack a hil_optical_flow message on a channel
+ *  Pack a hil_optical_flow message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -177,7 +177,7 @@ static inline uint16_t mavlink_msg_hil_optical_flow_pack_chan(uint8_t system_id,
 }
 
 /**
- * @brief Encode a hil_optical_flow struct
+ *  Encode a hil_optical_flow struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -190,7 +190,7 @@ static inline uint16_t mavlink_msg_hil_optical_flow_encode(uint8_t system_id, ui
 }
 
 /**
- * @brief Encode a hil_optical_flow struct on a channel
+ *  Encode a hil_optical_flow struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -204,7 +204,7 @@ static inline uint16_t mavlink_msg_hil_optical_flow_encode_chan(uint8_t system_i
 }
 
 /**
- * @brief Send a hil_optical_flow message
+ *  Send a hil_optical_flow message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds, synced to UNIX time or since system boot)
@@ -327,7 +327,7 @@ static inline void mavlink_msg_hil_optical_flow_send_buf(mavlink_message_t *msgb
 
 
 /**
- * @brief Get field time_usec from hil_optical_flow message
+ *  Get field time_usec from hil_optical_flow message
  *
  * @return Timestamp (microseconds, synced to UNIX time or since system boot)
  */
@@ -337,7 +337,7 @@ static inline uint64_t mavlink_msg_hil_optical_flow_get_time_usec(const mavlink_
 }
 
 /**
- * @brief Get field sensor_id from hil_optical_flow message
+ *  Get field sensor_id from hil_optical_flow message
  *
  * @return Sensor ID
  */
@@ -347,7 +347,7 @@ static inline uint8_t mavlink_msg_hil_optical_flow_get_sensor_id(const mavlink_m
 }
 
 /**
- * @brief Get field integration_time_us from hil_optical_flow message
+ *  Get field integration_time_us from hil_optical_flow message
  *
  * @return Integration time in microseconds. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.
  */
@@ -357,7 +357,7 @@ static inline uint32_t mavlink_msg_hil_optical_flow_get_integration_time_us(cons
 }
 
 /**
- * @brief Get field integrated_x from hil_optical_flow message
+ *  Get field integrated_x from hil_optical_flow message
  *
  * @return Flow in radians around X axis (Sensor RH rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.)
  */
@@ -367,7 +367,7 @@ static inline float mavlink_msg_hil_optical_flow_get_integrated_x(const mavlink_
 }
 
 /**
- * @brief Get field integrated_y from hil_optical_flow message
+ *  Get field integrated_y from hil_optical_flow message
  *
  * @return Flow in radians around Y axis (Sensor RH rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.)
  */
@@ -377,7 +377,7 @@ static inline float mavlink_msg_hil_optical_flow_get_integrated_y(const mavlink_
 }
 
 /**
- * @brief Get field integrated_xgyro from hil_optical_flow message
+ *  Get field integrated_xgyro from hil_optical_flow message
  *
  * @return RH rotation around X axis (rad)
  */
@@ -387,7 +387,7 @@ static inline float mavlink_msg_hil_optical_flow_get_integrated_xgyro(const mavl
 }
 
 /**
- * @brief Get field integrated_ygyro from hil_optical_flow message
+ *  Get field integrated_ygyro from hil_optical_flow message
  *
  * @return RH rotation around Y axis (rad)
  */
@@ -397,7 +397,7 @@ static inline float mavlink_msg_hil_optical_flow_get_integrated_ygyro(const mavl
 }
 
 /**
- * @brief Get field integrated_zgyro from hil_optical_flow message
+ *  Get field integrated_zgyro from hil_optical_flow message
  *
  * @return RH rotation around Z axis (rad)
  */
@@ -407,7 +407,7 @@ static inline float mavlink_msg_hil_optical_flow_get_integrated_zgyro(const mavl
 }
 
 /**
- * @brief Get field temperature from hil_optical_flow message
+ *  Get field temperature from hil_optical_flow message
  *
  * @return Temperature * 100 in centi-degrees Celsius
  */
@@ -417,7 +417,7 @@ static inline int16_t mavlink_msg_hil_optical_flow_get_temperature(const mavlink
 }
 
 /**
- * @brief Get field quality from hil_optical_flow message
+ *  Get field quality from hil_optical_flow message
  *
  * @return Optical flow quality / confidence. 0: no valid flow, 255: maximum quality
  */
@@ -427,7 +427,7 @@ static inline uint8_t mavlink_msg_hil_optical_flow_get_quality(const mavlink_mes
 }
 
 /**
- * @brief Get field time_delta_distance_us from hil_optical_flow message
+ *  Get field time_delta_distance_us from hil_optical_flow message
  *
  * @return Time in microseconds since the distance was sampled.
  */
@@ -437,7 +437,7 @@ static inline uint32_t mavlink_msg_hil_optical_flow_get_time_delta_distance_us(c
 }
 
 /**
- * @brief Get field distance from hil_optical_flow message
+ *  Get field distance from hil_optical_flow message
  *
  * @return Distance to the center of the flow field in meters. Positive value (including zero): distance known. Negative value: Unknown distance.
  */
@@ -447,7 +447,7 @@ static inline float mavlink_msg_hil_optical_flow_get_distance(const mavlink_mess
 }
 
 /**
- * @brief Decode a hil_optical_flow message into a struct
+ *  Decode a hil_optical_flow message into a struct
  *
  * @param msg The message to decode
  * @param hil_optical_flow C-struct to decode the message contents into

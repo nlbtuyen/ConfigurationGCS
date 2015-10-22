@@ -44,9 +44,9 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>9</x>
+     <x>19</x>
      <y>316</y>
-     <width>701</width>
+     <width>691</width>
      <height>24</height>
     </rect>
    </property>
@@ -78,6 +78,9 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QComboBox" name="combo_refreshRate"/>
     </item>
     <item>
      <spacer name="horizontalSpacer">

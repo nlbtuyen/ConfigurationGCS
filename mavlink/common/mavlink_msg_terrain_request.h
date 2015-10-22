@@ -30,7 +30,7 @@ typedef struct __mavlink_terrain_request_t
 
 
 /**
- * @brief Pack a terrain_request message
+ *  Pack a terrain_request message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -71,7 +71,7 @@ static inline uint16_t mavlink_msg_terrain_request_pack(uint8_t system_id, uint8
 }
 
 /**
- * @brief Pack a terrain_request message on a channel
+ *  Pack a terrain_request message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -113,7 +113,7 @@ static inline uint16_t mavlink_msg_terrain_request_pack_chan(uint8_t system_id, 
 }
 
 /**
- * @brief Encode a terrain_request struct
+ *  Encode a terrain_request struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -126,7 +126,7 @@ static inline uint16_t mavlink_msg_terrain_request_encode(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a terrain_request struct on a channel
+ *  Encode a terrain_request struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -140,7 +140,7 @@ static inline uint16_t mavlink_msg_terrain_request_encode_chan(uint8_t system_id
 }
 
 /**
- * @brief Send a terrain_request message
+ *  Send a terrain_request message
  * @param chan MAVLink channel to send the message
  *
  * @param lat Latitude of SW corner of first grid (degrees *10^7)
@@ -223,7 +223,7 @@ static inline void mavlink_msg_terrain_request_send_buf(mavlink_message_t *msgbu
 
 
 /**
- * @brief Get field lat from terrain_request message
+ *  Get field lat from terrain_request message
  *
  * @return Latitude of SW corner of first grid (degrees *10^7)
  */
@@ -233,7 +233,7 @@ static inline int32_t mavlink_msg_terrain_request_get_lat(const mavlink_message_
 }
 
 /**
- * @brief Get field lon from terrain_request message
+ *  Get field lon from terrain_request message
  *
  * @return Longitude of SW corner of first grid (in degrees *10^7)
  */
@@ -243,7 +243,7 @@ static inline int32_t mavlink_msg_terrain_request_get_lon(const mavlink_message_
 }
 
 /**
- * @brief Get field grid_spacing from terrain_request message
+ *  Get field grid_spacing from terrain_request message
  *
  * @return Grid spacing in meters
  */
@@ -253,7 +253,7 @@ static inline uint16_t mavlink_msg_terrain_request_get_grid_spacing(const mavlin
 }
 
 /**
- * @brief Get field mask from terrain_request message
+ *  Get field mask from terrain_request message
  *
  * @return Bitmask of requested 4x4 grids (row major 8x7 array of grids, 56 bits)
  */
@@ -263,7 +263,7 @@ static inline uint64_t mavlink_msg_terrain_request_get_mask(const mavlink_messag
 }
 
 /**
- * @brief Decode a terrain_request message into a struct
+ *  Decode a terrain_request message into a struct
  *
  * @param msg The message to decode
  * @param terrain_request C-struct to decode the message contents into

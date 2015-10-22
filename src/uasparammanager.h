@@ -45,9 +45,9 @@ public:
     virtual double getParamDefault(const QString& param) = 0;
     virtual QString getParamInfo(const QString& param) = 0;
 
-    /** @brief Request an update for the parameter list */
+    // Request an update for the parameter list
     void requestParameterListUpdate(int component = 0);
-    /** @brief Request an update for this specific parameter */
+    // Request an update for this specific parameter
     virtual void requestParameterUpdate(int component, const QString& parameter) = 0;
 
 signals:
@@ -56,26 +56,26 @@ signals:
     void parameterListUpToDate(int component);
 
 public slots:
-    /** @brief Write one parameter to the MAV */
+    // Write one parameter to the MAV
     virtual void setParameter(int component, QString parameterName, QVariant value) = 0;
-    /** @brief Request list of parameters from MAV */
+    // Request list of parameters from MAV
     virtual void requestParameterList() = 0;
 
 protected:
-    UASInterface* mav;   ///< The MAV this widget is controlling
-    QMap<int, QMap<QString, QVariant>* > changedValues; ///< Changed values
-    QMap<int, QMap<QString, QVariant>* > parameters; ///< All parameters
-    QVector<bool> received; ///< Successfully received parameters
-    QMap<int, QList<int>* > transmissionMissingPackets; ///< Missing packets
-    QMap<int, QMap<QString, QVariant>* > transmissionMissingWriteAckPackets; ///< Missing write ACK packets
-    bool transmissionListMode;       ///< Currently requesting list
-    QMap<int, bool> transmissionListSizeKnown;  ///< List size initialized?
-    bool transmissionActive;         ///< Missing packets, working on list?
-    quint64 transmissionTimeout;     ///< Timeout
-    QTimer retransmissionTimer;      ///< Timer handling parameter retransmission
-    int retransmissionTimeout; ///< Retransmission request timeout, in milliseconds
-    int rewriteTimeout; ///< Write request timeout, in milliseconds
-    int retransmissionBurstRequestSize; ///< Number of packets requested for retransmission per burst
+    UASInterface* mav;   // The MAV this widget is controlling
+    QMap<int, QMap<QString, QVariant>* > changedValues; // Changed values
+    QMap<int, QMap<QString, QVariant>* > parameters; // All parameters
+    QVector<bool> received; // Successfully received parameters
+    QMap<int, QList<int>* > transmissionMissingPackets; // Missing packets
+    QMap<int, QMap<QString, QVariant>* > transmissionMissingWriteAckPackets; // Missing write ACK packets
+    bool transmissionListMode;       // Currently requesting list
+    QMap<int, bool> transmissionListSizeKnown;  // List size initialized?
+    bool transmissionActive;         // Missing packets, working on list?
+    quint64 transmissionTimeout;     // Timeout
+    QTimer retransmissionTimer;      // Timer handling parameter retransmission
+    int retransmissionTimeout; // Retransmission request timeout, in milliseconds
+    int rewriteTimeout; // Write request timeout, in milliseconds
+    int retransmissionBurstRequestSize; // Number of packets requested for retransmission per burst
 
 };
 

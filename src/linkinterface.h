@@ -22,7 +22,7 @@ public:
     /* Connection management */
 
     /**
-     * @brief Get the ID of this link
+     *  Get the ID of this link
      *
      * The ID is an unsigned integer, starting at 0
      * @return ID of this link
@@ -30,22 +30,22 @@ public:
     virtual int getId() = 0;
 
     /**
-     * @brief Get the human readable name of this link
+     *  Get the human readable name of this link
      */
     virtual QString getName() = 0;
 
     /**
-     * @brief Get the port name, eg. COM port for serial or host:port for UDP or file name for Sim link
+     *  Get the port name, eg. COM port for serial or host:port for UDP or file name for Sim link
      */
     virtual QString getPortName() = 0;
 
     /**
-     * @brief Get the LinkInterfaceTypes enum value of this link
+     *  Get the LinkInterfaceTypes enum value of this link
      */
     virtual int getLinkType() = 0;
 
     /**
-     * @brief Determine the connection status
+     *  Determine the connection status
      *
      * @return True if the connection is established, false otherwise
      **/
@@ -54,7 +54,7 @@ public:
     /* Connection characteristics */
 
     /**
-     * @Brief Get the nominal data rate of the interface.
+     *  Get the nominal data rate of the interface.
      *
      * The nominal data rate is the theoretical maximum data rate of the
      * interface. For 100Base-T Ethernet this would be 100 Mbit/s (100'000'000
@@ -69,7 +69,7 @@ public:
     virtual qint64 getNominalDataRate() = 0;
 
     /**
-     * @brief Full duplex support of this interface.
+     *  Full duplex support of this interface.
      *
      * This method returns true if the interface supports full duplex, which implies
      * the full datarate when sending and receiving data simultaneously.
@@ -79,7 +79,7 @@ public:
     virtual bool isFullDuplex() = 0;
 
     /**
-     * @brief Get the link quality.
+     *  Get the link quality.
      *
      * The link quality is reported as percent, on a scale from 0 to 100% in 1% increments.
      * If this feature is not supported by the interface, a call to this method return -1.
@@ -89,7 +89,7 @@ public:
     virtual int getLinkQuality() = 0;
 
     /**
-     * @Brief Get the long term (complete) mean of the data rate
+     *  Get the long term (complete) mean of the data rate
      *
      * The mean of the total data rate. It is calculated as
      * all transferred bits / total link uptime.
@@ -103,7 +103,7 @@ public:
     virtual qint64 getTotalUpstream() = 0;
 
     /**
-     * @Brief Get the current data rate
+     *  Get the current data rate
      *
      * The datarate of the last 100 ms
      *
@@ -116,7 +116,7 @@ public:
     virtual qint64 getCurrentUpstream() = 0;
 
     /**
-     * @Brief Get the maximum data rate
+     *  Get the maximum data rate
      *
      * The maximum peak data rate.
      *
@@ -129,14 +129,14 @@ public:
     virtual qint64 getMaxUpstream() = 0;
 
     /**
-     * @Brief Get the total number of bits sent
+     *  Get the total number of bits sent
      *
      * @return The number of sent bits
      **/
     virtual qint64 getBitsSent() = 0;
 
     /**
-     * @Brief Get the total number of bits received
+     *  Get the total number of bits received
      *
      * @return The number of received bits
      * @bug Decide if the bits should be counted fromt the instantiation of the interface or if the counter should reset on disconnect.
@@ -144,35 +144,35 @@ public:
     virtual qint64 getBitsReceived() = 0;
 
     /**
-     * @brief Connect this interface logically
+     *  Connect this interface logically
      *
      * @return True if connection could be established, false otherwise
      **/
     virtual bool connect() = 0;
 
     /**
-     * @brief Disconnect this interface logically
+     *  Disconnect this interface logically
      *
      * @return True if connection could be terminated, false otherwise
      **/
     virtual bool disconnect() = 0;
 
     /**
-     * @brief Get the current number of bytes in buffer.
+     *  Get the current number of bytes in buffer.
      *
      * @return The number of bytes ready to read
      **/
     virtual qint64 bytesAvailable() = 0;
 
     /**
-     * @brief Informs the link manager that a loss of link is expected (don't emit error)
+     *  Informs the link manager that a loss of link is expected (don't emit error)
      **/
     virtual void linkLossExpected(const bool yes) { Q_UNUSED(yes) }
 
 public slots:
 
     /**
-     * @brief This method allows to write bytes to the interface.
+     *  This method allows to write bytes to the interface.
      *
      * If the underlying communication is packet oriented,
      * one write command equals a datagram. In case of serial
@@ -186,7 +186,7 @@ public slots:
 signals:
 
     /**
-     * @brief New data arrived
+     *  New data arrived
      *
      * The new data is contained in the QByteArray data. The data is copied for each
      * receiving protocol. For high-speed links like image transmission this might
@@ -200,29 +200,29 @@ signals:
     void teleReceived(QByteArray data, int rows, int cols);
 
     /**
-     * @brief This signal is emitted instantly when the link is connected
+     *  This signal is emitted instantly when the link is connected
      **/
     void connected();
 
     /**
-     * @brief This signal is emitted instantly when the link is disconnected
+     *  This signal is emitted instantly when the link is disconnected
      **/
     void disconnected();
 
     /**
-     * @brief This signal is emitted instantly when the link status changes
+     *  This signal is emitted instantly when the link status changes
      **/
     void connected(bool connected);
 
     /**
-     * @brief This signal is emitted if the human readable name of this link changes
+     *  This signal is emitted if the human readable name of this link changes
      */
     void nameChanged(QString name);
 
-    /** @brief Communication error occured */
+    /**  Communication error occured */
     void communicationError(const QString& linkname, const QString& error);
 
-    /** @brief destroying element */
+    /**  destroying element */
     void deleteLink(LinkInterface* const link);
 
 protected:
@@ -234,7 +234,7 @@ protected:
 protected slots:
 
     /**
-     * @brief Read a number of bytes from the interface.
+     *  Read a number of bytes from the interface.
      *
      * @param bytes The pointer to write the bytes to
      * @param maxLength The maximum length which can be written

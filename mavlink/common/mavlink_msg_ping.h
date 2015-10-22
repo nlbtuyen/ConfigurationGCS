@@ -30,7 +30,7 @@ typedef struct __mavlink_ping_t
 
 
 /**
- * @brief Pack a ping message
+ *  Pack a ping message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -71,7 +71,7 @@ static inline uint16_t mavlink_msg_ping_pack(uint8_t system_id, uint8_t componen
 }
 
 /**
- * @brief Pack a ping message on a channel
+ *  Pack a ping message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -113,7 +113,7 @@ static inline uint16_t mavlink_msg_ping_pack_chan(uint8_t system_id, uint8_t com
 }
 
 /**
- * @brief Encode a ping struct
+ *  Encode a ping struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -126,7 +126,7 @@ static inline uint16_t mavlink_msg_ping_encode(uint8_t system_id, uint8_t compon
 }
 
 /**
- * @brief Encode a ping struct on a channel
+ *  Encode a ping struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -140,7 +140,7 @@ static inline uint16_t mavlink_msg_ping_encode_chan(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Send a ping message
+ *  Send a ping message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Unix timestamp in microseconds or since system boot if smaller than MAVLink epoch (1.1.2009)
@@ -223,7 +223,7 @@ static inline void mavlink_msg_ping_send_buf(mavlink_message_t *msgbuf, mavlink_
 
 
 /**
- * @brief Get field time_usec from ping message
+ *  Get field time_usec from ping message
  *
  * @return Unix timestamp in microseconds or since system boot if smaller than MAVLink epoch (1.1.2009)
  */
@@ -233,7 +233,7 @@ static inline uint64_t mavlink_msg_ping_get_time_usec(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field seq from ping message
+ *  Get field seq from ping message
  *
  * @return PING sequence
  */
@@ -243,7 +243,7 @@ static inline uint32_t mavlink_msg_ping_get_seq(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field target_system from ping message
+ *  Get field target_system from ping message
  *
  * @return 0: request ping from all receiving systems, if greater than 0: message is a ping response and number is the system id of the requesting system
  */
@@ -253,7 +253,7 @@ static inline uint8_t mavlink_msg_ping_get_target_system(const mavlink_message_t
 }
 
 /**
- * @brief Get field target_component from ping message
+ *  Get field target_component from ping message
  *
  * @return 0: request ping from all receiving components, if greater than 0: message is a ping response and number is the system id of the requesting system
  */
@@ -263,7 +263,7 @@ static inline uint8_t mavlink_msg_ping_get_target_component(const mavlink_messag
 }
 
 /**
- * @brief Decode a ping message into a struct
+ *  Decode a ping message into a struct
  *
  * @param msg The message to decode
  * @param ping C-struct to decode the message contents into

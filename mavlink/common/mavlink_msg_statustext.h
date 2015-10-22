@@ -26,7 +26,7 @@ typedef struct __mavlink_statustext_t
 
 
 /**
- * @brief Pack a statustext message
+ *  Pack a statustext message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -59,7 +59,7 @@ static inline uint16_t mavlink_msg_statustext_pack(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Pack a statustext message on a channel
+ *  Pack a statustext message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -93,7 +93,7 @@ static inline uint16_t mavlink_msg_statustext_pack_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Encode a statustext struct
+ *  Encode a statustext struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -106,7 +106,7 @@ static inline uint16_t mavlink_msg_statustext_encode(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Encode a statustext struct on a channel
+ *  Encode a statustext struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -120,7 +120,7 @@ static inline uint16_t mavlink_msg_statustext_encode_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Send a statustext message
+ *  Send a statustext message
  * @param chan MAVLink channel to send the message
  *
  * @param severity Severity of status. Relies on the definitions within RFC-5424. See enum MAV_SEVERITY.
@@ -189,7 +189,7 @@ static inline void mavlink_msg_statustext_send_buf(mavlink_message_t *msgbuf, ma
 
 
 /**
- * @brief Get field severity from statustext message
+ *  Get field severity from statustext message
  *
  * @return Severity of status. Relies on the definitions within RFC-5424. See enum MAV_SEVERITY.
  */
@@ -199,7 +199,7 @@ static inline uint8_t mavlink_msg_statustext_get_severity(const mavlink_message_
 }
 
 /**
- * @brief Get field text from statustext message
+ *  Get field text from statustext message
  *
  * @return Status text message, without null termination character
  */
@@ -209,7 +209,7 @@ static inline uint16_t mavlink_msg_statustext_get_text(const mavlink_message_t* 
 }
 
 /**
- * @brief Decode a statustext message into a struct
+ *  Decode a statustext message into a struct
  *
  * @param msg The message to decode
  * @param statustext C-struct to decode the message contents into

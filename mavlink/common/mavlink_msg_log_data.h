@@ -30,7 +30,7 @@ typedef struct __mavlink_log_data_t
 
 
 /**
- * @brief Pack a log_data message
+ *  Pack a log_data message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -69,7 +69,7 @@ static inline uint16_t mavlink_msg_log_data_pack(uint8_t system_id, uint8_t comp
 }
 
 /**
- * @brief Pack a log_data message on a channel
+ *  Pack a log_data message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -109,7 +109,7 @@ static inline uint16_t mavlink_msg_log_data_pack_chan(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a log_data struct
+ *  Encode a log_data struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -122,7 +122,7 @@ static inline uint16_t mavlink_msg_log_data_encode(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Encode a log_data struct on a channel
+ *  Encode a log_data struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -136,7 +136,7 @@ static inline uint16_t mavlink_msg_log_data_encode_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Send a log_data message
+ *  Send a log_data message
  * @param chan MAVLink channel to send the message
  *
  * @param id Log id (from LOG_ENTRY reply)
@@ -215,7 +215,7 @@ static inline void mavlink_msg_log_data_send_buf(mavlink_message_t *msgbuf, mavl
 
 
 /**
- * @brief Get field id from log_data message
+ *  Get field id from log_data message
  *
  * @return Log id (from LOG_ENTRY reply)
  */
@@ -225,7 +225,7 @@ static inline uint16_t mavlink_msg_log_data_get_id(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field ofs from log_data message
+ *  Get field ofs from log_data message
  *
  * @return Offset into the log
  */
@@ -235,7 +235,7 @@ static inline uint32_t mavlink_msg_log_data_get_ofs(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field count from log_data message
+ *  Get field count from log_data message
  *
  * @return Number of bytes (zero for end of log)
  */
@@ -245,7 +245,7 @@ static inline uint8_t mavlink_msg_log_data_get_count(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field data from log_data message
+ *  Get field data from log_data message
  *
  * @return log data
  */
@@ -255,7 +255,7 @@ static inline uint16_t mavlink_msg_log_data_get_data(const mavlink_message_t* ms
 }
 
 /**
- * @brief Decode a log_data message into a struct
+ *  Decode a log_data message into a struct
  *
  * @param msg The message to decode
  * @param log_data C-struct to decode the message contents into

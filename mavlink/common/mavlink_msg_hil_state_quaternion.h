@@ -54,7 +54,7 @@ typedef struct __mavlink_hil_state_quaternion_t
 
 
 /**
- * @brief Pack a hil_state_quaternion message
+ *  Pack a hil_state_quaternion message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -129,7 +129,7 @@ static inline uint16_t mavlink_msg_hil_state_quaternion_pack(uint8_t system_id, 
 }
 
 /**
- * @brief Pack a hil_state_quaternion message on a channel
+ *  Pack a hil_state_quaternion message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -205,7 +205,7 @@ static inline uint16_t mavlink_msg_hil_state_quaternion_pack_chan(uint8_t system
 }
 
 /**
- * @brief Encode a hil_state_quaternion struct
+ *  Encode a hil_state_quaternion struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -218,7 +218,7 @@ static inline uint16_t mavlink_msg_hil_state_quaternion_encode(uint8_t system_id
 }
 
 /**
- * @brief Encode a hil_state_quaternion struct on a channel
+ *  Encode a hil_state_quaternion struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -232,7 +232,7 @@ static inline uint16_t mavlink_msg_hil_state_quaternion_encode_chan(uint8_t syst
 }
 
 /**
- * @brief Send a hil_state_quaternion message
+ *  Send a hil_state_quaternion message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
@@ -371,7 +371,7 @@ static inline void mavlink_msg_hil_state_quaternion_send_buf(mavlink_message_t *
 
 
 /**
- * @brief Get field time_usec from hil_state_quaternion message
+ *  Get field time_usec from hil_state_quaternion message
  *
  * @return Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  */
@@ -381,7 +381,7 @@ static inline uint64_t mavlink_msg_hil_state_quaternion_get_time_usec(const mavl
 }
 
 /**
- * @brief Get field attitude_quaternion from hil_state_quaternion message
+ *  Get field attitude_quaternion from hil_state_quaternion message
  *
  * @return Vehicle attitude expressed as normalized quaternion in w, x, y, z order (with 1 0 0 0 being the null-rotation)
  */
@@ -391,7 +391,7 @@ static inline uint16_t mavlink_msg_hil_state_quaternion_get_attitude_quaternion(
 }
 
 /**
- * @brief Get field rollspeed from hil_state_quaternion message
+ *  Get field rollspeed from hil_state_quaternion message
  *
  * @return Body frame roll / phi angular speed (rad/s)
  */
@@ -401,7 +401,7 @@ static inline float mavlink_msg_hil_state_quaternion_get_rollspeed(const mavlink
 }
 
 /**
- * @brief Get field pitchspeed from hil_state_quaternion message
+ *  Get field pitchspeed from hil_state_quaternion message
  *
  * @return Body frame pitch / theta angular speed (rad/s)
  */
@@ -411,7 +411,7 @@ static inline float mavlink_msg_hil_state_quaternion_get_pitchspeed(const mavlin
 }
 
 /**
- * @brief Get field yawspeed from hil_state_quaternion message
+ *  Get field yawspeed from hil_state_quaternion message
  *
  * @return Body frame yaw / psi angular speed (rad/s)
  */
@@ -421,7 +421,7 @@ static inline float mavlink_msg_hil_state_quaternion_get_yawspeed(const mavlink_
 }
 
 /**
- * @brief Get field lat from hil_state_quaternion message
+ *  Get field lat from hil_state_quaternion message
  *
  * @return Latitude, expressed as * 1E7
  */
@@ -431,7 +431,7 @@ static inline int32_t mavlink_msg_hil_state_quaternion_get_lat(const mavlink_mes
 }
 
 /**
- * @brief Get field lon from hil_state_quaternion message
+ *  Get field lon from hil_state_quaternion message
  *
  * @return Longitude, expressed as * 1E7
  */
@@ -441,7 +441,7 @@ static inline int32_t mavlink_msg_hil_state_quaternion_get_lon(const mavlink_mes
 }
 
 /**
- * @brief Get field alt from hil_state_quaternion message
+ *  Get field alt from hil_state_quaternion message
  *
  * @return Altitude in meters, expressed as * 1000 (millimeters)
  */
@@ -451,7 +451,7 @@ static inline int32_t mavlink_msg_hil_state_quaternion_get_alt(const mavlink_mes
 }
 
 /**
- * @brief Get field vx from hil_state_quaternion message
+ *  Get field vx from hil_state_quaternion message
  *
  * @return Ground X Speed (Latitude), expressed as m/s * 100
  */
@@ -461,7 +461,7 @@ static inline int16_t mavlink_msg_hil_state_quaternion_get_vx(const mavlink_mess
 }
 
 /**
- * @brief Get field vy from hil_state_quaternion message
+ *  Get field vy from hil_state_quaternion message
  *
  * @return Ground Y Speed (Longitude), expressed as m/s * 100
  */
@@ -471,7 +471,7 @@ static inline int16_t mavlink_msg_hil_state_quaternion_get_vy(const mavlink_mess
 }
 
 /**
- * @brief Get field vz from hil_state_quaternion message
+ *  Get field vz from hil_state_quaternion message
  *
  * @return Ground Z Speed (Altitude), expressed as m/s * 100
  */
@@ -481,7 +481,7 @@ static inline int16_t mavlink_msg_hil_state_quaternion_get_vz(const mavlink_mess
 }
 
 /**
- * @brief Get field ind_airspeed from hil_state_quaternion message
+ *  Get field ind_airspeed from hil_state_quaternion message
  *
  * @return Indicated airspeed, expressed as m/s * 100
  */
@@ -491,7 +491,7 @@ static inline uint16_t mavlink_msg_hil_state_quaternion_get_ind_airspeed(const m
 }
 
 /**
- * @brief Get field true_airspeed from hil_state_quaternion message
+ *  Get field true_airspeed from hil_state_quaternion message
  *
  * @return True airspeed, expressed as m/s * 100
  */
@@ -501,7 +501,7 @@ static inline uint16_t mavlink_msg_hil_state_quaternion_get_true_airspeed(const 
 }
 
 /**
- * @brief Get field xacc from hil_state_quaternion message
+ *  Get field xacc from hil_state_quaternion message
  *
  * @return X acceleration (mg)
  */
@@ -511,7 +511,7 @@ static inline int16_t mavlink_msg_hil_state_quaternion_get_xacc(const mavlink_me
 }
 
 /**
- * @brief Get field yacc from hil_state_quaternion message
+ *  Get field yacc from hil_state_quaternion message
  *
  * @return Y acceleration (mg)
  */
@@ -521,7 +521,7 @@ static inline int16_t mavlink_msg_hil_state_quaternion_get_yacc(const mavlink_me
 }
 
 /**
- * @brief Get field zacc from hil_state_quaternion message
+ *  Get field zacc from hil_state_quaternion message
  *
  * @return Z acceleration (mg)
  */
@@ -531,7 +531,7 @@ static inline int16_t mavlink_msg_hil_state_quaternion_get_zacc(const mavlink_me
 }
 
 /**
- * @brief Decode a hil_state_quaternion message into a struct
+ *  Decode a hil_state_quaternion message into a struct
  *
  * @param msg The message to decode
  * @param hil_state_quaternion C-struct to decode the message contents into

@@ -42,7 +42,7 @@ typedef struct __mavlink_servo_output_raw_t
 
 
 /**
- * @brief Pack a servo_output_raw message
+ *  Pack a servo_output_raw message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -101,7 +101,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack(uint8_t system_id, uint
 }
 
 /**
- * @brief Pack a servo_output_raw message on a channel
+ *  Pack a servo_output_raw message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -161,7 +161,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack_chan(uint8_t system_id,
 }
 
 /**
- * @brief Encode a servo_output_raw struct
+ *  Encode a servo_output_raw struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -174,7 +174,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_encode(uint8_t system_id, ui
 }
 
 /**
- * @brief Encode a servo_output_raw struct on a channel
+ *  Encode a servo_output_raw struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -188,7 +188,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_encode_chan(uint8_t system_i
 }
 
 /**
- * @brief Send a servo_output_raw message
+ *  Send a servo_output_raw message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds since system boot)
@@ -301,7 +301,7 @@ static inline void mavlink_msg_servo_output_raw_send_buf(mavlink_message_t *msgb
 
 
 /**
- * @brief Get field time_usec from servo_output_raw message
+ *  Get field time_usec from servo_output_raw message
  *
  * @return Timestamp (microseconds since system boot)
  */
@@ -311,7 +311,7 @@ static inline uint32_t mavlink_msg_servo_output_raw_get_time_usec(const mavlink_
 }
 
 /**
- * @brief Get field port from servo_output_raw message
+ *  Get field port from servo_output_raw message
  *
  * @return Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows to encode more than 8 servos.
  */
@@ -321,7 +321,7 @@ static inline uint8_t mavlink_msg_servo_output_raw_get_port(const mavlink_messag
 }
 
 /**
- * @brief Get field servo1_raw from servo_output_raw message
+ *  Get field servo1_raw from servo_output_raw message
  *
  * @return Servo output 1 value, in microseconds
  */
@@ -331,7 +331,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo1_raw(const mavlink
 }
 
 /**
- * @brief Get field servo2_raw from servo_output_raw message
+ *  Get field servo2_raw from servo_output_raw message
  *
  * @return Servo output 2 value, in microseconds
  */
@@ -341,7 +341,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo2_raw(const mavlink
 }
 
 /**
- * @brief Get field servo3_raw from servo_output_raw message
+ *  Get field servo3_raw from servo_output_raw message
  *
  * @return Servo output 3 value, in microseconds
  */
@@ -351,7 +351,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo3_raw(const mavlink
 }
 
 /**
- * @brief Get field servo4_raw from servo_output_raw message
+ *  Get field servo4_raw from servo_output_raw message
  *
  * @return Servo output 4 value, in microseconds
  */
@@ -361,7 +361,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo4_raw(const mavlink
 }
 
 /**
- * @brief Get field servo5_raw from servo_output_raw message
+ *  Get field servo5_raw from servo_output_raw message
  *
  * @return Servo output 5 value, in microseconds
  */
@@ -371,7 +371,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo5_raw(const mavlink
 }
 
 /**
- * @brief Get field servo6_raw from servo_output_raw message
+ *  Get field servo6_raw from servo_output_raw message
  *
  * @return Servo output 6 value, in microseconds
  */
@@ -381,7 +381,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo6_raw(const mavlink
 }
 
 /**
- * @brief Get field servo7_raw from servo_output_raw message
+ *  Get field servo7_raw from servo_output_raw message
  *
  * @return Servo output 7 value, in microseconds
  */
@@ -391,7 +391,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo7_raw(const mavlink
 }
 
 /**
- * @brief Get field servo8_raw from servo_output_raw message
+ *  Get field servo8_raw from servo_output_raw message
  *
  * @return Servo output 8 value, in microseconds
  */
@@ -401,7 +401,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo8_raw(const mavlink
 }
 
 /**
- * @brief Decode a servo_output_raw message into a struct
+ *  Decode a servo_output_raw message into a struct
  *
  * @param msg The message to decode
  * @param servo_output_raw C-struct to decode the message contents into

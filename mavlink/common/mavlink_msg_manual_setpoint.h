@@ -36,7 +36,7 @@ typedef struct __mavlink_manual_setpoint_t
 
 
 /**
- * @brief Pack a manual_setpoint message
+ *  Pack a manual_setpoint message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -86,7 +86,7 @@ static inline uint16_t mavlink_msg_manual_setpoint_pack(uint8_t system_id, uint8
 }
 
 /**
- * @brief Pack a manual_setpoint message on a channel
+ *  Pack a manual_setpoint message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -137,7 +137,7 @@ static inline uint16_t mavlink_msg_manual_setpoint_pack_chan(uint8_t system_id, 
 }
 
 /**
- * @brief Encode a manual_setpoint struct
+ *  Encode a manual_setpoint struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -150,7 +150,7 @@ static inline uint16_t mavlink_msg_manual_setpoint_encode(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a manual_setpoint struct on a channel
+ *  Encode a manual_setpoint struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -164,7 +164,7 @@ static inline uint16_t mavlink_msg_manual_setpoint_encode_chan(uint8_t system_id
 }
 
 /**
- * @brief Send a manual_setpoint message
+ *  Send a manual_setpoint message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp in milliseconds since system boot
@@ -262,7 +262,7 @@ static inline void mavlink_msg_manual_setpoint_send_buf(mavlink_message_t *msgbu
 
 
 /**
- * @brief Get field time_boot_ms from manual_setpoint message
+ *  Get field time_boot_ms from manual_setpoint message
  *
  * @return Timestamp in milliseconds since system boot
  */
@@ -272,7 +272,7 @@ static inline uint32_t mavlink_msg_manual_setpoint_get_time_boot_ms(const mavlin
 }
 
 /**
- * @brief Get field roll from manual_setpoint message
+ *  Get field roll from manual_setpoint message
  *
  * @return Desired roll rate in radians per second
  */
@@ -282,7 +282,7 @@ static inline float mavlink_msg_manual_setpoint_get_roll(const mavlink_message_t
 }
 
 /**
- * @brief Get field pitch from manual_setpoint message
+ *  Get field pitch from manual_setpoint message
  *
  * @return Desired pitch rate in radians per second
  */
@@ -292,7 +292,7 @@ static inline float mavlink_msg_manual_setpoint_get_pitch(const mavlink_message_
 }
 
 /**
- * @brief Get field yaw from manual_setpoint message
+ *  Get field yaw from manual_setpoint message
  *
  * @return Desired yaw rate in radians per second
  */
@@ -302,7 +302,7 @@ static inline float mavlink_msg_manual_setpoint_get_yaw(const mavlink_message_t*
 }
 
 /**
- * @brief Get field thrust from manual_setpoint message
+ *  Get field thrust from manual_setpoint message
  *
  * @return Collective thrust, normalized to 0 .. 1
  */
@@ -312,7 +312,7 @@ static inline float mavlink_msg_manual_setpoint_get_thrust(const mavlink_message
 }
 
 /**
- * @brief Get field mode_switch from manual_setpoint message
+ *  Get field mode_switch from manual_setpoint message
  *
  * @return Flight mode switch position, 0.. 255
  */
@@ -322,7 +322,7 @@ static inline uint8_t mavlink_msg_manual_setpoint_get_mode_switch(const mavlink_
 }
 
 /**
- * @brief Get field manual_override_switch from manual_setpoint message
+ *  Get field manual_override_switch from manual_setpoint message
  *
  * @return Override mode switch position, 0.. 255
  */
@@ -332,7 +332,7 @@ static inline uint8_t mavlink_msg_manual_setpoint_get_manual_override_switch(con
 }
 
 /**
- * @brief Decode a manual_setpoint message into a struct
+ *  Decode a manual_setpoint message into a struct
  *
  * @param msg The message to decode
  * @param manual_setpoint C-struct to decode the message contents into

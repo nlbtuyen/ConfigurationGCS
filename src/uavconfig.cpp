@@ -10,6 +10,9 @@
 #include "aq_telemetryView.h"
 #include "qwt_plot_marker.h"
 #include "qwt_symbol.h"
+#include "debugconsole.h"
+#include "mavlinkprotocol.h"
+#include "mavlinkdecoder.h"
 
 #include <QDebug>
 #include <QWidget>
@@ -24,8 +27,9 @@
 #include <QMovie>
 
 
-const int UAVConfig::i_const[] = {0,1,2,3,4,5,6};
-const int UAVConfig::x_loca[] = {50,120,290,320,400,500,600};
+const int UAVConfig::i_const[] = {0,0,1,2,3,4,5,6};
+const int UAVConfig::x_loca[] = {0,75,150,250,350,450,550,600};
+int max_thr, max_yaw, max_pit, max_roll, min_thr, min_yaw, min_pit, min_roll;
 
 UAVConfig::UAVConfig(QWidget *parent) :
     QWidget(parent),
@@ -54,20 +58,24 @@ UAVConfig::UAVConfig(QWidget *parent) :
         }
     }
 
+    allRadioChanCombos.append(ui->frame_RadioTab->findChildren<QComboBox *>(QRegExp("^(RADIO|NAV|GMBL|QUATOS)_.+_(CH|KNOB)")));
+
+    foreach (QComboBox* cb, allRadioChanCombos)
+        connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
+
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
 
-    //Process Slots
+    //Process Slots for Update Firmware
     ps_master.setProcessChannelMode(QProcess::MergedChannels);
     connect(&ps_master, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
     connect(&ps_master, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
     connect(&ps_master, SIGNAL(error(QProcess::ProcessError)), this, SLOT(extProcessError(QProcess::ProcessError)));
 
-
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
 
-    //connect (ui->btn_save, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
     loadSettings();
+    setupRadioTypes(); //update Radio Type
 
     //Charts Feature
     aqtelemetry = new AQTelemetryView(this);
@@ -75,15 +83,38 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     updateButtonView();
 
-//    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
-//    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
+    connect(ui->btn_Save_RC, SIGNAL(clicked()), this, SLOT(saveAQSetting()));
+    connect(ui->btn_StartCalib, SIGNAL(clicked()), this, SLOT(startCalib()));
+    connect(ui->RADIO_SETUP, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+    connect(this,SIGNAL(firmwareInfoUpdated()), this, SLOT(setupRadioTypes()));
 
-    //RC Charts
-    connect(ui->btn_OK_RC, SIGNAL(clicked()), this, SLOT(pitchCharts()));
+    //    connect(ui->CTRL_YAW_RTE_D, SIGNAL(textChanged(QString)), this ,SLOT(setValueLineEdit(QString)));
+    //    connect(ui->slider_CTRL_YAW_RTE_D, SIGNAL(valueChanged(int)), this, SLOT(updateTextEdit(int)));
 
-    //    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
-    //    delayedSendRCTimer.start(800);
-    sendRcRefreshFreq();
+    //RC Config
+    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
+    delayedSendRCTimer.start(800);
+
+    //RC Charts : Draw immediately after start
+    if(ui->lineEdit_expoPitch && ui->lineEdit_ratePitch)
+        pitchChart();
+
+    if (ui->lineEdit_TPA && ui->lineEdit_TPA_Breakpoint)
+        TPAChart();
+
+    connect(ui->btn_OK_ExpoPitch, SIGNAL(clicked()), this, SLOT(pitchChart()));
+    connect(ui->btn_OK_TPA, SIGNAL(clicked()), this, SLOT(TPAChart()));
+
+    //update variable for RC Chart
+    rc_rate = 50;
+
+    //    load3DModel();
+
+    QPixmap left(":/images/redpoint.png");
+    ui->label_redpoint_left->setPixmap(left);
+    ui->label_redpoint_right->setPixmap(left);
+    ui->label_redpoint_left->setScaledContents(true);
+    ui->label_redpoint_right->setScaledContents(true);
 
     movie_left = new QMovie(":/images/arr_left.gif");
     movie_right = new QMovie(":/images/arr_right.gif");
@@ -115,10 +146,15 @@ UAVConfig::UAVConfig(QWidget *parent) :
     movie_up->start();
     movie_down->start();
 
-    //update variable for RC Chart
-    rc_rate = 50;
+    //Communication Console
+    ui->scrollArea_debugConsole->setWidget(new DebugConsole(this));
+    mavlink     = new MAVLinkProtocol();
+    mavlinkDecoder = new MAVLinkDecoder(mavlink, this);
+    DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(ui->scrollArea_debugConsole->widget());
+    connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), debugConsole, SLOT(receiveTextMessage(int, int, int, const QString)));
 
-    load3DModel();
+    // tab BLHeli
+    BLHeliTab(); //@Trung
 }
 
 UAVConfig::~UAVConfig()
@@ -155,41 +191,46 @@ QString UAVConfig::paramNameGuiToOnboard(QString paraName) {
 
 void UAVConfig::loadParametersToUI()
 {
-
-    QVariant val;
+    useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
+    emit firmwareInfoUpdated();
     getGUIPara(ui->tab_aq_setting);
-
-    val = paramaq->getParaAQ("RADIO_SETUP");
-    QMap<int, QString> radioTypes;
-    radioTypes.insert(0, tr("No Radio"));
-    radioTypes.insert(1, tr("Spektrum 11Bit"));
-    radioTypes.insert(2, tr("Spektrum 10Bit"));
-    radioTypes.insert(3, tr("S-BUS (Futaba, others)"));
-    radioTypes.insert(4, tr("PPM"));
-
 }
 
+void UAVConfig::uasConnected()
+{
+    uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
+}
+
+// setActiveUAS()
 void UAVConfig::createAQParamWidget(UASInterface *uastmp)
 {
     uas = uastmp;
 
+    //RC message
     connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
-    //    qDebug() << "create AQParamWidget";
     paramaq = new AQParamWidget(uas, this);
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
+    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
+
+    paramaq->requestParameterList();
+
+    if (DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(ui->scrollArea_debugConsole->widget()))
+        connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), debugConsole, SLOT(receiveTextMessage(int,int,int,QString)));
+
 }
 
-/*
+/**
  * @Leo: update UI
  */
 void UAVConfig::getGUIPara(QWidget *parent)
 {
-    Q_UNUSED(parent);
+    bool ok;
     int precision = 6;
+    int tmp;
     QString paraName; //parameter editted
     QString valstr; //chuyen value -> string roi add vao QLineEdit
     QVariant val;
-    QList<QWidget*> wdgtList = ui->tab_aq_setting->findChildren<QWidget *>(fldnameRx);
+    QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
     foreach (QWidget* w, wdgtList)
     {
         //get param name
@@ -200,6 +241,12 @@ void UAVConfig::getGUIPara(QWidget *parent)
         /*
          * Update
          */
+
+        ok = true;
+
+        if (paraName == "RADIO_SETUP")
+            val = val.toInt() & 0x0f;
+
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
         {
             //change Float to String
@@ -207,7 +254,39 @@ void UAVConfig::getGUIPara(QWidget *parent)
             le->setText(valstr);
             le->setValidator(new QDoubleValidator(-1000000.0, 1000000.0, 8, le));
         }
+        //Radio Setup
+        else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
+        {
+            if (cb->isEditable())
+            {
+                if ((tmp = cb->findText(val.toString())) > -1)
+                    cb->setCurrentIndex(tmp);
+                else
+                {
+                    cb->insertItem(0, val.toString());
+                    cb->setCurrentIndex(0);
+                }
+            }
+            else if ((tmp = cb->findData(val)) > -1)
+                cb->setCurrentIndex(tmp);
+            else
+                cb->setCurrentIndex(abs(val.toInt(&ok)));
+        }
+
+        //Throttle D-band && Pitch/Roll D-band
+        else if (QSpinBox* sb = qobject_cast<QSpinBox *>(w))
+        {
+            sb->setValue(val.toInt((&ok)));
+        }
+        else
+            continue;
     }
+}
+
+int UAVConfig::calcRadioSetting()
+{
+    int radioSetup = ui->RADIO_SETUP->itemData(ui->RADIO_SETUP->currentIndex()).toInt();
+    return radioSetup;
 }
 
 /*
@@ -219,7 +298,6 @@ bool UAVConfig::checkAqConnected(bool interactive)
     if (!uas || !paramaq || uas->getCommunicationStatus() != uas->COMM_CONNECTED ) {
         if (interactive){
             MainWindow::instance()->showCriticalMessage("Error", "No AutoQuad connected!");
-            loggingConsole("Error! No Autoquad Connected");
         }
         return false;
     } else
@@ -246,7 +324,6 @@ void UAVConfig::selectFWToFlash()
         {
             MainWindow::instance()->showCriticalMessage(tr("Warning!"),
                                                         tr("Could not open firmware file. %1").arg(file.errorString()));
-            loggingConsole("Warning! Could not open firmware file");
             return;
         }
         ui->fileLabel->setText(fileNameLocale);
@@ -310,7 +387,6 @@ bool UAVConfig::checkProcRunning(bool warn)
             MainWindow::instance()->showCriticalMessage(
                         tr("Process already running."),
                         tr("There appears to be an external process (calculation step or firmware flashing) already running. Please abort it first."));
-        loggingConsole("Process already running. There appears to be an external process (calculation step or firmware) already running. Please abort it first");
         return true;
     }
     return false;
@@ -387,7 +463,7 @@ void UAVConfig::loadSettings()
             settings.setValue(childKey, aq_settings.value(childKey));
         settings.sync();
         QFile("Aq.ini").rename("Aq.ini.bak");
-        qDebug() << "Copied settings from Aq.ini to QGC shared config storage.";
+        //        qDebug() << "Copied settings from Aq.ini to QGC shared config storage.";
     }
 
     if (settings.contains("AUTOQUAD_FW_FILE") && settings.value("AUTOQUAD_FW_FILE").toString().length()) {
@@ -398,27 +474,17 @@ void UAVConfig::loadSettings()
 
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
-
     settings.endGroup();
     settings.sync();
 }
-
 
 void UAVConfig::saveAQSetting()
 {
     if (!validateRadioSettings(0)) {
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("You have the same port assigned to multiple controls!"));
-        loggingConsole("Error! You have the same port assigned to multiple controls");
         return;
     }
     saveSettingsToAq(ui->tab_aq_setting);
-}
-
-void UAVConfig::loggingConsole(QString str)
-{
-    QTime curtime = QTime::currentTime();
-    QString time = curtime.toString("hh:mm:ss");
-    ui->plainTextEdit_Status->appendHtml("<span style=\" font-weight:bold\">" + time + "</span>"  + " -- " + str + ".");
 }
 
 void UAVConfig::TabRadio()
@@ -460,6 +526,12 @@ void UAVConfig::TabOSD()
 void UAVConfig::TabUpgrade()
 {
     ui->tab_aq_setting->setCurrentIndex(6);
+    updateButtonView();
+}
+
+void UAVConfig::TabBLHeli()
+{
+    ui->tab_aq_setting->setCurrentIndex(7);
     updateButtonView();
 }
 
@@ -601,8 +673,6 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
             errLevel = 1;
     }
 
-
-
     if ( changeList.size() ) {
         paramSaveType = 1;  // save to volatile
 
@@ -691,7 +761,6 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
     } else {
         if (interactive){
             MainWindow::instance()->showCriticalMessage(tr("Warning"), tr("No changed parameters detected.  Nothing saved."));
-            loggingConsole("Warning! No changed parameters detected. Nothing saved");
         }
         return false;
     }
@@ -723,16 +792,18 @@ bool UAVConfig::checkAqSerialConnection(QString port)
 
 void UAVConfig::setValueLineEdit(QString str)
 {
-//    int val = str.toInt();
-//    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
+    Q_UNUSED(str);
+    //    int val = str.toInt();
+    //    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
 }
 
 void UAVConfig::updateTextEdit(int i)
 {
-//    i = i*1000/100;
-//    QString str;
-//    str.setNum(i, 10);
-//    ui->CTRL_YAW_RTE_D->setText(str);
+    Q_UNUSED(i);
+    //    i = i*1000/100;
+    //    QString str;
+    //    str.setNum(i, 10);
+    //    ui->CTRL_YAW_RTE_D->setText(str);
 }
 
 void UAVConfig::updateButtonView()
@@ -774,6 +845,11 @@ void UAVConfig::updateButtonView()
         emit TabClicked(6);
         break;
     }
+    case 7:
+    {
+        emit TabClicked(7);
+        break;
+    }
     default:
     {
         break;
@@ -782,200 +858,104 @@ void UAVConfig::updateButtonView()
     }
 }
 
-void UAVConfig::on_pushButton_clicked()
-{
-    ui->label_left_1->hide();
-    ui->label_left_2->hide();
-    ui->label_right_1->hide();
-    ui->label_right_2->hide();
-    ui->label_bottom_left_1->hide();
-    ui->label_bottom_left_2->hide();
-    ui->label_bottom_right_1->hide();
-    ui->label_bottom_right_2->hide();
-    ui->label_left_160->show();
-    ui->label_right_160->hide();
-    ui->label_bottom_left->hide();
-    ui->label_bottom_right->hide();
-
-    ui->label_left_160->setMovie(movie_down_160);
-    movie_down_160->start();
-
-}
-
-void UAVConfig::on_pushButton_2_clicked()
-{
-    ui->label_left_1->hide();
-    ui->label_left_2->hide();
-    ui->label_right_1->hide();
-    ui->label_right_2->hide();
-    ui->label_bottom_left_1->hide();
-    ui->label_bottom_left_2->hide();
-    ui->label_bottom_right_1->hide();
-    ui->label_bottom_right_2->hide();
-    ui->label_left_160->hide();
-    ui->label_right_160->hide();
-    ui->label_bottom_left->show();
-    ui->label_bottom_right->hide();
-
-    ui->label_bottom_left->setMovie(movie_left_160);
-    movie_left_160->start();
-}
-
-void UAVConfig::on_pushButton_3_clicked()
-{
-    ui->label_left_1->hide();
-    ui->label_left_2->hide();
-    ui->label_right_1->hide();
-    ui->label_right_2->hide();
-    ui->label_bottom_left_1->hide();
-    ui->label_bottom_left_2->hide();
-    ui->label_bottom_right_1->hide();
-    ui->label_bottom_right_2->hide();
-    ui->label_left_160->hide();
-    ui->label_right_160->hide();
-    ui->label_bottom_left->hide();
-    ui->label_bottom_right->show();
-
-    ui->label_bottom_right->setMovie(movie_left_160);
-    movie_left_160->start();
-
-}
-
-void UAVConfig::on_pushButton_4_clicked()
-{
-    ui->label_left_1->hide();
-    ui->label_left_2->hide();
-    ui->label_right_1->hide();
-    ui->label_right_2->hide();
-    ui->label_bottom_left_1->hide();
-    ui->label_bottom_left_2->hide();
-    ui->label_bottom_right_1->hide();
-    ui->label_bottom_right_2->hide();
-    ui->label_left_160->hide();
-    ui->label_right_160->show();
-    ui->label_bottom_left->hide();
-    ui->label_bottom_right->hide();
-
-    ui->label_right_160->setMovie(movie_up_160);
-    movie_up_160->start();
-}
-
 /*
  * ================= RC-Config ===============
  */
-
 //set min max for RCConfig
-void UAVConfig::sendRcRefreshFreq()
+void UAVConfig::toggleRadioValuesUpdate()
 {
     if (!uas) return;
 
-    int min, max, tmin, tmax;
-    tmax = -500;
-    tmin = 1500;
-    max = -1500;
-    min = 1500;
-
-    foreach (QProgressBar* pb, allRadioChanProgressBars) {
-        //        qDebug() << "progresbar: " << pb->objectName();
-        if (pb->objectName().contains("chan_0")) {
-            pb->setMaximum(tmax);
-            pb->setMinimum(tmin);
-            qDebug() << "pd max chan_0: " << pb->maximum();
-            qDebug() << "pd min chan_0: " << pb->minimum();
-        } else {
-
-            pb->setMaximum(max);
-            pb->setMinimum(min);
-            qDebug() << "pd max chan_1: " << pb->maximum();
-            qDebug() << "pd min chan_1: " << pb->minimum();
-        }
-    }
-
-    //    delayedSendRCTimer.stop();
+    max_thr = 1500;
+    min_thr = -100;
+    max_yaw = max_pit = max_roll = 1024;
+    min_yaw = min_pit = min_roll = -1024;
 
 }
+
+void UAVConfig::toggleRadioStream(int r)
+{
+    if (uas)
+        uas->enableRCChannelDataTransmission(r);
+}
+
+void UAVConfig::sendRcRefreshFreq()
+{
+    delayedSendRCTimer.stop();
+    toggleRadioValuesUpdate();
+    toggleRadioStream(800);
+}
+
 
 //set value RCconfig
 void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
-{
+{   
     int val;
-    if (channelId >= allRadioChanProgressBars.size())
-        return;
+    val = (int)(normalized-1024); //raw
 
-    QProgressBar* bar = allRadioChanProgressBars.at(channelId);
-
-    val = (int)(normalized-1024);
-
-    if (bar) {
-        if (val > bar->maximum())
-            val = bar->maximum();
-        if (val < bar->minimum())
-            val = bar->minimum();
-        bar->setValue(val);
-        //        qDebug() << "channelID: " << channelId << "bar: " << bar->value();
-    }
+    qDebug() << "channelID: " << channelId << "value: " << val;
 }
 
-//Main func of RC Tab
-void UAVConfig::pitchCharts()
+/*
+ * @bt Pitch Expo Chart Plot
+ */
+void UAVConfig::pitchChart()
 {
-    if (ui->lineEdit_expo8->text() == NULL || ui->lineEdit_rarate->text()==NULL)
+    if (ui->lineEdit_expoPitch->text() == NULL || ui->lineEdit_ratePitch->text() == NULL)
     {
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Empty value"));
-        loggingConsole("Error! Empty value");
     }
-    QString expo8_str = ui->lineEdit_expo8->text();
-    if (expo8_str.toInt() != expo8){
-//        loggingConsole("expo8 has changed from " + QString::number(expo8) + " to " + expo8_str);
+    QString expo_pitch_str = ui->lineEdit_expoPitch->text();
+    expo_pitch = expo_pitch_str.toInt();
+
+    QString rate_pitch_str = ui->lineEdit_ratePitch->text();
+    rate_pitch = rate_pitch_str.toInt();
+
+    if(expo_pitch < 0 || expo_pitch > 100 || rate_pitch < 0 || rate_pitch > 100)
+    {
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input Expo Pitch and Rate Pitch between 0 and 100"));
     }
-    expo8 = expo8_str.toInt();
-    QString ra_rate_str = ui->lineEdit_rarate->text();
-    if (ra_rate_str.toInt() != ra_rate){
-//        loggingConsole("ra rate has changed from " + QString::number(ra_rate) + " to " + ra_rate_str);
+    else
+    {
+        calculateResult1_RC(); //calculate result1
+        calculateYLoca(); //calculate y location
+        drawChart_Pitch(); //Draw Pitch + Roll Chart
     }
-    ra_rate = ra_rate_str.toInt();
-    calculateResult1_RC(); //calculate result1
-    calculateYLoca(); //calculate y location
-    drawCharts(); //Draw Pitch + Roll Chart
 }
 
 void UAVConfig::calculateResult1_RC()
 {
     int i;
-    for (i = 0; i <= 6; i++)
+    for (i = 0; i <= 7; i++)
     {
-        result1[i] = (float)(2500 + expo8*(i*i-25))*i*ra_rate/2500;
+        result1[i] = (float)(2500 + expo_pitch*(i*i-25))*i*rate_pitch/2500;
     }
 }
 
 void UAVConfig::calculateYLoca()
 {
     int i;
-    for (i = 0; i <= 6; i++)
+    for (i = 0; i <= 7; i++)
     {
-        y_loca[i] = (float)result1[i] + (x_loca[i] - i*100)*(result1[i+1] - result1[i])/100;
-        //        qDebug() << "x: " << x_loca[i] << "y: " << y_loca[i];
+        y_loca[i] = (float)result1[i] + (x_loca[i] - i_const[i]*100)*(result1[i+1] - result1[i])/100;
     }
 }
 
-void UAVConfig::drawCharts()
+void UAVConfig::drawChart_Pitch()
 {
     QPolygonF poly;
-    for (int i = 0; i<=6; i++)
+    for (int i = 0; i<=7; i++)
     {
         poly << QPointF(x_loca[i], y_loca[i]);
     }
 
     QWidget *widget = new QWidget();
-
     QwtPlot *plot = new QwtPlot(widget);
 
     //Point Marker
-    for (int i = 0; i<=6; i++)
+    for (int i = 0; i<=7; i++)
     {
-        QwtSymbol *sym=new QwtSymbol(QwtSymbol::Triangle,QBrush(QColor(51,102,204)),QPen(QColor(0,51,153)),QSize(10,10));
-        QwtPlotMarker *mark=new QwtPlotMarker();
-        mark->setSymbol(sym);
+        QwtPlotMarker *mark = new QwtPlotMarker();
         mark->setValue(QPointF(x_loca[i], y_loca[i]));
         mark->attach(plot);
     }
@@ -996,9 +976,68 @@ void UAVConfig::drawCharts()
     plot->replot();
     plot->show();
 
-    ui->scrollArea_Charts_RC->setWidget(widget);
+    ui->scrollArea_Charts_PitchExpo->setWidget(widget);
 }
 
+/*
+ * @trung TPA Chart Plot
+ */
+
+void UAVConfig::TPAChart()
+{
+    if (ui->lineEdit_TPA->text() == NULL || ui->lineEdit_TPA_Breakpoint->text()==NULL)
+    {
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("TPA or TPA Breakpoint value is empty"));
+    }
+    TPA = ui->lineEdit_TPA->text().toDouble();
+
+    TPA_breakpoint = ui->lineEdit_TPA_Breakpoint->text().toInt();
+
+    if(TPA < 0 || TPA > 1)
+    {
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input TPA between 0 and 1"));
+    }
+    else if (TPA_breakpoint < 1000 || TPA_breakpoint > 2000){
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input TPA Breakpoint between 1000 and 2000"));
+    }
+    else
+    {
+        drawChart_TPA(); //Draw TPA Chart
+    }
+}
+
+void UAVConfig::drawChart_TPA()
+{
+    QPolygonF poly;
+    poly << QPointF(0, 100) << QPointF(TPA_breakpoint, 100) << QPointF(2000, ((1-TPA)*100));
+
+    QWidget *widget = new QWidget();
+    QwtPlot *plot = new QwtPlot(widget);
+    plot->setAxisScale(QwtPlot::yLeft, 0, 100, 10);
+    plot->setAxisScale(QwtPlot::xBottom, 1000, 2000, 250);
+
+    //Grid
+    QwtPlotGrid *grid = new QwtPlotGrid();
+    grid->attach(plot);
+    grid->setPen( Qt::gray, 0.0, Qt::DotLine );
+
+    //Curve
+    QwtPlotCurve *c = new QwtPlotCurve();
+    c->setPen( QPen(QColor(102,153,255), 4));
+    c->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+    c->setSamples(poly);
+    c->attach(plot);
+
+    plot->resize(480,255);
+    plot->replot();
+    plot->show();
+
+    ui->scrollArea_Charts_TPA->setWidget(widget);
+}
+
+/*
+ * 3DModel : not use
+ */
 void UAVConfig::load3DModel()
 {
     //3D Model: load qml and connect between QML & C++
@@ -1015,5 +1054,374 @@ void UAVConfig::load3DModel()
     view.engine()->clearComponentCache();
     view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
     view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
-    ui->scrollArea_3D->setWidget(container);
+    //    ui->scrollArea_3D->setWidget(container);
+}
+
+void UAVConfig::radioType_changed(int idx)
+{
+    Q_UNUSED(idx);
+    emit hardwareInfoUpdated();
+
+    bool ok;
+    int prevRadioValue;
+    int newRadioValue;
+
+    if (useRadioSetupParam) {
+        prevRadioValue = paramaq->getParaAQ("RADIO_SETUP").toInt(&ok);
+        newRadioValue = calcRadioSetting();
+    }
+}
+
+void UAVConfig::startCalib()
+{
+    if (!uas)
+        return;
+    uas->sendCommmandToAq(MAV_CMD_PREFLIGHT_CALIBRATION, 1,0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+void UAVConfig::setupRadioTypes()
+{
+    uint8_t idx = ui->RADIO_SETUP->currentIndex();
+
+    //Radio Type Available
+    QMap<int, QString> radioTypes;
+    radioTypes.insert(0, tr("No Radio"));
+    radioTypes.insert(1, tr("Spektrum 11Bit"));
+    radioTypes.insert(2, tr("Spektrum 10Bit"));
+    radioTypes.insert(3, tr("S-BUS (Futaba, others)"));
+    radioTypes.insert(4, tr("PPM"));
+
+    ui->RADIO_SETUP->blockSignals(true);
+
+    ui->RADIO_SETUP->clear();
+
+    QMapIterator<int, QString> i(radioTypes);
+    while(i.hasNext()) {
+        i.next();
+        ui->RADIO_SETUP->addItem(i.value(), i.key());
+    }
+
+    if (idx < ui->RADIO_SETUP->count())
+        ui->RADIO_SETUP->setCurrentIndex(idx);
+
+    ui->RADIO_SETUP->blockSignals(false);
+
+}
+
+
+void UAVConfig::BLHeliTab()
+{
+    // Initialize current and default value
+    default_beep = ui->slide_beep->value();
+    default_beaconstr = ui->slide_beaconstr->value();
+    default_delay = ui->slide_delay->value();
+    default_demeg = ui->slide_demeg->value();
+    default_enable = ui->slide_enable->value();
+    default_motor = ui->slide_motor->value();
+    default_polarity = ui->slide_polarity->value();
+    default_pwm = ui->slide_PWM->value();
+    default_startup = ui->slide_startup->value();
+    default_tempe = ui->slide_tempe->value();
+
+    current_beep = default_beep;
+    current_beaconstr = default_beaconstr;
+    current_delay = default_delay;
+    current_demeg = default_demeg;
+    current_enable = default_enable;
+    current_motor = default_motor;
+    current_polarity = default_polarity;
+    current_pwm = default_pwm;
+    current_startup = default_startup;
+    current_tempe = default_tempe;
+
+    // Set invisible undo button and add connect
+    ui->undo_beep->setVisible(false);
+    connect(ui->slide_beep,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelBeep(int)));
+    ui->undo_delay->setVisible(false);
+    connect(ui->slide_delay,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelDelay(int)));
+    ui->undo_demeg->setVisible(false);
+    connect(ui->slide_demeg,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelDemeg(int)));
+    ui->undo_enable->setVisible(false);
+    connect(ui->slide_enable,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelEnable(int)));
+    ui->undo_motor->setVisible(false);
+    connect(ui->slide_motor,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelMotor(int)));
+    ui->undo_polarity->setVisible(false);
+    connect(ui->slide_polarity,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelPolarity(int)));
+    ui->undo_PWM->setVisible(false);
+    connect(ui->slide_PWM,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelPWM(int)));
+    ui->undo_startup->setVisible(false);
+    connect(ui->slide_startup,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelStartup(int)));
+    ui->undo_beaconstr->setVisible(false);
+    connect(ui->slide_beaconstr,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelBeaconStr(int)));
+    ui->undo_tempe->setVisible(false);
+    connect(ui->slide_tempe,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelTempe(int)));
+
+    // Invisible default button
+    ui->default_beep->setVisible(false);
+    ui->default_delay->setVisible(false);
+    ui->default_demeg->setVisible(false);
+    ui->default_enable->setVisible(false);
+    ui->default_motor->setVisible(false);
+    ui->default_polarity->setVisible(false);
+    ui->default_PWM->setVisible(false);
+    ui->default_startup->setVisible(false);
+    ui->default_beaconstr->setVisible(false);
+    ui->default_tempe->setVisible(false);
+
+    // Set alight left
+    ui->horizontalLayout_beep->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_delay->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_demeg->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_enable->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_motor->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_polarity->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_pwm->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_startup->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_beaconstr->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_tempe->setAlignment(Qt::AlignLeft);
+
+    // connect undo and default button
+    connect(ui->default_beep, SIGNAL(clicked(bool)), this, SLOT(handle_default_beep(bool)));
+    connect(ui->default_beaconstr, SIGNAL(clicked(bool)), this, SLOT(handle_default_beaconstr(bool)));
+    connect(ui->default_delay, SIGNAL(clicked(bool)), this, SLOT(handle_default_delay(bool)));
+    connect(ui->default_demeg, SIGNAL(clicked(bool)), this, SLOT(handle_default_demeg(bool)));
+    connect(ui->default_enable, SIGNAL(clicked(bool)), this, SLOT(handle_default_enable(bool)));
+    connect(ui->default_motor, SIGNAL(clicked(bool)), this, SLOT(handle_default_motor(bool)));
+    connect(ui->default_polarity, SIGNAL(clicked(bool)), this, SLOT(handle_default_polarity(bool)));
+    connect(ui->default_PWM, SIGNAL(clicked(bool)), this, SLOT(handle_default_pwm(bool)));
+    connect(ui->default_startup, SIGNAL(clicked(bool)), this, SLOT(handle_default_startup(bool)));
+    connect(ui->default_tempe, SIGNAL(clicked(bool)), this, SLOT(handle_default_tempe(bool)));
+}
+
+// tab BLHeli
+// Set visible when slide's value changed
+// Set value and title label
+
+void UAVConfig::set_Value_Title_LabelBeep(int value)
+{
+    ui->undo_beep->setVisible(true);
+    ui->default_beep->setVisible(true);
+    ui->label_beepValue->setText(QString::number(value));
+    ui->label_beepTitle->setText(QString::number(value));
+}
+
+void UAVConfig::set_Value_Title_LabelDelay(int value)
+{
+    ui->undo_delay->setVisible(true);
+    ui->default_delay->setVisible(true);
+    ui->label_delayValue->setText(QString::number(value));
+    switch (value) {
+    case 1:
+        ui->label_delayTitle->setText("1m");
+        break;
+    case 2:
+        ui->label_delayTitle->setText("2m");
+        break;
+    case 3:
+        ui->label_delayTitle->setText("5m");
+        break;
+    case 4:
+        ui->label_delayTitle->setText("10m");
+        break;
+    case 5:
+        ui->label_delayTitle->setText("Infinite");
+        break;
+    }
+}
+
+void UAVConfig::set_Value_Title_LabelDemeg(int value)
+{
+    ui->undo_demeg->setVisible(true);
+    ui->default_demeg->setVisible(true);
+    ui->label_demegValue->setText(QString::number(value));
+    switch (value) {
+    case 1:
+        ui->label_demegTitle->setText("Off");
+        break;
+    case 2:
+        ui->label_demegTitle->setText("Low");
+        break;
+    case 3:
+        ui->label_demegTitle->setText("High");
+        break;
+    }
+}
+
+void UAVConfig::set_Value_Title_LabelEnable(int value)
+{
+    ui->undo_enable->setVisible(true);
+    ui->default_enable->setVisible(true);
+    ui->label_enableValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_enableTitle->setText("Off");
+    else ui->label_enableTitle->setText("On");
+}
+
+void UAVConfig::set_Value_Title_LabelMotor(int value)
+{
+    ui->undo_motor->setVisible(true);
+    ui->default_motor->setVisible(true);
+    ui->label_motorValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_motorTitle->setText("Normal");
+    else ui->label_motorTitle->setText("Reversed");
+}
+
+void UAVConfig::set_Value_Title_LabelPolarity(int value)
+{
+    ui->undo_polarity->setVisible(true);
+    ui->default_polarity->setVisible(true);
+    ui->label_polarityValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_polarityTitle->setText("Positive");
+    else ui->label_polarityTitle->setText("Negative");
+}
+
+void UAVConfig::set_Value_Title_LabelPWM(int value)
+{
+    ui->undo_PWM->setVisible(true);
+    ui->default_PWM->setVisible(true);
+    ui->label_PWMValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_PWMTitle->setText("High");
+    else ui->label_PWMTitle->setText("Low");
+}
+
+void UAVConfig::set_Value_Title_LabelStartup(int value)
+{
+    ui->undo_startup->setVisible(true);
+    ui->default_startup->setVisible(true);
+    ui->label_startupValue->setText(QString::number(value));
+    switch (value)
+    {
+    case 1:
+        ui->label_startupTitle->setText("x0.031");
+        break;
+    case 2:
+        ui->label_startupTitle->setText("x0.047");
+        break;
+    case 3:
+        ui->label_startupTitle->setText("x0.063");
+        break;
+    case 4:
+        ui->label_startupTitle->setText("x0.094");
+        break;
+    case 5:
+        ui->label_startupTitle->setText("x0.125");
+        break;
+    case 6:
+        ui->label_startupTitle->setText("x0.188");
+        break;
+    case 7:
+        ui->label_startupTitle->setText("x0.25");
+        break;
+    case 8:
+        ui->label_startupTitle->setText("x0.38");
+        break;
+    case 9:
+        ui->label_startupTitle->setText("x0.50");
+        break;
+    case 10:
+        ui->label_startupTitle->setText("x0.75");
+        break;
+    case 11:
+        ui->label_startupTitle->setText("x1.00");
+        break;
+    case 12:
+        ui->label_startupTitle->setText("x1.25");
+        break;
+    case 13:
+        ui->label_startupTitle->setText("x1.50");
+        break;
+    }
+}
+
+void UAVConfig::set_Value_Title_LabelBeaconStr(int value)
+{
+    ui->undo_beaconstr->setVisible(true);
+    ui->default_beaconstr->setVisible(true);
+    ui->label_beaconstrValue->setText(QString::number(value));
+    ui->label_beaconstrTitle->setText(QString::number(value));
+}
+
+void UAVConfig::set_Value_Title_LabelTempe(int value)
+{
+    ui->undo_tempe->setVisible(true);
+    ui->default_tempe->setVisible(true);
+    ui->label_tempeValue->setText(QString::number(value));
+    if (value == 1)
+        ui->label_tempeTitle->setText("On");
+    else ui->label_tempeTitle->setText("Off");
+}
+
+// Handle event when click default button
+
+void UAVConfig::handle_default_beep(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_beep->setValue(default_beep);
+    ui->default_beep->setVisible(false);
+}
+
+void UAVConfig::handle_default_beaconstr(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_beaconstr->setValue(default_beaconstr);
+    ui->default_beaconstr->setVisible(false);
+}
+
+void UAVConfig::handle_default_delay(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_delay->setValue(default_delay);
+    ui->default_delay->setVisible(false);
+}
+
+void UAVConfig::handle_default_demeg(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_demeg->setValue(default_demeg);
+    ui->default_demeg->setVisible(false);
+}
+
+void UAVConfig::handle_default_enable(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_enable->setValue(default_enable);
+    ui->default_enable->setVisible(false);
+}
+
+void UAVConfig::handle_default_motor(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_motor->setValue(default_motor);
+    ui->default_motor->setVisible(false);
+}
+
+void UAVConfig::handle_default_polarity(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_polarity->setValue(default_polarity);
+    ui->default_polarity->setVisible(false);
+}
+
+void UAVConfig::handle_default_pwm(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_PWM->setValue(default_pwm);
+    ui->default_PWM->setVisible(false);
+}
+
+void UAVConfig::handle_default_startup(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_startup->setValue(default_startup);
+    ui->default_startup->setVisible(false);
+}
+
+void UAVConfig::handle_default_tempe(bool b)
+{
+    Q_UNUSED(b);
+    ui->slide_tempe->setValue(default_tempe);
+    ui->default_tempe->setVisible(false);
 }

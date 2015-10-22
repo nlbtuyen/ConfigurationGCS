@@ -32,7 +32,7 @@ typedef struct __mavlink_log_entry_t
 
 
 /**
- * @brief Pack a log_entry message
+ *  Pack a log_entry message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -76,7 +76,7 @@ static inline uint16_t mavlink_msg_log_entry_pack(uint8_t system_id, uint8_t com
 }
 
 /**
- * @brief Pack a log_entry message on a channel
+ *  Pack a log_entry message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -121,7 +121,7 @@ static inline uint16_t mavlink_msg_log_entry_pack_chan(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a log_entry struct
+ *  Encode a log_entry struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -134,7 +134,7 @@ static inline uint16_t mavlink_msg_log_entry_encode(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Encode a log_entry struct on a channel
+ *  Encode a log_entry struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -148,7 +148,7 @@ static inline uint16_t mavlink_msg_log_entry_encode_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Send a log_entry message
+ *  Send a log_entry message
  * @param chan MAVLink channel to send the message
  *
  * @param id Log id
@@ -236,7 +236,7 @@ static inline void mavlink_msg_log_entry_send_buf(mavlink_message_t *msgbuf, mav
 
 
 /**
- * @brief Get field id from log_entry message
+ *  Get field id from log_entry message
  *
  * @return Log id
  */
@@ -246,7 +246,7 @@ static inline uint16_t mavlink_msg_log_entry_get_id(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field num_logs from log_entry message
+ *  Get field num_logs from log_entry message
  *
  * @return Total number of logs
  */
@@ -256,7 +256,7 @@ static inline uint16_t mavlink_msg_log_entry_get_num_logs(const mavlink_message_
 }
 
 /**
- * @brief Get field last_log_num from log_entry message
+ *  Get field last_log_num from log_entry message
  *
  * @return High log number
  */
@@ -266,7 +266,7 @@ static inline uint16_t mavlink_msg_log_entry_get_last_log_num(const mavlink_mess
 }
 
 /**
- * @brief Get field time_utc from log_entry message
+ *  Get field time_utc from log_entry message
  *
  * @return UTC timestamp of log in seconds since 1970, or 0 if not available
  */
@@ -276,7 +276,7 @@ static inline uint32_t mavlink_msg_log_entry_get_time_utc(const mavlink_message_
 }
 
 /**
- * @brief Get field size from log_entry message
+ *  Get field size from log_entry message
  *
  * @return Size of the log (may be approximate) in bytes
  */
@@ -286,7 +286,7 @@ static inline uint32_t mavlink_msg_log_entry_get_size(const mavlink_message_t* m
 }
 
 /**
- * @brief Decode a log_entry message into a struct
+ *  Decode a log_entry message into a struct
  *
  * @param msg The message to decode
  * @param log_entry C-struct to decode the message contents into

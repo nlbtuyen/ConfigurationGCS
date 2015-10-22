@@ -50,7 +50,7 @@ typedef struct __mavlink_mission_item_int_t
 
 
 /**
- * @brief Pack a mission_item_int message
+ *  Pack a mission_item_int message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -121,7 +121,7 @@ static inline uint16_t mavlink_msg_mission_item_int_pack(uint8_t system_id, uint
 }
 
 /**
- * @brief Pack a mission_item_int message on a channel
+ *  Pack a mission_item_int message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -193,7 +193,7 @@ static inline uint16_t mavlink_msg_mission_item_int_pack_chan(uint8_t system_id,
 }
 
 /**
- * @brief Encode a mission_item_int struct
+ *  Encode a mission_item_int struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -206,7 +206,7 @@ static inline uint16_t mavlink_msg_mission_item_int_encode(uint8_t system_id, ui
 }
 
 /**
- * @brief Encode a mission_item_int struct on a channel
+ *  Encode a mission_item_int struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -220,7 +220,7 @@ static inline uint16_t mavlink_msg_mission_item_int_encode_chan(uint8_t system_i
 }
 
 /**
- * @brief Send a mission_item_int message
+ *  Send a mission_item_int message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -353,7 +353,7 @@ static inline void mavlink_msg_mission_item_int_send_buf(mavlink_message_t *msgb
 
 
 /**
- * @brief Get field target_system from mission_item_int message
+ *  Get field target_system from mission_item_int message
  *
  * @return System ID
  */
@@ -363,7 +363,7 @@ static inline uint8_t mavlink_msg_mission_item_int_get_target_system(const mavli
 }
 
 /**
- * @brief Get field target_component from mission_item_int message
+ *  Get field target_component from mission_item_int message
  *
  * @return Component ID
  */
@@ -373,7 +373,7 @@ static inline uint8_t mavlink_msg_mission_item_int_get_target_component(const ma
 }
 
 /**
- * @brief Get field seq from mission_item_int message
+ *  Get field seq from mission_item_int message
  *
  * @return Waypoint ID (sequence number). Starts at zero. Increases monotonically for each waypoint, no gaps in the sequence (0,1,2,3,4).
  */
@@ -383,7 +383,7 @@ static inline uint16_t mavlink_msg_mission_item_int_get_seq(const mavlink_messag
 }
 
 /**
- * @brief Get field frame from mission_item_int message
+ *  Get field frame from mission_item_int message
  *
  * @return The coordinate system of the MISSION. see MAV_FRAME in mavlink_types.h
  */
@@ -393,7 +393,7 @@ static inline uint8_t mavlink_msg_mission_item_int_get_frame(const mavlink_messa
 }
 
 /**
- * @brief Get field command from mission_item_int message
+ *  Get field command from mission_item_int message
  *
  * @return The scheduled action for the MISSION. see MAV_CMD in common.xml MAVLink specs
  */
@@ -403,7 +403,7 @@ static inline uint16_t mavlink_msg_mission_item_int_get_command(const mavlink_me
 }
 
 /**
- * @brief Get field current from mission_item_int message
+ *  Get field current from mission_item_int message
  *
  * @return false:0, true:1
  */
@@ -413,7 +413,7 @@ static inline uint8_t mavlink_msg_mission_item_int_get_current(const mavlink_mes
 }
 
 /**
- * @brief Get field autocontinue from mission_item_int message
+ *  Get field autocontinue from mission_item_int message
  *
  * @return autocontinue to next wp
  */
@@ -423,7 +423,7 @@ static inline uint8_t mavlink_msg_mission_item_int_get_autocontinue(const mavlin
 }
 
 /**
- * @brief Get field param1 from mission_item_int message
+ *  Get field param1 from mission_item_int message
  *
  * @return PARAM1, see MAV_CMD enum
  */
@@ -433,7 +433,7 @@ static inline float mavlink_msg_mission_item_int_get_param1(const mavlink_messag
 }
 
 /**
- * @brief Get field param2 from mission_item_int message
+ *  Get field param2 from mission_item_int message
  *
  * @return PARAM2, see MAV_CMD enum
  */
@@ -443,7 +443,7 @@ static inline float mavlink_msg_mission_item_int_get_param2(const mavlink_messag
 }
 
 /**
- * @brief Get field param3 from mission_item_int message
+ *  Get field param3 from mission_item_int message
  *
  * @return PARAM3, see MAV_CMD enum
  */
@@ -453,7 +453,7 @@ static inline float mavlink_msg_mission_item_int_get_param3(const mavlink_messag
 }
 
 /**
- * @brief Get field param4 from mission_item_int message
+ *  Get field param4 from mission_item_int message
  *
  * @return PARAM4, see MAV_CMD enum
  */
@@ -463,7 +463,7 @@ static inline float mavlink_msg_mission_item_int_get_param4(const mavlink_messag
 }
 
 /**
- * @brief Get field x from mission_item_int message
+ *  Get field x from mission_item_int message
  *
  * @return PARAM5 / local: x position in meters * 1e4, global: latitude in degrees * 10^7
  */
@@ -473,7 +473,7 @@ static inline int32_t mavlink_msg_mission_item_int_get_x(const mavlink_message_t
 }
 
 /**
- * @brief Get field y from mission_item_int message
+ *  Get field y from mission_item_int message
  *
  * @return PARAM6 / y position: local: x position in meters * 1e4, global: longitude in degrees *10^7
  */
@@ -483,7 +483,7 @@ static inline int32_t mavlink_msg_mission_item_int_get_y(const mavlink_message_t
 }
 
 /**
- * @brief Get field z from mission_item_int message
+ *  Get field z from mission_item_int message
  *
  * @return PARAM7 / z position: global: altitude in meters (relative or absolute, depending on frame.
  */
@@ -493,7 +493,7 @@ static inline float mavlink_msg_mission_item_int_get_z(const mavlink_message_t* 
 }
 
 /**
- * @brief Decode a mission_item_int message into a struct
+ *  Decode a mission_item_int message into a struct
  *
  * @param msg The message to decode
  * @param mission_item_int C-struct to decode the message contents into

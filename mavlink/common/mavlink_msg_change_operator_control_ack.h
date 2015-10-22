@@ -28,7 +28,7 @@ typedef struct __mavlink_change_operator_control_ack_t
 
 
 /**
- * @brief Pack a change_operator_control_ack message
+ *  Pack a change_operator_control_ack message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -66,7 +66,7 @@ static inline uint16_t mavlink_msg_change_operator_control_ack_pack(uint8_t syst
 }
 
 /**
- * @brief Pack a change_operator_control_ack message on a channel
+ *  Pack a change_operator_control_ack message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -105,7 +105,7 @@ static inline uint16_t mavlink_msg_change_operator_control_ack_pack_chan(uint8_t
 }
 
 /**
- * @brief Encode a change_operator_control_ack struct
+ *  Encode a change_operator_control_ack struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -118,7 +118,7 @@ static inline uint16_t mavlink_msg_change_operator_control_ack_encode(uint8_t sy
 }
 
 /**
- * @brief Encode a change_operator_control_ack struct on a channel
+ *  Encode a change_operator_control_ack struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -132,7 +132,7 @@ static inline uint16_t mavlink_msg_change_operator_control_ack_encode_chan(uint8
 }
 
 /**
- * @brief Send a change_operator_control_ack message
+ *  Send a change_operator_control_ack message
  * @param chan MAVLink channel to send the message
  *
  * @param gcs_system_id ID of the GCS this message 
@@ -210,7 +210,7 @@ static inline void mavlink_msg_change_operator_control_ack_send_buf(mavlink_mess
 
 
 /**
- * @brief Get field gcs_system_id from change_operator_control_ack message
+ *  Get field gcs_system_id from change_operator_control_ack message
  *
  * @return ID of the GCS this message 
  */
@@ -220,7 +220,7 @@ static inline uint8_t mavlink_msg_change_operator_control_ack_get_gcs_system_id(
 }
 
 /**
- * @brief Get field control_request from change_operator_control_ack message
+ *  Get field control_request from change_operator_control_ack message
  *
  * @return 0: request control of this MAV, 1: Release control of this MAV
  */
@@ -230,7 +230,7 @@ static inline uint8_t mavlink_msg_change_operator_control_ack_get_control_reques
 }
 
 /**
- * @brief Get field ack from change_operator_control_ack message
+ *  Get field ack from change_operator_control_ack message
  *
  * @return 0: ACK, 1: NACK: Wrong passkey, 2: NACK: Unsupported passkey encryption method, 3: NACK: Already under control
  */
@@ -240,7 +240,7 @@ static inline uint8_t mavlink_msg_change_operator_control_ack_get_ack(const mavl
 }
 
 /**
- * @brief Decode a change_operator_control_ack message into a struct
+ *  Decode a change_operator_control_ack message into a struct
  *
  * @param msg The message to decode
  * @param change_operator_control_ack C-struct to decode the message contents into

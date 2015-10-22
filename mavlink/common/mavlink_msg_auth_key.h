@@ -24,7 +24,7 @@ typedef struct __mavlink_auth_key_t
 
 
 /**
- * @brief Pack a auth_key message
+ *  Pack a auth_key message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -56,7 +56,7 @@ static inline uint16_t mavlink_msg_auth_key_pack(uint8_t system_id, uint8_t comp
 }
 
 /**
- * @brief Pack a auth_key message on a channel
+ *  Pack a auth_key message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -89,7 +89,7 @@ static inline uint16_t mavlink_msg_auth_key_pack_chan(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a auth_key struct
+ *  Encode a auth_key struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -102,7 +102,7 @@ static inline uint16_t mavlink_msg_auth_key_encode(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Encode a auth_key struct on a channel
+ *  Encode a auth_key struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -116,7 +116,7 @@ static inline uint16_t mavlink_msg_auth_key_encode_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Send a auth_key message
+ *  Send a auth_key message
  * @param chan MAVLink channel to send the message
  *
  * @param key key
@@ -184,7 +184,7 @@ static inline void mavlink_msg_auth_key_send_buf(mavlink_message_t *msgbuf, mavl
 
 
 /**
- * @brief Get field key from auth_key message
+ *  Get field key from auth_key message
  *
  * @return key
  */
@@ -194,7 +194,7 @@ static inline uint16_t mavlink_msg_auth_key_get_key(const mavlink_message_t* msg
 }
 
 /**
- * @brief Decode a auth_key message into a struct
+ *  Decode a auth_key message into a struct
  *
  * @param msg The message to decode
  * @param auth_key C-struct to decode the message contents into

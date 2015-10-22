@@ -11,7 +11,7 @@
 class QwtPlotCurve;
 
 /**
- * @brief Plot data container for growing data
+ *  Plot data container for growing data
  */
 class CurveData
 {
@@ -20,9 +20,9 @@ public:
 
     void append(double *x, double *y, int count);
 
-    /** @brief The number of datasets held in the data structure */
+    /**  The number of datasets held in the data structure */
     int count() const;
-    /** @brief The reserved size of the data structure in units */
+    /**  The reserved size of the data structure in units */
     int size() const;
     const double *x() const;
     const double *y() const;
@@ -34,7 +34,7 @@ private:
 };
 
 /**
- * @brief Incremental plotting widget
+ *  Incremental plotting widget
  *
  * This widget plots data incrementally when new data arrives.
  * It will only repaint the minimum screen content necessary to avoid
@@ -44,46 +44,46 @@ class IncrementalPlot : public ChartPlot
 {
     Q_OBJECT
 public:
-    /** @brief Create a new, empty incremental plot */
+    /**  Create a new, empty incremental plot */
     IncrementalPlot(QWidget *parent = NULL);
     virtual ~IncrementalPlot();
 
-    /** @brief Get the state of the grid */
+    /**  Get the state of the grid */
     bool gridEnabled() const;
 
-    /** @brief Read out data from a curve */
+    /**  Read out data from a curve */
     int data(const QString &key, double* r_x, double* r_y, int maxSize);
 
 public slots:
-    /** @brief Append one data point */
+    /**  Append one data point */
     void appendData(const QString &key, double x, double y);
 
-    /** @brief Append multiple data points */
+    /**  Append multiple data points */
     void appendData(const QString &key, double* x, double* y, int size);
 
-    /** @brief Reset the plot scaling to the default value */
+    /**  Reset the plot scaling to the default value */
     void resetScaling();
 
-    /** @brief Update the plot scale based on current data/symmetric mode */
+    /**  Update the plot scale based on current data/symmetric mode */
     void updateScale();
 
-    /** @brief Remove all data from the plot and repaint */
+    /**  Remove all data from the plot and repaint */
     void removeData();
 
-    /** @brief Show the plot legend */
+    /**  Show the plot legend */
     void showLegend(bool show);
 
-    /** @brief Show the plot grid */
+    /**  Show the plot grid */
     void showGrid(bool show);
 
-    /** @brief Set new plot style */
+    /**  Set new plot style */
     void setStyleText(const QString &style);
 
-    /** @brief Set symmetric axis scaling mode */
+    /**  Set symmetric axis scaling mode */
     void setSymmetric(bool symmetric);
 
 protected slots:
-    /** @brief Handle the click on a legend item */
+    /**  Handle the click on a legend item */
     void handleLegendClick(QwtPlotItem* item, bool on);
 
 protected:

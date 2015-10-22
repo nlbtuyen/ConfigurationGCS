@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DebugConsole</class>
+ <widget class="QWidget" name="DebugConsole">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>730</width>
+    <height>150</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLineEdit" name="sendText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>344</y>
+     <width>554</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Type the bytes to send here, use 0xAA format for HEX (Check HEX checkbox above)</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="receiveText">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>730</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPlainTextEdit {
+	background-color: rgb(236, 236, 236);
+padding: 10px;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="tabStopWidth">
+    <number>60</number>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>240</y>
+     <width>404</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="10,0,0,0,0,0">
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QComboBox" name="linkComboBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Select the link to monitor</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="checkBox_simpleView">
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable/disable simplified console view, suitable for docking on the side.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>Compact</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="mavlinkCheckBox">
+      <property name="toolTip">
+       <string>Ignore MAVLINK protocol messages in display</string>
+      </property>
+      <property name="statusTip">
+       <string>Ignore MAVLINK protocol messages in display</string>
+      </property>
+      <property name="text">
+       <string>Hide MAVLink</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="hexCheckBox">
+      <property name="toolTip">
+       <string>Display and enter bytes in HEX representation (e.g. 0xAA)</string>
+      </property>
+      <property name="statusTip">
+       <string>Display and enter bytes in HEX representation (e.g. 0xAA)</string>
+      </property>
+      <property name="text">
+       <string>HEX</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="holdCheckBox">
+      <property name="toolTip">
+       <string>Saves CPU ressources, automatically set view to hold if data rate is too high to prevent fast scrolling</string>
+      </property>
+      <property name="statusTip">
+       <string>Saves CPU ressources, automatically set view to hold if data rate is too high to prevent fast scrolling</string>
+      </property>
+      <property name="whatsThis">
+       <string>Enable auto hold to lower the CPU consumption</string>
+      </property>
+      <property name="text">
+       <string>Auto Hold</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLineEdit" name="sentText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>320</y>
+     <width>554</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enter data/text below to send</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>280</y>
+     <width>569</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="100,0,0,1,10,0,0,1,1,1">
+    <property name="spacing">
+     <number>5</number>
+    </property>
+    <item>
+     <widget class="QComboBox" name="specialComboBox">
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="maxVisibleItems">
+       <number>10</number>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+      </property>
+      <property name="minimumContentsLength">
+       <number>1</number>
+      </property>
+      <item>
+       <property name="text">
+        <string>Add..</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>CR+LF</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>LF</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>FF</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>CR</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>TAB</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ESC</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>~</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>&lt;Space&gt;</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="addSymbolButton">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="specialCheckBox">
+      <property name="toolTip">
+       <string>Automatically send special char at end of message</string>
+      </property>
+      <property name="text">
+       <string>Auto-Add</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="transmitButton">
+      <property name="toolTip">
+       <string>Send the ASCII text or HEX values over the link</string>
+      </property>
+      <property name="text">
+       <string>Send</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Expanding</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>5</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QLabel" name="speedLabel">
+      <property name="text">
+       <string>0.0 kB/s</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>10</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="holdButton">
+      <property name="text">
+       <string>Hold</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="clearButton">
+      <property name="text">
+       <string>Clear</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="connectButton">
+      <property name="text">
+       <string>Connect</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

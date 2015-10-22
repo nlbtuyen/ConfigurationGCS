@@ -30,7 +30,7 @@ typedef struct __mavlink_memory_vect_t
 
 
 /**
- * @brief Pack a memory_vect message
+ *  Pack a memory_vect message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -69,7 +69,7 @@ static inline uint16_t mavlink_msg_memory_vect_pack(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Pack a memory_vect message on a channel
+ *  Pack a memory_vect message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -109,7 +109,7 @@ static inline uint16_t mavlink_msg_memory_vect_pack_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a memory_vect struct
+ *  Encode a memory_vect struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -122,7 +122,7 @@ static inline uint16_t mavlink_msg_memory_vect_encode(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a memory_vect struct on a channel
+ *  Encode a memory_vect struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -136,7 +136,7 @@ static inline uint16_t mavlink_msg_memory_vect_encode_chan(uint8_t system_id, ui
 }
 
 /**
- * @brief Send a memory_vect message
+ *  Send a memory_vect message
  * @param chan MAVLink channel to send the message
  *
  * @param address Starting address of the debug variables
@@ -215,7 +215,7 @@ static inline void mavlink_msg_memory_vect_send_buf(mavlink_message_t *msgbuf, m
 
 
 /**
- * @brief Get field address from memory_vect message
+ *  Get field address from memory_vect message
  *
  * @return Starting address of the debug variables
  */
@@ -225,7 +225,7 @@ static inline uint16_t mavlink_msg_memory_vect_get_address(const mavlink_message
 }
 
 /**
- * @brief Get field ver from memory_vect message
+ *  Get field ver from memory_vect message
  *
  * @return Version code of the type variable. 0=unknown, type ignored and assumed int16_t. 1=as below
  */
@@ -235,7 +235,7 @@ static inline uint8_t mavlink_msg_memory_vect_get_ver(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field type from memory_vect message
+ *  Get field type from memory_vect message
  *
  * @return Type code of the memory variables. for ver = 1: 0=16 x int16_t, 1=16 x uint16_t, 2=16 x Q15, 3=16 x 1Q14
  */
@@ -245,7 +245,7 @@ static inline uint8_t mavlink_msg_memory_vect_get_type(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field value from memory_vect message
+ *  Get field value from memory_vect message
  *
  * @return Memory contents at specified address
  */
@@ -255,7 +255,7 @@ static inline uint16_t mavlink_msg_memory_vect_get_value(const mavlink_message_t
 }
 
 /**
- * @brief Decode a memory_vect message into a struct
+ *  Decode a memory_vect message into a struct
  *
  * @param msg The message to decode
  * @param memory_vect C-struct to decode the message contents into

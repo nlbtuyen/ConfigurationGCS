@@ -30,7 +30,7 @@ typedef struct __mavlink_mission_request_partial_list_t
 
 
 /**
- * @brief Pack a mission_request_partial_list message
+ *  Pack a mission_request_partial_list message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -71,7 +71,7 @@ static inline uint16_t mavlink_msg_mission_request_partial_list_pack(uint8_t sys
 }
 
 /**
- * @brief Pack a mission_request_partial_list message on a channel
+ *  Pack a mission_request_partial_list message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -113,7 +113,7 @@ static inline uint16_t mavlink_msg_mission_request_partial_list_pack_chan(uint8_
 }
 
 /**
- * @brief Encode a mission_request_partial_list struct
+ *  Encode a mission_request_partial_list struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -126,7 +126,7 @@ static inline uint16_t mavlink_msg_mission_request_partial_list_encode(uint8_t s
 }
 
 /**
- * @brief Encode a mission_request_partial_list struct on a channel
+ *  Encode a mission_request_partial_list struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -140,7 +140,7 @@ static inline uint16_t mavlink_msg_mission_request_partial_list_encode_chan(uint
 }
 
 /**
- * @brief Send a mission_request_partial_list message
+ *  Send a mission_request_partial_list message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -223,7 +223,7 @@ static inline void mavlink_msg_mission_request_partial_list_send_buf(mavlink_mes
 
 
 /**
- * @brief Get field target_system from mission_request_partial_list message
+ *  Get field target_system from mission_request_partial_list message
  *
  * @return System ID
  */
@@ -233,7 +233,7 @@ static inline uint8_t mavlink_msg_mission_request_partial_list_get_target_system
 }
 
 /**
- * @brief Get field target_component from mission_request_partial_list message
+ *  Get field target_component from mission_request_partial_list message
  *
  * @return Component ID
  */
@@ -243,7 +243,7 @@ static inline uint8_t mavlink_msg_mission_request_partial_list_get_target_compon
 }
 
 /**
- * @brief Get field start_index from mission_request_partial_list message
+ *  Get field start_index from mission_request_partial_list message
  *
  * @return Start index, 0 by default
  */
@@ -253,7 +253,7 @@ static inline int16_t mavlink_msg_mission_request_partial_list_get_start_index(c
 }
 
 /**
- * @brief Get field end_index from mission_request_partial_list message
+ *  Get field end_index from mission_request_partial_list message
  *
  * @return End index, -1 by default (-1: send list to end). Else a valid index of the list
  */
@@ -263,7 +263,7 @@ static inline int16_t mavlink_msg_mission_request_partial_list_get_end_index(con
 }
 
 /**
- * @brief Decode a mission_request_partial_list message into a struct
+ *  Decode a mission_request_partial_list message into a struct
  *
  * @param msg The message to decode
  * @param mission_request_partial_list C-struct to decode the message contents into

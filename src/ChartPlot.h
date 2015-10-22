@@ -4,7 +4,6 @@
 #include <qwt_plot.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_curve.h>
-#include "scrollzoomer.h"
 
 class ChartPlot : public QwtPlot
 {
@@ -25,11 +24,12 @@ public:
     void resetColor() { nextColorIndex = 0; }
 
     // @trung
+    /** Change max and min value of left scale */
     void changeMaxMinValue(double max, double min);
 
 public slots:
 
-    /** @brief Generate coloring for this plot canvas based on current window theme */
+    /** Generate coloring for this plot canvas based on current window theme */
     void styleChanged();
 
 protected:
@@ -38,13 +38,11 @@ protected:
     QList<QColor> colors;                       ///< Colormap for curves
     int nextColorIndex;                         ///< Next index in color map
     QMap<QString, QwtPlotCurve* > curves;       ///< Plot curves
-    ScrollZoomer* zoomer;                       ///< Zoomer class for widget
     QwtPlotGrid* grid;                          ///< Plot grid
 
     float symbolWidth;                          ///< Width of curve symbols in pixels
     float curveWidth;                           ///< Width of curve lines in pixels
     float gridWidth;                            ///< Width of gridlines in pixels
-    float zoomerWidth;                          ///< Width of zoomer selection box
 };
 
 #endif // CHARTPLOT_H

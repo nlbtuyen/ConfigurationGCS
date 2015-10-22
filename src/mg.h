@@ -23,7 +23,7 @@ This file is part of the PIXHAWK project
 
 /**
  * @file
- *   @brief Helper functions
+ *    Helper functions
  *
  *   @author Lorenz Meier <mavteam@student.ethz.ch>
  *
@@ -81,21 +81,21 @@ class SLEEP : public QThread
 {
 public:
     /**
-     * @brief Set a thread to sleep for seconds
+     *  Set a thread to sleep for seconds
      * @param s time in seconds to sleep
      **/
     static void sleep(unsigned long s) {
         QThread::sleep(s);
     }
     /**
-     * @brief Set a thread to sleep for milliseconds
+     *  Set a thread to sleep for milliseconds
      * @param ms time in milliseconds to sleep
      **/
     static void msleep(unsigned long ms) {
         QThread::msleep(ms);
     }
     /**
-     * @brief Set a thread to sleep for microseconds
+     *  Set a thread to sleep for microseconds
      * @param us time in microseconds to sleep
      **/
     static void usleep(unsigned long us) {
@@ -119,7 +119,7 @@ public:
     };
 
     /**
-     * @brief Convert a distance in meters into another distance unit system
+     *  Convert a distance in meters into another distance unit system
      *
      * @param in The distance to convert
      * @param newUnit The new unit to convert to
@@ -161,7 +161,7 @@ public:
     }
 
     /**
-     * @brief Convert between two distance units
+     *  Convert between two distance units
      *
      * This convenience function allows to convert between arbitrary distance units
      *
@@ -177,7 +177,7 @@ public:
     }
 
     /**
-     * @brief Convert a distance to the meter unit
+     *  Convert a distance to the meter unit
      *
      * @param in The distance to convert
      * @param inputUnit The unit the distance is represented in
@@ -246,7 +246,7 @@ public:
     }
 
     /**
-     * @brief Get the size of a single pixel
+     *  Get the size of a single pixel
      *
      * This value can be used to generate user interfaces with
      * a size in physical units, for example a gauge which is
@@ -259,7 +259,7 @@ public:
     }
 
     /**
-     * @brief Set the size of a single pixel
+     *  Set the size of a single pixel
      *
      * @param size The horizontal and vertical size of a pixel-square
      */
@@ -268,7 +268,7 @@ public:
     }
 
     /**
-     * @brief Set the size of a single pixel
+     *  Set the size of a single pixel
      *
      * This method calculates the pixel size from the vertical and horizontal
      * resolution and the screen diameter. The diameter is in mm (as this unit
@@ -303,7 +303,7 @@ public:
     //static const QString ICONDIR = "./icons";
 
     /**
-     * @brief Convenience method to get the milliseconds time stamp for now
+     *  Convenience method to get the milliseconds time stamp for now
      *
      * The timestamp is created at the instant of calling this method. It is
      * defined as the number of milliseconds since unix epoch, which is
@@ -321,7 +321,7 @@ public:
     }
 
     /**
-     * @brief Convenience method to get the milliseconds time stamp for now
+     *  Convenience method to get the milliseconds time stamp for now
      *
      * The timestamp is created at the instant of calling this method. It is
      * defined as the number of milliseconds since unix epoch, which is
@@ -367,7 +367,7 @@ class DIR
 
 public:
     /**
-     * @brief Get the current support file directory.
+     *  Get the current support file directory.
      *
      * The support files are files like icons or fonts and are typically found in the
      * same directory as the main executable.
@@ -406,7 +406,7 @@ public:
     }
 
     /**
-     * @brief Get the current icon directory.
+     *  Get the current icon directory.
      *
      * The icon directory is typically a subdirectory of the main directory,
      * but depends on the platform. For example in OS X it is part of the bundle.

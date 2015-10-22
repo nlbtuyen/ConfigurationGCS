@@ -52,7 +52,7 @@ typedef struct __mavlink_hil_sensor_t
 
 
 /**
- * @brief Pack a hil_sensor message
+ *  Pack a hil_sensor message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -126,7 +126,7 @@ static inline uint16_t mavlink_msg_hil_sensor_pack(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Pack a hil_sensor message on a channel
+ *  Pack a hil_sensor message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -201,7 +201,7 @@ static inline uint16_t mavlink_msg_hil_sensor_pack_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Encode a hil_sensor struct
+ *  Encode a hil_sensor struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -214,7 +214,7 @@ static inline uint16_t mavlink_msg_hil_sensor_encode(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Encode a hil_sensor struct on a channel
+ *  Encode a hil_sensor struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -228,7 +228,7 @@ static inline uint16_t mavlink_msg_hil_sensor_encode_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Send a hil_sensor message
+ *  Send a hil_sensor message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds, synced to UNIX time or since system boot)
@@ -366,7 +366,7 @@ static inline void mavlink_msg_hil_sensor_send_buf(mavlink_message_t *msgbuf, ma
 
 
 /**
- * @brief Get field time_usec from hil_sensor message
+ *  Get field time_usec from hil_sensor message
  *
  * @return Timestamp (microseconds, synced to UNIX time or since system boot)
  */
@@ -376,7 +376,7 @@ static inline uint64_t mavlink_msg_hil_sensor_get_time_usec(const mavlink_messag
 }
 
 /**
- * @brief Get field xacc from hil_sensor message
+ *  Get field xacc from hil_sensor message
  *
  * @return X acceleration (m/s^2)
  */
@@ -386,7 +386,7 @@ static inline float mavlink_msg_hil_sensor_get_xacc(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field yacc from hil_sensor message
+ *  Get field yacc from hil_sensor message
  *
  * @return Y acceleration (m/s^2)
  */
@@ -396,7 +396,7 @@ static inline float mavlink_msg_hil_sensor_get_yacc(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field zacc from hil_sensor message
+ *  Get field zacc from hil_sensor message
  *
  * @return Z acceleration (m/s^2)
  */
@@ -406,7 +406,7 @@ static inline float mavlink_msg_hil_sensor_get_zacc(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field xgyro from hil_sensor message
+ *  Get field xgyro from hil_sensor message
  *
  * @return Angular speed around X axis in body frame (rad / sec)
  */
@@ -416,7 +416,7 @@ static inline float mavlink_msg_hil_sensor_get_xgyro(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field ygyro from hil_sensor message
+ *  Get field ygyro from hil_sensor message
  *
  * @return Angular speed around Y axis in body frame (rad / sec)
  */
@@ -426,7 +426,7 @@ static inline float mavlink_msg_hil_sensor_get_ygyro(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field zgyro from hil_sensor message
+ *  Get field zgyro from hil_sensor message
  *
  * @return Angular speed around Z axis in body frame (rad / sec)
  */
@@ -436,7 +436,7 @@ static inline float mavlink_msg_hil_sensor_get_zgyro(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field xmag from hil_sensor message
+ *  Get field xmag from hil_sensor message
  *
  * @return X Magnetic field (Gauss)
  */
@@ -446,7 +446,7 @@ static inline float mavlink_msg_hil_sensor_get_xmag(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field ymag from hil_sensor message
+ *  Get field ymag from hil_sensor message
  *
  * @return Y Magnetic field (Gauss)
  */
@@ -456,7 +456,7 @@ static inline float mavlink_msg_hil_sensor_get_ymag(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field zmag from hil_sensor message
+ *  Get field zmag from hil_sensor message
  *
  * @return Z Magnetic field (Gauss)
  */
@@ -466,7 +466,7 @@ static inline float mavlink_msg_hil_sensor_get_zmag(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field abs_pressure from hil_sensor message
+ *  Get field abs_pressure from hil_sensor message
  *
  * @return Absolute pressure in millibar
  */
@@ -476,7 +476,7 @@ static inline float mavlink_msg_hil_sensor_get_abs_pressure(const mavlink_messag
 }
 
 /**
- * @brief Get field diff_pressure from hil_sensor message
+ *  Get field diff_pressure from hil_sensor message
  *
  * @return Differential pressure (airspeed) in millibar
  */
@@ -486,7 +486,7 @@ static inline float mavlink_msg_hil_sensor_get_diff_pressure(const mavlink_messa
 }
 
 /**
- * @brief Get field pressure_alt from hil_sensor message
+ *  Get field pressure_alt from hil_sensor message
  *
  * @return Altitude calculated from pressure
  */
@@ -496,7 +496,7 @@ static inline float mavlink_msg_hil_sensor_get_pressure_alt(const mavlink_messag
 }
 
 /**
- * @brief Get field temperature from hil_sensor message
+ *  Get field temperature from hil_sensor message
  *
  * @return Temperature in degrees celsius
  */
@@ -506,7 +506,7 @@ static inline float mavlink_msg_hil_sensor_get_temperature(const mavlink_message
 }
 
 /**
- * @brief Get field fields_updated from hil_sensor message
+ *  Get field fields_updated from hil_sensor message
  *
  * @return Bitmask for fields that have updated since last message, bit 0 = xacc, bit 12: temperature
  */
@@ -516,7 +516,7 @@ static inline uint32_t mavlink_msg_hil_sensor_get_fields_updated(const mavlink_m
 }
 
 /**
- * @brief Decode a hil_sensor message into a struct
+ *  Decode a hil_sensor message into a struct
  *
  * @param msg The message to decode
  * @param hil_sensor C-struct to decode the message contents into

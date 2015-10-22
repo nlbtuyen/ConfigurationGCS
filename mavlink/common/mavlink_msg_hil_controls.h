@@ -44,7 +44,7 @@ typedef struct __mavlink_hil_controls_t
 
 
 /**
- * @brief Pack a hil_controls message
+ *  Pack a hil_controls message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -106,7 +106,7 @@ static inline uint16_t mavlink_msg_hil_controls_pack(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Pack a hil_controls message on a channel
+ *  Pack a hil_controls message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -169,7 +169,7 @@ static inline uint16_t mavlink_msg_hil_controls_pack_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a hil_controls struct
+ *  Encode a hil_controls struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -182,7 +182,7 @@ static inline uint16_t mavlink_msg_hil_controls_encode(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a hil_controls struct on a channel
+ *  Encode a hil_controls struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -196,7 +196,7 @@ static inline uint16_t mavlink_msg_hil_controls_encode_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Send a hil_controls message
+ *  Send a hil_controls message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
@@ -314,7 +314,7 @@ static inline void mavlink_msg_hil_controls_send_buf(mavlink_message_t *msgbuf, 
 
 
 /**
- * @brief Get field time_usec from hil_controls message
+ *  Get field time_usec from hil_controls message
  *
  * @return Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  */
@@ -324,7 +324,7 @@ static inline uint64_t mavlink_msg_hil_controls_get_time_usec(const mavlink_mess
 }
 
 /**
- * @brief Get field roll_ailerons from hil_controls message
+ *  Get field roll_ailerons from hil_controls message
  *
  * @return Control output -1 .. 1
  */
@@ -334,7 +334,7 @@ static inline float mavlink_msg_hil_controls_get_roll_ailerons(const mavlink_mes
 }
 
 /**
- * @brief Get field pitch_elevator from hil_controls message
+ *  Get field pitch_elevator from hil_controls message
  *
  * @return Control output -1 .. 1
  */
@@ -344,7 +344,7 @@ static inline float mavlink_msg_hil_controls_get_pitch_elevator(const mavlink_me
 }
 
 /**
- * @brief Get field yaw_rudder from hil_controls message
+ *  Get field yaw_rudder from hil_controls message
  *
  * @return Control output -1 .. 1
  */
@@ -354,7 +354,7 @@ static inline float mavlink_msg_hil_controls_get_yaw_rudder(const mavlink_messag
 }
 
 /**
- * @brief Get field throttle from hil_controls message
+ *  Get field throttle from hil_controls message
  *
  * @return Throttle 0 .. 1
  */
@@ -364,7 +364,7 @@ static inline float mavlink_msg_hil_controls_get_throttle(const mavlink_message_
 }
 
 /**
- * @brief Get field aux1 from hil_controls message
+ *  Get field aux1 from hil_controls message
  *
  * @return Aux 1, -1 .. 1
  */
@@ -374,7 +374,7 @@ static inline float mavlink_msg_hil_controls_get_aux1(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field aux2 from hil_controls message
+ *  Get field aux2 from hil_controls message
  *
  * @return Aux 2, -1 .. 1
  */
@@ -384,7 +384,7 @@ static inline float mavlink_msg_hil_controls_get_aux2(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field aux3 from hil_controls message
+ *  Get field aux3 from hil_controls message
  *
  * @return Aux 3, -1 .. 1
  */
@@ -394,7 +394,7 @@ static inline float mavlink_msg_hil_controls_get_aux3(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field aux4 from hil_controls message
+ *  Get field aux4 from hil_controls message
  *
  * @return Aux 4, -1 .. 1
  */
@@ -404,7 +404,7 @@ static inline float mavlink_msg_hil_controls_get_aux4(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field mode from hil_controls message
+ *  Get field mode from hil_controls message
  *
  * @return System mode (MAV_MODE)
  */
@@ -414,7 +414,7 @@ static inline uint8_t mavlink_msg_hil_controls_get_mode(const mavlink_message_t*
 }
 
 /**
- * @brief Get field nav_mode from hil_controls message
+ *  Get field nav_mode from hil_controls message
  *
  * @return Navigation mode (MAV_NAV_MODE)
  */
@@ -424,7 +424,7 @@ static inline uint8_t mavlink_msg_hil_controls_get_nav_mode(const mavlink_messag
 }
 
 /**
- * @brief Decode a hil_controls message into a struct
+ *  Decode a hil_controls message into a struct
  *
  * @param msg The message to decode
  * @param hil_controls C-struct to decode the message contents into

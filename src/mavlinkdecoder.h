@@ -18,12 +18,12 @@ signals:
     void valueChanged(const int uasId, const QString& name, const QString& unit, const QVariant& value, const quint64 msec);
 
 public slots:
-    /** @brief Receive one message from the protocol and decode it */
+    /**  Receive one message from the protocol and decode it */
     void receiveMessage(LinkInterface* link,mavlink_message_t message);
 protected:
-    /** @brief Emit the value of one message field */
+    /**  Emit the value of one message field */
     void emitFieldValue(mavlink_message_t* msg, int fieldid, quint64 time);
-    /** @brief Shift a timestamp in Unix time if necessary */
+    /**  Shift a timestamp in Unix time if necessary */
     quint64 getUnixTimeFromMs(int systemID, quint64 time);
 
     mavlink_message_t receivedMessages[256]; ///< Available / known messages

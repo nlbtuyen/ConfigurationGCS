@@ -127,7 +127,7 @@ margin: 10px 0 0 10px;
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_aq_setting_Radio">
     <property name="focusPolicy">
@@ -188,13 +188,13 @@ margin: 10px 0 0 10px;
      <property name="checkable">
       <bool>false</bool>
      </property>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="tabWidget_RCConfig">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>2</x>
         <y>39</y>
-        <width>693</width>
-        <height>323</height>
+        <width>691</width>
+        <height>321</height>
        </rect>
       </property>
       <property name="maximumSize">
@@ -210,18 +210,19 @@ margin: 10px 0 0 10px;
        </font>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="tab_3">
+      <widget class="QWidget" name="tab_RCCalib">
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>RC Calibration</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_24">
         <item>
          <widget class="QFrame" name="frame_RadioTab">
           <property name="font">
            <font>
-            <pointsize>10</pointsize>
+            <family>Arial</family>
+            <pointsize>9</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -232,8 +233,8 @@ margin: 10px 0 0 10px;
           <widget class="QFrame" name="frame">
            <property name="geometry">
             <rect>
-             <x>60</x>
-             <y>0</y>
+             <x>20</x>
+             <y>80</y>
              <width>160</width>
              <height>160</height>
             </rect>
@@ -251,73 +252,59 @@ margin: 10px 0 0 10px;
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">QFrame {
-BACKGROUND-COLOR: #70ab8f;
-border-radius: 80;
-}</string>
+            <string notr="true"/>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Box</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <widget class="QProgressBar" name="progressBar_chan_0">
+           <widget class="Line" name="line">
             <property name="geometry">
              <rect>
-              <x>70</x>
-              <y>10</y>
-              <width>20</width>
-              <height>140</height>
+              <x>1</x>
+              <y>80</y>
+              <width>159</width>
+              <height>5</height>
              </rect>
             </property>
-            <property name="minimum">
-             <number>-1024</number>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="maximum">
-             <number>1024</number>
-            </property>
-            <property name="value">
-             <number>0</number>
-            </property>
-            <property name="textVisible">
-             <bool>false</bool>
+           </widget>
+           <widget class="Line" name="line_2">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>1</y>
+              <width>5</width>
+              <height>159</height>
+             </rect>
             </property>
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
            </widget>
-           <widget class="QProgressBar" name="progressBar_chan_3">
+           <widget class="QLabel" name="label_redpoint_left">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>70</y>
-              <width>140</width>
-              <height>20</height>
+              <x>75</x>
+              <y>75</y>
+              <width>12</width>
+              <height>12</height>
              </rect>
             </property>
-            <property name="minimum">
-             <number>-1024</number>
-            </property>
-            <property name="maximum">
-             <number>1024</number>
-            </property>
-            <property name="value">
-             <number>0</number>
-            </property>
-            <property name="textVisible">
-             <bool>false</bool>
-            </property>
-            <property name="format">
-             <string>%p%</string>
+            <property name="text">
+             <string>TextLabel</string>
             </property>
            </widget>
           </widget>
           <widget class="QFrame" name="frame_2">
            <property name="geometry">
             <rect>
-             <x>400</x>
-             <y>0</y>
+             <x>300</x>
+             <y>80</y>
              <width>160</width>
              <height>160</height>
             </rect>
@@ -335,70 +322,498 @@ border-radius: 80;
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">QFrame {
-BACKGROUND-COLOR: #70ab8f;
-border-radius: 80;
-}</string>
+            <string notr="true"/>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Box</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <widget class="QProgressBar" name="progressBar_chan_2">
+           <widget class="Line" name="line_3">
             <property name="geometry">
              <rect>
-              <x>70</x>
-              <y>10</y>
-              <width>20</width>
-              <height>140</height>
+              <x>1</x>
+              <y>80</y>
+              <width>159</width>
+              <height>5</height>
              </rect>
             </property>
-            <property name="minimum">
-             <number>-1024</number>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="maximum">
-             <number>1024</number>
-            </property>
-            <property name="value">
-             <number>0</number>
+           </widget>
+           <widget class="Line" name="line_4">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>1</y>
+              <width>5</width>
+              <height>159</height>
+             </rect>
             </property>
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
            </widget>
-           <widget class="QProgressBar" name="progressBar_chan_1">
+           <widget class="QLabel" name="label_redpoint_right">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>70</y>
-              <width>140</width>
-              <height>20</height>
+              <x>75</x>
+              <y>75</y>
+              <width>12</width>
+              <height>12</height>
              </rect>
             </property>
-            <property name="minimum">
-             <number>-1024</number>
-            </property>
-            <property name="maximum">
-             <number>1024</number>
-            </property>
-            <property name="value">
-             <number>0</number>
-            </property>
-            <property name="textVisible">
-             <bool>false</bool>
-            </property>
-            <property name="format">
-             <string>%p%</string>
+            <property name="text">
+             <string>TextLabel</string>
             </property>
            </widget>
+          </widget>
+          <widget class="QLabel" name="label_throttle">
+           <property name="geometry">
+            <rect>
+             <x>95</x>
+             <y>60</y>
+             <width>47</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="text">
+            <string>0/1400</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_yaw_2">
+           <property name="geometry">
+            <rect>
+             <x>190</x>
+             <y>150</y>
+             <width>61</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>-700/700</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_pitch">
+           <property name="geometry">
+            <rect>
+             <x>360</x>
+             <y>60</y>
+             <width>61</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>-700/700</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_roll">
+           <property name="geometry">
+            <rect>
+             <x>465</x>
+             <y>150</y>
+             <width>61</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>-700/700</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_RadioType">
+           <property name="geometry">
+            <rect>
+             <x>1</x>
+             <y>1</y>
+             <width>61</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Radio Type</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_RADIO_FLAP_CH">
+           <property name="geometry">
+            <rect>
+             <x>516</x>
+             <y>1</y>
+             <width>71</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Flight Mode</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_5">
+           <property name="geometry">
+            <rect>
+             <x>516</x>
+             <y>31</y>
+             <width>47</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Buzzer</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_CTRL_DBAND_THRO">
+           <property name="geometry">
+            <rect>
+             <x>516</x>
+             <y>61</y>
+             <width>91</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Throttle D-band</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_CTRL_DEAD_BAND">
+           <property name="geometry">
+            <rect>
+             <x>516</x>
+             <y>91</y>
+             <width>101</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Pitch/Roll D-band</string>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="RADIO_SETUP">
+           <property name="geometry">
+            <rect>
+             <x>80</x>
+             <y>1</y>
+             <width>151</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="comboBox_3">
+           <property name="geometry">
+            <rect>
+             <x>616</x>
+             <y>31</y>
+             <width>51</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="currentText">
+            <string>1</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>4</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>6</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>7</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>10</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>11</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>12</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>13</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>14</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>15</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>16</string>
+            </property>
+           </item>
+          </widget>
+          <widget class="QSpinBox" name="CTRL_DBAND_THRO">
+           <property name="geometry">
+            <rect>
+             <x>616</x>
+             <y>61</y>
+             <width>51</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="suffix">
+            <string> µs</string>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>40</number>
+           </property>
+          </widget>
+          <widget class="QSpinBox" name="CTRL_DEAD_BAND">
+           <property name="geometry">
+            <rect>
+             <x>616</x>
+             <y>91</y>
+             <width>51</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="suffix">
+            <string> µs</string>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>40</number>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>570</x>
+             <y>216</y>
+             <width>98</width>
+             <height>58</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_16">
+            <item>
+             <widget class="QPushButton" name="btn_StartCalib">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Arial</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Start Calibration</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_Save_RC">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Arial</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Save</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QLabel" name="label_left_160">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>80</y>
+             <width>20</width>
+             <height>160</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
           </widget>
           <widget class="QLabel" name="label_left_1">
            <property name="geometry">
             <rect>
-             <x>220</x>
-             <y>0</y>
+             <x>0</x>
+             <y>80</y>
+             <width>20</width>
+             <height>80</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>20</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_left_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>160</y>
              <width>20</width>
              <height>80</height>
             </rect>
@@ -422,8 +837,8 @@ border-radius: 80;
           <widget class="QLabel" name="label_right_1">
            <property name="geometry">
             <rect>
-             <x>380</x>
-             <y>0</y>
+             <x>280</x>
+             <y>80</y>
              <width>20</width>
              <height>80</height>
             </rect>
@@ -450,64 +865,14 @@ border-radius: 80;
             <string>TextLabel</string>
            </property>
           </widget>
-          <widget class="QLabel" name="label_bottom_left_1">
+          <widget class="QLabel" name="label_right_160">
            <property name="geometry">
             <rect>
-             <x>60</x>
-             <y>160</y>
-             <width>80</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_bottom_right_1">
-           <property name="geometry">
-            <rect>
-             <x>400</x>
-             <y>160</y>
-             <width>80</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_left_2">
-           <property name="geometry">
-            <rect>
-             <x>220</x>
+             <x>280</x>
              <y>80</y>
              <width>20</width>
-             <height>80</height>
+             <height>160</height>
             </rect>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>20</width>
-             <height>80</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>20</width>
-             <height>80</height>
-            </size>
            </property>
            <property name="text">
             <string>TextLabel</string>
@@ -516,8 +881,8 @@ border-radius: 80;
           <widget class="QLabel" name="label_right_2">
            <property name="geometry">
             <rect>
-             <x>380</x>
-             <y>80</y>
+             <x>280</x>
+             <y>160</y>
              <width>20</width>
              <height>80</height>
             </rect>
@@ -544,11 +909,11 @@ border-radius: 80;
             <string>TextLabel</string>
            </property>
           </widget>
-          <widget class="QLabel" name="label_bottom_left_2">
+          <widget class="QLabel" name="label_bottom_left_1">
            <property name="geometry">
             <rect>
-             <x>140</x>
-             <y>160</y>
+             <x>20</x>
+             <y>240</y>
              <width>80</width>
              <height>20</height>
             </rect>
@@ -557,11 +922,50 @@ border-radius: 80;
             <string>TextLabel</string>
            </property>
           </widget>
-          <widget class="QLabel" name="label_bottom_right_2">
+          <widget class="QLabel" name="label_bottom_left">
            <property name="geometry">
             <rect>
-             <x>480</x>
-             <y>160</y>
+             <x>20</x>
+             <y>240</y>
+             <width>160</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_bottom_right">
+           <property name="geometry">
+            <rect>
+             <x>300</x>
+             <y>240</y>
+             <width>160</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_bottom_left_2">
+           <property name="geometry">
+            <rect>
+             <x>100</x>
+             <y>240</y>
+             <width>80</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_bottom_right_1">
+           <property name="geometry">
+            <rect>
+             <x>300</x>
+             <y>240</y>
              <width>80</width>
              <height>20</height>
             </rect>
@@ -582,139 +986,174 @@ border-radius: 80;
             <string>TextLabel</string>
            </property>
           </widget>
-          <widget class="QLabel" name="label_bottom_left">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>160</y>
-             <width>160</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_bottom_right">
-           <property name="geometry">
-            <rect>
-             <x>400</x>
-             <y>160</y>
-             <width>160</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_left_160">
-           <property name="geometry">
-            <rect>
-             <x>220</x>
-             <y>0</y>
-             <width>20</width>
-             <height>160</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_right_160">
+          <widget class="QLabel" name="label_bottom_right_2">
            <property name="geometry">
             <rect>
              <x>380</x>
-             <y>0</y>
-             <width>20</width>
-             <height>160</height>
+             <y>240</y>
+             <width>80</width>
+             <height>20</height>
             </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>16777215</height>
+            </size>
            </property>
            <property name="text">
             <string>TextLabel</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QComboBox" name="RADIO_FLAP_CH">
            <property name="geometry">
             <rect>
-             <x>280</x>
-             <y>30</y>
-             <width>75</width>
-             <height>23</height>
+             <x>616</x>
+             <y>1</y>
+             <width>51</width>
+             <height>22</height>
             </rect>
            </property>
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
             </font>
            </property>
-           <property name="text">
-            <string>1</string>
+           <property name="editable">
+            <bool>false</bool>
            </property>
+           <property name="currentText">
+            <string>6</string>
+           </property>
+           <property name="currentIndex">
+            <number>5</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>4</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>6</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>7</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>10</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>11</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>12</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>13</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>14</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>15</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>16</string>
+            </property>
+           </item>
           </widget>
-          <widget class="QPushButton" name="pushButton_2">
-           <property name="geometry">
-            <rect>
-             <x>280</x>
-             <y>60</y>
-             <width>75</width>
-             <height>23</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>2</string>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="pushButton_3">
-           <property name="geometry">
-            <rect>
-             <x>280</x>
-             <y>90</y>
-             <width>75</width>
-             <height>23</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>3</string>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="pushButton_4">
-           <property name="geometry">
-            <rect>
-             <x>280</x>
-             <y>120</y>
-             <width>75</width>
-             <height>23</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>4</string>
-           </property>
-          </widget>
+          <zorder>layoutWidget</zorder>
+          <zorder>frame_2</zorder>
+          <zorder>frame</zorder>
+          <zorder>label_throttle</zorder>
+          <zorder>label_yaw_2</zorder>
+          <zorder>label_pitch</zorder>
+          <zorder>label_roll</zorder>
+          <zorder>label_RadioType</zorder>
+          <zorder>label_RADIO_FLAP_CH</zorder>
+          <zorder>label_5</zorder>
+          <zorder>label_CTRL_DBAND_THRO</zorder>
+          <zorder>label_CTRL_DEAD_BAND</zorder>
+          <zorder>RADIO_SETUP</zorder>
+          <zorder>comboBox_3</zorder>
+          <zorder>CTRL_DBAND_THRO</zorder>
+          <zorder>CTRL_DEAD_BAND</zorder>
+          <zorder>label_left_160</zorder>
+          <zorder>label_left_1</zorder>
+          <zorder>label_left_2</zorder>
+          <zorder>label_right_1</zorder>
+          <zorder>label_right_160</zorder>
+          <zorder>label_right_2</zorder>
+          <zorder>label_bottom_left_1</zorder>
+          <zorder>label_bottom_left</zorder>
+          <zorder>label_bottom_right</zorder>
+          <zorder>label_bottom_left_2</zorder>
+          <zorder>label_bottom_right_1</zorder>
+          <zorder>label_bottom_right_2</zorder>
+          <zorder>RADIO_FLAP_CH</zorder>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_4">
+      <widget class="QWidget" name="tab_PitchExpo">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Pitch Expo</string>
        </attribute>
-       <widget class="QScrollArea" name="scrollArea_Charts_RC">
+       <widget class="QScrollArea" name="scrollArea_Charts_PitchExpo">
         <property name="geometry">
          <rect>
           <x>176</x>
@@ -740,24 +1179,24 @@ border-radius: 80;
          </property>
         </widget>
        </widget>
-       <widget class="QPushButton" name="btn_OK_RC">
+       <widget class="QPushButton" name="btn_OK_ExpoPitch">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>70</y>
-          <width>87</width>
+          <width>95</width>
           <height>25</height>
          </rect>
         </property>
         <property name="minimumSize">
          <size>
-          <width>87</width>
+          <width>95</width>
           <height>25</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>87</width>
+          <width>95</width>
           <height>40</height>
          </size>
         </property>
@@ -782,7 +1221,7 @@ border-radius: 80;
         </property>
         <layout class="QFormLayout" name="formLayout">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_expo8">
+          <widget class="QLabel" name="label_expo_pitch">
            <property name="font">
             <font>
              <family>Arial</family>
@@ -790,12 +1229,12 @@ border-radius: 80;
             </font>
            </property>
            <property name="text">
-            <string>Expo8</string>
+            <string>Expo Pitch</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="lineEdit_expo8">
+          <widget class="QLineEdit" name="lineEdit_expoPitch">
            <property name="minimumSize">
             <size>
              <width>30</width>
@@ -815,12 +1254,12 @@ border-radius: 80;
             </font>
            </property>
            <property name="text">
-            <string>20</string>
+            <string>70</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_rarate">
+          <widget class="QLabel" name="label_rate_pitch">
            <property name="font">
             <font>
              <family>Arial</family>
@@ -828,12 +1267,12 @@ border-radius: 80;
             </font>
            </property>
            <property name="text">
-            <string>Ra_Rate</string>
+            <string>Rate Pitch</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEdit_rarate">
+          <widget class="QLineEdit" name="lineEdit_ratePitch">
            <property name="minimumSize">
             <size>
              <width>30</width>
@@ -860,6 +1299,606 @@ border-radius: 80;
         </layout>
        </widget>
       </widget>
+      <widget class="QWidget" name="tab_RollExpo">
+       <attribute name="title">
+        <string>Roll Expo</string>
+       </attribute>
+       <widget class="QPushButton" name="btn_OK_ExpoRoll">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>95</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>95</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>95</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="layoutWidget_7">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>101</width>
+          <height>58</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_expo_roll">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Expo Roll</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEdit_expoRoll">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>20</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_rate_roll">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Rate Roll</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit_rateRoll">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>90</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QScrollArea" name="scrollArea_Charts_RollExpo">
+        <property name="geometry">
+         <rect>
+          <x>176</x>
+          <y>10</y>
+          <width>500</width>
+          <height>275</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding: 10px;</string>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_4">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>478</width>
+           <height>253</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_YawExpo">
+       <attribute name="title">
+        <string>Yaw Expo</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget_10">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>101</width>
+          <height>58</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_4">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_expo_yaw">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Expo Yaw</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEdit_expoPitch_2">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>70</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_rate_yaw">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Rate Yaw</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit_ratePitch_2">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>90</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QPushButton" name="btn_OK_ExpoPitch_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>95</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>95</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>95</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+       <widget class="QScrollArea" name="scrollArea_Charts_YawExpo">
+        <property name="geometry">
+         <rect>
+          <x>176</x>
+          <y>10</y>
+          <width>500</width>
+          <height>275</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding: 10px;</string>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_3">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>478</width>
+           <height>253</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_ThrottleExpo">
+       <attribute name="title">
+        <string>Throttle Expo</string>
+       </attribute>
+       <widget class="QScrollArea" name="scrollArea_Charts_ThroExpo">
+        <property name="geometry">
+         <rect>
+          <x>176</x>
+          <y>10</y>
+          <width>500</width>
+          <height>275</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding: 10px;</string>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_7">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>478</width>
+           <height>253</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QPushButton" name="btn_OK_ExpoPitch_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>95</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>95</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>95</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="layoutWidget_11">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>109</width>
+          <height>58</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_5">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_expo_thro">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Expo Throttle</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEdit_expoPitch_3">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>70</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_rate_thro">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Rate Throttle</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit_ratePitch_3">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>90</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_TPA">
+       <attribute name="title">
+        <string>TPA</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget_8">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>131</width>
+          <height>58</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_TPA">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>TPA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEdit_TPA">
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>0.7</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_TPA_Breakpoint">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>TPA Breakpoint</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit_TPA_Breakpoint">
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>1500</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QScrollArea" name="scrollArea_Charts_TPA">
+        <property name="geometry">
+         <rect>
+          <x>176</x>
+          <y>10</y>
+          <width>500</width>
+          <height>275</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding: 10px;</string>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_5">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>478</width>
+           <height>253</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QPushButton" name="btn_OK_TPA">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>95</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>95</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>95</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </widget>
    </widget>
@@ -875,6 +1914,7 @@ border-radius: 80;
      </property>
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>16</pointsize>
       </font>
      </property>
@@ -901,6 +1941,7 @@ border-radius: 80;
      </property>
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>16</pointsize>
       </font>
      </property>
@@ -960,6 +2001,7 @@ border-radius: 80;
       </property>
       <property name="font">
        <font>
+        <family>Arial</family>
         <pointsize>10</pointsize>
        </font>
       </property>
@@ -976,7 +2018,7 @@ border-radius: 80;
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_Pitch">
        <attribute name="title">
@@ -1114,6 +2156,9 @@ border-radius: 80;
              </property>
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="tickPosition">
+              <enum>QSlider::NoTicks</enum>
              </property>
             </widget>
            </item>
@@ -2743,6 +3788,7 @@ border-radius: 80;
      </property>
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>16</pointsize>
       </font>
      </property>
@@ -2775,7 +3821,8 @@ border-radius: 80;
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <family>Arial</family>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="styleSheet">
@@ -2841,6 +3888,7 @@ border-radius: 80;
      </property>
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>16</pointsize>
       </font>
      </property>
@@ -3011,83 +4059,1696 @@ border-radius: 80;
        <string notr="true">background-color: white;
 padding: 10px;</string>
       </property>
+      <property name="undoRedoEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_aq_setting_BLHeli">
+    <widget class="QGroupBox" name="groupBox_silabsESCSetup">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>691</width>
+       <height>361</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="title">
+      <string>Silabs ESC Setup</string>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <widget class="QGroupBox" name="startup">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>Startup Power</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_9">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>15</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_47">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_startup">
+          <item>
+           <widget class="QLabel" name="label_startupValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>11</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_70">
+            <item>
+             <widget class="QLabel" name="label_startupTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>x 1.00</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_startup">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>13</number>
+              </property>
+              <property name="value">
+               <number>11</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_61">
+          <item>
+           <widget class="QToolButton" name="undo_startup">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_startup">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="temperature">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>40</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>Temperature Protection</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_43">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>14</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_48">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_tempe">
+          <item>
+           <widget class="QLabel" name="label_tempeValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>1</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_71">
+            <item>
+             <widget class="QLabel" name="label_tempeTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>On</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_tempe">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="maximum">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_62">
+          <item>
+           <widget class="QToolButton" name="undo_tempe">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_tempe">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="motor">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>40</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>Mortor Direction</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_44">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>13</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_49">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_motor">
+          <item>
+           <widget class="QLabel" name="label_motorValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>1</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_72">
+            <item>
+             <widget class="QLabel" name="label_motorTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>Normal</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_motor">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>2</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_63">
+          <item>
+           <widget class="QToolButton" name="undo_motor">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_motor">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="demeg">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>120</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>Demeg Compensation</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_45">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>13</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_50">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_demeg">
+          <item>
+           <widget class="QLabel" name="label_demegValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>1</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_73">
+            <item>
+             <widget class="QLabel" name="label_demegTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>Off</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_demeg">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>3</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_64">
+          <item>
+           <widget class="QToolButton" name="undo_demeg">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_demeg">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="PWMFrequency">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>120</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>PWM Frequency/Damped</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_46">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>13</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_51">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_pwm">
+          <item>
+           <widget class="QLabel" name="label_PWMValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>2</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_74">
+            <item>
+             <widget class="QLabel" name="label_PWMTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>Low</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_PWM">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>2</number>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_65">
+          <item>
+           <widget class="QToolButton" name="undo_PWM">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_PWM">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="EnablePWM">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>120</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>Enable PWM Input</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_47">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>13</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_52">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_enable">
+          <item>
+           <widget class="QLabel" name="label_enableValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_75">
+            <item>
+             <widget class="QLabel" name="label_enableTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>Off</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_enable">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="maximum">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_66">
+          <item>
+           <widget class="QToolButton" name="undo_enable">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_enable">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="polarity">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>Input Polarity</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_49">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>13</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_54">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_polarity">
+          <item>
+           <widget class="QLabel" name="label_polarityValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>1</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_77">
+            <item>
+             <widget class="QLabel" name="label_polarityTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>Positive</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_polarity">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>2</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_68">
+          <item>
+           <widget class="QToolButton" name="undo_polarity">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_polarity">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="beep">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>200</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>Beep Strength</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_50">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>13</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_55">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_beep">
+          <item>
+           <widget class="QLabel" name="label_beepValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>120</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_78">
+            <item>
+             <widget class="QLabel" name="label_beepTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>120</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_beep">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>255</number>
+              </property>
+              <property name="value">
+               <number>120</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_69">
+          <item>
+           <widget class="QToolButton" name="undo_beep">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_beep">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="beaconStrength">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>200</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>Beacon Strength</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_51">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>13</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_65">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_beaconstr">
+          <item>
+           <widget class="QLabel" name="label_beaconstrValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>200</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_79">
+            <item>
+             <widget class="QLabel" name="label_beaconstrTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>200</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_beaconstr">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>255</number>
+              </property>
+              <property name="value">
+               <number>200</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_80">
+          <item>
+           <widget class="QToolButton" name="undo_beaconstr">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_beaconstr">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="beaconDelay">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>280</y>
+        <width>211</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox{
+	font-weight: bold;
+}</string>
+      </property>
+      <property name="title">
+       <string>Beacon Delay</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_52">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>13</y>
+         <width>191</width>
+         <height>54</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_67">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_delay">
+          <item>
+           <widget class="QLabel" name="label_delayValue">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>36</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: yellow;
+	font-weight: bold;
+	background-color: gray;
+	border-radius: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>4</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_81">
+            <item>
+             <widget class="QLabel" name="label_delayTitle">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	background-color: yellow;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>10 min</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="slide_delay">
+              <property name="minimumSize">
+               <size>
+                <width>113</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>113</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>5</number>
+              </property>
+              <property name="value">
+               <number>4</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_82">
+          <item>
+           <widget class="QToolButton" name="undo_delay">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/Undo-icon.png</normaloff>:/images/Undo-icon.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="default_delay">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../terminal.qrc">
+              <normaloff>:/images/default.png</normaloff>:/images/default.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </widget>
   </widget>
-  <widget class="QScrollArea" name="scrollArea_3D">
+  <widget class="QScrollArea" name="scrollArea_debugConsole">
    <property name="geometry">
     <rect>
-     <x>-1</x>
-     <y>397</y>
-     <width>200</width>
+     <x>0</x>
+     <y>400</y>
+     <width>730</width>
      <height>150</height>
     </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>200</width>
-     <height>150</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>200</width>
-     <height>150</height>
-    </size>
    </property>
    <property name="widgetResizable">
     <bool>true</bool>
    </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents_3">
+   <widget class="QWidget" name="scrollAreaWidgetContents_6">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>198</width>
+      <width>728</width>
       <height>148</height>
      </rect>
     </property>
    </widget>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_Status">
-   <property name="geometry">
-    <rect>
-     <x>198</x>
-     <y>397</y>
-     <width>532</width>
-     <height>150</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>532</width>
-     <height>150</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>532</width>
-     <height>150</height>
-    </size>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>9</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPlainTextEdit {
-	background-color: rgb(236, 236, 236);
-padding: 10px;
-}</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../terminal.qrc"/>
+ </resources>
  <connections/>
 </ui>

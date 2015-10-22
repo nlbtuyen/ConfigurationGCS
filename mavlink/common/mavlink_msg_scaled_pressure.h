@@ -30,7 +30,7 @@ typedef struct __mavlink_scaled_pressure_t
 
 
 /**
- * @brief Pack a scaled_pressure message
+ *  Pack a scaled_pressure message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -71,7 +71,7 @@ static inline uint16_t mavlink_msg_scaled_pressure_pack(uint8_t system_id, uint8
 }
 
 /**
- * @brief Pack a scaled_pressure message on a channel
+ *  Pack a scaled_pressure message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -113,7 +113,7 @@ static inline uint16_t mavlink_msg_scaled_pressure_pack_chan(uint8_t system_id, 
 }
 
 /**
- * @brief Encode a scaled_pressure struct
+ *  Encode a scaled_pressure struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -126,7 +126,7 @@ static inline uint16_t mavlink_msg_scaled_pressure_encode(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a scaled_pressure struct on a channel
+ *  Encode a scaled_pressure struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -140,7 +140,7 @@ static inline uint16_t mavlink_msg_scaled_pressure_encode_chan(uint8_t system_id
 }
 
 /**
- * @brief Send a scaled_pressure message
+ *  Send a scaled_pressure message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -223,7 +223,7 @@ static inline void mavlink_msg_scaled_pressure_send_buf(mavlink_message_t *msgbu
 
 
 /**
- * @brief Get field time_boot_ms from scaled_pressure message
+ *  Get field time_boot_ms from scaled_pressure message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -233,7 +233,7 @@ static inline uint32_t mavlink_msg_scaled_pressure_get_time_boot_ms(const mavlin
 }
 
 /**
- * @brief Get field press_abs from scaled_pressure message
+ *  Get field press_abs from scaled_pressure message
  *
  * @return Absolute pressure (hectopascal)
  */
@@ -243,7 +243,7 @@ static inline float mavlink_msg_scaled_pressure_get_press_abs(const mavlink_mess
 }
 
 /**
- * @brief Get field press_diff from scaled_pressure message
+ *  Get field press_diff from scaled_pressure message
  *
  * @return Differential pressure 1 (hectopascal)
  */
@@ -253,7 +253,7 @@ static inline float mavlink_msg_scaled_pressure_get_press_diff(const mavlink_mes
 }
 
 /**
- * @brief Get field temperature from scaled_pressure message
+ *  Get field temperature from scaled_pressure message
  *
  * @return Temperature measurement (0.01 degrees celsius)
  */
@@ -263,7 +263,7 @@ static inline int16_t mavlink_msg_scaled_pressure_get_temperature(const mavlink_
 }
 
 /**
- * @brief Decode a scaled_pressure message into a struct
+ *  Decode a scaled_pressure message into a struct
  *
  * @param msg The message to decode
  * @param scaled_pressure C-struct to decode the message contents into

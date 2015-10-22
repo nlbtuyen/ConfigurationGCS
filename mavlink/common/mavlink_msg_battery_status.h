@@ -40,7 +40,7 @@ typedef struct __mavlink_battery_status_t
 
 
 /**
- * @brief Pack a battery_status message
+ *  Pack a battery_status message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -94,7 +94,7 @@ static inline uint16_t mavlink_msg_battery_status_pack(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Pack a battery_status message on a channel
+ *  Pack a battery_status message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -149,7 +149,7 @@ static inline uint16_t mavlink_msg_battery_status_pack_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Encode a battery_status struct
+ *  Encode a battery_status struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -162,7 +162,7 @@ static inline uint16_t mavlink_msg_battery_status_encode(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a battery_status struct on a channel
+ *  Encode a battery_status struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -176,7 +176,7 @@ static inline uint16_t mavlink_msg_battery_status_encode_chan(uint8_t system_id,
 }
 
 /**
- * @brief Send a battery_status message
+ *  Send a battery_status message
  * @param chan MAVLink channel to send the message
  *
  * @param id Battery ID
@@ -280,7 +280,7 @@ static inline void mavlink_msg_battery_status_send_buf(mavlink_message_t *msgbuf
 
 
 /**
- * @brief Get field id from battery_status message
+ *  Get field id from battery_status message
  *
  * @return Battery ID
  */
@@ -290,7 +290,7 @@ static inline uint8_t mavlink_msg_battery_status_get_id(const mavlink_message_t*
 }
 
 /**
- * @brief Get field battery_function from battery_status message
+ *  Get field battery_function from battery_status message
  *
  * @return Function of the battery
  */
@@ -300,7 +300,7 @@ static inline uint8_t mavlink_msg_battery_status_get_battery_function(const mavl
 }
 
 /**
- * @brief Get field type from battery_status message
+ *  Get field type from battery_status message
  *
  * @return Type (chemistry) of the battery
  */
@@ -310,7 +310,7 @@ static inline uint8_t mavlink_msg_battery_status_get_type(const mavlink_message_
 }
 
 /**
- * @brief Get field temperature from battery_status message
+ *  Get field temperature from battery_status message
  *
  * @return Temperature of the battery in centi-degrees celsius. INT16_MAX for unknown temperature.
  */
@@ -320,7 +320,7 @@ static inline int16_t mavlink_msg_battery_status_get_temperature(const mavlink_m
 }
 
 /**
- * @brief Get field voltages from battery_status message
+ *  Get field voltages from battery_status message
  *
  * @return Battery voltage of cells, in millivolts (1 = 1 millivolt)
  */
@@ -330,7 +330,7 @@ static inline uint16_t mavlink_msg_battery_status_get_voltages(const mavlink_mes
 }
 
 /**
- * @brief Get field current_battery from battery_status message
+ *  Get field current_battery from battery_status message
  *
  * @return Battery current, in 10*milliamperes (1 = 10 milliampere), -1: autopilot does not measure the current
  */
@@ -340,7 +340,7 @@ static inline int16_t mavlink_msg_battery_status_get_current_battery(const mavli
 }
 
 /**
- * @brief Get field current_consumed from battery_status message
+ *  Get field current_consumed from battery_status message
  *
  * @return Consumed charge, in milliampere hours (1 = 1 mAh), -1: autopilot does not provide mAh consumption estimate
  */
@@ -350,7 +350,7 @@ static inline int32_t mavlink_msg_battery_status_get_current_consumed(const mavl
 }
 
 /**
- * @brief Get field energy_consumed from battery_status message
+ *  Get field energy_consumed from battery_status message
  *
  * @return Consumed energy, in 100*Joules (intergrated U*I*dt)  (1 = 100 Joule), -1: autopilot does not provide energy consumption estimate
  */
@@ -360,7 +360,7 @@ static inline int32_t mavlink_msg_battery_status_get_energy_consumed(const mavli
 }
 
 /**
- * @brief Get field battery_remaining from battery_status message
+ *  Get field battery_remaining from battery_status message
  *
  * @return Remaining battery energy: (0%: 0, 100%: 100), -1: autopilot does not estimate the remaining battery
  */
@@ -370,7 +370,7 @@ static inline int8_t mavlink_msg_battery_status_get_battery_remaining(const mavl
 }
 
 /**
- * @brief Decode a battery_status message into a struct
+ *  Decode a battery_status message into a struct
  *
  * @param msg The message to decode
  * @param battery_status C-struct to decode the message contents into

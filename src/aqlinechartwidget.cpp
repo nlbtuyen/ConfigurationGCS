@@ -67,11 +67,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 
     updateTimer->setInterval(UPDATE_INTERVAL);
     readSettings();
-
-    // @trung
-//    if (checkMaxMin()){
-//        activePlot->changeMaxMin(maxValue, minValue);
-//    }
+    connect(ui.maxValue, SIGNAL(textChanged(QString)), this, SLOT(checkMaxMin(QString)));
 }
 
 AQLinechartWidget::~AQLinechartWidget()
@@ -150,7 +146,7 @@ void AQLinechartWidget::createLayout()
 }
 
 void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant,
-                                   quint64 usec) //, bool isRunning, int row, bool listChanged)
+                                   quint64 usec)
 {
     QMetaType::Type type = static_cast<QMetaType::Type>(variant.type());
     bool ok;
@@ -172,36 +168,11 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
             if (!isDouble)
                 intData.insert(curve+unit, 0);
             addCurve(curve, unit);
-//            addCurveToList(curve, value, isRunning, row);
         }
         // Add int data
         if (!isDouble)
             intData.insert(curve+unit, value);
     }
-
-    // @trung
-    if (checkMaxMin()){
-        activePlot->changeMaxMin(maxValue, minValue);
-    }
-}
-
-void AQLinechartWidget::addCurveToList(QString curve, double val, bool isRunning, int row){
-//    if (isRunning){
-//        QLabel* label;
-//        QLabel* value;
-//        if (row > 2){
-//            row = row % 3 + 1;
-//        }else row += 1;
-//        label = new QLabel(this);
-//        label->setText(curve);
-//        curvesWidgetLayout->addWidget(label, row, 0);
-//        curveNameLabels.insert(curve, label);
-
-//        value = new QLabel(this);
-//        value->setNum(val);
-//        curveLabels->insert(curve, value);
-//        curvesWidgetLayout->addWidget(value, row, 1);
-//    }
 }
 
 /**
@@ -210,8 +181,6 @@ void AQLinechartWidget::addCurveToList(QString curve, double val, bool isRunning
  **/
 void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 {
-    LinechartPlot* plot = activePlot;
-//    QCheckBox *checkBox;
     QLabel* label;
     QLabel* value;
 
@@ -221,32 +190,10 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 
     int labelRow = curvesWidgetLayout->rowCount();
 
-//    checkBox = new QCheckBox(this);
-//    checkBoxes.insert(curve+unit, checkBox);
-//    checkBox->setCheckable(true);
-//    checkBox->setObjectName(curve+unit);
-//    checkBox->setToolTip(tr("Enable the curve in the graph window"));
-//    checkBox->setWhatsThis(tr("Enable the curve in the graph window"));
-
-//    curvesWidgetLayout->addWidget(checkBox, labelRow, 0);
-
-//    QWidget* colorIcon = new QWidget(this);
-//    colorIcons.insert(curve+unit, colorIcon);
-//    colorIcon->setMinimumSize(5, 14);
-//    colorIcon->setMaximumSize(5, 14);
-
-//    curvesWidgetLayout->addWidget(colorIcon, labelRow, 1);
-
     label = new QLabel(this);
     label->setText(curve);
-    label->setStyleSheet(QString("QLabel {font-size: 13px;}"));
+    label->setStyleSheet(QString("QLabel {font-family:\"Arial\";font-size:12px;}"));
     curvesWidgetLayout->addWidget(label, labelRow, 1);
-
-//    QColor color(Qt::gray);
-//    QString colorstyle;
-//    colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
-//    colorIcon->setStyleSheet(colorstyle);
-//    colorIcon->setAutoFillBackground(true);
 
     // Label
     curveNameLabels.insert(curve+unit, label);
@@ -254,35 +201,21 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     // Value
     value = new QLabel(this);
     value->setNum(0.00);
-    value->setStyleSheet(QString("QLabel {font-family:\"Courier\"; font-weight: bold; font-size: 13px;}"));
-    value->setToolTip(tr("Current value of %1 in %2 units").arg(curve, unit));
-    value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
+    value->setStyleSheet(QString("QLabel {font-family:\"Arial\";font-size:12px;}"));
     curveLabels->insert(curve+unit, value);
     curvesWidgetLayout->addWidget(value, labelRow, 2);
-
-    // Connect actions
-//    connect(selectAllCheckBox, SIGNAL(clicked(bool)), checkBox, SLOT(setChecked(bool)));
-//    QObject::connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(takeButtonClick(bool)));
-//    QObject::connect(this, SIGNAL(curveVisible(QString, bool)), plot, SLOT(setVisibleById(QString, bool)));
-
-    // Set UI components to initial state
-//    checkBox->setChecked(false);
-//    plot->setVisibleById(curve+unit, false);
 }
 
 void AQLinechartWidget::refresh()
 {
     setUpdatesEnabled(false);
     QString str;
-    // Value
 
     QMap<QString, QLabel*>::iterator i;
     for (i = curveLabels->begin(); i != curveLabels->end(); ++i) {
         if (intData.contains(i.key())) {
-//            qDebug() << "1"; // @trung
             str.sprintf("% 11i", intData.value(i.key()));
         } else {
-//            qDebug() << i.key();
             double val = activePlot->getCurrentValue(i.key());
             int intval = static_cast<int>(val);
             if (intval >= 100000 || intval <= -100000) {
@@ -294,11 +227,9 @@ void AQLinechartWidget::refresh()
             } else {
                 str.sprintf("% 11.6f", val);
             }
-//            qDebug() << "2"; // @trung
         }
         // Value
         i.value()->setText(str);
-//        qDebug() << str; // @trung
     }
     setUpdatesEnabled(true);
 }
@@ -387,7 +318,7 @@ void AQLinechartWidget::setActive(bool active)
 }
 
 /**
- * @brief Set the position of the plot window. The plot covers only a portion of the complete time series.
+ *  Set the position of the plot window. The plot covers only a portion of the complete time series.
  * The scrollbar allows to select a window of the time series.
  * The right edge of the window is defined proportional to the position of the scrollbar.
  **/
@@ -419,7 +350,7 @@ void AQLinechartWidget::setPlotWindowPosition(int scrollBarValue)
 }
 
 /**
- * @brief Receive an updated plot window position.
+ *  Receive an updated plot window position.
  * The plot window can be changed by the arrival of new data or by other user interaction.
  * The scrollbar and other UI components can be notified by calling this method.
  *
@@ -464,7 +395,7 @@ void AQLinechartWidget::setCurveVisible(QString curve, bool visible){
 }
 
 /**
- * @brief Take the click of a curve activation / deactivation button.
+ *  Take the click of a curve activation / deactivation button.
  * This method allows to map a button to a plot curve.
  * The text of the button must equal the curve name to activate / deactivate.
  *
@@ -493,7 +424,7 @@ void AQLinechartWidget::takeButtonClick(bool checked)
 }
 
 /**
- * @brief Factory method to create a new button.
+ *  Factory method to create a new button.
  *
  * @param imagename The name of the image (should be placed at the standard icon location)
  * @param text The button text
@@ -508,11 +439,11 @@ QToolButton* AQLinechartWidget::createButton(QWidget* parent)
     return button;
 }
 
-bool AQLinechartWidget::checkMaxMin(){
+void AQLinechartWidget::checkMaxMin(QString str){
+    Q_UNUSED(str);
     if (ui.maxValue->text().toDouble() != maxValue || ui.minValue->text().toDouble() != minValue){
         maxValue = ui.maxValue->text().toDouble();
         minValue = ui.minValue->text().toDouble();
-        return true;
+        activePlot->changeMaxMin(maxValue, minValue);
     }
-    return false;
 }

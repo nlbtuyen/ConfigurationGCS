@@ -32,7 +32,7 @@ typedef struct __mavlink_param_set_t
 
 
 /**
- * @brief Pack a param_set message
+ *  Pack a param_set message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -74,7 +74,7 @@ static inline uint16_t mavlink_msg_param_set_pack(uint8_t system_id, uint8_t com
 }
 
 /**
- * @brief Pack a param_set message on a channel
+ *  Pack a param_set message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -117,7 +117,7 @@ static inline uint16_t mavlink_msg_param_set_pack_chan(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a param_set struct
+ *  Encode a param_set struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -130,7 +130,7 @@ static inline uint16_t mavlink_msg_param_set_encode(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Encode a param_set struct on a channel
+ *  Encode a param_set struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -144,7 +144,7 @@ static inline uint16_t mavlink_msg_param_set_encode_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Send a param_set message
+ *  Send a param_set message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -228,7 +228,7 @@ static inline void mavlink_msg_param_set_send_buf(mavlink_message_t *msgbuf, mav
 
 
 /**
- * @brief Get field target_system from param_set message
+ *  Get field target_system from param_set message
  *
  * @return System ID
  */
@@ -238,7 +238,7 @@ static inline uint8_t mavlink_msg_param_set_get_target_system(const mavlink_mess
 }
 
 /**
- * @brief Get field target_component from param_set message
+ *  Get field target_component from param_set message
  *
  * @return Component ID
  */
@@ -248,7 +248,7 @@ static inline uint8_t mavlink_msg_param_set_get_target_component(const mavlink_m
 }
 
 /**
- * @brief Get field param_id from param_set message
+ *  Get field param_id from param_set message
  *
  * @return Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
  */
@@ -258,7 +258,7 @@ static inline uint16_t mavlink_msg_param_set_get_param_id(const mavlink_message_
 }
 
 /**
- * @brief Get field param_value from param_set message
+ *  Get field param_value from param_set message
  *
  * @return Onboard parameter value
  */
@@ -268,7 +268,7 @@ static inline float mavlink_msg_param_set_get_param_value(const mavlink_message_
 }
 
 /**
- * @brief Get field param_type from param_set message
+ *  Get field param_type from param_set message
  *
  * @return Onboard parameter type: see the MAV_PARAM_TYPE enum for supported data types.
  */
@@ -278,7 +278,7 @@ static inline uint8_t mavlink_msg_param_set_get_param_type(const mavlink_message
 }
 
 /**
- * @brief Decode a param_set message into a struct
+ *  Decode a param_set message into a struct
  *
  * @param msg The message to decode
  * @param param_set C-struct to decode the message contents into

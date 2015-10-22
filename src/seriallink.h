@@ -40,11 +40,11 @@ public:
     qint64 bytesAvailable();
 
     /**
-     * @brief The port handle
+     *  The port handle
      */
     QString getPortName();
     /**
-     * @brief The human readable port name
+     *  The human readable port name
      */
     QString getName();
     int getLinkType() { return LINK_INTERFACE_TYPE_SERIAL; }
@@ -82,7 +82,7 @@ public:
     quint16 reconnectDelayMs() const { return m_reconnectDelayMs; }
 
 public slots:
-    /** @brief Get a list of the currently available ports */
+    /**  Get a list of the currently available ports */
     QVector<QString>* getCurrentPorts();
 
     bool setPortName(QString portName);
@@ -109,7 +109,7 @@ public slots:
     void setReconnectDelayMs(const quint16 &ms);
 
     /**
-     * @brief Write a number of bytes to the interface.
+     *  Write a number of bytes to the interface.
      *
      * @param data Pointer to the data byte array
      * @param size The size of the bytes array

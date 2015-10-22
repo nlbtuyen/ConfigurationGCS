@@ -42,7 +42,7 @@ typedef struct __mavlink_local_position_ned_cov_t
 
 
 /**
- * @brief Pack a local_position_ned_cov message
+ *  Pack a local_position_ned_cov message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -99,7 +99,7 @@ static inline uint16_t mavlink_msg_local_position_ned_cov_pack(uint8_t system_id
 }
 
 /**
- * @brief Pack a local_position_ned_cov message on a channel
+ *  Pack a local_position_ned_cov message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -157,7 +157,7 @@ static inline uint16_t mavlink_msg_local_position_ned_cov_pack_chan(uint8_t syst
 }
 
 /**
- * @brief Encode a local_position_ned_cov struct
+ *  Encode a local_position_ned_cov struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -170,7 +170,7 @@ static inline uint16_t mavlink_msg_local_position_ned_cov_encode(uint8_t system_
 }
 
 /**
- * @brief Encode a local_position_ned_cov struct on a channel
+ *  Encode a local_position_ned_cov struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -184,7 +184,7 @@ static inline uint16_t mavlink_msg_local_position_ned_cov_encode_chan(uint8_t sy
 }
 
 /**
- * @brief Send a local_position_ned_cov message
+ *  Send a local_position_ned_cov message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -293,7 +293,7 @@ static inline void mavlink_msg_local_position_ned_cov_send_buf(mavlink_message_t
 
 
 /**
- * @brief Get field time_boot_ms from local_position_ned_cov message
+ *  Get field time_boot_ms from local_position_ned_cov message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -303,7 +303,7 @@ static inline uint32_t mavlink_msg_local_position_ned_cov_get_time_boot_ms(const
 }
 
 /**
- * @brief Get field time_utc from local_position_ned_cov message
+ *  Get field time_utc from local_position_ned_cov message
  *
  * @return Timestamp (microseconds since UNIX epoch) in UTC. 0 for unknown. Commonly filled by the precision time source of a GPS receiver.
  */
@@ -313,7 +313,7 @@ static inline uint64_t mavlink_msg_local_position_ned_cov_get_time_utc(const mav
 }
 
 /**
- * @brief Get field estimator_type from local_position_ned_cov message
+ *  Get field estimator_type from local_position_ned_cov message
  *
  * @return Class id of the estimator this estimate originated from.
  */
@@ -323,7 +323,7 @@ static inline uint8_t mavlink_msg_local_position_ned_cov_get_estimator_type(cons
 }
 
 /**
- * @brief Get field x from local_position_ned_cov message
+ *  Get field x from local_position_ned_cov message
  *
  * @return X Position
  */
@@ -333,7 +333,7 @@ static inline float mavlink_msg_local_position_ned_cov_get_x(const mavlink_messa
 }
 
 /**
- * @brief Get field y from local_position_ned_cov message
+ *  Get field y from local_position_ned_cov message
  *
  * @return Y Position
  */
@@ -343,7 +343,7 @@ static inline float mavlink_msg_local_position_ned_cov_get_y(const mavlink_messa
 }
 
 /**
- * @brief Get field z from local_position_ned_cov message
+ *  Get field z from local_position_ned_cov message
  *
  * @return Z Position
  */
@@ -353,7 +353,7 @@ static inline float mavlink_msg_local_position_ned_cov_get_z(const mavlink_messa
 }
 
 /**
- * @brief Get field vx from local_position_ned_cov message
+ *  Get field vx from local_position_ned_cov message
  *
  * @return X Speed
  */
@@ -363,7 +363,7 @@ static inline float mavlink_msg_local_position_ned_cov_get_vx(const mavlink_mess
 }
 
 /**
- * @brief Get field vy from local_position_ned_cov message
+ *  Get field vy from local_position_ned_cov message
  *
  * @return Y Speed
  */
@@ -373,7 +373,7 @@ static inline float mavlink_msg_local_position_ned_cov_get_vy(const mavlink_mess
 }
 
 /**
- * @brief Get field vz from local_position_ned_cov message
+ *  Get field vz from local_position_ned_cov message
  *
  * @return Z Speed
  */
@@ -383,7 +383,7 @@ static inline float mavlink_msg_local_position_ned_cov_get_vz(const mavlink_mess
 }
 
 /**
- * @brief Get field covariance from local_position_ned_cov message
+ *  Get field covariance from local_position_ned_cov message
  *
  * @return Covariance matrix (first six entries are the first ROW, next six entries are the second row, etc.)
  */
@@ -393,7 +393,7 @@ static inline uint16_t mavlink_msg_local_position_ned_cov_get_covariance(const m
 }
 
 /**
- * @brief Decode a local_position_ned_cov message into a struct
+ *  Decode a local_position_ned_cov message into a struct
  *
  * @param msg The message to decode
  * @param local_position_ned_cov C-struct to decode the message contents into

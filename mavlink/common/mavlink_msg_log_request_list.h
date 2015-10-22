@@ -30,7 +30,7 @@ typedef struct __mavlink_log_request_list_t
 
 
 /**
- * @brief Pack a log_request_list message
+ *  Pack a log_request_list message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -71,7 +71,7 @@ static inline uint16_t mavlink_msg_log_request_list_pack(uint8_t system_id, uint
 }
 
 /**
- * @brief Pack a log_request_list message on a channel
+ *  Pack a log_request_list message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -113,7 +113,7 @@ static inline uint16_t mavlink_msg_log_request_list_pack_chan(uint8_t system_id,
 }
 
 /**
- * @brief Encode a log_request_list struct
+ *  Encode a log_request_list struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -126,7 +126,7 @@ static inline uint16_t mavlink_msg_log_request_list_encode(uint8_t system_id, ui
 }
 
 /**
- * @brief Encode a log_request_list struct on a channel
+ *  Encode a log_request_list struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -140,7 +140,7 @@ static inline uint16_t mavlink_msg_log_request_list_encode_chan(uint8_t system_i
 }
 
 /**
- * @brief Send a log_request_list message
+ *  Send a log_request_list message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -223,7 +223,7 @@ static inline void mavlink_msg_log_request_list_send_buf(mavlink_message_t *msgb
 
 
 /**
- * @brief Get field target_system from log_request_list message
+ *  Get field target_system from log_request_list message
  *
  * @return System ID
  */
@@ -233,7 +233,7 @@ static inline uint8_t mavlink_msg_log_request_list_get_target_system(const mavli
 }
 
 /**
- * @brief Get field target_component from log_request_list message
+ *  Get field target_component from log_request_list message
  *
  * @return Component ID
  */
@@ -243,7 +243,7 @@ static inline uint8_t mavlink_msg_log_request_list_get_target_component(const ma
 }
 
 /**
- * @brief Get field start from log_request_list message
+ *  Get field start from log_request_list message
  *
  * @return First log id (0 for first available)
  */
@@ -253,7 +253,7 @@ static inline uint16_t mavlink_msg_log_request_list_get_start(const mavlink_mess
 }
 
 /**
- * @brief Get field end from log_request_list message
+ *  Get field end from log_request_list message
  *
  * @return Last log id (0xffff for last available)
  */
@@ -263,7 +263,7 @@ static inline uint16_t mavlink_msg_log_request_list_get_end(const mavlink_messag
 }
 
 /**
- * @brief Decode a log_request_list message into a struct
+ *  Decode a log_request_list message into a struct
  *
  * @param msg The message to decode
  * @param log_request_list C-struct to decode the message contents into

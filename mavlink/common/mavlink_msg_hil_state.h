@@ -54,7 +54,7 @@ typedef struct __mavlink_hil_state_t
 
 
 /**
- * @brief Pack a hil_state message
+ *  Pack a hil_state message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -131,7 +131,7 @@ static inline uint16_t mavlink_msg_hil_state_pack(uint8_t system_id, uint8_t com
 }
 
 /**
- * @brief Pack a hil_state message on a channel
+ *  Pack a hil_state message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -209,7 +209,7 @@ static inline uint16_t mavlink_msg_hil_state_pack_chan(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a hil_state struct
+ *  Encode a hil_state struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -222,7 +222,7 @@ static inline uint16_t mavlink_msg_hil_state_encode(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Encode a hil_state struct on a channel
+ *  Encode a hil_state struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -236,7 +236,7 @@ static inline uint16_t mavlink_msg_hil_state_encode_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Send a hil_state message
+ *  Send a hil_state message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
@@ -379,7 +379,7 @@ static inline void mavlink_msg_hil_state_send_buf(mavlink_message_t *msgbuf, mav
 
 
 /**
- * @brief Get field time_usec from hil_state message
+ *  Get field time_usec from hil_state message
  *
  * @return Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  */
@@ -389,7 +389,7 @@ static inline uint64_t mavlink_msg_hil_state_get_time_usec(const mavlink_message
 }
 
 /**
- * @brief Get field roll from hil_state message
+ *  Get field roll from hil_state message
  *
  * @return Roll angle (rad)
  */
@@ -399,7 +399,7 @@ static inline float mavlink_msg_hil_state_get_roll(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field pitch from hil_state message
+ *  Get field pitch from hil_state message
  *
  * @return Pitch angle (rad)
  */
@@ -409,7 +409,7 @@ static inline float mavlink_msg_hil_state_get_pitch(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field yaw from hil_state message
+ *  Get field yaw from hil_state message
  *
  * @return Yaw angle (rad)
  */
@@ -419,7 +419,7 @@ static inline float mavlink_msg_hil_state_get_yaw(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field rollspeed from hil_state message
+ *  Get field rollspeed from hil_state message
  *
  * @return Body frame roll / phi angular speed (rad/s)
  */
@@ -429,7 +429,7 @@ static inline float mavlink_msg_hil_state_get_rollspeed(const mavlink_message_t*
 }
 
 /**
- * @brief Get field pitchspeed from hil_state message
+ *  Get field pitchspeed from hil_state message
  *
  * @return Body frame pitch / theta angular speed (rad/s)
  */
@@ -439,7 +439,7 @@ static inline float mavlink_msg_hil_state_get_pitchspeed(const mavlink_message_t
 }
 
 /**
- * @brief Get field yawspeed from hil_state message
+ *  Get field yawspeed from hil_state message
  *
  * @return Body frame yaw / psi angular speed (rad/s)
  */
@@ -449,7 +449,7 @@ static inline float mavlink_msg_hil_state_get_yawspeed(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field lat from hil_state message
+ *  Get field lat from hil_state message
  *
  * @return Latitude, expressed as * 1E7
  */
@@ -459,7 +459,7 @@ static inline int32_t mavlink_msg_hil_state_get_lat(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field lon from hil_state message
+ *  Get field lon from hil_state message
  *
  * @return Longitude, expressed as * 1E7
  */
@@ -469,7 +469,7 @@ static inline int32_t mavlink_msg_hil_state_get_lon(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field alt from hil_state message
+ *  Get field alt from hil_state message
  *
  * @return Altitude in meters, expressed as * 1000 (millimeters)
  */
@@ -479,7 +479,7 @@ static inline int32_t mavlink_msg_hil_state_get_alt(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field vx from hil_state message
+ *  Get field vx from hil_state message
  *
  * @return Ground X Speed (Latitude), expressed as m/s * 100
  */
@@ -489,7 +489,7 @@ static inline int16_t mavlink_msg_hil_state_get_vx(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field vy from hil_state message
+ *  Get field vy from hil_state message
  *
  * @return Ground Y Speed (Longitude), expressed as m/s * 100
  */
@@ -499,7 +499,7 @@ static inline int16_t mavlink_msg_hil_state_get_vy(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field vz from hil_state message
+ *  Get field vz from hil_state message
  *
  * @return Ground Z Speed (Altitude), expressed as m/s * 100
  */
@@ -509,7 +509,7 @@ static inline int16_t mavlink_msg_hil_state_get_vz(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field xacc from hil_state message
+ *  Get field xacc from hil_state message
  *
  * @return X acceleration (mg)
  */
@@ -519,7 +519,7 @@ static inline int16_t mavlink_msg_hil_state_get_xacc(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field yacc from hil_state message
+ *  Get field yacc from hil_state message
  *
  * @return Y acceleration (mg)
  */
@@ -529,7 +529,7 @@ static inline int16_t mavlink_msg_hil_state_get_yacc(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field zacc from hil_state message
+ *  Get field zacc from hil_state message
  *
  * @return Z acceleration (mg)
  */
@@ -539,7 +539,7 @@ static inline int16_t mavlink_msg_hil_state_get_zacc(const mavlink_message_t* ms
 }
 
 /**
- * @brief Decode a hil_state message into a struct
+ *  Decode a hil_state message into a struct
  *
  * @param msg The message to decode
  * @param hil_state C-struct to decode the message contents into

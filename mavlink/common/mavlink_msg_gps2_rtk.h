@@ -48,7 +48,7 @@ typedef struct __mavlink_gps2_rtk_t
 
 
 /**
- * @brief Pack a gps2_rtk message
+ *  Pack a gps2_rtk message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -116,7 +116,7 @@ static inline uint16_t mavlink_msg_gps2_rtk_pack(uint8_t system_id, uint8_t comp
 }
 
 /**
- * @brief Pack a gps2_rtk message on a channel
+ *  Pack a gps2_rtk message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -185,7 +185,7 @@ static inline uint16_t mavlink_msg_gps2_rtk_pack_chan(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a gps2_rtk struct
+ *  Encode a gps2_rtk struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -198,7 +198,7 @@ static inline uint16_t mavlink_msg_gps2_rtk_encode(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Encode a gps2_rtk struct on a channel
+ *  Encode a gps2_rtk struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -212,7 +212,7 @@ static inline uint16_t mavlink_msg_gps2_rtk_encode_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Send a gps2_rtk message
+ *  Send a gps2_rtk message
  * @param chan MAVLink channel to send the message
  *
  * @param time_last_baseline_ms Time since boot of last baseline message received in ms.
@@ -340,7 +340,7 @@ static inline void mavlink_msg_gps2_rtk_send_buf(mavlink_message_t *msgbuf, mavl
 
 
 /**
- * @brief Get field time_last_baseline_ms from gps2_rtk message
+ *  Get field time_last_baseline_ms from gps2_rtk message
  *
  * @return Time since boot of last baseline message received in ms.
  */
@@ -350,7 +350,7 @@ static inline uint32_t mavlink_msg_gps2_rtk_get_time_last_baseline_ms(const mavl
 }
 
 /**
- * @brief Get field rtk_receiver_id from gps2_rtk message
+ *  Get field rtk_receiver_id from gps2_rtk message
  *
  * @return Identification of connected RTK receiver.
  */
@@ -360,7 +360,7 @@ static inline uint8_t mavlink_msg_gps2_rtk_get_rtk_receiver_id(const mavlink_mes
 }
 
 /**
- * @brief Get field wn from gps2_rtk message
+ *  Get field wn from gps2_rtk message
  *
  * @return GPS Week Number of last baseline
  */
@@ -370,7 +370,7 @@ static inline uint16_t mavlink_msg_gps2_rtk_get_wn(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field tow from gps2_rtk message
+ *  Get field tow from gps2_rtk message
  *
  * @return GPS Time of Week of last baseline
  */
@@ -380,7 +380,7 @@ static inline uint32_t mavlink_msg_gps2_rtk_get_tow(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field rtk_health from gps2_rtk message
+ *  Get field rtk_health from gps2_rtk message
  *
  * @return GPS-specific health report for RTK data.
  */
@@ -390,7 +390,7 @@ static inline uint8_t mavlink_msg_gps2_rtk_get_rtk_health(const mavlink_message_
 }
 
 /**
- * @brief Get field rtk_rate from gps2_rtk message
+ *  Get field rtk_rate from gps2_rtk message
  *
  * @return Rate of baseline messages being received by GPS, in HZ
  */
@@ -400,7 +400,7 @@ static inline uint8_t mavlink_msg_gps2_rtk_get_rtk_rate(const mavlink_message_t*
 }
 
 /**
- * @brief Get field nsats from gps2_rtk message
+ *  Get field nsats from gps2_rtk message
  *
  * @return Current number of sats used for RTK calculation.
  */
@@ -410,7 +410,7 @@ static inline uint8_t mavlink_msg_gps2_rtk_get_nsats(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field baseline_coords_type from gps2_rtk message
+ *  Get field baseline_coords_type from gps2_rtk message
  *
  * @return Coordinate system of baseline. 0 == ECEF, 1 == NED
  */
@@ -420,7 +420,7 @@ static inline uint8_t mavlink_msg_gps2_rtk_get_baseline_coords_type(const mavlin
 }
 
 /**
- * @brief Get field baseline_a_mm from gps2_rtk message
+ *  Get field baseline_a_mm from gps2_rtk message
  *
  * @return Current baseline in ECEF x or NED north component in mm.
  */
@@ -430,7 +430,7 @@ static inline int32_t mavlink_msg_gps2_rtk_get_baseline_a_mm(const mavlink_messa
 }
 
 /**
- * @brief Get field baseline_b_mm from gps2_rtk message
+ *  Get field baseline_b_mm from gps2_rtk message
  *
  * @return Current baseline in ECEF y or NED east component in mm.
  */
@@ -440,7 +440,7 @@ static inline int32_t mavlink_msg_gps2_rtk_get_baseline_b_mm(const mavlink_messa
 }
 
 /**
- * @brief Get field baseline_c_mm from gps2_rtk message
+ *  Get field baseline_c_mm from gps2_rtk message
  *
  * @return Current baseline in ECEF z or NED down component in mm.
  */
@@ -450,7 +450,7 @@ static inline int32_t mavlink_msg_gps2_rtk_get_baseline_c_mm(const mavlink_messa
 }
 
 /**
- * @brief Get field accuracy from gps2_rtk message
+ *  Get field accuracy from gps2_rtk message
  *
  * @return Current estimate of baseline accuracy.
  */
@@ -460,7 +460,7 @@ static inline uint32_t mavlink_msg_gps2_rtk_get_accuracy(const mavlink_message_t
 }
 
 /**
- * @brief Get field iar_num_hypotheses from gps2_rtk message
+ *  Get field iar_num_hypotheses from gps2_rtk message
  *
  * @return Current number of integer ambiguity hypotheses.
  */
@@ -470,7 +470,7 @@ static inline int32_t mavlink_msg_gps2_rtk_get_iar_num_hypotheses(const mavlink_
 }
 
 /**
- * @brief Decode a gps2_rtk message into a struct
+ *  Decode a gps2_rtk message into a struct
  *
  * @param msg The message to decode
  * @param gps2_rtk C-struct to decode the message contents into

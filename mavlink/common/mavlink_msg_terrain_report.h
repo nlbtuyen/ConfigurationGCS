@@ -36,7 +36,7 @@ typedef struct __mavlink_terrain_report_t
 
 
 /**
- * @brief Pack a terrain_report message
+ *  Pack a terrain_report message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -86,7 +86,7 @@ static inline uint16_t mavlink_msg_terrain_report_pack(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Pack a terrain_report message on a channel
+ *  Pack a terrain_report message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -137,7 +137,7 @@ static inline uint16_t mavlink_msg_terrain_report_pack_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Encode a terrain_report struct
+ *  Encode a terrain_report struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -150,7 +150,7 @@ static inline uint16_t mavlink_msg_terrain_report_encode(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a terrain_report struct on a channel
+ *  Encode a terrain_report struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -164,7 +164,7 @@ static inline uint16_t mavlink_msg_terrain_report_encode_chan(uint8_t system_id,
 }
 
 /**
- * @brief Send a terrain_report message
+ *  Send a terrain_report message
  * @param chan MAVLink channel to send the message
  *
  * @param lat Latitude (degrees *10^7)
@@ -262,7 +262,7 @@ static inline void mavlink_msg_terrain_report_send_buf(mavlink_message_t *msgbuf
 
 
 /**
- * @brief Get field lat from terrain_report message
+ *  Get field lat from terrain_report message
  *
  * @return Latitude (degrees *10^7)
  */
@@ -272,7 +272,7 @@ static inline int32_t mavlink_msg_terrain_report_get_lat(const mavlink_message_t
 }
 
 /**
- * @brief Get field lon from terrain_report message
+ *  Get field lon from terrain_report message
  *
  * @return Longitude (degrees *10^7)
  */
@@ -282,7 +282,7 @@ static inline int32_t mavlink_msg_terrain_report_get_lon(const mavlink_message_t
 }
 
 /**
- * @brief Get field spacing from terrain_report message
+ *  Get field spacing from terrain_report message
  *
  * @return grid spacing (zero if terrain at this location unavailable)
  */
@@ -292,7 +292,7 @@ static inline uint16_t mavlink_msg_terrain_report_get_spacing(const mavlink_mess
 }
 
 /**
- * @brief Get field terrain_height from terrain_report message
+ *  Get field terrain_height from terrain_report message
  *
  * @return Terrain height in meters AMSL
  */
@@ -302,7 +302,7 @@ static inline float mavlink_msg_terrain_report_get_terrain_height(const mavlink_
 }
 
 /**
- * @brief Get field current_height from terrain_report message
+ *  Get field current_height from terrain_report message
  *
  * @return Current vehicle height above lat/lon terrain height (meters)
  */
@@ -312,7 +312,7 @@ static inline float mavlink_msg_terrain_report_get_current_height(const mavlink_
 }
 
 /**
- * @brief Get field pending from terrain_report message
+ *  Get field pending from terrain_report message
  *
  * @return Number of 4x4 terrain blocks waiting to be received or read from disk
  */
@@ -322,7 +322,7 @@ static inline uint16_t mavlink_msg_terrain_report_get_pending(const mavlink_mess
 }
 
 /**
- * @brief Get field loaded from terrain_report message
+ *  Get field loaded from terrain_report message
  *
  * @return Number of 4x4 terrain blocks in memory
  */
@@ -332,7 +332,7 @@ static inline uint16_t mavlink_msg_terrain_report_get_loaded(const mavlink_messa
 }
 
 /**
- * @brief Decode a terrain_report message into a struct
+ *  Decode a terrain_report message into a struct
  *
  * @param msg The message to decode
  * @param terrain_report C-struct to decode the message contents into

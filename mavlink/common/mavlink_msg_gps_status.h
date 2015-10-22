@@ -38,7 +38,7 @@ typedef struct __mavlink_gps_status_t
 
 
 /**
- * @brief Pack a gps_status message
+ *  Pack a gps_status message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -83,7 +83,7 @@ static inline uint16_t mavlink_msg_gps_status_pack(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Pack a gps_status message on a channel
+ *  Pack a gps_status message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -129,7 +129,7 @@ static inline uint16_t mavlink_msg_gps_status_pack_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Encode a gps_status struct
+ *  Encode a gps_status struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -142,7 +142,7 @@ static inline uint16_t mavlink_msg_gps_status_encode(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Encode a gps_status struct on a channel
+ *  Encode a gps_status struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -156,7 +156,7 @@ static inline uint16_t mavlink_msg_gps_status_encode_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Send a gps_status message
+ *  Send a gps_status message
  * @param chan MAVLink channel to send the message
  *
  * @param satellites_visible Number of satellites visible
@@ -245,7 +245,7 @@ static inline void mavlink_msg_gps_status_send_buf(mavlink_message_t *msgbuf, ma
 
 
 /**
- * @brief Get field satellites_visible from gps_status message
+ *  Get field satellites_visible from gps_status message
  *
  * @return Number of satellites visible
  */
@@ -255,7 +255,7 @@ static inline uint8_t mavlink_msg_gps_status_get_satellites_visible(const mavlin
 }
 
 /**
- * @brief Get field satellite_prn from gps_status message
+ *  Get field satellite_prn from gps_status message
  *
  * @return Global satellite ID
  */
@@ -265,7 +265,7 @@ static inline uint16_t mavlink_msg_gps_status_get_satellite_prn(const mavlink_me
 }
 
 /**
- * @brief Get field satellite_used from gps_status message
+ *  Get field satellite_used from gps_status message
  *
  * @return 0: Satellite not used, 1: used for localization
  */
@@ -275,7 +275,7 @@ static inline uint16_t mavlink_msg_gps_status_get_satellite_used(const mavlink_m
 }
 
 /**
- * @brief Get field satellite_elevation from gps_status message
+ *  Get field satellite_elevation from gps_status message
  *
  * @return Elevation (0: right on top of receiver, 90: on the horizon) of satellite
  */
@@ -285,7 +285,7 @@ static inline uint16_t mavlink_msg_gps_status_get_satellite_elevation(const mavl
 }
 
 /**
- * @brief Get field satellite_azimuth from gps_status message
+ *  Get field satellite_azimuth from gps_status message
  *
  * @return Direction of satellite, 0: 0 deg, 255: 360 deg.
  */
@@ -295,7 +295,7 @@ static inline uint16_t mavlink_msg_gps_status_get_satellite_azimuth(const mavlin
 }
 
 /**
- * @brief Get field satellite_snr from gps_status message
+ *  Get field satellite_snr from gps_status message
  *
  * @return Signal to noise ratio of satellite
  */
@@ -305,7 +305,7 @@ static inline uint16_t mavlink_msg_gps_status_get_satellite_snr(const mavlink_me
 }
 
 /**
- * @brief Decode a gps_status message into a struct
+ *  Decode a gps_status message into a struct
  *
  * @param msg The message to decode
  * @param gps_status C-struct to decode the message contents into

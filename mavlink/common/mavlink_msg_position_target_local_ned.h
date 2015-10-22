@@ -50,7 +50,7 @@ typedef struct __mavlink_position_target_local_ned_t
 
 
 /**
- * @brief Pack a position_target_local_ned message
+ *  Pack a position_target_local_ned message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -121,7 +121,7 @@ static inline uint16_t mavlink_msg_position_target_local_ned_pack(uint8_t system
 }
 
 /**
- * @brief Pack a position_target_local_ned message on a channel
+ *  Pack a position_target_local_ned message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -193,7 +193,7 @@ static inline uint16_t mavlink_msg_position_target_local_ned_pack_chan(uint8_t s
 }
 
 /**
- * @brief Encode a position_target_local_ned struct
+ *  Encode a position_target_local_ned struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -206,7 +206,7 @@ static inline uint16_t mavlink_msg_position_target_local_ned_encode(uint8_t syst
 }
 
 /**
- * @brief Encode a position_target_local_ned struct on a channel
+ *  Encode a position_target_local_ned struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -220,7 +220,7 @@ static inline uint16_t mavlink_msg_position_target_local_ned_encode_chan(uint8_t
 }
 
 /**
- * @brief Send a position_target_local_ned message
+ *  Send a position_target_local_ned message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp in milliseconds since system boot
@@ -353,7 +353,7 @@ static inline void mavlink_msg_position_target_local_ned_send_buf(mavlink_messag
 
 
 /**
- * @brief Get field time_boot_ms from position_target_local_ned message
+ *  Get field time_boot_ms from position_target_local_ned message
  *
  * @return Timestamp in milliseconds since system boot
  */
@@ -363,7 +363,7 @@ static inline uint32_t mavlink_msg_position_target_local_ned_get_time_boot_ms(co
 }
 
 /**
- * @brief Get field coordinate_frame from position_target_local_ned message
+ *  Get field coordinate_frame from position_target_local_ned message
  *
  * @return Valid options are: MAV_FRAME_LOCAL_NED = 1, MAV_FRAME_LOCAL_OFFSET_NED = 7, MAV_FRAME_BODY_NED = 8, MAV_FRAME_BODY_OFFSET_NED = 9
  */
@@ -373,7 +373,7 @@ static inline uint8_t mavlink_msg_position_target_local_ned_get_coordinate_frame
 }
 
 /**
- * @brief Get field type_mask from position_target_local_ned message
+ *  Get field type_mask from position_target_local_ned message
  *
  * @return Bitmask to indicate which dimensions should be ignored by the vehicle: a value of 0b0000000000000000 or 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 10 is set the floats afx afy afz should be interpreted as force instead of acceleration. Mapping: bit 1: x, bit 2: y, bit 3: z, bit 4: vx, bit 5: vy, bit 6: vz, bit 7: ax, bit 8: ay, bit 9: az, bit 10: is force setpoint, bit 11: yaw, bit 12: yaw rate
  */
@@ -383,7 +383,7 @@ static inline uint16_t mavlink_msg_position_target_local_ned_get_type_mask(const
 }
 
 /**
- * @brief Get field x from position_target_local_ned message
+ *  Get field x from position_target_local_ned message
  *
  * @return X Position in NED frame in meters
  */
@@ -393,7 +393,7 @@ static inline float mavlink_msg_position_target_local_ned_get_x(const mavlink_me
 }
 
 /**
- * @brief Get field y from position_target_local_ned message
+ *  Get field y from position_target_local_ned message
  *
  * @return Y Position in NED frame in meters
  */
@@ -403,7 +403,7 @@ static inline float mavlink_msg_position_target_local_ned_get_y(const mavlink_me
 }
 
 /**
- * @brief Get field z from position_target_local_ned message
+ *  Get field z from position_target_local_ned message
  *
  * @return Z Position in NED frame in meters (note, altitude is negative in NED)
  */
@@ -413,7 +413,7 @@ static inline float mavlink_msg_position_target_local_ned_get_z(const mavlink_me
 }
 
 /**
- * @brief Get field vx from position_target_local_ned message
+ *  Get field vx from position_target_local_ned message
  *
  * @return X velocity in NED frame in meter / s
  */
@@ -423,7 +423,7 @@ static inline float mavlink_msg_position_target_local_ned_get_vx(const mavlink_m
 }
 
 /**
- * @brief Get field vy from position_target_local_ned message
+ *  Get field vy from position_target_local_ned message
  *
  * @return Y velocity in NED frame in meter / s
  */
@@ -433,7 +433,7 @@ static inline float mavlink_msg_position_target_local_ned_get_vy(const mavlink_m
 }
 
 /**
- * @brief Get field vz from position_target_local_ned message
+ *  Get field vz from position_target_local_ned message
  *
  * @return Z velocity in NED frame in meter / s
  */
@@ -443,7 +443,7 @@ static inline float mavlink_msg_position_target_local_ned_get_vz(const mavlink_m
 }
 
 /**
- * @brief Get field afx from position_target_local_ned message
+ *  Get field afx from position_target_local_ned message
  *
  * @return X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
  */
@@ -453,7 +453,7 @@ static inline float mavlink_msg_position_target_local_ned_get_afx(const mavlink_
 }
 
 /**
- * @brief Get field afy from position_target_local_ned message
+ *  Get field afy from position_target_local_ned message
  *
  * @return Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
  */
@@ -463,7 +463,7 @@ static inline float mavlink_msg_position_target_local_ned_get_afy(const mavlink_
 }
 
 /**
- * @brief Get field afz from position_target_local_ned message
+ *  Get field afz from position_target_local_ned message
  *
  * @return Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
  */
@@ -473,7 +473,7 @@ static inline float mavlink_msg_position_target_local_ned_get_afz(const mavlink_
 }
 
 /**
- * @brief Get field yaw from position_target_local_ned message
+ *  Get field yaw from position_target_local_ned message
  *
  * @return yaw setpoint in rad
  */
@@ -483,7 +483,7 @@ static inline float mavlink_msg_position_target_local_ned_get_yaw(const mavlink_
 }
 
 /**
- * @brief Get field yaw_rate from position_target_local_ned message
+ *  Get field yaw_rate from position_target_local_ned message
  *
  * @return yaw rate setpoint in rad/s
  */
@@ -493,7 +493,7 @@ static inline float mavlink_msg_position_target_local_ned_get_yaw_rate(const mav
 }
 
 /**
- * @brief Decode a position_target_local_ned message into a struct
+ *  Decode a position_target_local_ned message into a struct
  *
  * @param msg The message to decode
  * @param position_target_local_ned C-struct to decode the message contents into
