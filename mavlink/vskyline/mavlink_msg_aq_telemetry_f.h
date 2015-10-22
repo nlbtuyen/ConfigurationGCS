@@ -67,7 +67,7 @@ typedef struct __mavlink_aq_telemetry_f_t
 
 
 /**
- * @brief Pack a aq_telemetry_f message
+ *  Pack a aq_telemetry_f message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -159,7 +159,7 @@ static inline uint16_t mavlink_msg_aq_telemetry_f_pack(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Pack a aq_telemetry_f message on a channel
+ *  Pack a aq_telemetry_f message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -252,7 +252,7 @@ static inline uint16_t mavlink_msg_aq_telemetry_f_pack_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Encode a aq_telemetry_f struct
+ *  Encode a aq_telemetry_f struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -265,7 +265,7 @@ static inline uint16_t mavlink_msg_aq_telemetry_f_encode(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a aq_telemetry_f struct on a channel
+ *  Encode a aq_telemetry_f struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -279,7 +279,7 @@ static inline uint16_t mavlink_msg_aq_telemetry_f_encode_chan(uint8_t system_id,
 }
 
 /**
- * @brief Send a aq_telemetry_f message
+ *  Send a aq_telemetry_f message
  * @param chan MAVLink channel to send the message
  *
  * @param Index Index of message
@@ -447,7 +447,7 @@ static inline void mavlink_msg_aq_telemetry_f_send_buf(mavlink_message_t *msgbuf
 
 
 /**
- * @brief Get field Index from aq_telemetry_f message
+ *  Get field Index from aq_telemetry_f message
  *
  * @return Index of message
  */
@@ -457,7 +457,7 @@ static inline uint16_t mavlink_msg_aq_telemetry_f_get_Index(const mavlink_messag
 }
 
 /**
- * @brief Get field value1 from aq_telemetry_f message
+ *  Get field value1 from aq_telemetry_f message
  *
  * @return value1
  */
@@ -467,7 +467,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value1(const mavlink_message_
 }
 
 /**
- * @brief Get field value2 from aq_telemetry_f message
+ *  Get field value2 from aq_telemetry_f message
  *
  * @return value2
  */
@@ -477,7 +477,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value2(const mavlink_message_
 }
 
 /**
- * @brief Get field value3 from aq_telemetry_f message
+ *  Get field value3 from aq_telemetry_f message
  *
  * @return value3
  */
@@ -487,7 +487,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value3(const mavlink_message_
 }
 
 /**
- * @brief Get field value4 from aq_telemetry_f message
+ *  Get field value4 from aq_telemetry_f message
  *
  * @return value4
  */
@@ -497,7 +497,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value4(const mavlink_message_
 }
 
 /**
- * @brief Get field value5 from aq_telemetry_f message
+ *  Get field value5 from aq_telemetry_f message
  *
  * @return value5
  */
@@ -507,7 +507,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value5(const mavlink_message_
 }
 
 /**
- * @brief Get field value6 from aq_telemetry_f message
+ *  Get field value6 from aq_telemetry_f message
  *
  * @return value6
  */
@@ -517,7 +517,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value6(const mavlink_message_
 }
 
 /**
- * @brief Get field value7 from aq_telemetry_f message
+ *  Get field value7 from aq_telemetry_f message
  *
  * @return value7
  */
@@ -527,7 +527,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value7(const mavlink_message_
 }
 
 /**
- * @brief Get field value8 from aq_telemetry_f message
+ *  Get field value8 from aq_telemetry_f message
  *
  * @return value8
  */
@@ -537,7 +537,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value8(const mavlink_message_
 }
 
 /**
- * @brief Get field value9 from aq_telemetry_f message
+ *  Get field value9 from aq_telemetry_f message
  *
  * @return value9
  */
@@ -547,7 +547,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value9(const mavlink_message_
 }
 
 /**
- * @brief Get field value10 from aq_telemetry_f message
+ *  Get field value10 from aq_telemetry_f message
  *
  * @return value10
  */
@@ -557,7 +557,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value10(const mavlink_message
 }
 
 /**
- * @brief Get field value11 from aq_telemetry_f message
+ *  Get field value11 from aq_telemetry_f message
  *
  * @return value11
  */
@@ -567,7 +567,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value11(const mavlink_message
 }
 
 /**
- * @brief Get field value12 from aq_telemetry_f message
+ *  Get field value12 from aq_telemetry_f message
  *
  * @return value12
  */
@@ -577,7 +577,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value12(const mavlink_message
 }
 
 /**
- * @brief Get field value13 from aq_telemetry_f message
+ *  Get field value13 from aq_telemetry_f message
  *
  * @return value13
  */
@@ -587,7 +587,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value13(const mavlink_message
 }
 
 /**
- * @brief Get field value14 from aq_telemetry_f message
+ *  Get field value14 from aq_telemetry_f message
  *
  * @return value14
  */
@@ -597,7 +597,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value14(const mavlink_message
 }
 
 /**
- * @brief Get field value15 from aq_telemetry_f message
+ *  Get field value15 from aq_telemetry_f message
  *
  * @return value15
  */
@@ -607,7 +607,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value15(const mavlink_message
 }
 
 /**
- * @brief Get field value16 from aq_telemetry_f message
+ *  Get field value16 from aq_telemetry_f message
  *
  * @return value16
  */
@@ -617,7 +617,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value16(const mavlink_message
 }
 
 /**
- * @brief Get field value17 from aq_telemetry_f message
+ *  Get field value17 from aq_telemetry_f message
  *
  * @return value17
  */
@@ -627,7 +627,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value17(const mavlink_message
 }
 
 /**
- * @brief Get field value18 from aq_telemetry_f message
+ *  Get field value18 from aq_telemetry_f message
  *
  * @return value18
  */
@@ -637,7 +637,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value18(const mavlink_message
 }
 
 /**
- * @brief Get field value19 from aq_telemetry_f message
+ *  Get field value19 from aq_telemetry_f message
  *
  * @return value19
  */
@@ -647,7 +647,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value19(const mavlink_message
 }
 
 /**
- * @brief Get field value20 from aq_telemetry_f message
+ *  Get field value20 from aq_telemetry_f message
  *
  * @return value20
  */
@@ -657,7 +657,7 @@ static inline float mavlink_msg_aq_telemetry_f_get_value20(const mavlink_message
 }
 
 /**
- * @brief Decode a aq_telemetry_f message into a struct
+ *  Decode a aq_telemetry_f message into a struct
  *
  * @param msg The message to decode
  * @param aq_telemetry_f C-struct to decode the message contents into

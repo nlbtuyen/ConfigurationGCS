@@ -36,7 +36,7 @@ typedef struct __mavlink_global_vision_position_estimate_t
 
 
 /**
- * @brief Pack a global_vision_position_estimate message
+ *  Pack a global_vision_position_estimate message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -86,7 +86,7 @@ static inline uint16_t mavlink_msg_global_vision_position_estimate_pack(uint8_t 
 }
 
 /**
- * @brief Pack a global_vision_position_estimate message on a channel
+ *  Pack a global_vision_position_estimate message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -137,7 +137,7 @@ static inline uint16_t mavlink_msg_global_vision_position_estimate_pack_chan(uin
 }
 
 /**
- * @brief Encode a global_vision_position_estimate struct
+ *  Encode a global_vision_position_estimate struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -150,7 +150,7 @@ static inline uint16_t mavlink_msg_global_vision_position_estimate_encode(uint8_
 }
 
 /**
- * @brief Encode a global_vision_position_estimate struct on a channel
+ *  Encode a global_vision_position_estimate struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -164,7 +164,7 @@ static inline uint16_t mavlink_msg_global_vision_position_estimate_encode_chan(u
 }
 
 /**
- * @brief Send a global_vision_position_estimate message
+ *  Send a global_vision_position_estimate message
  * @param chan MAVLink channel to send the message
  *
  * @param usec Timestamp (microseconds, synced to UNIX time or since system boot)
@@ -262,7 +262,7 @@ static inline void mavlink_msg_global_vision_position_estimate_send_buf(mavlink_
 
 
 /**
- * @brief Get field usec from global_vision_position_estimate message
+ *  Get field usec from global_vision_position_estimate message
  *
  * @return Timestamp (microseconds, synced to UNIX time or since system boot)
  */
@@ -272,7 +272,7 @@ static inline uint64_t mavlink_msg_global_vision_position_estimate_get_usec(cons
 }
 
 /**
- * @brief Get field x from global_vision_position_estimate message
+ *  Get field x from global_vision_position_estimate message
  *
  * @return Global X position
  */
@@ -282,7 +282,7 @@ static inline float mavlink_msg_global_vision_position_estimate_get_x(const mavl
 }
 
 /**
- * @brief Get field y from global_vision_position_estimate message
+ *  Get field y from global_vision_position_estimate message
  *
  * @return Global Y position
  */
@@ -292,7 +292,7 @@ static inline float mavlink_msg_global_vision_position_estimate_get_y(const mavl
 }
 
 /**
- * @brief Get field z from global_vision_position_estimate message
+ *  Get field z from global_vision_position_estimate message
  *
  * @return Global Z position
  */
@@ -302,7 +302,7 @@ static inline float mavlink_msg_global_vision_position_estimate_get_z(const mavl
 }
 
 /**
- * @brief Get field roll from global_vision_position_estimate message
+ *  Get field roll from global_vision_position_estimate message
  *
  * @return Roll angle in rad
  */
@@ -312,7 +312,7 @@ static inline float mavlink_msg_global_vision_position_estimate_get_roll(const m
 }
 
 /**
- * @brief Get field pitch from global_vision_position_estimate message
+ *  Get field pitch from global_vision_position_estimate message
  *
  * @return Pitch angle in rad
  */
@@ -322,7 +322,7 @@ static inline float mavlink_msg_global_vision_position_estimate_get_pitch(const 
 }
 
 /**
- * @brief Get field yaw from global_vision_position_estimate message
+ *  Get field yaw from global_vision_position_estimate message
  *
  * @return Yaw angle in rad
  */
@@ -332,7 +332,7 @@ static inline float mavlink_msg_global_vision_position_estimate_get_yaw(const ma
 }
 
 /**
- * @brief Decode a global_vision_position_estimate message into a struct
+ *  Decode a global_vision_position_estimate message into a struct
  *
  * @param msg The message to decode
  * @param global_vision_position_estimate C-struct to decode the message contents into

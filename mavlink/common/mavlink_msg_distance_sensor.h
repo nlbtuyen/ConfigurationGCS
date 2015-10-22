@@ -38,7 +38,7 @@ typedef struct __mavlink_distance_sensor_t
 
 
 /**
- * @brief Pack a distance_sensor message
+ *  Pack a distance_sensor message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -91,7 +91,7 @@ static inline uint16_t mavlink_msg_distance_sensor_pack(uint8_t system_id, uint8
 }
 
 /**
- * @brief Pack a distance_sensor message on a channel
+ *  Pack a distance_sensor message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -145,7 +145,7 @@ static inline uint16_t mavlink_msg_distance_sensor_pack_chan(uint8_t system_id, 
 }
 
 /**
- * @brief Encode a distance_sensor struct
+ *  Encode a distance_sensor struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -158,7 +158,7 @@ static inline uint16_t mavlink_msg_distance_sensor_encode(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a distance_sensor struct on a channel
+ *  Encode a distance_sensor struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -172,7 +172,7 @@ static inline uint16_t mavlink_msg_distance_sensor_encode_chan(uint8_t system_id
 }
 
 /**
- * @brief Send a distance_sensor message
+ *  Send a distance_sensor message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Time since system boot
@@ -275,7 +275,7 @@ static inline void mavlink_msg_distance_sensor_send_buf(mavlink_message_t *msgbu
 
 
 /**
- * @brief Get field time_boot_ms from distance_sensor message
+ *  Get field time_boot_ms from distance_sensor message
  *
  * @return Time since system boot
  */
@@ -285,7 +285,7 @@ static inline uint32_t mavlink_msg_distance_sensor_get_time_boot_ms(const mavlin
 }
 
 /**
- * @brief Get field min_distance from distance_sensor message
+ *  Get field min_distance from distance_sensor message
  *
  * @return Minimum distance the sensor can measure in centimeters
  */
@@ -295,7 +295,7 @@ static inline uint16_t mavlink_msg_distance_sensor_get_min_distance(const mavlin
 }
 
 /**
- * @brief Get field max_distance from distance_sensor message
+ *  Get field max_distance from distance_sensor message
  *
  * @return Maximum distance the sensor can measure in centimeters
  */
@@ -305,7 +305,7 @@ static inline uint16_t mavlink_msg_distance_sensor_get_max_distance(const mavlin
 }
 
 /**
- * @brief Get field current_distance from distance_sensor message
+ *  Get field current_distance from distance_sensor message
  *
  * @return Current distance reading
  */
@@ -315,7 +315,7 @@ static inline uint16_t mavlink_msg_distance_sensor_get_current_distance(const ma
 }
 
 /**
- * @brief Get field type from distance_sensor message
+ *  Get field type from distance_sensor message
  *
  * @return Type from MAV_DISTANCE_SENSOR enum.
  */
@@ -325,7 +325,7 @@ static inline uint8_t mavlink_msg_distance_sensor_get_type(const mavlink_message
 }
 
 /**
- * @brief Get field id from distance_sensor message
+ *  Get field id from distance_sensor message
  *
  * @return Onboard ID of the sensor
  */
@@ -335,7 +335,7 @@ static inline uint8_t mavlink_msg_distance_sensor_get_id(const mavlink_message_t
 }
 
 /**
- * @brief Get field orientation from distance_sensor message
+ *  Get field orientation from distance_sensor message
  *
  * @return Direction the sensor faces from FIXME enum.
  */
@@ -345,7 +345,7 @@ static inline uint8_t mavlink_msg_distance_sensor_get_orientation(const mavlink_
 }
 
 /**
- * @brief Get field covariance from distance_sensor message
+ *  Get field covariance from distance_sensor message
  *
  * @return Measurement covariance in centimeters, 0 for unknown / invalid readings
  */
@@ -355,7 +355,7 @@ static inline uint8_t mavlink_msg_distance_sensor_get_covariance(const mavlink_m
 }
 
 /**
- * @brief Decode a distance_sensor message into a struct
+ *  Decode a distance_sensor message into a struct
  *
  * @param msg The message to decode
  * @param distance_sensor C-struct to decode the message contents into

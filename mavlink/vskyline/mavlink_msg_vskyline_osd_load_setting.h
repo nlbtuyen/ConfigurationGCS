@@ -56,7 +56,7 @@ typedef struct __mavlink_vskyline_osd_load_setting_t
 
 
 /**
- * @brief Pack a vskyline_osd_load_setting message
+ *  Pack a vskyline_osd_load_setting message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -136,7 +136,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_pack(uint8_t system
 }
 
 /**
- * @brief Pack a vskyline_osd_load_setting message on a channel
+ *  Pack a vskyline_osd_load_setting message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -217,7 +217,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_pack_chan(uint8_t s
 }
 
 /**
- * @brief Encode a vskyline_osd_load_setting struct
+ *  Encode a vskyline_osd_load_setting struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -230,7 +230,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_encode(uint8_t syst
 }
 
 /**
- * @brief Encode a vskyline_osd_load_setting struct on a channel
+ *  Encode a vskyline_osd_load_setting struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -244,7 +244,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_encode_chan(uint8_t
 }
 
 /**
- * @brief Send a vskyline_osd_load_setting message
+ *  Send a vskyline_osd_load_setting message
  * @param chan MAVLink channel to send the message
  *
  * @param profile_num Profile num OSD.
@@ -392,7 +392,7 @@ static inline void mavlink_msg_vskyline_osd_load_setting_send_buf(mavlink_messag
 
 
 /**
- * @brief Get field profile_num from vskyline_osd_load_setting message
+ *  Get field profile_num from vskyline_osd_load_setting message
  *
  * @return Profile num OSD.
  */
@@ -402,7 +402,7 @@ static inline uint8_t mavlink_msg_vskyline_osd_load_setting_get_profile_num(cons
 }
 
 /**
- * @brief Get field tilt_rate from vskyline_osd_load_setting message
+ *  Get field tilt_rate from vskyline_osd_load_setting message
  *
  * @return Tilt rate parameter.
  */
@@ -412,7 +412,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_tilt_rate(const
 }
 
 /**
- * @brief Get field yaw_rate from vskyline_osd_load_setting message
+ *  Get field yaw_rate from vskyline_osd_load_setting message
  *
  * @return Yaw rate parameter.
  */
@@ -422,7 +422,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_yaw_rate(const 
 }
 
 /**
- * @brief Get field limit_tilt from vskyline_osd_load_setting message
+ *  Get field limit_tilt from vskyline_osd_load_setting message
  *
  * @return Limit tilt.
  */
@@ -432,7 +432,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_limit_tilt(cons
 }
 
 /**
- * @brief Get field link_pitch_roll from vskyline_osd_load_setting message
+ *  Get field link_pitch_roll from vskyline_osd_load_setting message
  *
  * @return Link pitch and roll.
  */
@@ -442,7 +442,7 @@ static inline uint8_t mavlink_msg_vskyline_osd_load_setting_get_link_pitch_roll(
 }
 
 /**
- * @brief Get field p_pitch from vskyline_osd_load_setting message
+ *  Get field p_pitch from vskyline_osd_load_setting message
  *
  * @return P pitch parameter.
  */
@@ -452,7 +452,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_p_pitch(const m
 }
 
 /**
- * @brief Get field i_pitch from vskyline_osd_load_setting message
+ *  Get field i_pitch from vskyline_osd_load_setting message
  *
  * @return I*1000 pitch parameter.
  */
@@ -462,7 +462,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_i_pitch(const m
 }
 
 /**
- * @brief Get field d_pitch from vskyline_osd_load_setting message
+ *  Get field d_pitch from vskyline_osd_load_setting message
  *
  * @return D pitch parameter.
  */
@@ -472,7 +472,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_d_pitch(const m
 }
 
 /**
- * @brief Get field drate_pitch from vskyline_osd_load_setting message
+ *  Get field drate_pitch from vskyline_osd_load_setting message
  *
  * @return DRate pitch parameter.
  */
@@ -482,7 +482,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_drate_pitch(con
 }
 
 /**
- * @brief Get field p_roll from vskyline_osd_load_setting message
+ *  Get field p_roll from vskyline_osd_load_setting message
  *
  * @return P roll parameter.
  */
@@ -492,7 +492,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_p_roll(const ma
 }
 
 /**
- * @brief Get field i_roll from vskyline_osd_load_setting message
+ *  Get field i_roll from vskyline_osd_load_setting message
  *
  * @return I*1000 roll parameter.
  */
@@ -502,7 +502,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_i_roll(const ma
 }
 
 /**
- * @brief Get field d_roll from vskyline_osd_load_setting message
+ *  Get field d_roll from vskyline_osd_load_setting message
  *
  * @return D roll parameter.
  */
@@ -512,7 +512,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_d_roll(const ma
 }
 
 /**
- * @brief Get field drate_roll from vskyline_osd_load_setting message
+ *  Get field drate_roll from vskyline_osd_load_setting message
  *
  * @return Drate roll parameter.
  */
@@ -522,7 +522,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_drate_roll(cons
 }
 
 /**
- * @brief Get field p_yaw from vskyline_osd_load_setting message
+ *  Get field p_yaw from vskyline_osd_load_setting message
  *
  * @return P yaw parameter.
  */
@@ -532,7 +532,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_p_yaw(const mav
 }
 
 /**
- * @brief Get field i_yaw from vskyline_osd_load_setting message
+ *  Get field i_yaw from vskyline_osd_load_setting message
  *
  * @return I*1000 yaw parameter.
  */
@@ -542,7 +542,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_i_yaw(const mav
 }
 
 /**
- * @brief Get field d_yaw from vskyline_osd_load_setting message
+ *  Get field d_yaw from vskyline_osd_load_setting message
  *
  * @return D yaw parameter.
  */
@@ -552,7 +552,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_d_yaw(const mav
 }
 
 /**
- * @brief Get field g_yaw from vskyline_osd_load_setting message
+ *  Get field g_yaw from vskyline_osd_load_setting message
  *
  * @return Gain*1000 yaw parameter.
  */
@@ -562,7 +562,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_load_setting_get_g_yaw(const mav
 }
 
 /**
- * @brief Decode a vskyline_osd_load_setting message into a struct
+ *  Decode a vskyline_osd_load_setting message into a struct
  *
  * @param msg The message to decode
  * @param vskyline_osd_load_setting C-struct to decode the message contents into

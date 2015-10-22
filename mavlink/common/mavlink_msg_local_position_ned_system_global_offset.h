@@ -36,7 +36,7 @@ typedef struct __mavlink_local_position_ned_system_global_offset_t
 
 
 /**
- * @brief Pack a local_position_ned_system_global_offset message
+ *  Pack a local_position_ned_system_global_offset message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -86,7 +86,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack(
 }
 
 /**
- * @brief Pack a local_position_ned_system_global_offset message on a channel
+ *  Pack a local_position_ned_system_global_offset message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -137,7 +137,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack_
 }
 
 /**
- * @brief Encode a local_position_ned_system_global_offset struct
+ *  Encode a local_position_ned_system_global_offset struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -150,7 +150,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_encod
 }
 
 /**
- * @brief Encode a local_position_ned_system_global_offset struct on a channel
+ *  Encode a local_position_ned_system_global_offset struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -164,7 +164,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_encod
 }
 
 /**
- * @brief Send a local_position_ned_system_global_offset message
+ *  Send a local_position_ned_system_global_offset message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -262,7 +262,7 @@ static inline void mavlink_msg_local_position_ned_system_global_offset_send_buf(
 
 
 /**
- * @brief Get field time_boot_ms from local_position_ned_system_global_offset message
+ *  Get field time_boot_ms from local_position_ned_system_global_offset message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -272,7 +272,7 @@ static inline uint32_t mavlink_msg_local_position_ned_system_global_offset_get_t
 }
 
 /**
- * @brief Get field x from local_position_ned_system_global_offset message
+ *  Get field x from local_position_ned_system_global_offset message
  *
  * @return X Position
  */
@@ -282,7 +282,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_x(co
 }
 
 /**
- * @brief Get field y from local_position_ned_system_global_offset message
+ *  Get field y from local_position_ned_system_global_offset message
  *
  * @return Y Position
  */
@@ -292,7 +292,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_y(co
 }
 
 /**
- * @brief Get field z from local_position_ned_system_global_offset message
+ *  Get field z from local_position_ned_system_global_offset message
  *
  * @return Z Position
  */
@@ -302,7 +302,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_z(co
 }
 
 /**
- * @brief Get field roll from local_position_ned_system_global_offset message
+ *  Get field roll from local_position_ned_system_global_offset message
  *
  * @return Roll
  */
@@ -312,7 +312,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_roll
 }
 
 /**
- * @brief Get field pitch from local_position_ned_system_global_offset message
+ *  Get field pitch from local_position_ned_system_global_offset message
  *
  * @return Pitch
  */
@@ -322,7 +322,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_pitc
 }
 
 /**
- * @brief Get field yaw from local_position_ned_system_global_offset message
+ *  Get field yaw from local_position_ned_system_global_offset message
  *
  * @return Yaw
  */
@@ -332,7 +332,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_yaw(
 }
 
 /**
- * @brief Decode a local_position_ned_system_global_offset message into a struct
+ *  Decode a local_position_ned_system_global_offset message into a struct
  *
  * @param msg The message to decode
  * @param local_position_ned_system_global_offset C-struct to decode the message contents into

@@ -34,7 +34,7 @@ typedef struct __mavlink_serial_control_t
 
 
 /**
- * @brief Pack a serial_control message
+ *  Pack a serial_control message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -79,7 +79,7 @@ static inline uint16_t mavlink_msg_serial_control_pack(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Pack a serial_control message on a channel
+ *  Pack a serial_control message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -125,7 +125,7 @@ static inline uint16_t mavlink_msg_serial_control_pack_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Encode a serial_control struct
+ *  Encode a serial_control struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -138,7 +138,7 @@ static inline uint16_t mavlink_msg_serial_control_encode(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a serial_control struct on a channel
+ *  Encode a serial_control struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -152,7 +152,7 @@ static inline uint16_t mavlink_msg_serial_control_encode_chan(uint8_t system_id,
 }
 
 /**
- * @brief Send a serial_control message
+ *  Send a serial_control message
  * @param chan MAVLink channel to send the message
  *
  * @param device See SERIAL_CONTROL_DEV enum
@@ -241,7 +241,7 @@ static inline void mavlink_msg_serial_control_send_buf(mavlink_message_t *msgbuf
 
 
 /**
- * @brief Get field device from serial_control message
+ *  Get field device from serial_control message
  *
  * @return See SERIAL_CONTROL_DEV enum
  */
@@ -251,7 +251,7 @@ static inline uint8_t mavlink_msg_serial_control_get_device(const mavlink_messag
 }
 
 /**
- * @brief Get field flags from serial_control message
+ *  Get field flags from serial_control message
  *
  * @return See SERIAL_CONTROL_FLAG enum
  */
@@ -261,7 +261,7 @@ static inline uint8_t mavlink_msg_serial_control_get_flags(const mavlink_message
 }
 
 /**
- * @brief Get field timeout from serial_control message
+ *  Get field timeout from serial_control message
  *
  * @return Timeout for reply data in milliseconds
  */
@@ -271,7 +271,7 @@ static inline uint16_t mavlink_msg_serial_control_get_timeout(const mavlink_mess
 }
 
 /**
- * @brief Get field baudrate from serial_control message
+ *  Get field baudrate from serial_control message
  *
  * @return Baudrate of transfer. Zero means no change.
  */
@@ -281,7 +281,7 @@ static inline uint32_t mavlink_msg_serial_control_get_baudrate(const mavlink_mes
 }
 
 /**
- * @brief Get field count from serial_control message
+ *  Get field count from serial_control message
  *
  * @return how many bytes in this transfer
  */
@@ -291,7 +291,7 @@ static inline uint8_t mavlink_msg_serial_control_get_count(const mavlink_message
 }
 
 /**
- * @brief Get field data from serial_control message
+ *  Get field data from serial_control message
  *
  * @return serial data
  */
@@ -301,7 +301,7 @@ static inline uint16_t mavlink_msg_serial_control_get_data(const mavlink_message
 }
 
 /**
- * @brief Decode a serial_control message into a struct
+ *  Decode a serial_control message into a struct
  *
  * @param msg The message to decode
  * @param serial_control C-struct to decode the message contents into

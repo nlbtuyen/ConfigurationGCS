@@ -36,7 +36,7 @@ typedef struct __mavlink_attitude_target_t
 
 
 /**
- * @brief Pack a attitude_target message
+ *  Pack a attitude_target message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -84,7 +84,7 @@ static inline uint16_t mavlink_msg_attitude_target_pack(uint8_t system_id, uint8
 }
 
 /**
- * @brief Pack a attitude_target message on a channel
+ *  Pack a attitude_target message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -133,7 +133,7 @@ static inline uint16_t mavlink_msg_attitude_target_pack_chan(uint8_t system_id, 
 }
 
 /**
- * @brief Encode a attitude_target struct
+ *  Encode a attitude_target struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -146,7 +146,7 @@ static inline uint16_t mavlink_msg_attitude_target_encode(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a attitude_target struct on a channel
+ *  Encode a attitude_target struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -160,7 +160,7 @@ static inline uint16_t mavlink_msg_attitude_target_encode_chan(uint8_t system_id
 }
 
 /**
- * @brief Send a attitude_target message
+ *  Send a attitude_target message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp in milliseconds since system boot
@@ -254,7 +254,7 @@ static inline void mavlink_msg_attitude_target_send_buf(mavlink_message_t *msgbu
 
 
 /**
- * @brief Get field time_boot_ms from attitude_target message
+ *  Get field time_boot_ms from attitude_target message
  *
  * @return Timestamp in milliseconds since system boot
  */
@@ -264,7 +264,7 @@ static inline uint32_t mavlink_msg_attitude_target_get_time_boot_ms(const mavlin
 }
 
 /**
- * @brief Get field type_mask from attitude_target message
+ *  Get field type_mask from attitude_target message
  *
  * @return Mappings: If any of these bits are set, the corresponding input should be ignored: bit 1: body roll rate, bit 2: body pitch rate, bit 3: body yaw rate. bit 4-bit 7: reserved, bit 8: attitude
  */
@@ -274,7 +274,7 @@ static inline uint8_t mavlink_msg_attitude_target_get_type_mask(const mavlink_me
 }
 
 /**
- * @brief Get field q from attitude_target message
+ *  Get field q from attitude_target message
  *
  * @return Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
  */
@@ -284,7 +284,7 @@ static inline uint16_t mavlink_msg_attitude_target_get_q(const mavlink_message_t
 }
 
 /**
- * @brief Get field body_roll_rate from attitude_target message
+ *  Get field body_roll_rate from attitude_target message
  *
  * @return Body roll rate in radians per second
  */
@@ -294,7 +294,7 @@ static inline float mavlink_msg_attitude_target_get_body_roll_rate(const mavlink
 }
 
 /**
- * @brief Get field body_pitch_rate from attitude_target message
+ *  Get field body_pitch_rate from attitude_target message
  *
  * @return Body roll rate in radians per second
  */
@@ -304,7 +304,7 @@ static inline float mavlink_msg_attitude_target_get_body_pitch_rate(const mavlin
 }
 
 /**
- * @brief Get field body_yaw_rate from attitude_target message
+ *  Get field body_yaw_rate from attitude_target message
  *
  * @return Body roll rate in radians per second
  */
@@ -314,7 +314,7 @@ static inline float mavlink_msg_attitude_target_get_body_yaw_rate(const mavlink_
 }
 
 /**
- * @brief Get field thrust from attitude_target message
+ *  Get field thrust from attitude_target message
  *
  * @return Collective thrust, normalized to 0 .. 1 (-1 .. 1 for vehicles capable of reverse trust)
  */
@@ -324,7 +324,7 @@ static inline float mavlink_msg_attitude_target_get_thrust(const mavlink_message
 }
 
 /**
- * @brief Decode a attitude_target message into a struct
+ *  Decode a attitude_target message into a struct
  *
  * @param msg The message to decode
  * @param attitude_target C-struct to decode the message contents into

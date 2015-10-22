@@ -44,7 +44,7 @@ MAVLINK_HELPER mavlink_message_t* mavlink_get_channel_buffer(uint8_t chan)
 #endif
 
 /**
- * @brief Reset the status of a channel.
+ *  Reset the status of a channel.
  */
 MAVLINK_HELPER void mavlink_reset_channel_status(uint8_t chan)
 {
@@ -53,7 +53,7 @@ MAVLINK_HELPER void mavlink_reset_channel_status(uint8_t chan)
 }
 
 /**
- * @brief Finalize a MAVLink message with channel assignment
+ *  Finalize a MAVLink message with channel assignment
  *
  * This function calculates the checksum and sets length and aircraft id correctly.
  * It assumes that the message id and the payload are already correctly set. This function
@@ -93,7 +93,7 @@ MAVLINK_HELPER uint16_t mavlink_finalize_message_chan(mavlink_message_t* msg, ui
 
 
 /**
- * @brief Finalize a MAVLink message with MAVLINK_COMM_0 as default channel
+ *  Finalize a MAVLink message with MAVLINK_COMM_0 as default channel
  */
 #if MAVLINK_CRC_EXTRA
 MAVLINK_HELPER uint16_t mavlink_finalize_message(mavlink_message_t* msg, uint8_t system_id, uint8_t component_id, 
@@ -113,7 +113,7 @@ MAVLINK_HELPER uint16_t mavlink_finalize_message(mavlink_message_t* msg, uint8_t
 MAVLINK_HELPER void _mavlink_send_uart(mavlink_channel_t chan, const char *buf, uint16_t len);
 
 /**
- * @brief Finalize a MAVLink message with channel assignment and send
+ *  Finalize a MAVLink message with channel assignment and send
  */
 #if MAVLINK_CRC_EXTRA
 MAVLINK_HELPER void _mav_finalize_message_chan_send(mavlink_channel_t chan, uint8_t msgid, const char *packet, 
@@ -149,7 +149,7 @@ MAVLINK_HELPER void _mav_finalize_message_chan_send(mavlink_channel_t chan, uint
 }
 
 /**
- * @brief re-send a message over a uart channel
+ *  re-send a message over a uart channel
  * this is more stack efficient than re-marshalling the message
  */
 MAVLINK_HELPER void _mavlink_resend_uart(mavlink_channel_t chan, const mavlink_message_t *msg)
@@ -169,7 +169,7 @@ MAVLINK_HELPER void _mavlink_resend_uart(mavlink_channel_t chan, const mavlink_m
 #endif // MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
 /**
- * @brief Pack a message to send it over a serial byte stream
+ *  Pack a message to send it over a serial byte stream
  */
 MAVLINK_HELPER uint16_t mavlink_msg_to_send_buffer(uint8_t *buffer, const mavlink_message_t *msg)
 {
@@ -437,7 +437,7 @@ MAVLINK_HELPER uint8_t mavlink_parse_char(uint8_t chan, uint8_t c, mavlink_messa
 }
 
 /**
- * @brief Put a bitfield of length 1-32 bit into the buffer
+ *  Put a bitfield of length 1-32 bit into the buffer
  *
  * @param b the value to add, will be encoded in the bitfield
  * @param bits number of bits to use to encode b, e.g. 1 for boolean, 2, 3, etc.

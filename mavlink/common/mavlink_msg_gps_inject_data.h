@@ -30,7 +30,7 @@ typedef struct __mavlink_gps_inject_data_t
 
 
 /**
- * @brief Pack a gps_inject_data message
+ *  Pack a gps_inject_data message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -69,7 +69,7 @@ static inline uint16_t mavlink_msg_gps_inject_data_pack(uint8_t system_id, uint8
 }
 
 /**
- * @brief Pack a gps_inject_data message on a channel
+ *  Pack a gps_inject_data message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -109,7 +109,7 @@ static inline uint16_t mavlink_msg_gps_inject_data_pack_chan(uint8_t system_id, 
 }
 
 /**
- * @brief Encode a gps_inject_data struct
+ *  Encode a gps_inject_data struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -122,7 +122,7 @@ static inline uint16_t mavlink_msg_gps_inject_data_encode(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a gps_inject_data struct on a channel
+ *  Encode a gps_inject_data struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -136,7 +136,7 @@ static inline uint16_t mavlink_msg_gps_inject_data_encode_chan(uint8_t system_id
 }
 
 /**
- * @brief Send a gps_inject_data message
+ *  Send a gps_inject_data message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -215,7 +215,7 @@ static inline void mavlink_msg_gps_inject_data_send_buf(mavlink_message_t *msgbu
 
 
 /**
- * @brief Get field target_system from gps_inject_data message
+ *  Get field target_system from gps_inject_data message
  *
  * @return System ID
  */
@@ -225,7 +225,7 @@ static inline uint8_t mavlink_msg_gps_inject_data_get_target_system(const mavlin
 }
 
 /**
- * @brief Get field target_component from gps_inject_data message
+ *  Get field target_component from gps_inject_data message
  *
  * @return Component ID
  */
@@ -235,7 +235,7 @@ static inline uint8_t mavlink_msg_gps_inject_data_get_target_component(const mav
 }
 
 /**
- * @brief Get field len from gps_inject_data message
+ *  Get field len from gps_inject_data message
  *
  * @return data length
  */
@@ -245,7 +245,7 @@ static inline uint8_t mavlink_msg_gps_inject_data_get_len(const mavlink_message_
 }
 
 /**
- * @brief Get field data from gps_inject_data message
+ *  Get field data from gps_inject_data message
  *
  * @return raw data (110 is enough for 12 satellites of RTCMv2)
  */
@@ -255,7 +255,7 @@ static inline uint16_t mavlink_msg_gps_inject_data_get_data(const mavlink_messag
 }
 
 /**
- * @brief Decode a gps_inject_data message into a struct
+ *  Decode a gps_inject_data message into a struct
  *
  * @param msg The message to decode
  * @param gps_inject_data C-struct to decode the message contents into

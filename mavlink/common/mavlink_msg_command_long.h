@@ -44,7 +44,7 @@ typedef struct __mavlink_command_long_t
 
 
 /**
- * @brief Pack a command_long message
+ *  Pack a command_long message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -106,7 +106,7 @@ static inline uint16_t mavlink_msg_command_long_pack(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Pack a command_long message on a channel
+ *  Pack a command_long message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -169,7 +169,7 @@ static inline uint16_t mavlink_msg_command_long_pack_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a command_long struct
+ *  Encode a command_long struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -182,7 +182,7 @@ static inline uint16_t mavlink_msg_command_long_encode(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a command_long struct on a channel
+ *  Encode a command_long struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -196,7 +196,7 @@ static inline uint16_t mavlink_msg_command_long_encode_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Send a command_long message
+ *  Send a command_long message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System which should execute the command
@@ -314,7 +314,7 @@ static inline void mavlink_msg_command_long_send_buf(mavlink_message_t *msgbuf, 
 
 
 /**
- * @brief Get field target_system from command_long message
+ *  Get field target_system from command_long message
  *
  * @return System which should execute the command
  */
@@ -324,7 +324,7 @@ static inline uint8_t mavlink_msg_command_long_get_target_system(const mavlink_m
 }
 
 /**
- * @brief Get field target_component from command_long message
+ *  Get field target_component from command_long message
  *
  * @return Component which should execute the command, 0 for all components
  */
@@ -334,7 +334,7 @@ static inline uint8_t mavlink_msg_command_long_get_target_component(const mavlin
 }
 
 /**
- * @brief Get field command from command_long message
+ *  Get field command from command_long message
  *
  * @return Command ID, as defined by MAV_CMD enum.
  */
@@ -344,7 +344,7 @@ static inline uint16_t mavlink_msg_command_long_get_command(const mavlink_messag
 }
 
 /**
- * @brief Get field confirmation from command_long message
+ *  Get field confirmation from command_long message
  *
  * @return 0: First transmission of this command. 1-255: Confirmation transmissions (e.g. for kill command)
  */
@@ -354,7 +354,7 @@ static inline uint8_t mavlink_msg_command_long_get_confirmation(const mavlink_me
 }
 
 /**
- * @brief Get field param1 from command_long message
+ *  Get field param1 from command_long message
  *
  * @return Parameter 1, as defined by MAV_CMD enum.
  */
@@ -364,7 +364,7 @@ static inline float mavlink_msg_command_long_get_param1(const mavlink_message_t*
 }
 
 /**
- * @brief Get field param2 from command_long message
+ *  Get field param2 from command_long message
  *
  * @return Parameter 2, as defined by MAV_CMD enum.
  */
@@ -374,7 +374,7 @@ static inline float mavlink_msg_command_long_get_param2(const mavlink_message_t*
 }
 
 /**
- * @brief Get field param3 from command_long message
+ *  Get field param3 from command_long message
  *
  * @return Parameter 3, as defined by MAV_CMD enum.
  */
@@ -384,7 +384,7 @@ static inline float mavlink_msg_command_long_get_param3(const mavlink_message_t*
 }
 
 /**
- * @brief Get field param4 from command_long message
+ *  Get field param4 from command_long message
  *
  * @return Parameter 4, as defined by MAV_CMD enum.
  */
@@ -394,7 +394,7 @@ static inline float mavlink_msg_command_long_get_param4(const mavlink_message_t*
 }
 
 /**
- * @brief Get field param5 from command_long message
+ *  Get field param5 from command_long message
  *
  * @return Parameter 5, as defined by MAV_CMD enum.
  */
@@ -404,7 +404,7 @@ static inline float mavlink_msg_command_long_get_param5(const mavlink_message_t*
 }
 
 /**
- * @brief Get field param6 from command_long message
+ *  Get field param6 from command_long message
  *
  * @return Parameter 6, as defined by MAV_CMD enum.
  */
@@ -414,7 +414,7 @@ static inline float mavlink_msg_command_long_get_param6(const mavlink_message_t*
 }
 
 /**
- * @brief Get field param7 from command_long message
+ *  Get field param7 from command_long message
  *
  * @return Parameter 7, as defined by MAV_CMD enum.
  */
@@ -424,7 +424,7 @@ static inline float mavlink_msg_command_long_get_param7(const mavlink_message_t*
 }
 
 /**
- * @brief Decode a command_long message into a struct
+ *  Decode a command_long message into a struct
  *
  * @param msg The message to decode
  * @param command_long C-struct to decode the message contents into

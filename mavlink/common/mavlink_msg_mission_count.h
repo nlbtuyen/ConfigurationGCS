@@ -28,7 +28,7 @@ typedef struct __mavlink_mission_count_t
 
 
 /**
- * @brief Pack a mission_count message
+ *  Pack a mission_count message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -66,7 +66,7 @@ static inline uint16_t mavlink_msg_mission_count_pack(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Pack a mission_count message on a channel
+ *  Pack a mission_count message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -105,7 +105,7 @@ static inline uint16_t mavlink_msg_mission_count_pack_chan(uint8_t system_id, ui
 }
 
 /**
- * @brief Encode a mission_count struct
+ *  Encode a mission_count struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -118,7 +118,7 @@ static inline uint16_t mavlink_msg_mission_count_encode(uint8_t system_id, uint8
 }
 
 /**
- * @brief Encode a mission_count struct on a channel
+ *  Encode a mission_count struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -132,7 +132,7 @@ static inline uint16_t mavlink_msg_mission_count_encode_chan(uint8_t system_id, 
 }
 
 /**
- * @brief Send a mission_count message
+ *  Send a mission_count message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -210,7 +210,7 @@ static inline void mavlink_msg_mission_count_send_buf(mavlink_message_t *msgbuf,
 
 
 /**
- * @brief Get field target_system from mission_count message
+ *  Get field target_system from mission_count message
  *
  * @return System ID
  */
@@ -220,7 +220,7 @@ static inline uint8_t mavlink_msg_mission_count_get_target_system(const mavlink_
 }
 
 /**
- * @brief Get field target_component from mission_count message
+ *  Get field target_component from mission_count message
  *
  * @return Component ID
  */
@@ -230,7 +230,7 @@ static inline uint8_t mavlink_msg_mission_count_get_target_component(const mavli
 }
 
 /**
- * @brief Get field count from mission_count message
+ *  Get field count from mission_count message
  *
  * @return Number of mission items in the sequence
  */
@@ -240,7 +240,7 @@ static inline uint16_t mavlink_msg_mission_count_get_count(const mavlink_message
 }
 
 /**
- * @brief Decode a mission_count message into a struct
+ *  Decode a mission_count message into a struct
  *
  * @param msg The message to decode
  * @param mission_count C-struct to decode the message contents into

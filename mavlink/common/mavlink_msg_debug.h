@@ -28,7 +28,7 @@ typedef struct __mavlink_debug_t
 
 
 /**
- * @brief Pack a debug message
+ *  Pack a debug message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -66,7 +66,7 @@ static inline uint16_t mavlink_msg_debug_pack(uint8_t system_id, uint8_t compone
 }
 
 /**
- * @brief Pack a debug message on a channel
+ *  Pack a debug message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -105,7 +105,7 @@ static inline uint16_t mavlink_msg_debug_pack_chan(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Encode a debug struct
+ *  Encode a debug struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -118,7 +118,7 @@ static inline uint16_t mavlink_msg_debug_encode(uint8_t system_id, uint8_t compo
 }
 
 /**
- * @brief Encode a debug struct on a channel
+ *  Encode a debug struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -132,7 +132,7 @@ static inline uint16_t mavlink_msg_debug_encode_chan(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Send a debug message
+ *  Send a debug message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -210,7 +210,7 @@ static inline void mavlink_msg_debug_send_buf(mavlink_message_t *msgbuf, mavlink
 
 
 /**
- * @brief Get field time_boot_ms from debug message
+ *  Get field time_boot_ms from debug message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -220,7 +220,7 @@ static inline uint32_t mavlink_msg_debug_get_time_boot_ms(const mavlink_message_
 }
 
 /**
- * @brief Get field ind from debug message
+ *  Get field ind from debug message
  *
  * @return index of debug variable
  */
@@ -230,7 +230,7 @@ static inline uint8_t mavlink_msg_debug_get_ind(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field value from debug message
+ *  Get field value from debug message
  *
  * @return DEBUG value
  */
@@ -240,7 +240,7 @@ static inline float mavlink_msg_debug_get_value(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Decode a debug message into a struct
+ *  Decode a debug message into a struct
  *
  * @param msg The message to decode
  * @param debug C-struct to decode the message contents into

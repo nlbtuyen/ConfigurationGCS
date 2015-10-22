@@ -48,7 +48,7 @@ typedef struct __mavlink_hil_gps_t
 
 
 /**
- * @brief Pack a hil_gps message
+ *  Pack a hil_gps message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -116,7 +116,7 @@ static inline uint16_t mavlink_msg_hil_gps_pack(uint8_t system_id, uint8_t compo
 }
 
 /**
- * @brief Pack a hil_gps message on a channel
+ *  Pack a hil_gps message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -185,7 +185,7 @@ static inline uint16_t mavlink_msg_hil_gps_pack_chan(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Encode a hil_gps struct
+ *  Encode a hil_gps struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -198,7 +198,7 @@ static inline uint16_t mavlink_msg_hil_gps_encode(uint8_t system_id, uint8_t com
 }
 
 /**
- * @brief Encode a hil_gps struct on a channel
+ *  Encode a hil_gps struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -212,7 +212,7 @@ static inline uint16_t mavlink_msg_hil_gps_encode_chan(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Send a hil_gps message
+ *  Send a hil_gps message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
@@ -340,7 +340,7 @@ static inline void mavlink_msg_hil_gps_send_buf(mavlink_message_t *msgbuf, mavli
 
 
 /**
- * @brief Get field time_usec from hil_gps message
+ *  Get field time_usec from hil_gps message
  *
  * @return Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  */
@@ -350,7 +350,7 @@ static inline uint64_t mavlink_msg_hil_gps_get_time_usec(const mavlink_message_t
 }
 
 /**
- * @brief Get field fix_type from hil_gps message
+ *  Get field fix_type from hil_gps message
  *
  * @return 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.
  */
@@ -360,7 +360,7 @@ static inline uint8_t mavlink_msg_hil_gps_get_fix_type(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field lat from hil_gps message
+ *  Get field lat from hil_gps message
  *
  * @return Latitude (WGS84), in degrees * 1E7
  */
@@ -370,7 +370,7 @@ static inline int32_t mavlink_msg_hil_gps_get_lat(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field lon from hil_gps message
+ *  Get field lon from hil_gps message
  *
  * @return Longitude (WGS84), in degrees * 1E7
  */
@@ -380,7 +380,7 @@ static inline int32_t mavlink_msg_hil_gps_get_lon(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field alt from hil_gps message
+ *  Get field alt from hil_gps message
  *
  * @return Altitude (AMSL, not WGS84), in meters * 1000 (positive for up)
  */
@@ -390,7 +390,7 @@ static inline int32_t mavlink_msg_hil_gps_get_alt(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field eph from hil_gps message
+ *  Get field eph from hil_gps message
  *
  * @return GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535
  */
@@ -400,7 +400,7 @@ static inline uint16_t mavlink_msg_hil_gps_get_eph(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field epv from hil_gps message
+ *  Get field epv from hil_gps message
  *
  * @return GPS VDOP vertical dilution of position in cm (m*100). If unknown, set to: 65535
  */
@@ -410,7 +410,7 @@ static inline uint16_t mavlink_msg_hil_gps_get_epv(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field vel from hil_gps message
+ *  Get field vel from hil_gps message
  *
  * @return GPS ground speed (m/s * 100). If unknown, set to: 65535
  */
@@ -420,7 +420,7 @@ static inline uint16_t mavlink_msg_hil_gps_get_vel(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field vn from hil_gps message
+ *  Get field vn from hil_gps message
  *
  * @return GPS velocity in cm/s in NORTH direction in earth-fixed NED frame
  */
@@ -430,7 +430,7 @@ static inline int16_t mavlink_msg_hil_gps_get_vn(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field ve from hil_gps message
+ *  Get field ve from hil_gps message
  *
  * @return GPS velocity in cm/s in EAST direction in earth-fixed NED frame
  */
@@ -440,7 +440,7 @@ static inline int16_t mavlink_msg_hil_gps_get_ve(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field vd from hil_gps message
+ *  Get field vd from hil_gps message
  *
  * @return GPS velocity in cm/s in DOWN direction in earth-fixed NED frame
  */
@@ -450,7 +450,7 @@ static inline int16_t mavlink_msg_hil_gps_get_vd(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field cog from hil_gps message
+ *  Get field cog from hil_gps message
  *
  * @return Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: 65535
  */
@@ -460,7 +460,7 @@ static inline uint16_t mavlink_msg_hil_gps_get_cog(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field satellites_visible from hil_gps message
+ *  Get field satellites_visible from hil_gps message
  *
  * @return Number of satellites visible. If unknown, set to 255
  */
@@ -470,7 +470,7 @@ static inline uint8_t mavlink_msg_hil_gps_get_satellites_visible(const mavlink_m
 }
 
 /**
- * @brief Decode a hil_gps message into a struct
+ *  Decode a hil_gps message into a struct
  *
  * @param msg The message to decode
  * @param hil_gps C-struct to decode the message contents into

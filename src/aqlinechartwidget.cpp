@@ -318,7 +318,7 @@ void AQLinechartWidget::setActive(bool active)
 }
 
 /**
- * @brief Set the position of the plot window. The plot covers only a portion of the complete time series.
+ *  Set the position of the plot window. The plot covers only a portion of the complete time series.
  * The scrollbar allows to select a window of the time series.
  * The right edge of the window is defined proportional to the position of the scrollbar.
  **/
@@ -350,7 +350,7 @@ void AQLinechartWidget::setPlotWindowPosition(int scrollBarValue)
 }
 
 /**
- * @brief Receive an updated plot window position.
+ *  Receive an updated plot window position.
  * The plot window can be changed by the arrival of new data or by other user interaction.
  * The scrollbar and other UI components can be notified by calling this method.
  *
@@ -395,7 +395,7 @@ void AQLinechartWidget::setCurveVisible(QString curve, bool visible){
 }
 
 /**
- * @brief Take the click of a curve activation / deactivation button.
+ *  Take the click of a curve activation / deactivation button.
  * This method allows to map a button to a plot curve.
  * The text of the button must equal the curve name to activate / deactivate.
  *
@@ -424,7 +424,7 @@ void AQLinechartWidget::takeButtonClick(bool checked)
 }
 
 /**
- * @brief Factory method to create a new button.
+ *  Factory method to create a new button.
  *
  * @param imagename The name of the image (should be placed at the standard icon location)
  * @param text The button text

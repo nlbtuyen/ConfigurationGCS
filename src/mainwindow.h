@@ -22,26 +22,15 @@
 #include "commconfigurationwindow.h"
 #include "compasswidget.h"
 #include "hudwidget.h"
+#include "uavconfig.h"
 
 
 namespace Ui {
 class MainWindow;
 }
-class Drone;
-class Window;
-class GLWidget;
+
 class ToolBar;
-class MAVLinkProtocol;
-class MAVLinkDecoder;
-class UAVConfig;
-class UASInterface;
-class SerialLink;
-class MAVLinkMessageSender;
-class ParameterInterface;
-class UASInfoWidget;
-class CommConfigurationWindow;
-class HUDWidget;
-class CompassWidget;
+
 
 class MainWindow : public QMainWindow
 {
@@ -51,23 +40,22 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    ///   Returns the MainWindow singleton. Will not create the MainWindow if it has not already
-    ///         been created.
+    //   Returns the MainWindow singleton. Will not create the MainWindow if it has not already been created.
     static MainWindow* instance(void);
 
     MAVLinkProtocol* getMAVLink()
     {
         return mavlink;
     }
-    QList<QAction*> listLinkMenuActions(void);
 
+    QList<QAction*> listLinkMenuActions(void);
     QAction *getActionByLink(LinkInterface *link);
 
 
 protected:
     bool connectFlag;
     QMutex dataMutex;
-    int lastIndex[256][256];	///< Store the last received sequence ID for each system/componenet pair
+    int lastIndex[256][256];	// Store the last received sequence ID for each system/componenet pair
     int totalReceiveCounter;
     int totalLossCounter;
     int currReceiveCounter;
@@ -97,13 +85,11 @@ protected:
     QPointer<QDockWidget> headDown1DockWidget;
     QPointer<QDockWidget> infoDockWidget;
     QPointer<QDockWidget> parametersDockWidget;
-    //QPointer<QDockWidget> headingWidget;
     QPointer<MAVLinkDecoder> mavlinkDecoder;
     QPointer<ToolBar> toolBar;
 
     void addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea location=Qt::RightDockWidgetArea);
-    void connectCommonWidgets();
-    void connectCommonActions();
+    void connectCommonActionsWidgets();
     void initActionsConnections();
 
     bool autoReconnect;
@@ -122,46 +108,36 @@ signals:
 
 
 public slots:
-//    virtual void readData();
     void showTool(bool visible);
 
-    /**   Add a communication link */
+    // Add a communication link
     void addLink();
     void addLink(LinkInterface* link);
     void addLinkImmediately();
-
-    /**   Shows an info or warning message */
-    void showMessage(const QString &title, const QString &message, const QString &details, const QString severity = "info");
-    /**   Shows a critical message as popup or as widget */
-    void showCriticalMessage(const QString& title, const QString& message);
-
-    /**   Set the system state */
-    void updateState(UASInterface* system, QString name, QString description);
-
-    /**   Add a new UAS */
-    void UASCreated(UASInterface* uas);
-    /**   Set the system that is currently displayed by this widget */
-    void setActiveUAS(UASInterface* active);
-    /**   Update system specs of a UAS */
-    void UASSpecsChanged(int uas);
-    /** Delete an UAS */
-    void UASDeleted(UASInterface* uas);
-
-
-    /**   Repaint widgets */
-    void updateToolBarView();
-    void updateBattery();
     void closeSerialPort();
 
-    /**   Update connection timeout time */
-    void heartbeatTimeout(bool timeout, unsigned int ms);
-    /**   Update battery charge state */
-    void updateBatteryRemaining(UASInterface* uas, double voltage, double percent, int seconds);
-    /**   Update arming state */
+    // Shows an info or warning message
+    void showMessage(const QString &title, const QString &message, const QString &details, const QString severity = "info");
+    void showCriticalMessage(const QString& title, const QString& message);
+
+    // Set the system state
+    void updateState(UASInterface* system, QString name, QString description);
+    void updateBattery();
+
+    // Control UAS
+    void UASCreated(UASInterface* uas);
+    void setActiveUAS(UASInterface* active);
+    void UASSpecsChanged(int uas);
+    void UASDeleted(UASInterface* uas);
+
+    // Status
+    void heartbeatTimeout(bool timeout, unsigned int ms); // Update connection timeout time
+    void updateBatteryRemaining(UASInterface* uas, double voltage, double percent, int seconds); // Update battery charge state
     void updateArmingState(bool armed);
 
+    // Style
     void loadStyle();
-
+    void updateToolBarView();
     void updateUIButton(int i);
 
 public:

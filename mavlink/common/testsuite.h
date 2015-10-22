@@ -1,5 +1,5 @@
 /** @file
- *	@brief MAVLink comm protocol testsuite generated from common.xml
+ *	 MAVLink comm protocol testsuite generated from common.xml
  *	@see http://qgroundcontrol.org/mavlink/
  */
 #ifndef COMMON_TESTSUITE_H

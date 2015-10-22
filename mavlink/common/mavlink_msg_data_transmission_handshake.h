@@ -36,7 +36,7 @@ typedef struct __mavlink_data_transmission_handshake_t
 
 
 /**
- * @brief Pack a data_transmission_handshake message
+ *  Pack a data_transmission_handshake message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -86,7 +86,7 @@ static inline uint16_t mavlink_msg_data_transmission_handshake_pack(uint8_t syst
 }
 
 /**
- * @brief Pack a data_transmission_handshake message on a channel
+ *  Pack a data_transmission_handshake message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -137,7 +137,7 @@ static inline uint16_t mavlink_msg_data_transmission_handshake_pack_chan(uint8_t
 }
 
 /**
- * @brief Encode a data_transmission_handshake struct
+ *  Encode a data_transmission_handshake struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -150,7 +150,7 @@ static inline uint16_t mavlink_msg_data_transmission_handshake_encode(uint8_t sy
 }
 
 /**
- * @brief Encode a data_transmission_handshake struct on a channel
+ *  Encode a data_transmission_handshake struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -164,7 +164,7 @@ static inline uint16_t mavlink_msg_data_transmission_handshake_encode_chan(uint8
 }
 
 /**
- * @brief Send a data_transmission_handshake message
+ *  Send a data_transmission_handshake message
  * @param chan MAVLink channel to send the message
  *
  * @param type type of requested/acknowledged data (as defined in ENUM DATA_TYPES in mavlink/include/mavlink_types.h)
@@ -262,7 +262,7 @@ static inline void mavlink_msg_data_transmission_handshake_send_buf(mavlink_mess
 
 
 /**
- * @brief Get field type from data_transmission_handshake message
+ *  Get field type from data_transmission_handshake message
  *
  * @return type of requested/acknowledged data (as defined in ENUM DATA_TYPES in mavlink/include/mavlink_types.h)
  */
@@ -272,7 +272,7 @@ static inline uint8_t mavlink_msg_data_transmission_handshake_get_type(const mav
 }
 
 /**
- * @brief Get field size from data_transmission_handshake message
+ *  Get field size from data_transmission_handshake message
  *
  * @return total data size in bytes (set on ACK only)
  */
@@ -282,7 +282,7 @@ static inline uint32_t mavlink_msg_data_transmission_handshake_get_size(const ma
 }
 
 /**
- * @brief Get field width from data_transmission_handshake message
+ *  Get field width from data_transmission_handshake message
  *
  * @return Width of a matrix or image
  */
@@ -292,7 +292,7 @@ static inline uint16_t mavlink_msg_data_transmission_handshake_get_width(const m
 }
 
 /**
- * @brief Get field height from data_transmission_handshake message
+ *  Get field height from data_transmission_handshake message
  *
  * @return Height of a matrix or image
  */
@@ -302,7 +302,7 @@ static inline uint16_t mavlink_msg_data_transmission_handshake_get_height(const 
 }
 
 /**
- * @brief Get field packets from data_transmission_handshake message
+ *  Get field packets from data_transmission_handshake message
  *
  * @return number of packets beeing sent (set on ACK only)
  */
@@ -312,7 +312,7 @@ static inline uint16_t mavlink_msg_data_transmission_handshake_get_packets(const
 }
 
 /**
- * @brief Get field payload from data_transmission_handshake message
+ *  Get field payload from data_transmission_handshake message
  *
  * @return payload size per packet (normally 253 byte, see DATA field size in message ENCAPSULATED_DATA) (set on ACK only)
  */
@@ -322,7 +322,7 @@ static inline uint8_t mavlink_msg_data_transmission_handshake_get_payload(const 
 }
 
 /**
- * @brief Get field jpg_quality from data_transmission_handshake message
+ *  Get field jpg_quality from data_transmission_handshake message
  *
  * @return JPEG quality out of [1,100]
  */
@@ -332,7 +332,7 @@ static inline uint8_t mavlink_msg_data_transmission_handshake_get_jpg_quality(co
 }
 
 /**
- * @brief Decode a data_transmission_handshake message into a struct
+ *  Decode a data_transmission_handshake message into a struct
  *
  * @param msg The message to decode
  * @param data_transmission_handshake C-struct to decode the message contents into

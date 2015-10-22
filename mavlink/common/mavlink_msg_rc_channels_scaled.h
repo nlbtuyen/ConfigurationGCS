@@ -44,7 +44,7 @@ typedef struct __mavlink_rc_channels_scaled_t
 
 
 /**
- * @brief Pack a rc_channels_scaled message
+ *  Pack a rc_channels_scaled message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -106,7 +106,7 @@ static inline uint16_t mavlink_msg_rc_channels_scaled_pack(uint8_t system_id, ui
 }
 
 /**
- * @brief Pack a rc_channels_scaled message on a channel
+ *  Pack a rc_channels_scaled message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -169,7 +169,7 @@ static inline uint16_t mavlink_msg_rc_channels_scaled_pack_chan(uint8_t system_i
 }
 
 /**
- * @brief Encode a rc_channels_scaled struct
+ *  Encode a rc_channels_scaled struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -182,7 +182,7 @@ static inline uint16_t mavlink_msg_rc_channels_scaled_encode(uint8_t system_id, 
 }
 
 /**
- * @brief Encode a rc_channels_scaled struct on a channel
+ *  Encode a rc_channels_scaled struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -196,7 +196,7 @@ static inline uint16_t mavlink_msg_rc_channels_scaled_encode_chan(uint8_t system
 }
 
 /**
- * @brief Send a rc_channels_scaled message
+ *  Send a rc_channels_scaled message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -314,7 +314,7 @@ static inline void mavlink_msg_rc_channels_scaled_send_buf(mavlink_message_t *ms
 
 
 /**
- * @brief Get field time_boot_ms from rc_channels_scaled message
+ *  Get field time_boot_ms from rc_channels_scaled message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -324,7 +324,7 @@ static inline uint32_t mavlink_msg_rc_channels_scaled_get_time_boot_ms(const mav
 }
 
 /**
- * @brief Get field port from rc_channels_scaled message
+ *  Get field port from rc_channels_scaled message
  *
  * @return Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows for more than 8 servos.
  */
@@ -334,7 +334,7 @@ static inline uint8_t mavlink_msg_rc_channels_scaled_get_port(const mavlink_mess
 }
 
 /**
- * @brief Get field chan1_scaled from rc_channels_scaled message
+ *  Get field chan1_scaled from rc_channels_scaled message
  *
  * @return RC channel 1 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX.
  */
@@ -344,7 +344,7 @@ static inline int16_t mavlink_msg_rc_channels_scaled_get_chan1_scaled(const mavl
 }
 
 /**
- * @brief Get field chan2_scaled from rc_channels_scaled message
+ *  Get field chan2_scaled from rc_channels_scaled message
  *
  * @return RC channel 2 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX.
  */
@@ -354,7 +354,7 @@ static inline int16_t mavlink_msg_rc_channels_scaled_get_chan2_scaled(const mavl
 }
 
 /**
- * @brief Get field chan3_scaled from rc_channels_scaled message
+ *  Get field chan3_scaled from rc_channels_scaled message
  *
  * @return RC channel 3 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX.
  */
@@ -364,7 +364,7 @@ static inline int16_t mavlink_msg_rc_channels_scaled_get_chan3_scaled(const mavl
 }
 
 /**
- * @brief Get field chan4_scaled from rc_channels_scaled message
+ *  Get field chan4_scaled from rc_channels_scaled message
  *
  * @return RC channel 4 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX.
  */
@@ -374,7 +374,7 @@ static inline int16_t mavlink_msg_rc_channels_scaled_get_chan4_scaled(const mavl
 }
 
 /**
- * @brief Get field chan5_scaled from rc_channels_scaled message
+ *  Get field chan5_scaled from rc_channels_scaled message
  *
  * @return RC channel 5 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX.
  */
@@ -384,7 +384,7 @@ static inline int16_t mavlink_msg_rc_channels_scaled_get_chan5_scaled(const mavl
 }
 
 /**
- * @brief Get field chan6_scaled from rc_channels_scaled message
+ *  Get field chan6_scaled from rc_channels_scaled message
  *
  * @return RC channel 6 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX.
  */
@@ -394,7 +394,7 @@ static inline int16_t mavlink_msg_rc_channels_scaled_get_chan6_scaled(const mavl
 }
 
 /**
- * @brief Get field chan7_scaled from rc_channels_scaled message
+ *  Get field chan7_scaled from rc_channels_scaled message
  *
  * @return RC channel 7 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX.
  */
@@ -404,7 +404,7 @@ static inline int16_t mavlink_msg_rc_channels_scaled_get_chan7_scaled(const mavl
 }
 
 /**
- * @brief Get field chan8_scaled from rc_channels_scaled message
+ *  Get field chan8_scaled from rc_channels_scaled message
  *
  * @return RC channel 8 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX.
  */
@@ -414,7 +414,7 @@ static inline int16_t mavlink_msg_rc_channels_scaled_get_chan8_scaled(const mavl
 }
 
 /**
- * @brief Get field rssi from rc_channels_scaled message
+ *  Get field rssi from rc_channels_scaled message
  *
  * @return Receive signal strength indicator, 0: 0%, 100: 100%, 255: invalid/unknown.
  */
@@ -424,7 +424,7 @@ static inline uint8_t mavlink_msg_rc_channels_scaled_get_rssi(const mavlink_mess
 }
 
 /**
- * @brief Decode a rc_channels_scaled message into a struct
+ *  Decode a rc_channels_scaled message into a struct
  *
  * @param msg The message to decode
  * @param rc_channels_scaled C-struct to decode the message contents into

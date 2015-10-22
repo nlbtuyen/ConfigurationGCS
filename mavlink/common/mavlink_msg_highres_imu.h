@@ -52,7 +52,7 @@ typedef struct __mavlink_highres_imu_t
 
 
 /**
- * @brief Pack a highres_imu message
+ *  Pack a highres_imu message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -126,7 +126,7 @@ static inline uint16_t mavlink_msg_highres_imu_pack(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Pack a highres_imu message on a channel
+ *  Pack a highres_imu message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -201,7 +201,7 @@ static inline uint16_t mavlink_msg_highres_imu_pack_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a highres_imu struct
+ *  Encode a highres_imu struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -214,7 +214,7 @@ static inline uint16_t mavlink_msg_highres_imu_encode(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a highres_imu struct on a channel
+ *  Encode a highres_imu struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -228,7 +228,7 @@ static inline uint16_t mavlink_msg_highres_imu_encode_chan(uint8_t system_id, ui
 }
 
 /**
- * @brief Send a highres_imu message
+ *  Send a highres_imu message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds, synced to UNIX time or since system boot)
@@ -366,7 +366,7 @@ static inline void mavlink_msg_highres_imu_send_buf(mavlink_message_t *msgbuf, m
 
 
 /**
- * @brief Get field time_usec from highres_imu message
+ *  Get field time_usec from highres_imu message
  *
  * @return Timestamp (microseconds, synced to UNIX time or since system boot)
  */
@@ -376,7 +376,7 @@ static inline uint64_t mavlink_msg_highres_imu_get_time_usec(const mavlink_messa
 }
 
 /**
- * @brief Get field xacc from highres_imu message
+ *  Get field xacc from highres_imu message
  *
  * @return X acceleration (m/s^2)
  */
@@ -386,7 +386,7 @@ static inline float mavlink_msg_highres_imu_get_xacc(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field yacc from highres_imu message
+ *  Get field yacc from highres_imu message
  *
  * @return Y acceleration (m/s^2)
  */
@@ -396,7 +396,7 @@ static inline float mavlink_msg_highres_imu_get_yacc(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field zacc from highres_imu message
+ *  Get field zacc from highres_imu message
  *
  * @return Z acceleration (m/s^2)
  */
@@ -406,7 +406,7 @@ static inline float mavlink_msg_highres_imu_get_zacc(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field xgyro from highres_imu message
+ *  Get field xgyro from highres_imu message
  *
  * @return Angular speed around X axis (rad / sec)
  */
@@ -416,7 +416,7 @@ static inline float mavlink_msg_highres_imu_get_xgyro(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field ygyro from highres_imu message
+ *  Get field ygyro from highres_imu message
  *
  * @return Angular speed around Y axis (rad / sec)
  */
@@ -426,7 +426,7 @@ static inline float mavlink_msg_highres_imu_get_ygyro(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field zgyro from highres_imu message
+ *  Get field zgyro from highres_imu message
  *
  * @return Angular speed around Z axis (rad / sec)
  */
@@ -436,7 +436,7 @@ static inline float mavlink_msg_highres_imu_get_zgyro(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field xmag from highres_imu message
+ *  Get field xmag from highres_imu message
  *
  * @return X Magnetic field (Gauss)
  */
@@ -446,7 +446,7 @@ static inline float mavlink_msg_highres_imu_get_xmag(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field ymag from highres_imu message
+ *  Get field ymag from highres_imu message
  *
  * @return Y Magnetic field (Gauss)
  */
@@ -456,7 +456,7 @@ static inline float mavlink_msg_highres_imu_get_ymag(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field zmag from highres_imu message
+ *  Get field zmag from highres_imu message
  *
  * @return Z Magnetic field (Gauss)
  */
@@ -466,7 +466,7 @@ static inline float mavlink_msg_highres_imu_get_zmag(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field abs_pressure from highres_imu message
+ *  Get field abs_pressure from highres_imu message
  *
  * @return Absolute pressure in millibar
  */
@@ -476,7 +476,7 @@ static inline float mavlink_msg_highres_imu_get_abs_pressure(const mavlink_messa
 }
 
 /**
- * @brief Get field diff_pressure from highres_imu message
+ *  Get field diff_pressure from highres_imu message
  *
  * @return Differential pressure in millibar
  */
@@ -486,7 +486,7 @@ static inline float mavlink_msg_highres_imu_get_diff_pressure(const mavlink_mess
 }
 
 /**
- * @brief Get field pressure_alt from highres_imu message
+ *  Get field pressure_alt from highres_imu message
  *
  * @return Altitude calculated from pressure
  */
@@ -496,7 +496,7 @@ static inline float mavlink_msg_highres_imu_get_pressure_alt(const mavlink_messa
 }
 
 /**
- * @brief Get field temperature from highres_imu message
+ *  Get field temperature from highres_imu message
  *
  * @return Temperature in degrees celsius
  */
@@ -506,7 +506,7 @@ static inline float mavlink_msg_highres_imu_get_temperature(const mavlink_messag
 }
 
 /**
- * @brief Get field fields_updated from highres_imu message
+ *  Get field fields_updated from highres_imu message
  *
  * @return Bitmask for fields that have updated since last message, bit 0 = xacc, bit 12: temperature
  */
@@ -516,7 +516,7 @@ static inline uint16_t mavlink_msg_highres_imu_get_fields_updated(const mavlink_
 }
 
 /**
- * @brief Decode a highres_imu message into a struct
+ *  Decode a highres_imu message into a struct
  *
  * @param msg The message to decode
  * @param highres_imu C-struct to decode the message contents into

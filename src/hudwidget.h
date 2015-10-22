@@ -13,9 +13,9 @@ public:
     ~HUDWidget();
 
 public slots:
-    /** @brief Attitude from main autopilot / system state */
+    /**  Attitude from main autopilot / system state */
     void updateAttitude(UASInterface* uas, double roll, double pitch, double yaw, quint64 timestamp);
-    /** @brief Attitude from one specific component / redundant autopilot */
+    /**  Attitude from one specific component / redundant autopilot */
     void updateAttitude(UASInterface* uas, int component, double roll, double pitch, double yaw, quint64 timestamp);
     //Set the currently monitored UAS
     virtual void setActiveUAS(UASInterface* uas);
@@ -30,11 +30,11 @@ protected:
     void paintEvent(QPaintEvent *event);
     void resizeEvent(QResizeEvent *e);
 
-    /** @brief Preferred Size */
+    /**  Preferred Size */
     QSize sizeHint() const;
-    /** @brief Start updating widget */
+    /**  Start updating widget */
     void showEvent(QShowEvent* event);
-    /** @brief Stop updating widget */
+    /**  Stop updating widget */
     void hideEvent(QHideEvent* event);
 
 signals:

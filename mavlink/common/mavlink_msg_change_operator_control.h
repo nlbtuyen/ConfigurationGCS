@@ -30,7 +30,7 @@ typedef struct __mavlink_change_operator_control_t
 
 
 /**
- * @brief Pack a change_operator_control message
+ *  Pack a change_operator_control message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -69,7 +69,7 @@ static inline uint16_t mavlink_msg_change_operator_control_pack(uint8_t system_i
 }
 
 /**
- * @brief Pack a change_operator_control message on a channel
+ *  Pack a change_operator_control message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -109,7 +109,7 @@ static inline uint16_t mavlink_msg_change_operator_control_pack_chan(uint8_t sys
 }
 
 /**
- * @brief Encode a change_operator_control struct
+ *  Encode a change_operator_control struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -122,7 +122,7 @@ static inline uint16_t mavlink_msg_change_operator_control_encode(uint8_t system
 }
 
 /**
- * @brief Encode a change_operator_control struct on a channel
+ *  Encode a change_operator_control struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -136,7 +136,7 @@ static inline uint16_t mavlink_msg_change_operator_control_encode_chan(uint8_t s
 }
 
 /**
- * @brief Send a change_operator_control message
+ *  Send a change_operator_control message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System the GCS requests control for
@@ -215,7 +215,7 @@ static inline void mavlink_msg_change_operator_control_send_buf(mavlink_message_
 
 
 /**
- * @brief Get field target_system from change_operator_control message
+ *  Get field target_system from change_operator_control message
  *
  * @return System the GCS requests control for
  */
@@ -225,7 +225,7 @@ static inline uint8_t mavlink_msg_change_operator_control_get_target_system(cons
 }
 
 /**
- * @brief Get field control_request from change_operator_control message
+ *  Get field control_request from change_operator_control message
  *
  * @return 0: request control of this MAV, 1: Release control of this MAV
  */
@@ -235,7 +235,7 @@ static inline uint8_t mavlink_msg_change_operator_control_get_control_request(co
 }
 
 /**
- * @brief Get field version from change_operator_control message
+ *  Get field version from change_operator_control message
  *
  * @return 0: key as plaintext, 1-255: future, different hashing/encryption variants. The GCS should in general use the safest mode possible initially and then gradually move down the encryption level if it gets a NACK message indicating an encryption mismatch.
  */
@@ -245,7 +245,7 @@ static inline uint8_t mavlink_msg_change_operator_control_get_version(const mavl
 }
 
 /**
- * @brief Get field passkey from change_operator_control message
+ *  Get field passkey from change_operator_control message
  *
  * @return Password / Key, depending on version plaintext or encrypted. 25 or less characters, NULL terminated. The characters may involve A-Z, a-z, 0-9, and "!?,.-"
  */
@@ -255,7 +255,7 @@ static inline uint16_t mavlink_msg_change_operator_control_get_passkey(const mav
 }
 
 /**
- * @brief Decode a change_operator_control message into a struct
+ *  Decode a change_operator_control message into a struct
  *
  * @param msg The message to decode
  * @param change_operator_control C-struct to decode the message contents into

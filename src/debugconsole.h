@@ -15,7 +15,7 @@ class DebugConsole;
 }
 
 /**
- * @brief Shows a debug console
+ *  Shows a debug console
  *
  * This class shows the raw data stream of each link
  * and the debug / text messages sent by all systems
@@ -28,51 +28,51 @@ public:
     ~DebugConsole();
 
 public slots:
-    /** @brief Docking location changed */
+    /**  Docking location changed */
     void dockEvent(Qt::DockWidgetArea area);
-    /** @brief Add a link to the list of monitored links */
+    /**  Add a link to the list of monitored links */
     void addLink(LinkInterface* link);
-    /** @brief Remove a link from the list */
+    /**  Remove a link from the list */
     void removeLink(LinkInterface* const link);
-    /** @brief Update a link name */
+    /**  Update a link name */
     void updateLinkName(QString name);
-    /** @brief A link was connected or disconnected */
+    /**  A link was connected or disconnected */
     void linkStatusChanged(bool connected);
-    /** @brief Select a link for the active view */
+    /**  Select a link for the active view */
     void linkSelected(int linkIdx);
-    /** @brief Set connection state of a link */
+    /**  Set connection state of a link */
     void setLinkState(LinkInterface* link);
-    /** @brief Set connection state of the current link */
+    /**  Set connection state of the current link */
     void setConnectionState(bool connected);
-    /** @brief Receive bytes from link */
+    /**  Receive bytes from link */
     void receiveBytes(LinkInterface* link, QByteArray bytes);
-    /** @brief Send lineedit content over link */
+    /**  Send lineedit content over link */
     void sendBytes();
-    /** @brief Enable HEX display mode */
+    /**  Enable HEX display mode */
     void hexModeEnabled(bool mode);
-    /** @brief Filter out MAVLINK raw data */
+    /**  Filter out MAVLINK raw data */
     void MAVLINKfilterEnabled(bool filter);
-    /** @brief Freeze input, do not store new incoming data */
+    /**  Freeze input, do not store new incoming data */
     void hold(bool hold);
-    /** @brief Handle the connect button */
+    /**  Handle the connect button */
     void handleConnectButton();
-    /** @brief Enable auto-freeze mode if traffic intensity is too high to display */
+    /**  Enable auto-freeze mode if traffic intensity is too high to display */
     void setAutoHold(bool hold);
-    /** @brief Receive plain text message to output to the user */
+    /**  Receive plain text message to output to the user */
     void receiveTextMessage(int id, int component, int severity, QString text);
-    /** @brief Append a special symbol */
+    /**  Append a special symbol */
     void appendSpecialSymbol(const QString& text);
-    /** @brief Append the special symbol currently selected in combo box */
+    /**  Append the special symbol currently selected in combo box */
     void appendSpecialSymbol();
-    /** @brief A new special symbol is selected */
+    /**  A new special symbol is selected */
     void specialSymbolSelected(const QString& text);
-    /** @brief Change view type from compact to full */
+    /**  Change view type from compact to full */
     void on_checkBox_simpleView_toggled(bool checked);
 
 protected slots:
-    /** @brief Draw information overlay */
+    /**  Draw information overlay */
     void paintEvent(QPaintEvent *event);
-    /** @brief Update traffic measurements */
+    /**  Update traffic measurements */
     void updateTrafficMeasurements();
     void loadSettings();
     void storeSettings();
@@ -80,13 +80,13 @@ protected slots:
 protected:
     void changeEvent(QEvent *e);
     void hideEvent(QHideEvent* event);
-    /** @brief Convert a symbol name to the byte representation */
+    /**  Convert a symbol name to the byte representation */
     QByteArray symbolNameToBytes(const QString& symbol);
-    /** @brief Convert a symbol byte to the name */
+    /**  Convert a symbol byte to the name */
     QString bytesToSymbolNames(const QByteArray& b);
-    /** @brief Handle keypress events */
+    /**  Handle keypress events */
     void keyPressEvent(QKeyEvent * event);
-    /** @brief Cycle through the command history */
+    /**  Cycle through the command history */
     void cycleCommandHistory(bool up);
 
     QList<LinkInterface*> links;

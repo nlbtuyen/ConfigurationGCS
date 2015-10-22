@@ -64,7 +64,7 @@ typedef struct __mavlink_sim_state_t
 
 
 /**
- * @brief Pack a sim_state message
+ *  Pack a sim_state message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -156,7 +156,7 @@ static inline uint16_t mavlink_msg_sim_state_pack(uint8_t system_id, uint8_t com
 }
 
 /**
- * @brief Pack a sim_state message on a channel
+ *  Pack a sim_state message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -249,7 +249,7 @@ static inline uint16_t mavlink_msg_sim_state_pack_chan(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a sim_state struct
+ *  Encode a sim_state struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -262,7 +262,7 @@ static inline uint16_t mavlink_msg_sim_state_encode(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Encode a sim_state struct on a channel
+ *  Encode a sim_state struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -276,7 +276,7 @@ static inline uint16_t mavlink_msg_sim_state_encode_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Send a sim_state message
+ *  Send a sim_state message
  * @param chan MAVLink channel to send the message
  *
  * @param q1 True attitude quaternion component 1, w (1 in null-rotation)
@@ -444,7 +444,7 @@ static inline void mavlink_msg_sim_state_send_buf(mavlink_message_t *msgbuf, mav
 
 
 /**
- * @brief Get field q1 from sim_state message
+ *  Get field q1 from sim_state message
  *
  * @return True attitude quaternion component 1, w (1 in null-rotation)
  */
@@ -454,7 +454,7 @@ static inline float mavlink_msg_sim_state_get_q1(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field q2 from sim_state message
+ *  Get field q2 from sim_state message
  *
  * @return True attitude quaternion component 2, x (0 in null-rotation)
  */
@@ -464,7 +464,7 @@ static inline float mavlink_msg_sim_state_get_q2(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field q3 from sim_state message
+ *  Get field q3 from sim_state message
  *
  * @return True attitude quaternion component 3, y (0 in null-rotation)
  */
@@ -474,7 +474,7 @@ static inline float mavlink_msg_sim_state_get_q3(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field q4 from sim_state message
+ *  Get field q4 from sim_state message
  *
  * @return True attitude quaternion component 4, z (0 in null-rotation)
  */
@@ -484,7 +484,7 @@ static inline float mavlink_msg_sim_state_get_q4(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field roll from sim_state message
+ *  Get field roll from sim_state message
  *
  * @return Attitude roll expressed as Euler angles, not recommended except for human-readable outputs
  */
@@ -494,7 +494,7 @@ static inline float mavlink_msg_sim_state_get_roll(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field pitch from sim_state message
+ *  Get field pitch from sim_state message
  *
  * @return Attitude pitch expressed as Euler angles, not recommended except for human-readable outputs
  */
@@ -504,7 +504,7 @@ static inline float mavlink_msg_sim_state_get_pitch(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field yaw from sim_state message
+ *  Get field yaw from sim_state message
  *
  * @return Attitude yaw expressed as Euler angles, not recommended except for human-readable outputs
  */
@@ -514,7 +514,7 @@ static inline float mavlink_msg_sim_state_get_yaw(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field xacc from sim_state message
+ *  Get field xacc from sim_state message
  *
  * @return X acceleration m/s/s
  */
@@ -524,7 +524,7 @@ static inline float mavlink_msg_sim_state_get_xacc(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field yacc from sim_state message
+ *  Get field yacc from sim_state message
  *
  * @return Y acceleration m/s/s
  */
@@ -534,7 +534,7 @@ static inline float mavlink_msg_sim_state_get_yacc(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field zacc from sim_state message
+ *  Get field zacc from sim_state message
  *
  * @return Z acceleration m/s/s
  */
@@ -544,7 +544,7 @@ static inline float mavlink_msg_sim_state_get_zacc(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field xgyro from sim_state message
+ *  Get field xgyro from sim_state message
  *
  * @return Angular speed around X axis rad/s
  */
@@ -554,7 +554,7 @@ static inline float mavlink_msg_sim_state_get_xgyro(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field ygyro from sim_state message
+ *  Get field ygyro from sim_state message
  *
  * @return Angular speed around Y axis rad/s
  */
@@ -564,7 +564,7 @@ static inline float mavlink_msg_sim_state_get_ygyro(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field zgyro from sim_state message
+ *  Get field zgyro from sim_state message
  *
  * @return Angular speed around Z axis rad/s
  */
@@ -574,7 +574,7 @@ static inline float mavlink_msg_sim_state_get_zgyro(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field lat from sim_state message
+ *  Get field lat from sim_state message
  *
  * @return Latitude in degrees
  */
@@ -584,7 +584,7 @@ static inline float mavlink_msg_sim_state_get_lat(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field lon from sim_state message
+ *  Get field lon from sim_state message
  *
  * @return Longitude in degrees
  */
@@ -594,7 +594,7 @@ static inline float mavlink_msg_sim_state_get_lon(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field alt from sim_state message
+ *  Get field alt from sim_state message
  *
  * @return Altitude in meters
  */
@@ -604,7 +604,7 @@ static inline float mavlink_msg_sim_state_get_alt(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field std_dev_horz from sim_state message
+ *  Get field std_dev_horz from sim_state message
  *
  * @return Horizontal position standard deviation
  */
@@ -614,7 +614,7 @@ static inline float mavlink_msg_sim_state_get_std_dev_horz(const mavlink_message
 }
 
 /**
- * @brief Get field std_dev_vert from sim_state message
+ *  Get field std_dev_vert from sim_state message
  *
  * @return Vertical position standard deviation
  */
@@ -624,7 +624,7 @@ static inline float mavlink_msg_sim_state_get_std_dev_vert(const mavlink_message
 }
 
 /**
- * @brief Get field vn from sim_state message
+ *  Get field vn from sim_state message
  *
  * @return True velocity in m/s in NORTH direction in earth-fixed NED frame
  */
@@ -634,7 +634,7 @@ static inline float mavlink_msg_sim_state_get_vn(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field ve from sim_state message
+ *  Get field ve from sim_state message
  *
  * @return True velocity in m/s in EAST direction in earth-fixed NED frame
  */
@@ -644,7 +644,7 @@ static inline float mavlink_msg_sim_state_get_ve(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field vd from sim_state message
+ *  Get field vd from sim_state message
  *
  * @return True velocity in m/s in DOWN direction in earth-fixed NED frame
  */
@@ -654,7 +654,7 @@ static inline float mavlink_msg_sim_state_get_vd(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Decode a sim_state message into a struct
+ *  Decode a sim_state message into a struct
  *
  * @param msg The message to decode
  * @param sim_state C-struct to decode the message contents into

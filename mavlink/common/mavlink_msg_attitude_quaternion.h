@@ -38,7 +38,7 @@ typedef struct __mavlink_attitude_quaternion_t
 
 
 /**
- * @brief Pack a attitude_quaternion message
+ *  Pack a attitude_quaternion message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -91,7 +91,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_pack(uint8_t system_id, u
 }
 
 /**
- * @brief Pack a attitude_quaternion message on a channel
+ *  Pack a attitude_quaternion message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -145,7 +145,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_pack_chan(uint8_t system_
 }
 
 /**
- * @brief Encode a attitude_quaternion struct
+ *  Encode a attitude_quaternion struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -158,7 +158,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_encode(uint8_t system_id,
 }
 
 /**
- * @brief Encode a attitude_quaternion struct on a channel
+ *  Encode a attitude_quaternion struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -172,7 +172,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_encode_chan(uint8_t syste
 }
 
 /**
- * @brief Send a attitude_quaternion message
+ *  Send a attitude_quaternion message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -275,7 +275,7 @@ static inline void mavlink_msg_attitude_quaternion_send_buf(mavlink_message_t *m
 
 
 /**
- * @brief Get field time_boot_ms from attitude_quaternion message
+ *  Get field time_boot_ms from attitude_quaternion message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -285,7 +285,7 @@ static inline uint32_t mavlink_msg_attitude_quaternion_get_time_boot_ms(const ma
 }
 
 /**
- * @brief Get field q1 from attitude_quaternion message
+ *  Get field q1 from attitude_quaternion message
  *
  * @return Quaternion component 1, w (1 in null-rotation)
  */
@@ -295,7 +295,7 @@ static inline float mavlink_msg_attitude_quaternion_get_q1(const mavlink_message
 }
 
 /**
- * @brief Get field q2 from attitude_quaternion message
+ *  Get field q2 from attitude_quaternion message
  *
  * @return Quaternion component 2, x (0 in null-rotation)
  */
@@ -305,7 +305,7 @@ static inline float mavlink_msg_attitude_quaternion_get_q2(const mavlink_message
 }
 
 /**
- * @brief Get field q3 from attitude_quaternion message
+ *  Get field q3 from attitude_quaternion message
  *
  * @return Quaternion component 3, y (0 in null-rotation)
  */
@@ -315,7 +315,7 @@ static inline float mavlink_msg_attitude_quaternion_get_q3(const mavlink_message
 }
 
 /**
- * @brief Get field q4 from attitude_quaternion message
+ *  Get field q4 from attitude_quaternion message
  *
  * @return Quaternion component 4, z (0 in null-rotation)
  */
@@ -325,7 +325,7 @@ static inline float mavlink_msg_attitude_quaternion_get_q4(const mavlink_message
 }
 
 /**
- * @brief Get field rollspeed from attitude_quaternion message
+ *  Get field rollspeed from attitude_quaternion message
  *
  * @return Roll angular speed (rad/s)
  */
@@ -335,7 +335,7 @@ static inline float mavlink_msg_attitude_quaternion_get_rollspeed(const mavlink_
 }
 
 /**
- * @brief Get field pitchspeed from attitude_quaternion message
+ *  Get field pitchspeed from attitude_quaternion message
  *
  * @return Pitch angular speed (rad/s)
  */
@@ -345,7 +345,7 @@ static inline float mavlink_msg_attitude_quaternion_get_pitchspeed(const mavlink
 }
 
 /**
- * @brief Get field yawspeed from attitude_quaternion message
+ *  Get field yawspeed from attitude_quaternion message
  *
  * @return Yaw angular speed (rad/s)
  */
@@ -355,7 +355,7 @@ static inline float mavlink_msg_attitude_quaternion_get_yawspeed(const mavlink_m
 }
 
 /**
- * @brief Decode a attitude_quaternion message into a struct
+ *  Decode a attitude_quaternion message into a struct
  *
  * @param msg The message to decode
  * @param attitude_quaternion C-struct to decode the message contents into

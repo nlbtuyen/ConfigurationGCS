@@ -17,7 +17,7 @@ extern "C" {
 
 #ifndef HAVE_CRC_ACCUMULATE
 /**
- * @brief Accumulate the X.25 CRC by adding one char at a time.
+ *  Accumulate the X.25 CRC by adding one char at a time.
  *
  * The checksum function adds the hash of one char at a time to the
  * 16 bit checksum (uint16_t).
@@ -38,7 +38,7 @@ static inline void crc_accumulate(uint8_t data, uint16_t *crcAccum)
 
 
 /**
- * @brief Initiliaze the buffer for the X.25 CRC
+ *  Initiliaze the buffer for the X.25 CRC
  *
  * @param crcAccum the 16 bit X.25 CRC
  */
@@ -49,7 +49,7 @@ static inline void crc_init(uint16_t* crcAccum)
 
 
 /**
- * @brief Calculates the X.25 checksum on a byte buffer
+ *  Calculates the X.25 checksum on a byte buffer
  *
  * @param  pBuffer buffer containing the byte array to hash
  * @param  length  length of the byte array
@@ -67,7 +67,7 @@ static inline uint16_t crc_calculate(const uint8_t* pBuffer, uint16_t length)
 
 
 /**
- * @brief Accumulate the X.25 CRC by adding an array of bytes
+ *  Accumulate the X.25 CRC by adding an array of bytes
  *
  * The checksum function adds the hash of one char at a time to the
  * 16 bit checksum (uint16_t).

@@ -24,7 +24,7 @@ typedef struct __mavlink_mission_item_reached_t
 
 
 /**
- * @brief Pack a mission_item_reached message
+ *  Pack a mission_item_reached message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -56,7 +56,7 @@ static inline uint16_t mavlink_msg_mission_item_reached_pack(uint8_t system_id, 
 }
 
 /**
- * @brief Pack a mission_item_reached message on a channel
+ *  Pack a mission_item_reached message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -89,7 +89,7 @@ static inline uint16_t mavlink_msg_mission_item_reached_pack_chan(uint8_t system
 }
 
 /**
- * @brief Encode a mission_item_reached struct
+ *  Encode a mission_item_reached struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -102,7 +102,7 @@ static inline uint16_t mavlink_msg_mission_item_reached_encode(uint8_t system_id
 }
 
 /**
- * @brief Encode a mission_item_reached struct on a channel
+ *  Encode a mission_item_reached struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -116,7 +116,7 @@ static inline uint16_t mavlink_msg_mission_item_reached_encode_chan(uint8_t syst
 }
 
 /**
- * @brief Send a mission_item_reached message
+ *  Send a mission_item_reached message
  * @param chan MAVLink channel to send the message
  *
  * @param seq Sequence
@@ -184,7 +184,7 @@ static inline void mavlink_msg_mission_item_reached_send_buf(mavlink_message_t *
 
 
 /**
- * @brief Get field seq from mission_item_reached message
+ *  Get field seq from mission_item_reached message
  *
  * @return Sequence
  */
@@ -194,7 +194,7 @@ static inline uint16_t mavlink_msg_mission_item_reached_get_seq(const mavlink_me
 }
 
 /**
- * @brief Decode a mission_item_reached message into a struct
+ *  Decode a mission_item_reached message into a struct
  *
  * @param msg The message to decode
  * @param mission_item_reached C-struct to decode the message contents into

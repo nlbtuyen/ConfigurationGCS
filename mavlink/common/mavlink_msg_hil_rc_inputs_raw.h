@@ -50,7 +50,7 @@ typedef struct __mavlink_hil_rc_inputs_raw_t
 
 
 /**
- * @brief Pack a hil_rc_inputs_raw message
+ *  Pack a hil_rc_inputs_raw message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -121,7 +121,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_pack(uint8_t system_id, uin
 }
 
 /**
- * @brief Pack a hil_rc_inputs_raw message on a channel
+ *  Pack a hil_rc_inputs_raw message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -193,7 +193,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_pack_chan(uint8_t system_id
 }
 
 /**
- * @brief Encode a hil_rc_inputs_raw struct
+ *  Encode a hil_rc_inputs_raw struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -206,7 +206,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_encode(uint8_t system_id, u
 }
 
 /**
- * @brief Encode a hil_rc_inputs_raw struct on a channel
+ *  Encode a hil_rc_inputs_raw struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -220,7 +220,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_encode_chan(uint8_t system_
 }
 
 /**
- * @brief Send a hil_rc_inputs_raw message
+ *  Send a hil_rc_inputs_raw message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
@@ -353,7 +353,7 @@ static inline void mavlink_msg_hil_rc_inputs_raw_send_buf(mavlink_message_t *msg
 
 
 /**
- * @brief Get field time_usec from hil_rc_inputs_raw message
+ *  Get field time_usec from hil_rc_inputs_raw message
  *
  * @return Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  */
@@ -363,7 +363,7 @@ static inline uint64_t mavlink_msg_hil_rc_inputs_raw_get_time_usec(const mavlink
 }
 
 /**
- * @brief Get field chan1_raw from hil_rc_inputs_raw message
+ *  Get field chan1_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 1 value, in microseconds
  */
@@ -373,7 +373,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan1_raw(const mavlink
 }
 
 /**
- * @brief Get field chan2_raw from hil_rc_inputs_raw message
+ *  Get field chan2_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 2 value, in microseconds
  */
@@ -383,7 +383,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan2_raw(const mavlink
 }
 
 /**
- * @brief Get field chan3_raw from hil_rc_inputs_raw message
+ *  Get field chan3_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 3 value, in microseconds
  */
@@ -393,7 +393,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan3_raw(const mavlink
 }
 
 /**
- * @brief Get field chan4_raw from hil_rc_inputs_raw message
+ *  Get field chan4_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 4 value, in microseconds
  */
@@ -403,7 +403,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan4_raw(const mavlink
 }
 
 /**
- * @brief Get field chan5_raw from hil_rc_inputs_raw message
+ *  Get field chan5_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 5 value, in microseconds
  */
@@ -413,7 +413,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan5_raw(const mavlink
 }
 
 /**
- * @brief Get field chan6_raw from hil_rc_inputs_raw message
+ *  Get field chan6_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 6 value, in microseconds
  */
@@ -423,7 +423,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan6_raw(const mavlink
 }
 
 /**
- * @brief Get field chan7_raw from hil_rc_inputs_raw message
+ *  Get field chan7_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 7 value, in microseconds
  */
@@ -433,7 +433,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan7_raw(const mavlink
 }
 
 /**
- * @brief Get field chan8_raw from hil_rc_inputs_raw message
+ *  Get field chan8_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 8 value, in microseconds
  */
@@ -443,7 +443,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan8_raw(const mavlink
 }
 
 /**
- * @brief Get field chan9_raw from hil_rc_inputs_raw message
+ *  Get field chan9_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 9 value, in microseconds
  */
@@ -453,7 +453,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan9_raw(const mavlink
 }
 
 /**
- * @brief Get field chan10_raw from hil_rc_inputs_raw message
+ *  Get field chan10_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 10 value, in microseconds
  */
@@ -463,7 +463,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan10_raw(const mavlin
 }
 
 /**
- * @brief Get field chan11_raw from hil_rc_inputs_raw message
+ *  Get field chan11_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 11 value, in microseconds
  */
@@ -473,7 +473,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan11_raw(const mavlin
 }
 
 /**
- * @brief Get field chan12_raw from hil_rc_inputs_raw message
+ *  Get field chan12_raw from hil_rc_inputs_raw message
  *
  * @return RC channel 12 value, in microseconds
  */
@@ -483,7 +483,7 @@ static inline uint16_t mavlink_msg_hil_rc_inputs_raw_get_chan12_raw(const mavlin
 }
 
 /**
- * @brief Get field rssi from hil_rc_inputs_raw message
+ *  Get field rssi from hil_rc_inputs_raw message
  *
  * @return Receive signal strength indicator, 0: 0%, 255: 100%
  */
@@ -493,7 +493,7 @@ static inline uint8_t mavlink_msg_hil_rc_inputs_raw_get_rssi(const mavlink_messa
 }
 
 /**
- * @brief Decode a hil_rc_inputs_raw message into a struct
+ *  Decode a hil_rc_inputs_raw message into a struct
  *
  * @param msg The message to decode
  * @param hil_rc_inputs_raw C-struct to decode the message contents into

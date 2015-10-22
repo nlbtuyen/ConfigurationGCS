@@ -30,7 +30,7 @@ typedef struct __mavlink_vision_speed_estimate_t
 
 
 /**
- * @brief Pack a vision_speed_estimate message
+ *  Pack a vision_speed_estimate message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -71,7 +71,7 @@ static inline uint16_t mavlink_msg_vision_speed_estimate_pack(uint8_t system_id,
 }
 
 /**
- * @brief Pack a vision_speed_estimate message on a channel
+ *  Pack a vision_speed_estimate message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -113,7 +113,7 @@ static inline uint16_t mavlink_msg_vision_speed_estimate_pack_chan(uint8_t syste
 }
 
 /**
- * @brief Encode a vision_speed_estimate struct
+ *  Encode a vision_speed_estimate struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -126,7 +126,7 @@ static inline uint16_t mavlink_msg_vision_speed_estimate_encode(uint8_t system_i
 }
 
 /**
- * @brief Encode a vision_speed_estimate struct on a channel
+ *  Encode a vision_speed_estimate struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -140,7 +140,7 @@ static inline uint16_t mavlink_msg_vision_speed_estimate_encode_chan(uint8_t sys
 }
 
 /**
- * @brief Send a vision_speed_estimate message
+ *  Send a vision_speed_estimate message
  * @param chan MAVLink channel to send the message
  *
  * @param usec Timestamp (microseconds, synced to UNIX time or since system boot)
@@ -223,7 +223,7 @@ static inline void mavlink_msg_vision_speed_estimate_send_buf(mavlink_message_t 
 
 
 /**
- * @brief Get field usec from vision_speed_estimate message
+ *  Get field usec from vision_speed_estimate message
  *
  * @return Timestamp (microseconds, synced to UNIX time or since system boot)
  */
@@ -233,7 +233,7 @@ static inline uint64_t mavlink_msg_vision_speed_estimate_get_usec(const mavlink_
 }
 
 /**
- * @brief Get field x from vision_speed_estimate message
+ *  Get field x from vision_speed_estimate message
  *
  * @return Global X speed
  */
@@ -243,7 +243,7 @@ static inline float mavlink_msg_vision_speed_estimate_get_x(const mavlink_messag
 }
 
 /**
- * @brief Get field y from vision_speed_estimate message
+ *  Get field y from vision_speed_estimate message
  *
  * @return Global Y speed
  */
@@ -253,7 +253,7 @@ static inline float mavlink_msg_vision_speed_estimate_get_y(const mavlink_messag
 }
 
 /**
- * @brief Get field z from vision_speed_estimate message
+ *  Get field z from vision_speed_estimate message
  *
  * @return Global Z speed
  */
@@ -263,7 +263,7 @@ static inline float mavlink_msg_vision_speed_estimate_get_z(const mavlink_messag
 }
 
 /**
- * @brief Decode a vision_speed_estimate message into a struct
+ *  Decode a vision_speed_estimate message into a struct
  *
  * @param msg The message to decode
  * @param vision_speed_estimate C-struct to decode the message contents into

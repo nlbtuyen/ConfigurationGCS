@@ -32,7 +32,7 @@ typedef struct __mavlink_raw_pressure_t
 
 
 /**
- * @brief Pack a raw_pressure message
+ *  Pack a raw_pressure message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -76,7 +76,7 @@ static inline uint16_t mavlink_msg_raw_pressure_pack(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Pack a raw_pressure message on a channel
+ *  Pack a raw_pressure message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -121,7 +121,7 @@ static inline uint16_t mavlink_msg_raw_pressure_pack_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a raw_pressure struct
+ *  Encode a raw_pressure struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -134,7 +134,7 @@ static inline uint16_t mavlink_msg_raw_pressure_encode(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a raw_pressure struct on a channel
+ *  Encode a raw_pressure struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -148,7 +148,7 @@ static inline uint16_t mavlink_msg_raw_pressure_encode_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Send a raw_pressure message
+ *  Send a raw_pressure message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
@@ -236,7 +236,7 @@ static inline void mavlink_msg_raw_pressure_send_buf(mavlink_message_t *msgbuf, 
 
 
 /**
- * @brief Get field time_usec from raw_pressure message
+ *  Get field time_usec from raw_pressure message
  *
  * @return Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  */
@@ -246,7 +246,7 @@ static inline uint64_t mavlink_msg_raw_pressure_get_time_usec(const mavlink_mess
 }
 
 /**
- * @brief Get field press_abs from raw_pressure message
+ *  Get field press_abs from raw_pressure message
  *
  * @return Absolute pressure (raw)
  */
@@ -256,7 +256,7 @@ static inline int16_t mavlink_msg_raw_pressure_get_press_abs(const mavlink_messa
 }
 
 /**
- * @brief Get field press_diff1 from raw_pressure message
+ *  Get field press_diff1 from raw_pressure message
  *
  * @return Differential pressure 1 (raw)
  */
@@ -266,7 +266,7 @@ static inline int16_t mavlink_msg_raw_pressure_get_press_diff1(const mavlink_mes
 }
 
 /**
- * @brief Get field press_diff2 from raw_pressure message
+ *  Get field press_diff2 from raw_pressure message
  *
  * @return Differential pressure 2 (raw)
  */
@@ -276,7 +276,7 @@ static inline int16_t mavlink_msg_raw_pressure_get_press_diff2(const mavlink_mes
 }
 
 /**
- * @brief Get field temperature from raw_pressure message
+ *  Get field temperature from raw_pressure message
  *
  * @return Raw Temperature measurement (raw)
  */
@@ -286,7 +286,7 @@ static inline int16_t mavlink_msg_raw_pressure_get_temperature(const mavlink_mes
 }
 
 /**
- * @brief Decode a raw_pressure message into a struct
+ *  Decode a raw_pressure message into a struct
  *
  * @param msg The message to decode
  * @param raw_pressure C-struct to decode the message contents into

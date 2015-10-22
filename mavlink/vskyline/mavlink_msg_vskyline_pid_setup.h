@@ -50,7 +50,7 @@ typedef struct __mavlink_vskyline_pid_setup_t
 
 
 /**
- * @brief Pack a vskyline_pid_setup message
+ *  Pack a vskyline_pid_setup message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -121,7 +121,7 @@ static inline uint16_t mavlink_msg_vskyline_pid_setup_pack(uint8_t system_id, ui
 }
 
 /**
- * @brief Pack a vskyline_pid_setup message on a channel
+ *  Pack a vskyline_pid_setup message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -193,7 +193,7 @@ static inline uint16_t mavlink_msg_vskyline_pid_setup_pack_chan(uint8_t system_i
 }
 
 /**
- * @brief Encode a vskyline_pid_setup struct
+ *  Encode a vskyline_pid_setup struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -206,7 +206,7 @@ static inline uint16_t mavlink_msg_vskyline_pid_setup_encode(uint8_t system_id, 
 }
 
 /**
- * @brief Encode a vskyline_pid_setup struct on a channel
+ *  Encode a vskyline_pid_setup struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -220,7 +220,7 @@ static inline uint16_t mavlink_msg_vskyline_pid_setup_encode_chan(uint8_t system
 }
 
 /**
- * @brief Send a vskyline_pid_setup message
+ *  Send a vskyline_pid_setup message
  * @param chan MAVLink channel to send the message
  *
  * @param profile Profile PID .
@@ -353,7 +353,7 @@ static inline void mavlink_msg_vskyline_pid_setup_send_buf(mavlink_message_t *ms
 
 
 /**
- * @brief Get field profile from vskyline_pid_setup message
+ *  Get field profile from vskyline_pid_setup message
  *
  * @return Profile PID .
  */
@@ -363,7 +363,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_profile(const mavlink_mes
 }
 
 /**
- * @brief Get field pid_type from vskyline_pid_setup message
+ *  Get field pid_type from vskyline_pid_setup message
  *
  * @return PID type .
  */
@@ -373,7 +373,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_pid_type(const mavlink_me
 }
 
 /**
- * @brief Get field p_pitch from vskyline_pid_setup message
+ *  Get field p_pitch from vskyline_pid_setup message
  *
  * @return p pitch .
  */
@@ -383,7 +383,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_p_pitch(const mavlink_mes
 }
 
 /**
- * @brief Get field i_pitch from vskyline_pid_setup message
+ *  Get field i_pitch from vskyline_pid_setup message
  *
  * @return i pitch .
  */
@@ -393,7 +393,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_i_pitch(const mavlink_mes
 }
 
 /**
- * @brief Get field d_pitch from vskyline_pid_setup message
+ *  Get field d_pitch from vskyline_pid_setup message
  *
  * @return d pitch  .
  */
@@ -403,7 +403,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_d_pitch(const mavlink_mes
 }
 
 /**
- * @brief Get field rate_pitch from vskyline_pid_setup message
+ *  Get field rate_pitch from vskyline_pid_setup message
  *
  * @return rate pitch .
  */
@@ -413,7 +413,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_rate_pitch(const mavlink_
 }
 
 /**
- * @brief Get field p_roll from vskyline_pid_setup message
+ *  Get field p_roll from vskyline_pid_setup message
  *
  * @return p roll .
  */
@@ -423,7 +423,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_p_roll(const mavlink_mess
 }
 
 /**
- * @brief Get field i_roll from vskyline_pid_setup message
+ *  Get field i_roll from vskyline_pid_setup message
  *
  * @return i roll .
  */
@@ -433,7 +433,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_i_roll(const mavlink_mess
 }
 
 /**
- * @brief Get field d_roll from vskyline_pid_setup message
+ *  Get field d_roll from vskyline_pid_setup message
  *
  * @return d roll .
  */
@@ -443,7 +443,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_d_roll(const mavlink_mess
 }
 
 /**
- * @brief Get field rate_roll from vskyline_pid_setup message
+ *  Get field rate_roll from vskyline_pid_setup message
  *
  * @return rate roll .
  */
@@ -453,7 +453,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_rate_roll(const mavlink_m
 }
 
 /**
- * @brief Get field p_yaw from vskyline_pid_setup message
+ *  Get field p_yaw from vskyline_pid_setup message
  *
  * @return p yaw .
  */
@@ -463,7 +463,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_p_yaw(const mavlink_messa
 }
 
 /**
- * @brief Get field i_yaw from vskyline_pid_setup message
+ *  Get field i_yaw from vskyline_pid_setup message
  *
  * @return i yaw .
  */
@@ -473,7 +473,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_i_yaw(const mavlink_messa
 }
 
 /**
- * @brief Get field d_yaw from vskyline_pid_setup message
+ *  Get field d_yaw from vskyline_pid_setup message
  *
  * @return d yaw .
  */
@@ -483,7 +483,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_d_yaw(const mavlink_messa
 }
 
 /**
- * @brief Get field rate_yaw from vskyline_pid_setup message
+ *  Get field rate_yaw from vskyline_pid_setup message
  *
  * @return rate yaw .
  */
@@ -493,7 +493,7 @@ static inline float mavlink_msg_vskyline_pid_setup_get_rate_yaw(const mavlink_me
 }
 
 /**
- * @brief Decode a vskyline_pid_setup message into a struct
+ *  Decode a vskyline_pid_setup message into a struct
  *
  * @param msg The message to decode
  * @param vskyline_pid_setup C-struct to decode the message contents into

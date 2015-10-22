@@ -32,7 +32,7 @@ typedef struct __mavlink_set_actuator_control_target_t
 
 
 /**
- * @brief Pack a set_actuator_control_target message
+ *  Pack a set_actuator_control_target message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -74,7 +74,7 @@ static inline uint16_t mavlink_msg_set_actuator_control_target_pack(uint8_t syst
 }
 
 /**
- * @brief Pack a set_actuator_control_target message on a channel
+ *  Pack a set_actuator_control_target message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -117,7 +117,7 @@ static inline uint16_t mavlink_msg_set_actuator_control_target_pack_chan(uint8_t
 }
 
 /**
- * @brief Encode a set_actuator_control_target struct
+ *  Encode a set_actuator_control_target struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -130,7 +130,7 @@ static inline uint16_t mavlink_msg_set_actuator_control_target_encode(uint8_t sy
 }
 
 /**
- * @brief Encode a set_actuator_control_target struct on a channel
+ *  Encode a set_actuator_control_target struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -144,7 +144,7 @@ static inline uint16_t mavlink_msg_set_actuator_control_target_encode_chan(uint8
 }
 
 /**
- * @brief Send a set_actuator_control_target message
+ *  Send a set_actuator_control_target message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (micros since boot or Unix epoch)
@@ -228,7 +228,7 @@ static inline void mavlink_msg_set_actuator_control_target_send_buf(mavlink_mess
 
 
 /**
- * @brief Get field time_usec from set_actuator_control_target message
+ *  Get field time_usec from set_actuator_control_target message
  *
  * @return Timestamp (micros since boot or Unix epoch)
  */
@@ -238,7 +238,7 @@ static inline uint64_t mavlink_msg_set_actuator_control_target_get_time_usec(con
 }
 
 /**
- * @brief Get field group_mlx from set_actuator_control_target message
+ *  Get field group_mlx from set_actuator_control_target message
  *
  * @return Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.
  */
@@ -248,7 +248,7 @@ static inline uint8_t mavlink_msg_set_actuator_control_target_get_group_mlx(cons
 }
 
 /**
- * @brief Get field target_system from set_actuator_control_target message
+ *  Get field target_system from set_actuator_control_target message
  *
  * @return System ID
  */
@@ -258,7 +258,7 @@ static inline uint8_t mavlink_msg_set_actuator_control_target_get_target_system(
 }
 
 /**
- * @brief Get field target_component from set_actuator_control_target message
+ *  Get field target_component from set_actuator_control_target message
  *
  * @return Component ID
  */
@@ -268,7 +268,7 @@ static inline uint8_t mavlink_msg_set_actuator_control_target_get_target_compone
 }
 
 /**
- * @brief Get field controls from set_actuator_control_target message
+ *  Get field controls from set_actuator_control_target message
  *
  * @return Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.
  */
@@ -278,7 +278,7 @@ static inline uint16_t mavlink_msg_set_actuator_control_target_get_controls(cons
 }
 
 /**
- * @brief Decode a set_actuator_control_target message into a struct
+ *  Decode a set_actuator_control_target message into a struct
  *
  * @param msg The message to decode
  * @param set_actuator_control_target C-struct to decode the message contents into

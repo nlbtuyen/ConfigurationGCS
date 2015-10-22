@@ -38,7 +38,7 @@ typedef struct __mavlink_nav_controller_output_t
 
 
 /**
- * @brief Pack a nav_controller_output message
+ *  Pack a nav_controller_output message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -91,7 +91,7 @@ static inline uint16_t mavlink_msg_nav_controller_output_pack(uint8_t system_id,
 }
 
 /**
- * @brief Pack a nav_controller_output message on a channel
+ *  Pack a nav_controller_output message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -145,7 +145,7 @@ static inline uint16_t mavlink_msg_nav_controller_output_pack_chan(uint8_t syste
 }
 
 /**
- * @brief Encode a nav_controller_output struct
+ *  Encode a nav_controller_output struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -158,7 +158,7 @@ static inline uint16_t mavlink_msg_nav_controller_output_encode(uint8_t system_i
 }
 
 /**
- * @brief Encode a nav_controller_output struct on a channel
+ *  Encode a nav_controller_output struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -172,7 +172,7 @@ static inline uint16_t mavlink_msg_nav_controller_output_encode_chan(uint8_t sys
 }
 
 /**
- * @brief Send a nav_controller_output message
+ *  Send a nav_controller_output message
  * @param chan MAVLink channel to send the message
  *
  * @param nav_roll Current desired roll in degrees
@@ -275,7 +275,7 @@ static inline void mavlink_msg_nav_controller_output_send_buf(mavlink_message_t 
 
 
 /**
- * @brief Get field nav_roll from nav_controller_output message
+ *  Get field nav_roll from nav_controller_output message
  *
  * @return Current desired roll in degrees
  */
@@ -285,7 +285,7 @@ static inline float mavlink_msg_nav_controller_output_get_nav_roll(const mavlink
 }
 
 /**
- * @brief Get field nav_pitch from nav_controller_output message
+ *  Get field nav_pitch from nav_controller_output message
  *
  * @return Current desired pitch in degrees
  */
@@ -295,7 +295,7 @@ static inline float mavlink_msg_nav_controller_output_get_nav_pitch(const mavlin
 }
 
 /**
- * @brief Get field nav_bearing from nav_controller_output message
+ *  Get field nav_bearing from nav_controller_output message
  *
  * @return Current desired heading in degrees
  */
@@ -305,7 +305,7 @@ static inline int16_t mavlink_msg_nav_controller_output_get_nav_bearing(const ma
 }
 
 /**
- * @brief Get field target_bearing from nav_controller_output message
+ *  Get field target_bearing from nav_controller_output message
  *
  * @return Bearing to current MISSION/target in degrees
  */
@@ -315,7 +315,7 @@ static inline int16_t mavlink_msg_nav_controller_output_get_target_bearing(const
 }
 
 /**
- * @brief Get field wp_dist from nav_controller_output message
+ *  Get field wp_dist from nav_controller_output message
  *
  * @return Distance to active MISSION in meters
  */
@@ -325,7 +325,7 @@ static inline uint16_t mavlink_msg_nav_controller_output_get_wp_dist(const mavli
 }
 
 /**
- * @brief Get field alt_error from nav_controller_output message
+ *  Get field alt_error from nav_controller_output message
  *
  * @return Current altitude error in meters
  */
@@ -335,7 +335,7 @@ static inline float mavlink_msg_nav_controller_output_get_alt_error(const mavlin
 }
 
 /**
- * @brief Get field aspd_error from nav_controller_output message
+ *  Get field aspd_error from nav_controller_output message
  *
  * @return Current airspeed error in meters/second
  */
@@ -345,7 +345,7 @@ static inline float mavlink_msg_nav_controller_output_get_aspd_error(const mavli
 }
 
 /**
- * @brief Get field xtrack_error from nav_controller_output message
+ *  Get field xtrack_error from nav_controller_output message
  *
  * @return Current crosstrack error on x-y plane in meters
  */
@@ -355,7 +355,7 @@ static inline float mavlink_msg_nav_controller_output_get_xtrack_error(const mav
 }
 
 /**
- * @brief Decode a nav_controller_output message into a struct
+ *  Decode a nav_controller_output message into a struct
  *
  * @param msg The message to decode
  * @param nav_controller_output C-struct to decode the message contents into

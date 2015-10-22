@@ -54,7 +54,7 @@ typedef struct __mavlink_set_position_target_global_int_t
 
 
 /**
- * @brief Pack a set_position_target_global_int message
+ *  Pack a set_position_target_global_int message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -131,7 +131,7 @@ static inline uint16_t mavlink_msg_set_position_target_global_int_pack(uint8_t s
 }
 
 /**
- * @brief Pack a set_position_target_global_int message on a channel
+ *  Pack a set_position_target_global_int message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -209,7 +209,7 @@ static inline uint16_t mavlink_msg_set_position_target_global_int_pack_chan(uint
 }
 
 /**
- * @brief Encode a set_position_target_global_int struct
+ *  Encode a set_position_target_global_int struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -222,7 +222,7 @@ static inline uint16_t mavlink_msg_set_position_target_global_int_encode(uint8_t
 }
 
 /**
- * @brief Encode a set_position_target_global_int struct on a channel
+ *  Encode a set_position_target_global_int struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -236,7 +236,7 @@ static inline uint16_t mavlink_msg_set_position_target_global_int_encode_chan(ui
 }
 
 /**
- * @brief Send a set_position_target_global_int message
+ *  Send a set_position_target_global_int message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.
@@ -379,7 +379,7 @@ static inline void mavlink_msg_set_position_target_global_int_send_buf(mavlink_m
 
 
 /**
- * @brief Get field time_boot_ms from set_position_target_global_int message
+ *  Get field time_boot_ms from set_position_target_global_int message
  *
  * @return Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.
  */
@@ -389,7 +389,7 @@ static inline uint32_t mavlink_msg_set_position_target_global_int_get_time_boot_
 }
 
 /**
- * @brief Get field target_system from set_position_target_global_int message
+ *  Get field target_system from set_position_target_global_int message
  *
  * @return System ID
  */
@@ -399,7 +399,7 @@ static inline uint8_t mavlink_msg_set_position_target_global_int_get_target_syst
 }
 
 /**
- * @brief Get field target_component from set_position_target_global_int message
+ *  Get field target_component from set_position_target_global_int message
  *
  * @return Component ID
  */
@@ -409,7 +409,7 @@ static inline uint8_t mavlink_msg_set_position_target_global_int_get_target_comp
 }
 
 /**
- * @brief Get field coordinate_frame from set_position_target_global_int message
+ *  Get field coordinate_frame from set_position_target_global_int message
  *
  * @return Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11
  */
@@ -419,7 +419,7 @@ static inline uint8_t mavlink_msg_set_position_target_global_int_get_coordinate_
 }
 
 /**
- * @brief Get field type_mask from set_position_target_global_int message
+ *  Get field type_mask from set_position_target_global_int message
  *
  * @return Bitmask to indicate which dimensions should be ignored by the vehicle: a value of 0b0000000000000000 or 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 10 is set the floats afx afy afz should be interpreted as force instead of acceleration. Mapping: bit 1: x, bit 2: y, bit 3: z, bit 4: vx, bit 5: vy, bit 6: vz, bit 7: ax, bit 8: ay, bit 9: az, bit 10: is force setpoint, bit 11: yaw, bit 12: yaw rate
  */
@@ -429,7 +429,7 @@ static inline uint16_t mavlink_msg_set_position_target_global_int_get_type_mask(
 }
 
 /**
- * @brief Get field lat_int from set_position_target_global_int message
+ *  Get field lat_int from set_position_target_global_int message
  *
  * @return X Position in WGS84 frame in 1e7 * meters
  */
@@ -439,7 +439,7 @@ static inline int32_t mavlink_msg_set_position_target_global_int_get_lat_int(con
 }
 
 /**
- * @brief Get field lon_int from set_position_target_global_int message
+ *  Get field lon_int from set_position_target_global_int message
  *
  * @return Y Position in WGS84 frame in 1e7 * meters
  */
@@ -449,7 +449,7 @@ static inline int32_t mavlink_msg_set_position_target_global_int_get_lon_int(con
 }
 
 /**
- * @brief Get field alt from set_position_target_global_int message
+ *  Get field alt from set_position_target_global_int message
  *
  * @return Altitude in meters in AMSL altitude, not WGS84 if absolute or relative, above terrain if GLOBAL_TERRAIN_ALT_INT
  */
@@ -459,7 +459,7 @@ static inline float mavlink_msg_set_position_target_global_int_get_alt(const mav
 }
 
 /**
- * @brief Get field vx from set_position_target_global_int message
+ *  Get field vx from set_position_target_global_int message
  *
  * @return X velocity in NED frame in meter / s
  */
@@ -469,7 +469,7 @@ static inline float mavlink_msg_set_position_target_global_int_get_vx(const mavl
 }
 
 /**
- * @brief Get field vy from set_position_target_global_int message
+ *  Get field vy from set_position_target_global_int message
  *
  * @return Y velocity in NED frame in meter / s
  */
@@ -479,7 +479,7 @@ static inline float mavlink_msg_set_position_target_global_int_get_vy(const mavl
 }
 
 /**
- * @brief Get field vz from set_position_target_global_int message
+ *  Get field vz from set_position_target_global_int message
  *
  * @return Z velocity in NED frame in meter / s
  */
@@ -489,7 +489,7 @@ static inline float mavlink_msg_set_position_target_global_int_get_vz(const mavl
 }
 
 /**
- * @brief Get field afx from set_position_target_global_int message
+ *  Get field afx from set_position_target_global_int message
  *
  * @return X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
  */
@@ -499,7 +499,7 @@ static inline float mavlink_msg_set_position_target_global_int_get_afx(const mav
 }
 
 /**
- * @brief Get field afy from set_position_target_global_int message
+ *  Get field afy from set_position_target_global_int message
  *
  * @return Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
  */
@@ -509,7 +509,7 @@ static inline float mavlink_msg_set_position_target_global_int_get_afy(const mav
 }
 
 /**
- * @brief Get field afz from set_position_target_global_int message
+ *  Get field afz from set_position_target_global_int message
  *
  * @return Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
  */
@@ -519,7 +519,7 @@ static inline float mavlink_msg_set_position_target_global_int_get_afz(const mav
 }
 
 /**
- * @brief Get field yaw from set_position_target_global_int message
+ *  Get field yaw from set_position_target_global_int message
  *
  * @return yaw setpoint in rad
  */
@@ -529,7 +529,7 @@ static inline float mavlink_msg_set_position_target_global_int_get_yaw(const mav
 }
 
 /**
- * @brief Get field yaw_rate from set_position_target_global_int message
+ *  Get field yaw_rate from set_position_target_global_int message
  *
  * @return yaw rate setpoint in rad/s
  */
@@ -539,7 +539,7 @@ static inline float mavlink_msg_set_position_target_global_int_get_yaw_rate(cons
 }
 
 /**
- * @brief Decode a set_position_target_global_int message into a struct
+ *  Decode a set_position_target_global_int message into a struct
  *
  * @param msg The message to decode
  * @param set_position_target_global_int C-struct to decode the message contents into

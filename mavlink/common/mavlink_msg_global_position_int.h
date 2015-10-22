@@ -40,7 +40,7 @@ typedef struct __mavlink_global_position_int_t
 
 
 /**
- * @brief Pack a global_position_int message
+ *  Pack a global_position_int message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -96,7 +96,7 @@ static inline uint16_t mavlink_msg_global_position_int_pack(uint8_t system_id, u
 }
 
 /**
- * @brief Pack a global_position_int message on a channel
+ *  Pack a global_position_int message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -153,7 +153,7 @@ static inline uint16_t mavlink_msg_global_position_int_pack_chan(uint8_t system_
 }
 
 /**
- * @brief Encode a global_position_int struct
+ *  Encode a global_position_int struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -166,7 +166,7 @@ static inline uint16_t mavlink_msg_global_position_int_encode(uint8_t system_id,
 }
 
 /**
- * @brief Encode a global_position_int struct on a channel
+ *  Encode a global_position_int struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -180,7 +180,7 @@ static inline uint16_t mavlink_msg_global_position_int_encode_chan(uint8_t syste
 }
 
 /**
- * @brief Send a global_position_int message
+ *  Send a global_position_int message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -288,7 +288,7 @@ static inline void mavlink_msg_global_position_int_send_buf(mavlink_message_t *m
 
 
 /**
- * @brief Get field time_boot_ms from global_position_int message
+ *  Get field time_boot_ms from global_position_int message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -298,7 +298,7 @@ static inline uint32_t mavlink_msg_global_position_int_get_time_boot_ms(const ma
 }
 
 /**
- * @brief Get field lat from global_position_int message
+ *  Get field lat from global_position_int message
  *
  * @return Latitude, expressed as * 1E7
  */
@@ -308,7 +308,7 @@ static inline int32_t mavlink_msg_global_position_int_get_lat(const mavlink_mess
 }
 
 /**
- * @brief Get field lon from global_position_int message
+ *  Get field lon from global_position_int message
  *
  * @return Longitude, expressed as * 1E7
  */
@@ -318,7 +318,7 @@ static inline int32_t mavlink_msg_global_position_int_get_lon(const mavlink_mess
 }
 
 /**
- * @brief Get field alt from global_position_int message
+ *  Get field alt from global_position_int message
  *
  * @return Altitude in meters, expressed as * 1000 (millimeters), AMSL (not WGS84 - note that virtually all GPS modules provide the AMSL as well)
  */
@@ -328,7 +328,7 @@ static inline int32_t mavlink_msg_global_position_int_get_alt(const mavlink_mess
 }
 
 /**
- * @brief Get field relative_alt from global_position_int message
+ *  Get field relative_alt from global_position_int message
  *
  * @return Altitude above ground in meters, expressed as * 1000 (millimeters)
  */
@@ -338,7 +338,7 @@ static inline int32_t mavlink_msg_global_position_int_get_relative_alt(const mav
 }
 
 /**
- * @brief Get field vx from global_position_int message
+ *  Get field vx from global_position_int message
  *
  * @return Ground X Speed (Latitude), expressed as m/s * 100
  */
@@ -348,7 +348,7 @@ static inline int16_t mavlink_msg_global_position_int_get_vx(const mavlink_messa
 }
 
 /**
- * @brief Get field vy from global_position_int message
+ *  Get field vy from global_position_int message
  *
  * @return Ground Y Speed (Longitude), expressed as m/s * 100
  */
@@ -358,7 +358,7 @@ static inline int16_t mavlink_msg_global_position_int_get_vy(const mavlink_messa
 }
 
 /**
- * @brief Get field vz from global_position_int message
+ *  Get field vz from global_position_int message
  *
  * @return Ground Z Speed (Altitude), expressed as m/s * 100
  */
@@ -368,7 +368,7 @@ static inline int16_t mavlink_msg_global_position_int_get_vz(const mavlink_messa
 }
 
 /**
- * @brief Get field hdg from global_position_int message
+ *  Get field hdg from global_position_int message
  *
  * @return Compass heading in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX
  */
@@ -378,7 +378,7 @@ static inline uint16_t mavlink_msg_global_position_int_get_hdg(const mavlink_mes
 }
 
 /**
- * @brief Decode a global_position_int message into a struct
+ *  Decode a global_position_int message into a struct
  *
  * @param msg The message to decode
  * @param global_position_int C-struct to decode the message contents into

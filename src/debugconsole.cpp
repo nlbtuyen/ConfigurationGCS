@@ -804,7 +804,7 @@ void DebugConsole::hold(bool hold)
     }
 }
 
-/** @brief Handle the connect button */
+/**  Handle the connect button */
 void DebugConsole::handleConnectButton()
 {
     if (currLink) {

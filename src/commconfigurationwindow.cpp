@@ -23,10 +23,10 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
     ui.setupUi(this);
 
     // add link types
-    ui.linkType->addItem(tr("Serial"), QGC_LINK_SERIAL);
-    ui.linkType->setEditable(false);
+    //ui.linkType->addItem(tr("Serial"), QGC_LINK_SERIAL);
+    //ui.linkType->setEditable(false);
 
-    ui.connectionType->addItem("MAVLink", QGC_PROTOCOL_MAVLINK);
+//    ui.connectionType->addItem("MAVLink", QGC_PROTOCOL_MAVLINK);
 
     ui.connectButton->setProperty("type", "toggle-ok-warn");
     ui.deleteButton->setProperty("type", "push-vital");
@@ -68,7 +68,7 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
         QWidget* conf = new SerialConfigurationWindow(serial, this);
         ui.linkScrollArea->setWidget(conf);
         ui.linkGroupBox->setTitle(tr("Serial Link"));
-        ui.linkType->setCurrentIndex(0);
+//        ui.linkType->setCurrentIndex(0);
     }
 
     // Open details pane for MAVLink if necessary

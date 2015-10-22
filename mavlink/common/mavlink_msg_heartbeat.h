@@ -34,7 +34,7 @@ typedef struct __mavlink_heartbeat_t
 
 
 /**
- * @brief Pack a heartbeat message
+ *  Pack a heartbeat message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -80,7 +80,7 @@ static inline uint16_t mavlink_msg_heartbeat_pack(uint8_t system_id, uint8_t com
 }
 
 /**
- * @brief Pack a heartbeat message on a channel
+ *  Pack a heartbeat message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -127,7 +127,7 @@ static inline uint16_t mavlink_msg_heartbeat_pack_chan(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a heartbeat struct
+ *  Encode a heartbeat struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -140,7 +140,7 @@ static inline uint16_t mavlink_msg_heartbeat_encode(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Encode a heartbeat struct on a channel
+ *  Encode a heartbeat struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -154,7 +154,7 @@ static inline uint16_t mavlink_msg_heartbeat_encode_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Send a heartbeat message
+ *  Send a heartbeat message
  * @param chan MAVLink channel to send the message
  *
  * @param type Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
@@ -246,7 +246,7 @@ static inline void mavlink_msg_heartbeat_send_buf(mavlink_message_t *msgbuf, mav
 
 
 /**
- * @brief Get field type from heartbeat message
+ *  Get field type from heartbeat message
  *
  * @return Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
  */
@@ -256,7 +256,7 @@ static inline uint8_t mavlink_msg_heartbeat_get_type(const mavlink_message_t* ms
 }
 
 /**
- * @brief Get field autopilot from heartbeat message
+ *  Get field autopilot from heartbeat message
  *
  * @return Autopilot type / class. defined in MAV_AUTOPILOT ENUM
  */
@@ -266,7 +266,7 @@ static inline uint8_t mavlink_msg_heartbeat_get_autopilot(const mavlink_message_
 }
 
 /**
- * @brief Get field base_mode from heartbeat message
+ *  Get field base_mode from heartbeat message
  *
  * @return System mode bitfield, see MAV_MODE_FLAG ENUM in mavlink/include/mavlink_types.h
  */
@@ -276,7 +276,7 @@ static inline uint8_t mavlink_msg_heartbeat_get_base_mode(const mavlink_message_
 }
 
 /**
- * @brief Get field custom_mode from heartbeat message
+ *  Get field custom_mode from heartbeat message
  *
  * @return A bitfield for use for autopilot-specific flags.
  */
@@ -286,7 +286,7 @@ static inline uint32_t mavlink_msg_heartbeat_get_custom_mode(const mavlink_messa
 }
 
 /**
- * @brief Get field system_status from heartbeat message
+ *  Get field system_status from heartbeat message
  *
  * @return System status flag, see MAV_STATE ENUM
  */
@@ -296,7 +296,7 @@ static inline uint8_t mavlink_msg_heartbeat_get_system_status(const mavlink_mess
 }
 
 /**
- * @brief Get field mavlink_version from heartbeat message
+ *  Get field mavlink_version from heartbeat message
  *
  * @return MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version
  */
@@ -306,7 +306,7 @@ static inline uint8_t mavlink_msg_heartbeat_get_mavlink_version(const mavlink_me
 }
 
 /**
- * @brief Decode a heartbeat message into a struct
+ *  Decode a heartbeat message into a struct
  *
  * @param msg The message to decode
  * @param heartbeat C-struct to decode the message contents into

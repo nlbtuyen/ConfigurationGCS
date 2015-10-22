@@ -14,7 +14,7 @@
 #endif
 
 /**
- * @brief Central manager for all connected aerial vehicles
+ *  Central manager for all connected aerial vehicles
  *
  * This class keeps a list of all connected / configured UASs. It also stores which
  * UAS is currently select with respect to user input or manual controls.
@@ -28,14 +28,14 @@ public:
     ~UASManager();
 
     /**
-     * @brief Get the currently selected UAS
+     *  Get the currently selected UAS
      *
      * @return NULL pointer if no UAS exists, active UAS else
      **/
     UASInterface* getActiveUAS();
     UASInterface* silentGetActiveUAS();
     /**
-     * @brief Get the UAS with this id
+     *  Get the UAS with this id
      *
      * Although not enforced by this implementation, the IDs are constrained to be
      * in the range of 1 - 127 by the MAVLINK protocol.
@@ -46,39 +46,39 @@ public:
     UASInterface* getUASForId(int id);
 
     QList<UASInterface*> getUASList();
-    /** @brief Get home position latitude */
+    /**  Get home position latitude */
     double getHomeLatitude() const {
         return homeLat;
     }
-    /** @brief Get home position longitude */
+    /**  Get home position longitude */
     double getHomeLongitude() const {
         return homeLon;
     }
-    /** @brief Get home position altitude */
+    /**  Get home position altitude */
     double getHomeAltitude() const {
         return homeAlt;
     }
 
-    /** @brief Get the home position coordinate frame */
+    /**  Get the home position coordinate frame */
     int getHomeFrame() const
     {
         return homeFrame;
     }
 
-    /** @brief Get home position altitude */
+    /**  Get home position altitude */
     int getSystemsCount() const {
         return systems.size();
     }
 
-    /** @brief Convert WGS84 coordinates to earth centric frame */
+    /**  Convert WGS84 coordinates to earth centric frame */
     Eigen::Vector3d wgs84ToEcef(const double & latitude, const double & longitude, const double & altitude);
-    /** @brief Convert earth centric frame to EAST-NORTH-UP frame (x-y-z directions */
+    /**  Convert earth centric frame to EAST-NORTH-UP frame (x-y-z directions */
     Eigen::Vector3d ecefToEnu(const Eigen::Vector3d & ecef);
-    /** @brief Convert WGS84 lat/lon coordinates to carthesian coordinates with home position as origin */
+    /**  Convert WGS84 lat/lon coordinates to carthesian coordinates with home position as origin */
     void wgs84ToEnu(const double& lat, const double& lon, const double& alt, double* east, double* north, double* up);
-    /** @brief Convert x,y,z coordinates to lat / lon / alt coordinates in east-north-up frame */
+    /**  Convert x,y,z coordinates to lat / lon / alt coordinates in east-north-up frame */
     void enuToWgs84(const double& x, const double& y, const double& z, double* lat, double* lon, double* alt);
-    /** @brief Convert x,y,z coordinates to lat / lon / alt coordinates in north-east-down frame */
+    /**  Convert x,y,z coordinates to lat / lon / alt coordinates in north-east-down frame */
     void nedToWgs84(const double& x, const double& y, const double& z, double* lat, double* lon, double* alt);
 
     void getLocalNEDSafetyLimits(double* x1, double* y1, double* z1, double* x2, double* y2, double* z2)
@@ -92,7 +92,7 @@ public:
         *z2 = nedSafetyLimitPosition2.z();
     }
 
-    /** @brief Check if a position is in the local NED safety limits */
+    /**  Check if a position is in the local NED safety limits */
     bool isInLocalNEDSafetyLimits(double x, double y, double z)
     {
         if (x < nedSafetyLimitPosition1.x() &&
@@ -118,19 +118,19 @@ public:
 public slots:
 
     /**
-     * @brief Add a new UAS to the list
+     *  Add a new UAS to the list
      *
      * This command will only be executed if this UAS does not yet exist.
      * @param UAS unmanned air system to add
      **/
     void addUAS(UASInterface* UAS);
 
-    /** @brief Remove a system from the list */
+    /**  Remove a system from the list */
     void removeUAS(UASInterface* uas);
 
 
     /**
-      * @brief Set a UAS as currently selected
+      *  Set a UAS as currently selected
       *
       * @param UAS Unmanned Air System to set
       **/
@@ -138,7 +138,7 @@ public slots:
 
 
     /**
-     * @brief Launch the active UAS
+     *  Launch the active UAS
      *
      * The groundstation has always one Unmanned Air System selected.
      * All commands are executed on the UAS in focus. This command starts
@@ -153,7 +153,7 @@ public slots:
     bool continueActiveUAS();
 
     /**
-     * @brief Land the active UAS
+     *  Land the active UAS
      *
      * The groundstation has always one Unmanned Air System selected.
      * All commands are executed on the UAS in focus. This command starts
@@ -167,7 +167,7 @@ public slots:
 
 
     /**
-     * @brief EMERGENCY: Stop active UAS
+     *  EMERGENCY: Stop active UAS
      *
      * The groundstation has always one Unmanned Air System selected.
      * All commands are executed on the UAS in focus. This command
@@ -181,7 +181,7 @@ public slots:
     bool stopActiveUAS();
 
     /**
-     * @brief EMERGENCY: Kill active UAS
+     *  EMERGENCY: Kill active UAS
      *
      * The groundstation has always one Unmanned Air System selected.
      * All commands are executed on the UAS in focus. This command
@@ -196,27 +196,27 @@ public slots:
     bool killActiveUAS();
 
     /**
-     * @brief Configure the currently active UAS
+     *  Configure the currently active UAS
      *
      * This command will bring up the configuration dialog for the particular UAS.
      */
     void configureActiveUAS();
 
-    /** @brief Shut down the onboard operating system down */
+    /**  Shut down the onboard operating system down */
     bool shutdownActiveUAS();
 
-    /** @brief Set the current home position on all UAVs*/
+    /**  Set the current home position on all UAVs*/
     bool setHomePosition(double lat, double lon, double alt);
 
-    /** @brief Set the safety limits in local position frame */
+    /**  Set the safety limits in local position frame */
     void setLocalNEDSafetyBorders(double x1, double y1, double z1, double x2, double y2, double z2);
 
-    /** @brief Update home position based on the position from one of the UAVs */
+    /**  Update home position based on the position from one of the UAVs */
     void uavChangedHomePosition(int uav, double lat, double lon, double alt);
 
-    /** @brief Load settings */
+    /**  Load settings */
     void loadSettings();
-    /** @brief Store settings */
+    /**  Store settings */
     void storeSettings();
 
 
@@ -242,17 +242,17 @@ signals:
     void UASCreated(UASInterface* UAS);
     /** A system was deleted */
     void UASDeleted(UASInterface* UAS);
-    /** @brief The UAS currently under main operator control changed */
+    /**  The UAS currently under main operator control changed */
     void activeUASSet(UASInterface* UAS);
-    /** @brief The UAS currently under main operator control changed */
+    /**  The UAS currently under main operator control changed */
     void activeUASSet(int systemId);
-    /** @brief The UAS currently under main operator control changed */
+    /**  The UAS currently under main operator control changed */
     void activeUASSetListIndex(int listIndex);
-    /** @brief The UAS currently under main operator control changed */
+    /**  The UAS currently under main operator control changed */
     void activeUASStatusChanged(UASInterface* UAS, bool active);
-    /** @brief The UAS currently under main operator control changed */
+    /**  The UAS currently under main operator control changed */
     void activeUASStatusChanged(int systemId, bool active);
-    /** @brief Current home position changed */
+    /**  Current home position changed */
     void homePositionChanged(double lat, double lon, double alt);
 public:
     /* Need to align struct pointer to prevent a memory assertion:

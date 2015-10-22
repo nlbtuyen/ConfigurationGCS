@@ -20,7 +20,7 @@ public slots:
     virtual void receiveBytes(LinkInterface *link, QByteArray b) = 0;
 
 signals:
-    /** @brief Update the packet loss from one system */
+    /**  Update the packet loss from one system */
     void receiveLossChanged(int uasId, float loss);
 
 };

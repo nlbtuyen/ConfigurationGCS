@@ -81,7 +81,7 @@
 #endif // MAVLINK_SEPARATE_HELPERS
 
 /**
- * @brief Get the required buffer size for this message
+ *  Get the required buffer size for this message
  */
 static inline uint16_t mavlink_msg_get_send_buffer_length(const mavlink_message_t* msg)
 {

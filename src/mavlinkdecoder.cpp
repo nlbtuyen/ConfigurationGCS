@@ -58,7 +58,7 @@ MAVLinkDecoder::MAVLinkDecoder(MAVLinkProtocol* protocol, QObject *parent) :
 }
 
 /**
- * @brief Runs the thread
+ *  Runs the thread
  *
  **/
 void MAVLinkDecoder::run()

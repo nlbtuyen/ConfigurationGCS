@@ -26,7 +26,7 @@ typedef struct __mavlink_system_time_t
 
 
 /**
- * @brief Pack a system_time message
+ *  Pack a system_time message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -61,7 +61,7 @@ static inline uint16_t mavlink_msg_system_time_pack(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Pack a system_time message on a channel
+ *  Pack a system_time message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -97,7 +97,7 @@ static inline uint16_t mavlink_msg_system_time_pack_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a system_time struct
+ *  Encode a system_time struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -110,7 +110,7 @@ static inline uint16_t mavlink_msg_system_time_encode(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a system_time struct on a channel
+ *  Encode a system_time struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -124,7 +124,7 @@ static inline uint16_t mavlink_msg_system_time_encode_chan(uint8_t system_id, ui
 }
 
 /**
- * @brief Send a system_time message
+ *  Send a system_time message
  * @param chan MAVLink channel to send the message
  *
  * @param time_unix_usec Timestamp of the master clock in microseconds since UNIX epoch.
@@ -197,7 +197,7 @@ static inline void mavlink_msg_system_time_send_buf(mavlink_message_t *msgbuf, m
 
 
 /**
- * @brief Get field time_unix_usec from system_time message
+ *  Get field time_unix_usec from system_time message
  *
  * @return Timestamp of the master clock in microseconds since UNIX epoch.
  */
@@ -207,7 +207,7 @@ static inline uint64_t mavlink_msg_system_time_get_time_unix_usec(const mavlink_
 }
 
 /**
- * @brief Get field time_boot_ms from system_time message
+ *  Get field time_boot_ms from system_time message
  *
  * @return Timestamp of the component clock since boot time in milliseconds.
  */
@@ -217,7 +217,7 @@ static inline uint32_t mavlink_msg_system_time_get_time_boot_ms(const mavlink_me
 }
 
 /**
- * @brief Decode a system_time message into a struct
+ *  Decode a system_time message into a struct
  *
  * @param msg The message to decode
  * @param system_time C-struct to decode the message contents into

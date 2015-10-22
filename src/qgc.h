@@ -47,15 +47,15 @@ const QColor colorDarkYellow(180, 180, 0);
 const QColor colorBackground("#050508");
 const QColor colorBlack(0, 0, 0);
 
-/** @brief Get the current ground time in microseconds */
+/**  Get the current ground time in microseconds */
 quint64 groundTimeUsecs();
-/** @brief Get the current ground time in milliseconds */
+/**  Get the current ground time in milliseconds */
 quint64 groundTimeMilliseconds();
-/** @brief Get the current ground time in seconds */
+/**  Get the current ground time in seconds */
 qreal groundTimeSeconds();
-/** @brief Returns the angle limited to -pi - pi */
+/**  Returns the angle limited to -pi - pi */
 float limitAngleToPMPIf(float angle);
-/** @brief Returns the angle limited to -pi - pi */
+/**  Returns the angle limited to -pi - pi */
 double limitAngleToPMPId(double angle);
 
 const static int MAX_FLIGHT_TIME = 60 * 60 * 24 * 21;
@@ -64,21 +64,21 @@ class SLEEP : public QThread
 {
 public:
     /**
-     * @brief Set a thread to sleep for seconds
+     *  Set a thread to sleep for seconds
      * @param s time in seconds to sleep
      **/
     static void sleep(unsigned long s) {
         QThread::sleep(s);
     }
     /**
-     * @brief Set a thread to sleep for milliseconds
+     *  Set a thread to sleep for milliseconds
      * @param ms time in milliseconds to sleep
      **/
     static void msleep(unsigned long ms) {
         QThread::msleep(ms);
     }
     /**
-     * @brief Set a thread to sleep for microseconds
+     *  Set a thread to sleep for microseconds
      * @param us time in microseconds to sleep
      **/
     static void usleep(unsigned long us) {

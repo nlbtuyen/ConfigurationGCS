@@ -95,10 +95,10 @@ private slots:
     void toggleRadioStream(int r);
 
     //RC Chart
-    void pitchCharts();
+    void pitchChart();
     void calculateResult1_RC();
     void calculateYLoca();
-    void drawCharts();
+    void drawChart_Pitch();
 
     //3D Model
     void load3DModel();
@@ -110,7 +110,8 @@ private slots:
 
     // @trung: RC Chart TPA
     void TPAChart();
-    void drawChartTPA();
+    void drawChart_TPA();
+    void BLHeliTab();
 
     // @trung: tab BLHeli
     void set_Value_Title_LabelBeep(int value);

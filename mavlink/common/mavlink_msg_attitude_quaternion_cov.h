@@ -35,7 +35,7 @@ typedef struct __mavlink_attitude_quaternion_cov_t
 
 
 /**
- * @brief Pack a attitude_quaternion_cov message
+ *  Pack a attitude_quaternion_cov message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -80,7 +80,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_cov_pack(uint8_t system_i
 }
 
 /**
- * @brief Pack a attitude_quaternion_cov message on a channel
+ *  Pack a attitude_quaternion_cov message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -126,7 +126,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_cov_pack_chan(uint8_t sys
 }
 
 /**
- * @brief Encode a attitude_quaternion_cov struct
+ *  Encode a attitude_quaternion_cov struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -139,7 +139,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_cov_encode(uint8_t system
 }
 
 /**
- * @brief Encode a attitude_quaternion_cov struct on a channel
+ *  Encode a attitude_quaternion_cov struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -153,7 +153,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_cov_encode_chan(uint8_t s
 }
 
 /**
- * @brief Send a attitude_quaternion_cov message
+ *  Send a attitude_quaternion_cov message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -242,7 +242,7 @@ static inline void mavlink_msg_attitude_quaternion_cov_send_buf(mavlink_message_
 
 
 /**
- * @brief Get field time_boot_ms from attitude_quaternion_cov message
+ *  Get field time_boot_ms from attitude_quaternion_cov message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -252,7 +252,7 @@ static inline uint32_t mavlink_msg_attitude_quaternion_cov_get_time_boot_ms(cons
 }
 
 /**
- * @brief Get field q from attitude_quaternion_cov message
+ *  Get field q from attitude_quaternion_cov message
  *
  * @return Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)
  */
@@ -262,7 +262,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_cov_get_q(const mavlink_m
 }
 
 /**
- * @brief Get field rollspeed from attitude_quaternion_cov message
+ *  Get field rollspeed from attitude_quaternion_cov message
  *
  * @return Roll angular speed (rad/s)
  */
@@ -272,7 +272,7 @@ static inline float mavlink_msg_attitude_quaternion_cov_get_rollspeed(const mavl
 }
 
 /**
- * @brief Get field pitchspeed from attitude_quaternion_cov message
+ *  Get field pitchspeed from attitude_quaternion_cov message
  *
  * @return Pitch angular speed (rad/s)
  */
@@ -282,7 +282,7 @@ static inline float mavlink_msg_attitude_quaternion_cov_get_pitchspeed(const mav
 }
 
 /**
- * @brief Get field yawspeed from attitude_quaternion_cov message
+ *  Get field yawspeed from attitude_quaternion_cov message
  *
  * @return Yaw angular speed (rad/s)
  */
@@ -292,7 +292,7 @@ static inline float mavlink_msg_attitude_quaternion_cov_get_yawspeed(const mavli
 }
 
 /**
- * @brief Get field covariance from attitude_quaternion_cov message
+ *  Get field covariance from attitude_quaternion_cov message
  *
  * @return Attitude covariance
  */
@@ -302,7 +302,7 @@ static inline uint16_t mavlink_msg_attitude_quaternion_cov_get_covariance(const 
 }
 
 /**
- * @brief Decode a attitude_quaternion_cov message into a struct
+ *  Decode a attitude_quaternion_cov message into a struct
  *
  * @param msg The message to decode
  * @param attitude_quaternion_cov C-struct to decode the message contents into

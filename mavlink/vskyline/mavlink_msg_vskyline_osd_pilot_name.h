@@ -24,7 +24,7 @@ typedef struct __mavlink_vskyline_osd_pilot_name_t
 
 
 /**
- * @brief Pack a vskyline_osd_pilot_name message
+ *  Pack a vskyline_osd_pilot_name message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -56,7 +56,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_pilot_name_pack(uint8_t system_i
 }
 
 /**
- * @brief Pack a vskyline_osd_pilot_name message on a channel
+ *  Pack a vskyline_osd_pilot_name message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -89,7 +89,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_pilot_name_pack_chan(uint8_t sys
 }
 
 /**
- * @brief Encode a vskyline_osd_pilot_name struct
+ *  Encode a vskyline_osd_pilot_name struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -102,7 +102,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_pilot_name_encode(uint8_t system
 }
 
 /**
- * @brief Encode a vskyline_osd_pilot_name struct on a channel
+ *  Encode a vskyline_osd_pilot_name struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -116,7 +116,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_pilot_name_encode_chan(uint8_t s
 }
 
 /**
- * @brief Send a vskyline_osd_pilot_name message
+ *  Send a vskyline_osd_pilot_name message
  * @param chan MAVLink channel to send the message
  *
  * @param pilot_name Pilot name OSD.
@@ -184,7 +184,7 @@ static inline void mavlink_msg_vskyline_osd_pilot_name_send_buf(mavlink_message_
 
 
 /**
- * @brief Get field pilot_name from vskyline_osd_pilot_name message
+ *  Get field pilot_name from vskyline_osd_pilot_name message
  *
  * @return Pilot name OSD.
  */
@@ -194,7 +194,7 @@ static inline uint32_t mavlink_msg_vskyline_osd_pilot_name_get_pilot_name(const 
 }
 
 /**
- * @brief Decode a vskyline_osd_pilot_name message into a struct
+ *  Decode a vskyline_osd_pilot_name message into a struct
  *
  * @param msg The message to decode
  * @param vskyline_osd_pilot_name C-struct to decode the message contents into

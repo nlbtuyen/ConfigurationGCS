@@ -28,7 +28,7 @@ typedef struct __mavlink_mission_ack_t
 
 
 /**
- * @brief Pack a mission_ack message
+ *  Pack a mission_ack message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -66,7 +66,7 @@ static inline uint16_t mavlink_msg_mission_ack_pack(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Pack a mission_ack message on a channel
+ *  Pack a mission_ack message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -105,7 +105,7 @@ static inline uint16_t mavlink_msg_mission_ack_pack_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a mission_ack struct
+ *  Encode a mission_ack struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -118,7 +118,7 @@ static inline uint16_t mavlink_msg_mission_ack_encode(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a mission_ack struct on a channel
+ *  Encode a mission_ack struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -132,7 +132,7 @@ static inline uint16_t mavlink_msg_mission_ack_encode_chan(uint8_t system_id, ui
 }
 
 /**
- * @brief Send a mission_ack message
+ *  Send a mission_ack message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -210,7 +210,7 @@ static inline void mavlink_msg_mission_ack_send_buf(mavlink_message_t *msgbuf, m
 
 
 /**
- * @brief Get field target_system from mission_ack message
+ *  Get field target_system from mission_ack message
  *
  * @return System ID
  */
@@ -220,7 +220,7 @@ static inline uint8_t mavlink_msg_mission_ack_get_target_system(const mavlink_me
 }
 
 /**
- * @brief Get field target_component from mission_ack message
+ *  Get field target_component from mission_ack message
  *
  * @return Component ID
  */
@@ -230,7 +230,7 @@ static inline uint8_t mavlink_msg_mission_ack_get_target_component(const mavlink
 }
 
 /**
- * @brief Get field type from mission_ack message
+ *  Get field type from mission_ack message
  *
  * @return See MAV_MISSION_RESULT enum
  */
@@ -240,7 +240,7 @@ static inline uint8_t mavlink_msg_mission_ack_get_type(const mavlink_message_t* 
 }
 
 /**
- * @brief Decode a mission_ack message into a struct
+ *  Decode a mission_ack message into a struct
  *
  * @param msg The message to decode
  * @param mission_ack C-struct to decode the message contents into

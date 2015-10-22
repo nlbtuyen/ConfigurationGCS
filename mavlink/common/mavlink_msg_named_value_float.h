@@ -28,7 +28,7 @@ typedef struct __mavlink_named_value_float_t
 
 
 /**
- * @brief Pack a named_value_float message
+ *  Pack a named_value_float message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -64,7 +64,7 @@ static inline uint16_t mavlink_msg_named_value_float_pack(uint8_t system_id, uin
 }
 
 /**
- * @brief Pack a named_value_float message on a channel
+ *  Pack a named_value_float message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -101,7 +101,7 @@ static inline uint16_t mavlink_msg_named_value_float_pack_chan(uint8_t system_id
 }
 
 /**
- * @brief Encode a named_value_float struct
+ *  Encode a named_value_float struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -114,7 +114,7 @@ static inline uint16_t mavlink_msg_named_value_float_encode(uint8_t system_id, u
 }
 
 /**
- * @brief Encode a named_value_float struct on a channel
+ *  Encode a named_value_float struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -128,7 +128,7 @@ static inline uint16_t mavlink_msg_named_value_float_encode_chan(uint8_t system_
 }
 
 /**
- * @brief Send a named_value_float message
+ *  Send a named_value_float message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -202,7 +202,7 @@ static inline void mavlink_msg_named_value_float_send_buf(mavlink_message_t *msg
 
 
 /**
- * @brief Get field time_boot_ms from named_value_float message
+ *  Get field time_boot_ms from named_value_float message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -212,7 +212,7 @@ static inline uint32_t mavlink_msg_named_value_float_get_time_boot_ms(const mavl
 }
 
 /**
- * @brief Get field name from named_value_float message
+ *  Get field name from named_value_float message
  *
  * @return Name of the debug variable
  */
@@ -222,7 +222,7 @@ static inline uint16_t mavlink_msg_named_value_float_get_name(const mavlink_mess
 }
 
 /**
- * @brief Get field value from named_value_float message
+ *  Get field value from named_value_float message
  *
  * @return Floating point value
  */
@@ -232,7 +232,7 @@ static inline float mavlink_msg_named_value_float_get_value(const mavlink_messag
 }
 
 /**
- * @brief Decode a named_value_float message into a struct
+ *  Decode a named_value_float message into a struct
  *
  * @param msg The message to decode
  * @param named_value_float C-struct to decode the message contents into

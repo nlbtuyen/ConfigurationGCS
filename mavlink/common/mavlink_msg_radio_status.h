@@ -36,7 +36,7 @@ typedef struct __mavlink_radio_status_t
 
 
 /**
- * @brief Pack a radio_status message
+ *  Pack a radio_status message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -86,7 +86,7 @@ static inline uint16_t mavlink_msg_radio_status_pack(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Pack a radio_status message on a channel
+ *  Pack a radio_status message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -137,7 +137,7 @@ static inline uint16_t mavlink_msg_radio_status_pack_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a radio_status struct
+ *  Encode a radio_status struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -150,7 +150,7 @@ static inline uint16_t mavlink_msg_radio_status_encode(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a radio_status struct on a channel
+ *  Encode a radio_status struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -164,7 +164,7 @@ static inline uint16_t mavlink_msg_radio_status_encode_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Send a radio_status message
+ *  Send a radio_status message
  * @param chan MAVLink channel to send the message
  *
  * @param rssi Local signal strength
@@ -262,7 +262,7 @@ static inline void mavlink_msg_radio_status_send_buf(mavlink_message_t *msgbuf, 
 
 
 /**
- * @brief Get field rssi from radio_status message
+ *  Get field rssi from radio_status message
  *
  * @return Local signal strength
  */
@@ -272,7 +272,7 @@ static inline uint8_t mavlink_msg_radio_status_get_rssi(const mavlink_message_t*
 }
 
 /**
- * @brief Get field remrssi from radio_status message
+ *  Get field remrssi from radio_status message
  *
  * @return Remote signal strength
  */
@@ -282,7 +282,7 @@ static inline uint8_t mavlink_msg_radio_status_get_remrssi(const mavlink_message
 }
 
 /**
- * @brief Get field txbuf from radio_status message
+ *  Get field txbuf from radio_status message
  *
  * @return Remaining free buffer space in percent.
  */
@@ -292,7 +292,7 @@ static inline uint8_t mavlink_msg_radio_status_get_txbuf(const mavlink_message_t
 }
 
 /**
- * @brief Get field noise from radio_status message
+ *  Get field noise from radio_status message
  *
  * @return Background noise level
  */
@@ -302,7 +302,7 @@ static inline uint8_t mavlink_msg_radio_status_get_noise(const mavlink_message_t
 }
 
 /**
- * @brief Get field remnoise from radio_status message
+ *  Get field remnoise from radio_status message
  *
  * @return Remote background noise level
  */
@@ -312,7 +312,7 @@ static inline uint8_t mavlink_msg_radio_status_get_remnoise(const mavlink_messag
 }
 
 /**
- * @brief Get field rxerrors from radio_status message
+ *  Get field rxerrors from radio_status message
  *
  * @return Receive errors
  */
@@ -322,7 +322,7 @@ static inline uint16_t mavlink_msg_radio_status_get_rxerrors(const mavlink_messa
 }
 
 /**
- * @brief Get field fixed from radio_status message
+ *  Get field fixed from radio_status message
  *
  * @return Count of error corrected packets
  */
@@ -332,7 +332,7 @@ static inline uint16_t mavlink_msg_radio_status_get_fixed(const mavlink_message_
 }
 
 /**
- * @brief Decode a radio_status message into a struct
+ *  Decode a radio_status message into a struct
  *
  * @param msg The message to decode
  * @param radio_status C-struct to decode the message contents into

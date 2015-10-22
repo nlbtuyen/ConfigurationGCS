@@ -42,7 +42,7 @@ typedef struct __mavlink_raw_imu_t
 
 
 /**
- * @brief Pack a raw_imu message
+ *  Pack a raw_imu message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -101,7 +101,7 @@ static inline uint16_t mavlink_msg_raw_imu_pack(uint8_t system_id, uint8_t compo
 }
 
 /**
- * @brief Pack a raw_imu message on a channel
+ *  Pack a raw_imu message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -161,7 +161,7 @@ static inline uint16_t mavlink_msg_raw_imu_pack_chan(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Encode a raw_imu struct
+ *  Encode a raw_imu struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -174,7 +174,7 @@ static inline uint16_t mavlink_msg_raw_imu_encode(uint8_t system_id, uint8_t com
 }
 
 /**
- * @brief Encode a raw_imu struct on a channel
+ *  Encode a raw_imu struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -188,7 +188,7 @@ static inline uint16_t mavlink_msg_raw_imu_encode_chan(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Send a raw_imu message
+ *  Send a raw_imu message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
@@ -301,7 +301,7 @@ static inline void mavlink_msg_raw_imu_send_buf(mavlink_message_t *msgbuf, mavli
 
 
 /**
- * @brief Get field time_usec from raw_imu message
+ *  Get field time_usec from raw_imu message
  *
  * @return Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  */
@@ -311,7 +311,7 @@ static inline uint64_t mavlink_msg_raw_imu_get_time_usec(const mavlink_message_t
 }
 
 /**
- * @brief Get field xacc from raw_imu message
+ *  Get field xacc from raw_imu message
  *
  * @return X acceleration (raw)
  */
@@ -321,7 +321,7 @@ static inline int16_t mavlink_msg_raw_imu_get_xacc(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field yacc from raw_imu message
+ *  Get field yacc from raw_imu message
  *
  * @return Y acceleration (raw)
  */
@@ -331,7 +331,7 @@ static inline int16_t mavlink_msg_raw_imu_get_yacc(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field zacc from raw_imu message
+ *  Get field zacc from raw_imu message
  *
  * @return Z acceleration (raw)
  */
@@ -341,7 +341,7 @@ static inline int16_t mavlink_msg_raw_imu_get_zacc(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field xgyro from raw_imu message
+ *  Get field xgyro from raw_imu message
  *
  * @return Angular speed around X axis (raw)
  */
@@ -351,7 +351,7 @@ static inline int16_t mavlink_msg_raw_imu_get_xgyro(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field ygyro from raw_imu message
+ *  Get field ygyro from raw_imu message
  *
  * @return Angular speed around Y axis (raw)
  */
@@ -361,7 +361,7 @@ static inline int16_t mavlink_msg_raw_imu_get_ygyro(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field zgyro from raw_imu message
+ *  Get field zgyro from raw_imu message
  *
  * @return Angular speed around Z axis (raw)
  */
@@ -371,7 +371,7 @@ static inline int16_t mavlink_msg_raw_imu_get_zgyro(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field xmag from raw_imu message
+ *  Get field xmag from raw_imu message
  *
  * @return X Magnetic field (raw)
  */
@@ -381,7 +381,7 @@ static inline int16_t mavlink_msg_raw_imu_get_xmag(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field ymag from raw_imu message
+ *  Get field ymag from raw_imu message
  *
  * @return Y Magnetic field (raw)
  */
@@ -391,7 +391,7 @@ static inline int16_t mavlink_msg_raw_imu_get_ymag(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field zmag from raw_imu message
+ *  Get field zmag from raw_imu message
  *
  * @return Z Magnetic field (raw)
  */
@@ -401,7 +401,7 @@ static inline int16_t mavlink_msg_raw_imu_get_zmag(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Decode a raw_imu message into a struct
+ *  Decode a raw_imu message into a struct
  *
  * @param msg The message to decode
  * @param raw_imu C-struct to decode the message contents into

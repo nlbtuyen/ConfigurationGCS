@@ -23,7 +23,7 @@ class AQParamWidget : public UASParamManager
 public:
     AQParamWidget(UASInterface* uas, QWidget *parent = 0);
     ~AQParamWidget();
-    /** @brief Get the UAS of this widget */
+    /**  Get the UAS of this widget */
     UASInterface* getUAS();
     QVariant getParaAQ(QString parameterName);
     void setParaAQ(QString parameterName, QVariant value);
@@ -39,11 +39,11 @@ public:
     QString getParamInfo(const QString& param) { return paramToolTips.value(param, ""); }
 
 signals:
-    /** @brief A parameter was changed in the widget, NOT onboard */
+    /**  A parameter was changed in the widget, NOT onboard */
     //void parameterChanged(int component, QString parametername, float value); // defined in QGCUASParamManager already
-    /** @brief Request a single parameter */
+    /**  Request a single parameter */
     void requestParameter(int component, int parameter);
-    /** @brief Request a single parameter by name */
+    /**  Request a single parameter by name */
     void requestParameter(int component, const QString& parameter);
     void requestParameterRefreshed();
     void paramRequestTimeout(int readCount, int writeCount);
@@ -51,36 +51,36 @@ signals:
 
 public slots:
     void retranslateUi();
-    /** @brief Add a component to the list */
+    /**  Add a component to the list */
     void addComponent(int uas, int component, QString componentName);
-    /** @brief Add a parameter to the list with retransmission / safety checks */
+    /**  Add a parameter to the list with retransmission / safety checks */
     void addParameter(int uas, int component, int paramCount, int paramId, QString parameterName, QVariant value);
-/** @brief Add a parameter to the list */
+/**  Add a parameter to the list */
     void addParameter(int uas, int component, QString parameterName, QVariant value);
-    /** @brief Request list of parameters from MAV */
+    /**  Request list of parameters from MAV */
     void requestParameterList();
-    /** @brief Request one single parameter */
+    /**  Request one single parameter */
     void requestParameterUpdate(int component, const QString& parameter);
-    /** @brief Set one parameter, changes value in RAM of MAV */
+    /**  Set one parameter, changes value in RAM of MAV */
     void setParameter(int component, QString parameterName, QVariant value);
-    /** @brief Set all parameters, changes the value in RAM of MAV */
+    /**  Set all parameters, changes the value in RAM of MAV */
     void setParameters();
-    /** @brief Write the current parameters to permanent storage (EEPROM/HDD) */
+    /**  Write the current parameters to permanent storage (EEPROM/HDD) */
     void writeParameters();
-    /** @brief Read the parameters from permanent storage to RAM */
+    /**  Read the parameters from permanent storage to RAM */
     void readParameters();
-    /** @brief Clear the parameter list */
+    /**  Clear the parameter list */
     void clear();
-    /** @brief Update when user changes parameters */
+    /**  Update when user changes parameters */
     void parameterItemChanged(QTreeWidgetItem* prev, int column);
 
     void saveParamFile();
-    /** @brief Store parameters to a file */
+    /**  Store parameters to a file */
     void saveParameters(int fileFormat = 1);  // fileFormat: 0 = QGC format, 1 = AQ params.txt format
-    /** @brief Load parameters from a file */
+    /**  Load parameters from a file */
     void loadParameters();
 
-    /** @brief Check for missing parameters */
+    /**  Check for missing parameters */
     void retransmissionGuardTick();
 
     void loadParaFromSD();
@@ -118,12 +118,12 @@ protected:
 
     QStringList expandedTreeItems;
 
-    /** @brief Activate / deactivate parameter retransmission */
+    /**  Activate / deactivate parameter retransmission */
     void setRetransmissionGuardEnabled(bool enabled);
-    /** @brief Load  settings */
+    /**  Load  settings */
     void loadSettings();
     void saveSettings();
-    /** @brief Load meta information from CSV */
+    /**  Load meta information from CSV */
     void loadParameterInfoCSV(const QString& autopilot, const QString& airframe);
     int OverrideCheckValue;
     UASInterface* uas;

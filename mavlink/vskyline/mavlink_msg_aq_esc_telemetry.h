@@ -44,7 +44,7 @@ typedef struct __mavlink_aq_esc_telemetry_t
 
 
 /**
- * @brief Pack a aq_esc_telemetry message
+ *  Pack a aq_esc_telemetry message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -98,7 +98,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_pack(uint8_t system_id, uint
 }
 
 /**
- * @brief Pack a aq_esc_telemetry message on a channel
+ *  Pack a aq_esc_telemetry message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -153,7 +153,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_pack_chan(uint8_t system_id,
 }
 
 /**
- * @brief Encode a aq_esc_telemetry struct
+ *  Encode a aq_esc_telemetry struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -166,7 +166,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_encode(uint8_t system_id, ui
 }
 
 /**
- * @brief Encode a aq_esc_telemetry struct on a channel
+ *  Encode a aq_esc_telemetry struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -180,7 +180,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_encode_chan(uint8_t system_i
 }
 
 /**
- * @brief Send a aq_esc_telemetry message
+ *  Send a aq_esc_telemetry message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp of the component clock since boot time in ms.
@@ -284,7 +284,7 @@ static inline void mavlink_msg_aq_esc_telemetry_send_buf(mavlink_message_t *msgb
 
 
 /**
- * @brief Get field time_boot_ms from aq_esc_telemetry message
+ *  Get field time_boot_ms from aq_esc_telemetry message
  *
  * @return Timestamp of the component clock since boot time in ms.
  */
@@ -294,7 +294,7 @@ static inline uint32_t mavlink_msg_aq_esc_telemetry_get_time_boot_ms(const mavli
 }
 
 /**
- * @brief Get field seq from aq_esc_telemetry message
+ *  Get field seq from aq_esc_telemetry message
  *
  * @return Sequence number of message (first set of 4 motors is #1, next 4 is #2, etc).
  */
@@ -304,7 +304,7 @@ static inline uint8_t mavlink_msg_aq_esc_telemetry_get_seq(const mavlink_message
 }
 
 /**
- * @brief Get field num_motors from aq_esc_telemetry message
+ *  Get field num_motors from aq_esc_telemetry message
  *
  * @return Total number of active ESCs/motors on the system.
  */
@@ -314,7 +314,7 @@ static inline uint8_t mavlink_msg_aq_esc_telemetry_get_num_motors(const mavlink_
 }
 
 /**
- * @brief Get field num_in_seq from aq_esc_telemetry message
+ *  Get field num_in_seq from aq_esc_telemetry message
  *
  * @return Number of active ESCs in this sequence (1 through this many array members will be populated with data)
  */
@@ -324,7 +324,7 @@ static inline uint8_t mavlink_msg_aq_esc_telemetry_get_num_in_seq(const mavlink_
 }
 
 /**
- * @brief Get field escid from aq_esc_telemetry message
+ *  Get field escid from aq_esc_telemetry message
  *
  * @return ESC/Motor ID
  */
@@ -334,7 +334,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_get_escid(const mavlink_mess
 }
 
 /**
- * @brief Get field status_age from aq_esc_telemetry message
+ *  Get field status_age from aq_esc_telemetry message
  *
  * @return Age of each ESC telemetry reading in ms compared to boot time. A value of 0xFFFF means timeout/no data.
  */
@@ -344,7 +344,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_get_status_age(const mavlink
 }
 
 /**
- * @brief Get field data_version from aq_esc_telemetry message
+ *  Get field data_version from aq_esc_telemetry message
  *
  * @return Version of data structure (determines contents).
  */
@@ -354,7 +354,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_get_data_version(const mavli
 }
 
 /**
- * @brief Get field data0 from aq_esc_telemetry message
+ *  Get field data0 from aq_esc_telemetry message
  *
  * @return Data bits 1-32 for each ESC.
  */
@@ -364,7 +364,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_get_data0(const mavlink_mess
 }
 
 /**
- * @brief Get field data1 from aq_esc_telemetry message
+ *  Get field data1 from aq_esc_telemetry message
  *
  * @return Data bits 33-64 for each ESC.
  */
@@ -374,7 +374,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_get_data1(const mavlink_mess
 }
 
 /**
- * @brief Decode a aq_esc_telemetry message into a struct
+ *  Decode a aq_esc_telemetry message into a struct
  *
  * @param msg The message to decode
  * @param aq_esc_telemetry C-struct to decode the message contents into

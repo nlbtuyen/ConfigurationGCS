@@ -42,7 +42,7 @@ typedef struct __mavlink_gps_raw_int_t
 
 
 /**
- * @brief Pack a gps_raw_int message
+ *  Pack a gps_raw_int message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -101,7 +101,7 @@ static inline uint16_t mavlink_msg_gps_raw_int_pack(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Pack a gps_raw_int message on a channel
+ *  Pack a gps_raw_int message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -161,7 +161,7 @@ static inline uint16_t mavlink_msg_gps_raw_int_pack_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a gps_raw_int struct
+ *  Encode a gps_raw_int struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -174,7 +174,7 @@ static inline uint16_t mavlink_msg_gps_raw_int_encode(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a gps_raw_int struct on a channel
+ *  Encode a gps_raw_int struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -188,7 +188,7 @@ static inline uint16_t mavlink_msg_gps_raw_int_encode_chan(uint8_t system_id, ui
 }
 
 /**
- * @brief Send a gps_raw_int message
+ *  Send a gps_raw_int message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
@@ -301,7 +301,7 @@ static inline void mavlink_msg_gps_raw_int_send_buf(mavlink_message_t *msgbuf, m
 
 
 /**
- * @brief Get field time_usec from gps_raw_int message
+ *  Get field time_usec from gps_raw_int message
  *
  * @return Timestamp (microseconds since UNIX epoch or microseconds since system boot)
  */
@@ -311,7 +311,7 @@ static inline uint64_t mavlink_msg_gps_raw_int_get_time_usec(const mavlink_messa
 }
 
 /**
- * @brief Get field fix_type from gps_raw_int message
+ *  Get field fix_type from gps_raw_int message
  *
  * @return 0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS, 5: RTK. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.
  */
@@ -321,7 +321,7 @@ static inline uint8_t mavlink_msg_gps_raw_int_get_fix_type(const mavlink_message
 }
 
 /**
- * @brief Get field lat from gps_raw_int message
+ *  Get field lat from gps_raw_int message
  *
  * @return Latitude (WGS84), in degrees * 1E7
  */
@@ -331,7 +331,7 @@ static inline int32_t mavlink_msg_gps_raw_int_get_lat(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field lon from gps_raw_int message
+ *  Get field lon from gps_raw_int message
  *
  * @return Longitude (WGS84), in degrees * 1E7
  */
@@ -341,7 +341,7 @@ static inline int32_t mavlink_msg_gps_raw_int_get_lon(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field alt from gps_raw_int message
+ *  Get field alt from gps_raw_int message
  *
  * @return Altitude (AMSL, NOT WGS84), in meters * 1000 (positive for up). Note that virtually all GPS modules provide the AMSL altitude in addition to the WGS84 altitude.
  */
@@ -351,7 +351,7 @@ static inline int32_t mavlink_msg_gps_raw_int_get_alt(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field eph from gps_raw_int message
+ *  Get field eph from gps_raw_int message
  *
  * @return GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: UINT16_MAX
  */
@@ -361,7 +361,7 @@ static inline uint16_t mavlink_msg_gps_raw_int_get_eph(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field epv from gps_raw_int message
+ *  Get field epv from gps_raw_int message
  *
  * @return GPS VDOP vertical dilution of position in cm (m*100). If unknown, set to: UINT16_MAX
  */
@@ -371,7 +371,7 @@ static inline uint16_t mavlink_msg_gps_raw_int_get_epv(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field vel from gps_raw_int message
+ *  Get field vel from gps_raw_int message
  *
  * @return GPS ground speed (m/s * 100). If unknown, set to: UINT16_MAX
  */
@@ -381,7 +381,7 @@ static inline uint16_t mavlink_msg_gps_raw_int_get_vel(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field cog from gps_raw_int message
+ *  Get field cog from gps_raw_int message
  *
  * @return Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX
  */
@@ -391,7 +391,7 @@ static inline uint16_t mavlink_msg_gps_raw_int_get_cog(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field satellites_visible from gps_raw_int message
+ *  Get field satellites_visible from gps_raw_int message
  *
  * @return Number of satellites visible. If unknown, set to 255
  */
@@ -401,7 +401,7 @@ static inline uint8_t mavlink_msg_gps_raw_int_get_satellites_visible(const mavli
 }
 
 /**
- * @brief Decode a gps_raw_int message into a struct
+ *  Decode a gps_raw_int message into a struct
  *
  * @param msg The message to decode
  * @param gps_raw_int C-struct to decode the message contents into

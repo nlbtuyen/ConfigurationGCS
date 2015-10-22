@@ -30,7 +30,7 @@ typedef struct __mavlink_file_transfer_protocol_t
 
 
 /**
- * @brief Pack a file_transfer_protocol message
+ *  Pack a file_transfer_protocol message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -69,7 +69,7 @@ static inline uint16_t mavlink_msg_file_transfer_protocol_pack(uint8_t system_id
 }
 
 /**
- * @brief Pack a file_transfer_protocol message on a channel
+ *  Pack a file_transfer_protocol message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -109,7 +109,7 @@ static inline uint16_t mavlink_msg_file_transfer_protocol_pack_chan(uint8_t syst
 }
 
 /**
- * @brief Encode a file_transfer_protocol struct
+ *  Encode a file_transfer_protocol struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -122,7 +122,7 @@ static inline uint16_t mavlink_msg_file_transfer_protocol_encode(uint8_t system_
 }
 
 /**
- * @brief Encode a file_transfer_protocol struct on a channel
+ *  Encode a file_transfer_protocol struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -136,7 +136,7 @@ static inline uint16_t mavlink_msg_file_transfer_protocol_encode_chan(uint8_t sy
 }
 
 /**
- * @brief Send a file_transfer_protocol message
+ *  Send a file_transfer_protocol message
  * @param chan MAVLink channel to send the message
  *
  * @param target_network Network ID (0 for broadcast)
@@ -215,7 +215,7 @@ static inline void mavlink_msg_file_transfer_protocol_send_buf(mavlink_message_t
 
 
 /**
- * @brief Get field target_network from file_transfer_protocol message
+ *  Get field target_network from file_transfer_protocol message
  *
  * @return Network ID (0 for broadcast)
  */
@@ -225,7 +225,7 @@ static inline uint8_t mavlink_msg_file_transfer_protocol_get_target_network(cons
 }
 
 /**
- * @brief Get field target_system from file_transfer_protocol message
+ *  Get field target_system from file_transfer_protocol message
  *
  * @return System ID (0 for broadcast)
  */
@@ -235,7 +235,7 @@ static inline uint8_t mavlink_msg_file_transfer_protocol_get_target_system(const
 }
 
 /**
- * @brief Get field target_component from file_transfer_protocol message
+ *  Get field target_component from file_transfer_protocol message
  *
  * @return Component ID (0 for broadcast)
  */
@@ -245,7 +245,7 @@ static inline uint8_t mavlink_msg_file_transfer_protocol_get_target_component(co
 }
 
 /**
- * @brief Get field payload from file_transfer_protocol message
+ *  Get field payload from file_transfer_protocol message
  *
  * @return Variable length payload. The length is defined by the remaining message length when subtracting the header and other fields.  The entire content of this block is opaque unless you understand any the encoding message_type.  The particular encoding used can be extension specific and might not always be documented as part of the mavlink specification.
  */
@@ -255,7 +255,7 @@ static inline uint16_t mavlink_msg_file_transfer_protocol_get_payload(const mavl
 }
 
 /**
- * @brief Decode a file_transfer_protocol message into a struct
+ *  Decode a file_transfer_protocol message into a struct
  *
  * @param msg The message to decode
  * @param file_transfer_protocol C-struct to decode the message contents into

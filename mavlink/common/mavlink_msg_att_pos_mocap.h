@@ -32,7 +32,7 @@ typedef struct __mavlink_att_pos_mocap_t
 
 
 /**
- * @brief Pack a att_pos_mocap message
+ *  Pack a att_pos_mocap message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -74,7 +74,7 @@ static inline uint16_t mavlink_msg_att_pos_mocap_pack(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Pack a att_pos_mocap message on a channel
+ *  Pack a att_pos_mocap message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -117,7 +117,7 @@ static inline uint16_t mavlink_msg_att_pos_mocap_pack_chan(uint8_t system_id, ui
 }
 
 /**
- * @brief Encode a att_pos_mocap struct
+ *  Encode a att_pos_mocap struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -130,7 +130,7 @@ static inline uint16_t mavlink_msg_att_pos_mocap_encode(uint8_t system_id, uint8
 }
 
 /**
- * @brief Encode a att_pos_mocap struct on a channel
+ *  Encode a att_pos_mocap struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -144,7 +144,7 @@ static inline uint16_t mavlink_msg_att_pos_mocap_encode_chan(uint8_t system_id, 
 }
 
 /**
- * @brief Send a att_pos_mocap message
+ *  Send a att_pos_mocap message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (micros since boot or Unix epoch)
@@ -228,7 +228,7 @@ static inline void mavlink_msg_att_pos_mocap_send_buf(mavlink_message_t *msgbuf,
 
 
 /**
- * @brief Get field time_usec from att_pos_mocap message
+ *  Get field time_usec from att_pos_mocap message
  *
  * @return Timestamp (micros since boot or Unix epoch)
  */
@@ -238,7 +238,7 @@ static inline uint64_t mavlink_msg_att_pos_mocap_get_time_usec(const mavlink_mes
 }
 
 /**
- * @brief Get field q from att_pos_mocap message
+ *  Get field q from att_pos_mocap message
  *
  * @return Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
  */
@@ -248,7 +248,7 @@ static inline uint16_t mavlink_msg_att_pos_mocap_get_q(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field x from att_pos_mocap message
+ *  Get field x from att_pos_mocap message
  *
  * @return X position in meters (NED)
  */
@@ -258,7 +258,7 @@ static inline float mavlink_msg_att_pos_mocap_get_x(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field y from att_pos_mocap message
+ *  Get field y from att_pos_mocap message
  *
  * @return Y position in meters (NED)
  */
@@ -268,7 +268,7 @@ static inline float mavlink_msg_att_pos_mocap_get_y(const mavlink_message_t* msg
 }
 
 /**
- * @brief Get field z from att_pos_mocap message
+ *  Get field z from att_pos_mocap message
  *
  * @return Z position in meters (NED)
  */
@@ -278,7 +278,7 @@ static inline float mavlink_msg_att_pos_mocap_get_z(const mavlink_message_t* msg
 }
 
 /**
- * @brief Decode a att_pos_mocap message into a struct
+ *  Decode a att_pos_mocap message into a struct
  *
  * @param msg The message to decode
  * @param att_pos_mocap C-struct to decode the message contents into

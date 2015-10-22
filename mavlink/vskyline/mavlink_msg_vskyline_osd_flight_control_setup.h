@@ -34,7 +34,7 @@ typedef struct __mavlink_vskyline_osd_flight_control_setup_t
 
 
 /**
- * @brief Pack a vskyline_osd_flight_control_setup message
+ *  Pack a vskyline_osd_flight_control_setup message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -81,7 +81,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_flight_control_setup_pack(uint8_
 }
 
 /**
- * @brief Pack a vskyline_osd_flight_control_setup message on a channel
+ *  Pack a vskyline_osd_flight_control_setup message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -129,7 +129,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_flight_control_setup_pack_chan(u
 }
 
 /**
- * @brief Encode a vskyline_osd_flight_control_setup struct
+ *  Encode a vskyline_osd_flight_control_setup struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -142,7 +142,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_flight_control_setup_encode(uint
 }
 
 /**
- * @brief Encode a vskyline_osd_flight_control_setup struct on a channel
+ *  Encode a vskyline_osd_flight_control_setup struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -156,7 +156,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_flight_control_setup_encode_chan
 }
 
 /**
- * @brief Send a vskyline_osd_flight_control_setup message
+ *  Send a vskyline_osd_flight_control_setup message
  * @param chan MAVLink channel to send the message
  *
  * @param profile_num Profile num OSD.
@@ -249,7 +249,7 @@ static inline void mavlink_msg_vskyline_osd_flight_control_setup_send_buf(mavlin
 
 
 /**
- * @brief Get field profile_num from vskyline_osd_flight_control_setup message
+ *  Get field profile_num from vskyline_osd_flight_control_setup message
  *
  * @return Profile num OSD.
  */
@@ -259,7 +259,7 @@ static inline uint8_t mavlink_msg_vskyline_osd_flight_control_setup_get_profile_
 }
 
 /**
- * @brief Get field motor_kv from vskyline_osd_flight_control_setup message
+ *  Get field motor_kv from vskyline_osd_flight_control_setup message
  *
  * @return Motor KV.
  */
@@ -269,7 +269,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_flight_control_setup_get_motor_k
 }
 
 /**
- * @brief Get field battery_cell from vskyline_osd_flight_control_setup message
+ *  Get field battery_cell from vskyline_osd_flight_control_setup message
  *
  * @return Battery cell.
  */
@@ -279,7 +279,7 @@ static inline uint8_t mavlink_msg_vskyline_osd_flight_control_setup_get_battery_
 }
 
 /**
- * @brief Get field battery_mah from vskyline_osd_flight_control_setup message
+ *  Get field battery_mah from vskyline_osd_flight_control_setup message
  *
  * @return Battery mAh.
  */
@@ -289,7 +289,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_flight_control_setup_get_battery
 }
 
 /**
- * @brief Get field camera_name from vskyline_osd_flight_control_setup message
+ *  Get field camera_name from vskyline_osd_flight_control_setup message
  *
  * @return Camera name.
  */
@@ -299,7 +299,7 @@ static inline uint32_t mavlink_msg_vskyline_osd_flight_control_setup_get_camera_
 }
 
 /**
- * @brief Get field stype_name from vskyline_osd_flight_control_setup message
+ *  Get field stype_name from vskyline_osd_flight_control_setup message
  *
  * @return Stype name.
  */
@@ -309,7 +309,7 @@ static inline uint32_t mavlink_msg_vskyline_osd_flight_control_setup_get_stype_n
 }
 
 /**
- * @brief Decode a vskyline_osd_flight_control_setup message into a struct
+ *  Decode a vskyline_osd_flight_control_setup message into a struct
  *
  * @param msg The message to decode
  * @param vskyline_osd_flight_control_setup C-struct to decode the message contents into

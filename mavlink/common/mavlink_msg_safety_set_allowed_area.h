@@ -40,7 +40,7 @@ typedef struct __mavlink_safety_set_allowed_area_t
 
 
 /**
- * @brief Pack a safety_set_allowed_area message
+ *  Pack a safety_set_allowed_area message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -96,7 +96,7 @@ static inline uint16_t mavlink_msg_safety_set_allowed_area_pack(uint8_t system_i
 }
 
 /**
- * @brief Pack a safety_set_allowed_area message on a channel
+ *  Pack a safety_set_allowed_area message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -153,7 +153,7 @@ static inline uint16_t mavlink_msg_safety_set_allowed_area_pack_chan(uint8_t sys
 }
 
 /**
- * @brief Encode a safety_set_allowed_area struct
+ *  Encode a safety_set_allowed_area struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -166,7 +166,7 @@ static inline uint16_t mavlink_msg_safety_set_allowed_area_encode(uint8_t system
 }
 
 /**
- * @brief Encode a safety_set_allowed_area struct on a channel
+ *  Encode a safety_set_allowed_area struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -180,7 +180,7 @@ static inline uint16_t mavlink_msg_safety_set_allowed_area_encode_chan(uint8_t s
 }
 
 /**
- * @brief Send a safety_set_allowed_area message
+ *  Send a safety_set_allowed_area message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -288,7 +288,7 @@ static inline void mavlink_msg_safety_set_allowed_area_send_buf(mavlink_message_
 
 
 /**
- * @brief Get field target_system from safety_set_allowed_area message
+ *  Get field target_system from safety_set_allowed_area message
  *
  * @return System ID
  */
@@ -298,7 +298,7 @@ static inline uint8_t mavlink_msg_safety_set_allowed_area_get_target_system(cons
 }
 
 /**
- * @brief Get field target_component from safety_set_allowed_area message
+ *  Get field target_component from safety_set_allowed_area message
  *
  * @return Component ID
  */
@@ -308,7 +308,7 @@ static inline uint8_t mavlink_msg_safety_set_allowed_area_get_target_component(c
 }
 
 /**
- * @brief Get field frame from safety_set_allowed_area message
+ *  Get field frame from safety_set_allowed_area message
  *
  * @return Coordinate frame, as defined by MAV_FRAME enum in mavlink_types.h. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down.
  */
@@ -318,7 +318,7 @@ static inline uint8_t mavlink_msg_safety_set_allowed_area_get_frame(const mavlin
 }
 
 /**
- * @brief Get field p1x from safety_set_allowed_area message
+ *  Get field p1x from safety_set_allowed_area message
  *
  * @return x position 1 / Latitude 1
  */
@@ -328,7 +328,7 @@ static inline float mavlink_msg_safety_set_allowed_area_get_p1x(const mavlink_me
 }
 
 /**
- * @brief Get field p1y from safety_set_allowed_area message
+ *  Get field p1y from safety_set_allowed_area message
  *
  * @return y position 1 / Longitude 1
  */
@@ -338,7 +338,7 @@ static inline float mavlink_msg_safety_set_allowed_area_get_p1y(const mavlink_me
 }
 
 /**
- * @brief Get field p1z from safety_set_allowed_area message
+ *  Get field p1z from safety_set_allowed_area message
  *
  * @return z position 1 / Altitude 1
  */
@@ -348,7 +348,7 @@ static inline float mavlink_msg_safety_set_allowed_area_get_p1z(const mavlink_me
 }
 
 /**
- * @brief Get field p2x from safety_set_allowed_area message
+ *  Get field p2x from safety_set_allowed_area message
  *
  * @return x position 2 / Latitude 2
  */
@@ -358,7 +358,7 @@ static inline float mavlink_msg_safety_set_allowed_area_get_p2x(const mavlink_me
 }
 
 /**
- * @brief Get field p2y from safety_set_allowed_area message
+ *  Get field p2y from safety_set_allowed_area message
  *
  * @return y position 2 / Longitude 2
  */
@@ -368,7 +368,7 @@ static inline float mavlink_msg_safety_set_allowed_area_get_p2y(const mavlink_me
 }
 
 /**
- * @brief Get field p2z from safety_set_allowed_area message
+ *  Get field p2z from safety_set_allowed_area message
  *
  * @return z position 2 / Altitude 2
  */
@@ -378,7 +378,7 @@ static inline float mavlink_msg_safety_set_allowed_area_get_p2z(const mavlink_me
 }
 
 /**
- * @brief Decode a safety_set_allowed_area message into a struct
+ *  Decode a safety_set_allowed_area message into a struct
  *
  * @param msg The message to decode
  * @param safety_set_allowed_area C-struct to decode the message contents into

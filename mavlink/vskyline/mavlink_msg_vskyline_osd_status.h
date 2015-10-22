@@ -28,7 +28,7 @@ typedef struct __mavlink_vskyline_osd_status_t
 
 
 /**
- * @brief Pack a vskyline_osd_status message
+ *  Pack a vskyline_osd_status message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -66,7 +66,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_status_pack(uint8_t system_id, u
 }
 
 /**
- * @brief Pack a vskyline_osd_status message on a channel
+ *  Pack a vskyline_osd_status message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -105,7 +105,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_status_pack_chan(uint8_t system_
 }
 
 /**
- * @brief Encode a vskyline_osd_status struct
+ *  Encode a vskyline_osd_status struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -118,7 +118,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_status_encode(uint8_t system_id,
 }
 
 /**
- * @brief Encode a vskyline_osd_status struct on a channel
+ *  Encode a vskyline_osd_status struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -132,7 +132,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_status_encode_chan(uint8_t syste
 }
 
 /**
- * @brief Send a vskyline_osd_status message
+ *  Send a vskyline_osd_status message
  * @param chan MAVLink channel to send the message
  *
  * @param osd_status Status OSD.
@@ -210,7 +210,7 @@ static inline void mavlink_msg_vskyline_osd_status_send_buf(mavlink_message_t *m
 
 
 /**
- * @brief Get field osd_status from vskyline_osd_status message
+ *  Get field osd_status from vskyline_osd_status message
  *
  * @return Status OSD.
  */
@@ -220,7 +220,7 @@ static inline uint16_t mavlink_msg_vskyline_osd_status_get_osd_status(const mavl
 }
 
 /**
- * @brief Get field pilot_name from vskyline_osd_status message
+ *  Get field pilot_name from vskyline_osd_status message
  *
  * @return Pilot name OSD.
  */
@@ -230,7 +230,7 @@ static inline uint32_t mavlink_msg_vskyline_osd_status_get_pilot_name(const mavl
 }
 
 /**
- * @brief Get field video_pal from vskyline_osd_status message
+ *  Get field video_pal from vskyline_osd_status message
  *
  * @return Video pal or ntfc OSD.
  */
@@ -240,7 +240,7 @@ static inline uint8_t mavlink_msg_vskyline_osd_status_get_video_pal(const mavlin
 }
 
 /**
- * @brief Decode a vskyline_osd_status message into a struct
+ *  Decode a vskyline_osd_status message into a struct
  *
  * @param msg The message to decode
  * @param vskyline_osd_status C-struct to decode the message contents into

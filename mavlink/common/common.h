@@ -1,5 +1,5 @@
 /** @file
- *	@brief MAVLink comm protocol generated from common.xml
+ *	 MAVLink comm protocol generated from common.xml
  *	@see http://mavlink.org
  */
 #ifndef MAVLINK_COMMON_H
@@ -34,7 +34,7 @@ extern "C" {
 // ENUM DEFINITIONS
 
 
-/** @brief Micro air vehicle / autopilot classes. This identifies the individual model. */
+/**  Micro air vehicle / autopilot classes. This identifies the individual model. */
 #ifndef HAVE_ENUM_MAV_AUTOPILOT
 #define HAVE_ENUM_MAV_AUTOPILOT
 typedef enum MAV_AUTOPILOT
@@ -61,7 +61,7 @@ typedef enum MAV_AUTOPILOT
 } MAV_AUTOPILOT;
 #endif
 
-/** @brief  */
+/**   */
 #ifndef HAVE_ENUM_MAV_TYPE
 #define HAVE_ENUM_MAV_TYPE
 typedef enum MAV_TYPE
@@ -97,7 +97,7 @@ typedef enum MAV_TYPE
 } MAV_TYPE;
 #endif
 
-/** @brief These flags encode the MAV mode. */
+/**  These flags encode the MAV mode. */
 #ifndef HAVE_ENUM_MAV_MODE_FLAG
 #define HAVE_ENUM_MAV_MODE_FLAG
 typedef enum MAV_MODE_FLAG
@@ -114,7 +114,7 @@ typedef enum MAV_MODE_FLAG
 } MAV_MODE_FLAG;
 #endif
 
-/** @brief These values encode the bit positions of the decode position. These values can be used to read the value of a flag bit by combining the base_mode variable with AND with the flag position value. The result will be either 0 or 1, depending on if the flag is set or not. */
+/**  These values encode the bit positions of the decode position. These values can be used to read the value of a flag bit by combining the base_mode variable with AND with the flag position value. The result will be either 0 or 1, depending on if the flag is set or not. */
 #ifndef HAVE_ENUM_MAV_MODE_FLAG_DECODE_POSITION
 #define HAVE_ENUM_MAV_MODE_FLAG_DECODE_POSITION
 typedef enum MAV_MODE_FLAG_DECODE_POSITION
@@ -131,7 +131,7 @@ typedef enum MAV_MODE_FLAG_DECODE_POSITION
 } MAV_MODE_FLAG_DECODE_POSITION;
 #endif
 
-/** @brief Override command, pauses current mission execution and moves immediately to a position */
+/**  Override command, pauses current mission execution and moves immediately to a position */
 #ifndef HAVE_ENUM_MAV_GOTO
 #define HAVE_ENUM_MAV_GOTO
 typedef enum MAV_GOTO
@@ -144,7 +144,7 @@ typedef enum MAV_GOTO
 } MAV_GOTO;
 #endif
 
-/** @brief These defines are predefined OR-combined mode flags. There is no need to use values from this enum, but it
+/**  These defines are predefined OR-combined mode flags. There is no need to use values from this enum, but it
                simplifies the use of the mode flags. Note that manual input is enabled in all modes as a safety override. */
 #ifndef HAVE_ENUM_MAV_MODE
 #define HAVE_ENUM_MAV_MODE
@@ -165,7 +165,7 @@ typedef enum MAV_MODE
 } MAV_MODE;
 #endif
 
-/** @brief  */
+/**   */
 #ifndef HAVE_ENUM_MAV_STATE
 #define HAVE_ENUM_MAV_STATE
 typedef enum MAV_STATE
@@ -182,7 +182,7 @@ typedef enum MAV_STATE
 } MAV_STATE;
 #endif
 
-/** @brief  */
+/**   */
 #ifndef HAVE_ENUM_MAV_COMPONENT
 #define HAVE_ENUM_MAV_COMPONENT
 typedef enum MAV_COMPONENT
@@ -218,7 +218,7 @@ typedef enum MAV_COMPONENT
 } MAV_COMPONENT;
 #endif
 
-/** @brief These encode the sensors whose status is sent as part of the SYS_STATUS message. */
+/**  These encode the sensors whose status is sent as part of the SYS_STATUS message. */
 #ifndef HAVE_ENUM_MAV_SYS_STATUS_SENSOR
 #define HAVE_ENUM_MAV_SYS_STATUS_SENSOR
 typedef enum MAV_SYS_STATUS_SENSOR
@@ -250,7 +250,7 @@ typedef enum MAV_SYS_STATUS_SENSOR
 } MAV_SYS_STATUS_SENSOR;
 #endif
 
-/** @brief  */
+/**   */
 #ifndef HAVE_ENUM_MAV_FRAME
 #define HAVE_ENUM_MAV_FRAME
 typedef enum MAV_FRAME
@@ -271,7 +271,7 @@ typedef enum MAV_FRAME
 } MAV_FRAME;
 #endif
 
-/** @brief  */
+/**   */
 #ifndef HAVE_ENUM_MAVLINK_DATA_STREAM_TYPE
 #define HAVE_ENUM_MAVLINK_DATA_STREAM_TYPE
 typedef enum MAVLINK_DATA_STREAM_TYPE
@@ -286,7 +286,7 @@ typedef enum MAVLINK_DATA_STREAM_TYPE
 } MAVLINK_DATA_STREAM_TYPE;
 #endif
 
-/** @brief  */
+/**   */
 #ifndef HAVE_ENUM_FENCE_ACTION
 #define HAVE_ENUM_FENCE_ACTION
 typedef enum FENCE_ACTION
@@ -299,7 +299,7 @@ typedef enum FENCE_ACTION
 } FENCE_ACTION;
 #endif
 
-/** @brief  */
+/**   */
 #ifndef HAVE_ENUM_FENCE_BREACH
 #define HAVE_ENUM_FENCE_BREACH
 typedef enum FENCE_BREACH
@@ -312,7 +312,7 @@ typedef enum FENCE_BREACH
 } FENCE_BREACH;
 #endif
 
-/** @brief Enumeration of possible mount operation modes */
+/**  Enumeration of possible mount operation modes */
 #ifndef HAVE_ENUM_MAV_MOUNT_MODE
 #define HAVE_ENUM_MAV_MOUNT_MODE
 typedef enum MAV_MOUNT_MODE
@@ -326,7 +326,7 @@ typedef enum MAV_MOUNT_MODE
 } MAV_MOUNT_MODE;
 #endif
 
-/** @brief  The ROI (region of interest) for the vehicle. This can be
+/**   The ROI (region of interest) for the vehicle. This can be
                 be used by the vehicle for camera/vehicle attitude alignment (see
                 MAV_CMD_NAV_ROI). */
 #ifndef HAVE_ENUM_MAV_ROI
@@ -342,7 +342,7 @@ typedef enum MAV_ROI
 } MAV_ROI;
 #endif
 
-/** @brief ACK / NACK / ERROR values as a result of MAV_CMDs and for mission item transmission. */
+/**  ACK / NACK / ERROR values as a result of MAV_CMDs and for mission item transmission. */
 #ifndef HAVE_ENUM_MAV_CMD_ACK
 #define HAVE_ENUM_MAV_CMD_ACK
 typedef enum MAV_CMD_ACK
@@ -360,7 +360,7 @@ typedef enum MAV_CMD_ACK
 } MAV_CMD_ACK;
 #endif
 
-/** @brief Specifies the datatype of a MAVLink parameter. */
+/**  Specifies the datatype of a MAVLink parameter. */
 #ifndef HAVE_ENUM_MAV_PARAM_TYPE
 #define HAVE_ENUM_MAV_PARAM_TYPE
 typedef enum MAV_PARAM_TYPE
@@ -379,7 +379,7 @@ typedef enum MAV_PARAM_TYPE
 } MAV_PARAM_TYPE;
 #endif
 
-/** @brief result from a mavlink command */
+/**  result from a mavlink command */
 #ifndef HAVE_ENUM_MAV_RESULT
 #define HAVE_ENUM_MAV_RESULT
 typedef enum MAV_RESULT
@@ -393,7 +393,7 @@ typedef enum MAV_RESULT
 } MAV_RESULT;
 #endif
 
-/** @brief result in a mavlink mission ack */
+/**  result in a mavlink mission ack */
 #ifndef HAVE_ENUM_MAV_MISSION_RESULT
 #define HAVE_ENUM_MAV_MISSION_RESULT
 typedef enum MAV_MISSION_RESULT
@@ -417,7 +417,7 @@ typedef enum MAV_MISSION_RESULT
 } MAV_MISSION_RESULT;
 #endif
 
-/** @brief Indicates the severity level, generally used for status messages to indicate their relative urgency. Based on RFC-5424 using expanded definitions at: http://www.kiwisyslog.com/kb/info:-syslog-message-levels/. */
+/**  Indicates the severity level, generally used for status messages to indicate their relative urgency. Based on RFC-5424 using expanded definitions at: http://www.kiwisyslog.com/kb/info:-syslog-message-levels/. */
 #ifndef HAVE_ENUM_MAV_SEVERITY
 #define HAVE_ENUM_MAV_SEVERITY
 typedef enum MAV_SEVERITY
@@ -434,7 +434,7 @@ typedef enum MAV_SEVERITY
 } MAV_SEVERITY;
 #endif
 
-/** @brief Power supply status flags (bitmask) */
+/**  Power supply status flags (bitmask) */
 #ifndef HAVE_ENUM_MAV_POWER_STATUS
 #define HAVE_ENUM_MAV_POWER_STATUS
 typedef enum MAV_POWER_STATUS
@@ -449,7 +449,7 @@ typedef enum MAV_POWER_STATUS
 } MAV_POWER_STATUS;
 #endif
 
-/** @brief SERIAL_CONTROL device types */
+/**  SERIAL_CONTROL device types */
 #ifndef HAVE_ENUM_SERIAL_CONTROL_DEV
 #define HAVE_ENUM_SERIAL_CONTROL_DEV
 typedef enum SERIAL_CONTROL_DEV
@@ -462,7 +462,7 @@ typedef enum SERIAL_CONTROL_DEV
 } SERIAL_CONTROL_DEV;
 #endif
 
-/** @brief SERIAL_CONTROL flags (bitmask) */
+/**  SERIAL_CONTROL flags (bitmask) */
 #ifndef HAVE_ENUM_SERIAL_CONTROL_FLAG
 #define HAVE_ENUM_SERIAL_CONTROL_FLAG
 typedef enum SERIAL_CONTROL_FLAG
@@ -476,7 +476,7 @@ typedef enum SERIAL_CONTROL_FLAG
 } SERIAL_CONTROL_FLAG;
 #endif
 
-/** @brief Enumeration of distance sensor types */
+/**  Enumeration of distance sensor types */
 #ifndef HAVE_ENUM_MAV_DISTANCE_SENSOR
 #define HAVE_ENUM_MAV_DISTANCE_SENSOR
 typedef enum MAV_DISTANCE_SENSOR
@@ -487,7 +487,7 @@ typedef enum MAV_DISTANCE_SENSOR
 } MAV_DISTANCE_SENSOR;
 #endif
 
-/** @brief Bitmask of (optional) autopilot capabilities (64 bit). If a bit is set, the autopilot supports this capability. */
+/**  Bitmask of (optional) autopilot capabilities (64 bit). If a bit is set, the autopilot supports this capability. */
 #ifndef HAVE_ENUM_MAV_PROTOCOL_CAPABILITY
 #define HAVE_ENUM_MAV_PROTOCOL_CAPABILITY
 typedef enum MAV_PROTOCOL_CAPABILITY
@@ -507,7 +507,7 @@ typedef enum MAV_PROTOCOL_CAPABILITY
 } MAV_PROTOCOL_CAPABILITY;
 #endif
 
-/** @brief Enumeration of estimator types */
+/**  Enumeration of estimator types */
 #ifndef HAVE_ENUM_MAV_ESTIMATOR_TYPE
 #define HAVE_ENUM_MAV_ESTIMATOR_TYPE
 typedef enum MAV_ESTIMATOR_TYPE
@@ -521,7 +521,7 @@ typedef enum MAV_ESTIMATOR_TYPE
 } MAV_ESTIMATOR_TYPE;
 #endif
 
-/** @brief Enumeration of battery types */
+/**  Enumeration of battery types */
 #ifndef HAVE_ENUM_MAV_BATTERY_TYPE
 #define HAVE_ENUM_MAV_BATTERY_TYPE
 typedef enum MAV_BATTERY_TYPE
@@ -535,7 +535,7 @@ typedef enum MAV_BATTERY_TYPE
 } MAV_BATTERY_TYPE;
 #endif
 
-/** @brief Enumeration of battery functions */
+/**  Enumeration of battery functions */
 #ifndef HAVE_ENUM_MAV_BATTERY_FUNCTION
 #define HAVE_ENUM_MAV_BATTERY_FUNCTION
 typedef enum MAV_BATTERY_FUNCTION

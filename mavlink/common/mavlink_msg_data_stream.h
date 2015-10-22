@@ -28,7 +28,7 @@ typedef struct __mavlink_data_stream_t
 
 
 /**
- * @brief Pack a data_stream message
+ *  Pack a data_stream message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -66,7 +66,7 @@ static inline uint16_t mavlink_msg_data_stream_pack(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Pack a data_stream message on a channel
+ *  Pack a data_stream message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -105,7 +105,7 @@ static inline uint16_t mavlink_msg_data_stream_pack_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a data_stream struct
+ *  Encode a data_stream struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -118,7 +118,7 @@ static inline uint16_t mavlink_msg_data_stream_encode(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a data_stream struct on a channel
+ *  Encode a data_stream struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -132,7 +132,7 @@ static inline uint16_t mavlink_msg_data_stream_encode_chan(uint8_t system_id, ui
 }
 
 /**
- * @brief Send a data_stream message
+ *  Send a data_stream message
  * @param chan MAVLink channel to send the message
  *
  * @param stream_id The ID of the requested data stream
@@ -210,7 +210,7 @@ static inline void mavlink_msg_data_stream_send_buf(mavlink_message_t *msgbuf, m
 
 
 /**
- * @brief Get field stream_id from data_stream message
+ *  Get field stream_id from data_stream message
  *
  * @return The ID of the requested data stream
  */
@@ -220,7 +220,7 @@ static inline uint8_t mavlink_msg_data_stream_get_stream_id(const mavlink_messag
 }
 
 /**
- * @brief Get field message_rate from data_stream message
+ *  Get field message_rate from data_stream message
  *
  * @return The requested interval between two messages of this type
  */
@@ -230,7 +230,7 @@ static inline uint16_t mavlink_msg_data_stream_get_message_rate(const mavlink_me
 }
 
 /**
- * @brief Get field on_off from data_stream message
+ *  Get field on_off from data_stream message
  *
  * @return 1 stream is enabled, 0 stream is stopped.
  */
@@ -240,7 +240,7 @@ static inline uint8_t mavlink_msg_data_stream_get_on_off(const mavlink_message_t
 }
 
 /**
- * @brief Decode a data_stream message into a struct
+ *  Decode a data_stream message into a struct
  *
  * @param msg The message to decode
  * @param data_stream C-struct to decode the message contents into

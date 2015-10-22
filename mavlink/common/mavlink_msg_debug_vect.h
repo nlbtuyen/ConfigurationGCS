@@ -32,7 +32,7 @@ typedef struct __mavlink_debug_vect_t
 
 
 /**
- * @brief Pack a debug_vect message
+ *  Pack a debug_vect message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -74,7 +74,7 @@ static inline uint16_t mavlink_msg_debug_vect_pack(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Pack a debug_vect message on a channel
+ *  Pack a debug_vect message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -117,7 +117,7 @@ static inline uint16_t mavlink_msg_debug_vect_pack_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Encode a debug_vect struct
+ *  Encode a debug_vect struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -130,7 +130,7 @@ static inline uint16_t mavlink_msg_debug_vect_encode(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Encode a debug_vect struct on a channel
+ *  Encode a debug_vect struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -144,7 +144,7 @@ static inline uint16_t mavlink_msg_debug_vect_encode_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Send a debug_vect message
+ *  Send a debug_vect message
  * @param chan MAVLink channel to send the message
  *
  * @param name Name
@@ -228,7 +228,7 @@ static inline void mavlink_msg_debug_vect_send_buf(mavlink_message_t *msgbuf, ma
 
 
 /**
- * @brief Get field name from debug_vect message
+ *  Get field name from debug_vect message
  *
  * @return Name
  */
@@ -238,7 +238,7 @@ static inline uint16_t mavlink_msg_debug_vect_get_name(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field time_usec from debug_vect message
+ *  Get field time_usec from debug_vect message
  *
  * @return Timestamp
  */
@@ -248,7 +248,7 @@ static inline uint64_t mavlink_msg_debug_vect_get_time_usec(const mavlink_messag
 }
 
 /**
- * @brief Get field x from debug_vect message
+ *  Get field x from debug_vect message
  *
  * @return x
  */
@@ -258,7 +258,7 @@ static inline float mavlink_msg_debug_vect_get_x(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field y from debug_vect message
+ *  Get field y from debug_vect message
  *
  * @return y
  */
@@ -268,7 +268,7 @@ static inline float mavlink_msg_debug_vect_get_y(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field z from debug_vect message
+ *  Get field z from debug_vect message
  *
  * @return z
  */
@@ -278,7 +278,7 @@ static inline float mavlink_msg_debug_vect_get_z(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Decode a debug_vect message into a struct
+ *  Decode a debug_vect message into a struct
  *
  * @param msg The message to decode
  * @param debug_vect C-struct to decode the message contents into

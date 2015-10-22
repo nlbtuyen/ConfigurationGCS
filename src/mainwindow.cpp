@@ -1,7 +1,6 @@
 #include <QWidget>
 #include <QMainWindow>
 #include <QMessageBox>
-#include <QtSerialPort/QSerialPort>
 #include <QTimer>
 #include <QDebug>
 #include <QLayout>
@@ -69,8 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Init action connection + build common widgets
     initActionsConnections();
-    connectCommonActions();
-    connectCommonWidgets();
+    connectCommonActionsWidgets();
 
     // Populate link menu
     QList<LinkInterface*> links = LinkManager::instance()->getLinks();
@@ -87,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateToolBarView()));
     updateViewTimer.start(2000);
 
+    //Connect Button & TabWidgets
     connect(ui->btn_RADIO, SIGNAL(clicked()), config, SLOT(TabRadio()));
     connect(ui->btn_IMU, SIGNAL(clicked()), config, SLOT(TabIMU()));
     connect(ui->btn_MOTOR, SIGNAL(clicked()), config, SLOT(TabMotor()));
@@ -97,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btn_BLHeli, SIGNAL(clicked()), config, SLOT(TabBLHeli()));
     connect(config, SIGNAL(TabClicked(int)), this, SLOT(updateUIButton(int)));
 
+    //First init with Tab_Index(0)
     updateUIButton(0);
 }
 
@@ -117,6 +117,7 @@ MainWindow::~MainWindow()
     }
     delete ui;
 }
+
 
 void MainWindow::initActionsConnections()
 {
@@ -141,7 +142,6 @@ void MainWindow::initActionsConnections()
 //    //Compass Display on Yaw
 //    ui->scrollArea_Compass->setWidget(new CompassWidget(this));
 
-//    connect(mavlink, SIGNAL(mess
     /**
      * ===== Toolbar Status =====
      */
@@ -197,17 +197,8 @@ void MainWindow::showTool(bool show)
     widget->setVisible(show);
 }
 
-
-void MainWindow::connectCommonWidgets()
-{
-    if (infoDockWidget && infoDockWidget->widget())
-    {
-        connect(mavlink, SIGNAL(receiveLossChanged(int,float)),infoDockWidget->widget(), SLOT(updateSendLoss(int, float)));
-    }
-}
-
 //Connect common actions
-void MainWindow::connectCommonActions()
+void MainWindow::connectCommonActionsWidgets()
 {    
 //    connect(ui->actionReadParam, SIGNAL(triggered()), config, SLOT(loadParametersToUI()));
     connect(ui->actionSave, SIGNAL(triggered()),config, SLOT(saveAQSetting()));
@@ -217,6 +208,11 @@ void MainWindow::connectCommonActions()
 
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UASCreated(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
+
+    if (infoDockWidget && infoDockWidget->widget())
+    {
+        connect(mavlink, SIGNAL(receiveLossChanged(int,float)),infoDockWidget->widget(), SLOT(updateSendLoss(int, float)));
+    }
 }
 
 QList<QAction *> MainWindow::listLinkMenuActions()
@@ -238,6 +234,9 @@ QAction *MainWindow::getActionByLink(LinkInterface *link)
     return ret;
 }
 
+/*
+ * ============ Add a communication link ===============
+ */
 void MainWindow::addLinkImmediately()
 {
     if (connectFlag)
@@ -309,13 +308,9 @@ void MainWindow::setActiveUAS(UASInterface *uas)
     if (uas == NULL) return;
 
     connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
-    ///update battery
     connect(uas, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
-    ///update arm or not
     connect(uas, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
-    ///update heartbeat
     connect(uas,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
-    ///update value
     systemArmed = uas->isArmed();
 }
 
@@ -429,12 +424,17 @@ void MainWindow::updateArmingState(bool armed)
     updateToolBarView();
 }
 
+void MainWindow::updateBattery()
+{
+    toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
+}
+
 /*
  * ================================================
  * ============== Load Style Sheet ===============
  * ================================================
  */
-void MainWindow::loadStyle()
+void MainWindow::loadStyle() //not use yet
 {
     QString path = "/styles/";
     QString stylePath = QApplication::applicationDirPath();
@@ -607,9 +607,7 @@ void MainWindow::updateState(UASInterface *system, QString name, QString descrip
 }
 
 /*
- * ================================================
  * ============ Update TOOLBAR View ===============
- * ================================================
  */
 
 void MainWindow::updateToolBarView()
@@ -632,9 +630,4 @@ void MainWindow::updateToolBarView()
         toolBarSafetyLabel->setText(tr("SAFE"));
     }
     changed = false;
-}
-
-void MainWindow::updateBattery()
-{
-    toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
 }

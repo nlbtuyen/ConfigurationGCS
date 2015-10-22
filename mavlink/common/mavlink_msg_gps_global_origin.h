@@ -28,7 +28,7 @@ typedef struct __mavlink_gps_global_origin_t
 
 
 /**
- * @brief Pack a gps_global_origin message
+ *  Pack a gps_global_origin message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -66,7 +66,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_pack(uint8_t system_id, uin
 }
 
 /**
- * @brief Pack a gps_global_origin message on a channel
+ *  Pack a gps_global_origin message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -105,7 +105,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_pack_chan(uint8_t system_id
 }
 
 /**
- * @brief Encode a gps_global_origin struct
+ *  Encode a gps_global_origin struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -118,7 +118,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_encode(uint8_t system_id, u
 }
 
 /**
- * @brief Encode a gps_global_origin struct on a channel
+ *  Encode a gps_global_origin struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -132,7 +132,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_encode_chan(uint8_t system_
 }
 
 /**
- * @brief Send a gps_global_origin message
+ *  Send a gps_global_origin message
  * @param chan MAVLink channel to send the message
  *
  * @param latitude Latitude (WGS84), in degrees * 1E7
@@ -210,7 +210,7 @@ static inline void mavlink_msg_gps_global_origin_send_buf(mavlink_message_t *msg
 
 
 /**
- * @brief Get field latitude from gps_global_origin message
+ *  Get field latitude from gps_global_origin message
  *
  * @return Latitude (WGS84), in degrees * 1E7
  */
@@ -220,7 +220,7 @@ static inline int32_t mavlink_msg_gps_global_origin_get_latitude(const mavlink_m
 }
 
 /**
- * @brief Get field longitude from gps_global_origin message
+ *  Get field longitude from gps_global_origin message
  *
  * @return Longitude (WGS84), in degrees * 1E7
  */
@@ -230,7 +230,7 @@ static inline int32_t mavlink_msg_gps_global_origin_get_longitude(const mavlink_
 }
 
 /**
- * @brief Get field altitude from gps_global_origin message
+ *  Get field altitude from gps_global_origin message
  *
  * @return Altitude (AMSL), in meters * 1000 (positive for up)
  */
@@ -240,7 +240,7 @@ static inline int32_t mavlink_msg_gps_global_origin_get_altitude(const mavlink_m
 }
 
 /**
- * @brief Decode a gps_global_origin message into a struct
+ *  Decode a gps_global_origin message into a struct
  *
  * @param msg The message to decode
  * @param gps_global_origin C-struct to decode the message contents into

@@ -14,7 +14,7 @@ class ParameterInterface;
 }
 
 /**
- * @brief Container class for onboard parameter widgets
+ *  Container class for onboard parameter widgets
  *
  * @see QGCParamWidget
  */

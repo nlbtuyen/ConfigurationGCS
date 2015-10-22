@@ -1,5 +1,5 @@
 /** @file
- *	@brief MAVLink comm protocol testsuite generated from vskyline.xml
+ *	 MAVLink comm protocol testsuite generated from vskyline.xml
  *	@see http://qgroundcontrol.org/mavlink/
  */
 #ifndef VSKYLINE_TESTSUITE_H

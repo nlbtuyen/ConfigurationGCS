@@ -42,7 +42,7 @@ typedef struct __mavlink_scaled_imu_t
 
 
 /**
- * @brief Pack a scaled_imu message
+ *  Pack a scaled_imu message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -101,7 +101,7 @@ static inline uint16_t mavlink_msg_scaled_imu_pack(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Pack a scaled_imu message on a channel
+ *  Pack a scaled_imu message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -161,7 +161,7 @@ static inline uint16_t mavlink_msg_scaled_imu_pack_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Encode a scaled_imu struct
+ *  Encode a scaled_imu struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -174,7 +174,7 @@ static inline uint16_t mavlink_msg_scaled_imu_encode(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Encode a scaled_imu struct on a channel
+ *  Encode a scaled_imu struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -188,7 +188,7 @@ static inline uint16_t mavlink_msg_scaled_imu_encode_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Send a scaled_imu message
+ *  Send a scaled_imu message
  * @param chan MAVLink channel to send the message
  *
  * @param time_boot_ms Timestamp (milliseconds since system boot)
@@ -301,7 +301,7 @@ static inline void mavlink_msg_scaled_imu_send_buf(mavlink_message_t *msgbuf, ma
 
 
 /**
- * @brief Get field time_boot_ms from scaled_imu message
+ *  Get field time_boot_ms from scaled_imu message
  *
  * @return Timestamp (milliseconds since system boot)
  */
@@ -311,7 +311,7 @@ static inline uint32_t mavlink_msg_scaled_imu_get_time_boot_ms(const mavlink_mes
 }
 
 /**
- * @brief Get field xacc from scaled_imu message
+ *  Get field xacc from scaled_imu message
  *
  * @return X acceleration (mg)
  */
@@ -321,7 +321,7 @@ static inline int16_t mavlink_msg_scaled_imu_get_xacc(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field yacc from scaled_imu message
+ *  Get field yacc from scaled_imu message
  *
  * @return Y acceleration (mg)
  */
@@ -331,7 +331,7 @@ static inline int16_t mavlink_msg_scaled_imu_get_yacc(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field zacc from scaled_imu message
+ *  Get field zacc from scaled_imu message
  *
  * @return Z acceleration (mg)
  */
@@ -341,7 +341,7 @@ static inline int16_t mavlink_msg_scaled_imu_get_zacc(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field xgyro from scaled_imu message
+ *  Get field xgyro from scaled_imu message
  *
  * @return Angular speed around X axis (millirad /sec)
  */
@@ -351,7 +351,7 @@ static inline int16_t mavlink_msg_scaled_imu_get_xgyro(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field ygyro from scaled_imu message
+ *  Get field ygyro from scaled_imu message
  *
  * @return Angular speed around Y axis (millirad /sec)
  */
@@ -361,7 +361,7 @@ static inline int16_t mavlink_msg_scaled_imu_get_ygyro(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field zgyro from scaled_imu message
+ *  Get field zgyro from scaled_imu message
  *
  * @return Angular speed around Z axis (millirad /sec)
  */
@@ -371,7 +371,7 @@ static inline int16_t mavlink_msg_scaled_imu_get_zgyro(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field xmag from scaled_imu message
+ *  Get field xmag from scaled_imu message
  *
  * @return X Magnetic field (milli tesla)
  */
@@ -381,7 +381,7 @@ static inline int16_t mavlink_msg_scaled_imu_get_xmag(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field ymag from scaled_imu message
+ *  Get field ymag from scaled_imu message
  *
  * @return Y Magnetic field (milli tesla)
  */
@@ -391,7 +391,7 @@ static inline int16_t mavlink_msg_scaled_imu_get_ymag(const mavlink_message_t* m
 }
 
 /**
- * @brief Get field zmag from scaled_imu message
+ *  Get field zmag from scaled_imu message
  *
  * @return Z Magnetic field (milli tesla)
  */
@@ -401,7 +401,7 @@ static inline int16_t mavlink_msg_scaled_imu_get_zmag(const mavlink_message_t* m
 }
 
 /**
- * @brief Decode a scaled_imu message into a struct
+ *  Decode a scaled_imu message into a struct
  *
  * @param msg The message to decode
  * @param scaled_imu C-struct to decode the message contents into

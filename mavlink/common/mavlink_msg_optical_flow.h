@@ -38,7 +38,7 @@ typedef struct __mavlink_optical_flow_t
 
 
 /**
- * @brief Pack a optical_flow message
+ *  Pack a optical_flow message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -91,7 +91,7 @@ static inline uint16_t mavlink_msg_optical_flow_pack(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Pack a optical_flow message on a channel
+ *  Pack a optical_flow message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -145,7 +145,7 @@ static inline uint16_t mavlink_msg_optical_flow_pack_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a optical_flow struct
+ *  Encode a optical_flow struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -158,7 +158,7 @@ static inline uint16_t mavlink_msg_optical_flow_encode(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a optical_flow struct on a channel
+ *  Encode a optical_flow struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -172,7 +172,7 @@ static inline uint16_t mavlink_msg_optical_flow_encode_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Send a optical_flow message
+ *  Send a optical_flow message
  * @param chan MAVLink channel to send the message
  *
  * @param time_usec Timestamp (UNIX)
@@ -275,7 +275,7 @@ static inline void mavlink_msg_optical_flow_send_buf(mavlink_message_t *msgbuf, 
 
 
 /**
- * @brief Get field time_usec from optical_flow message
+ *  Get field time_usec from optical_flow message
  *
  * @return Timestamp (UNIX)
  */
@@ -285,7 +285,7 @@ static inline uint64_t mavlink_msg_optical_flow_get_time_usec(const mavlink_mess
 }
 
 /**
- * @brief Get field sensor_id from optical_flow message
+ *  Get field sensor_id from optical_flow message
  *
  * @return Sensor ID
  */
@@ -295,7 +295,7 @@ static inline uint8_t mavlink_msg_optical_flow_get_sensor_id(const mavlink_messa
 }
 
 /**
- * @brief Get field flow_x from optical_flow message
+ *  Get field flow_x from optical_flow message
  *
  * @return Flow in pixels * 10 in x-sensor direction (dezi-pixels)
  */
@@ -305,7 +305,7 @@ static inline int16_t mavlink_msg_optical_flow_get_flow_x(const mavlink_message_
 }
 
 /**
- * @brief Get field flow_y from optical_flow message
+ *  Get field flow_y from optical_flow message
  *
  * @return Flow in pixels * 10 in y-sensor direction (dezi-pixels)
  */
@@ -315,7 +315,7 @@ static inline int16_t mavlink_msg_optical_flow_get_flow_y(const mavlink_message_
 }
 
 /**
- * @brief Get field flow_comp_m_x from optical_flow message
+ *  Get field flow_comp_m_x from optical_flow message
  *
  * @return Flow in meters in x-sensor direction, angular-speed compensated
  */
@@ -325,7 +325,7 @@ static inline float mavlink_msg_optical_flow_get_flow_comp_m_x(const mavlink_mes
 }
 
 /**
- * @brief Get field flow_comp_m_y from optical_flow message
+ *  Get field flow_comp_m_y from optical_flow message
  *
  * @return Flow in meters in y-sensor direction, angular-speed compensated
  */
@@ -335,7 +335,7 @@ static inline float mavlink_msg_optical_flow_get_flow_comp_m_y(const mavlink_mes
 }
 
 /**
- * @brief Get field quality from optical_flow message
+ *  Get field quality from optical_flow message
  *
  * @return Optical flow quality / confidence. 0: bad, 255: maximum quality
  */
@@ -345,7 +345,7 @@ static inline uint8_t mavlink_msg_optical_flow_get_quality(const mavlink_message
 }
 
 /**
- * @brief Get field ground_distance from optical_flow message
+ *  Get field ground_distance from optical_flow message
  *
  * @return Ground distance in meters. Positive value: distance known. Negative value: Unknown distance
  */
@@ -355,7 +355,7 @@ static inline float mavlink_msg_optical_flow_get_ground_distance(const mavlink_m
 }
 
 /**
- * @brief Decode a optical_flow message into a struct
+ *  Decode a optical_flow message into a struct
  *
  * @param msg The message to decode
  * @param optical_flow C-struct to decode the message contents into

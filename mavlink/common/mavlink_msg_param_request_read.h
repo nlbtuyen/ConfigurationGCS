@@ -30,7 +30,7 @@ typedef struct __mavlink_param_request_read_t
 
 
 /**
- * @brief Pack a param_request_read message
+ *  Pack a param_request_read message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -69,7 +69,7 @@ static inline uint16_t mavlink_msg_param_request_read_pack(uint8_t system_id, ui
 }
 
 /**
- * @brief Pack a param_request_read message on a channel
+ *  Pack a param_request_read message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -109,7 +109,7 @@ static inline uint16_t mavlink_msg_param_request_read_pack_chan(uint8_t system_i
 }
 
 /**
- * @brief Encode a param_request_read struct
+ *  Encode a param_request_read struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -122,7 +122,7 @@ static inline uint16_t mavlink_msg_param_request_read_encode(uint8_t system_id, 
 }
 
 /**
- * @brief Encode a param_request_read struct on a channel
+ *  Encode a param_request_read struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -136,7 +136,7 @@ static inline uint16_t mavlink_msg_param_request_read_encode_chan(uint8_t system
 }
 
 /**
- * @brief Send a param_request_read message
+ *  Send a param_request_read message
  * @param chan MAVLink channel to send the message
  *
  * @param target_system System ID
@@ -215,7 +215,7 @@ static inline void mavlink_msg_param_request_read_send_buf(mavlink_message_t *ms
 
 
 /**
- * @brief Get field target_system from param_request_read message
+ *  Get field target_system from param_request_read message
  *
  * @return System ID
  */
@@ -225,7 +225,7 @@ static inline uint8_t mavlink_msg_param_request_read_get_target_system(const mav
 }
 
 /**
- * @brief Get field target_component from param_request_read message
+ *  Get field target_component from param_request_read message
  *
  * @return Component ID
  */
@@ -235,7 +235,7 @@ static inline uint8_t mavlink_msg_param_request_read_get_target_component(const 
 }
 
 /**
- * @brief Get field param_id from param_request_read message
+ *  Get field param_id from param_request_read message
  *
  * @return Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
  */
@@ -245,7 +245,7 @@ static inline uint16_t mavlink_msg_param_request_read_get_param_id(const mavlink
 }
 
 /**
- * @brief Get field param_index from param_request_read message
+ *  Get field param_index from param_request_read message
  *
  * @return Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)
  */
@@ -255,7 +255,7 @@ static inline int16_t mavlink_msg_param_request_read_get_param_index(const mavli
 }
 
 /**
- * @brief Decode a param_request_read message into a struct
+ *  Decode a param_request_read message into a struct
  *
  * @param msg The message to decode
  * @param param_request_read C-struct to decode the message contents into

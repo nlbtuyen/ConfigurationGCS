@@ -11,7 +11,7 @@ class LinkManager;
 class LinkInterface;
 class MAVLinkProtocol;
 /**
- * @brief A generic MAVLINK-connected MAV/UAV
+ *  A generic MAVLINK-connected MAV/UAV
  *
  * This class represents one vehicle. It can be used like the real vehicle, e.g. a call to halt()
  * will automatically send the appropriate messages to the vehicle. The vehicle state will also be
@@ -40,33 +40,33 @@ public:
 
     /* MANAGEMENT */
 
-    /** @brief The name of the robot */
+    /**  The name of the robot */
     QString getUASName(void) const;
-    /** @brief Get short state */
+    /**  Get short state */
     const QString& getShortState() const;
-    /** @brief Get short mode */
+    /**  Get short mode */
     const QString& getShortMode() const;
-    /** @brief Translate from mode id to text */
+    /**  Translate from mode id to text */
     static QString getShortModeTextFor(int id);
-    /** @brief Translate from mode id to audio text */
+    /**  Translate from mode id to audio text */
     static QString getAudioModeTextFor(int id);
-    /** @brief Get the unique system id */
+    /**  Get the unique system id */
     int getUASID() const;
-    /** @brief Get the airframe */
+    /**  Get the airframe */
     int getAirframe() const
     {
         return airframe;
     }
-    /** @brief Get the components */
+    /**  Get the components */
     QMap<int, QString> getComponents();
 
-    /** @brief The time interval the robot is switched on */
+    /**  The time interval the robot is switched on */
     quint64 getUptime() const;
-    /** @brief Get the status flag for the communication */
+    /**  Get the status flag for the communication */
     int getCommunicationStatus() const;
-    /** @brief Add one measurement and get low-passed voltage */
+    /**  Add one measurement and get low-passed voltage */
     float filterVoltage(float value) const;
-    /** @brief Get the links associated with this robot */
+    /**  Get the links associated with this robot */
     QList<LinkInterface*>* getLinks();
 
     double getLocalX() const
@@ -235,34 +235,34 @@ protected: //COMMENTS FOR TEST UNIT
     QVector3D nedAttGlobalOffset;   ///< Offset between the system's NED position measurements and the swarm / global 0/0/0 origin
 
 public:
-    /** @brief Set the current battery type */
+    /**  Set the current battery type */
     void setBattery(BatteryType type, int cells);
-    /** @brief Estimate how much flight time is remaining */
+    /**  Estimate how much flight time is remaining */
     int calculateTimeRemaining();
-    /** @brief Get the current charge level */
+    /**  Get the current charge level */
     float getChargeLevel();
-    /** @brief Get the human-readable status message for this code */
+    /**  Get the human-readable status message for this code */
     void getStatusForCode(int statusCode, QString& uasState, QString& stateDescription);
-    /** @brief Get the human-readable navigation mode translation for this mode */
+    /**  Get the human-readable navigation mode translation for this mode */
     QString getNavModeText(int mode);
-    /** @brief Check if vehicle is in autonomous mode */
+    /**  Check if vehicle is in autonomous mode */
     bool isAuto();
-    /** @brief Check if vehicle is armed */
+    /**  Check if vehicle is armed */
     bool isArmed() const { return systemIsArmed; }
 
 //    UASWaypointManager* getWaypointManager() {
 //        return &waypointManager;
 //    }
-    /** @brief Get reference to the param manager **/
+    /**  Get reference to the param manager **/
     UASParamManager* getParamManager() const {
         return paramManager;
     }
-    /** @brief Get the HIL simulation */
+    /**  Get the HIL simulation */
 //    QGCHilLink* getHILSimulation() const {
 //        return simulation;
 //    }
     // TODO Will be removed
-    /** @brief Set reference to the param manager **/
+    /**  Set reference to the param manager **/
     void setParamManager(UASParamManager* manager) {
         paramManager = manager;
     }
@@ -386,15 +386,15 @@ public:
     }
 
 public slots:
-    /** @brief Set the autopilot type */
+    /**  Set the autopilot type */
     void setAutopilotType(int apType)
     {
         autopilot = apType;
         emit systemSpecsChanged(uasId);
     }
-    /** @brief Set the type of airframe */
+    /**  Set the type of airframe */
     void setSystemType(int systemType);
-    /** @brief Set the specific airframe type */
+    /**  Set the specific airframe type */
     void setAirframe(int airframe)
     {
         if((airframe >= QGC_AIRFRAME_GENERIC) && (airframe < QGC_AIRFRAME_END_OF_ENUM))
@@ -404,112 +404,112 @@ public slots:
         }
 
     }
-    /** @brief Set a new name **/
+    /**  Set a new name **/
     void setUASName(const QString& name);
-    /** @brief Executes a command **/
+    /**  Executes a command **/
     void executeCommand(MAV_CMD command);
-    /** @brief Executes a command with 7 params */
+    /**  Executes a command with 7 params */
     void executeCommand(MAV_CMD command, int confirmation, float param1, float param2, float param3, float param4, float param5, float param6, float param7, int component);
-    /** @brief Set the current battery type and voltages */
+    /**  Set the current battery type and voltages */
     void setBatterySpecs(const QString& specs);
-    /** @brief Get the current battery type and specs */
+    /**  Get the current battery type and specs */
     QString getBatterySpecs();
     float getBatteryEmptyVoltage();
     float getBatteryWarnVoltage();
 
-    /** @brief Launches the system **/
+    /**  Launches the system **/
     void launch();
-    /** @brief Write this waypoint to the list of waypoints */
+    /**  Write this waypoint to the list of waypoints */
     //void setWaypoint(Waypoint* wp); FIXME tbd
-    /** @brief Set currently active waypoint */
+    /**  Set currently active waypoint */
     //void setWaypointActive(int id); FIXME tbd
-    /** @brief Order the robot to return home **/
+    /**  Order the robot to return home **/
     void home();
-    /** @brief Order the robot to land **/
+    /**  Order the robot to land **/
     void land();
     void halt();
     void go();
 
-    /** @brief Enable / disable HIL */
+    /**  Enable / disable HIL */
 //    void enableHilFlightGear(bool enable, QString options);
 //    void enableHilXPlane(bool enable);
 
 
-    /** @brief Send the full HIL state to the MAV */
+    /**  Send the full HIL state to the MAV */
 
     void sendHilState(	uint64_t time_us, float roll, float pitch, float yaw, float rollspeed,
                         float pitchspeed, float yawspeed, int32_t lat, int32_t lon, int32_t alt,
                         int16_t vx, int16_t vy, int16_t vz, int16_t xacc, int16_t yacc, int16_t zacc);
 
-    /** @brief Places the UAV in Hardware-in-the-Loop simulation status **/
+    /**  Places the UAV in Hardware-in-the-Loop simulation status **/
     void startHil();
 
-    /** @brief Stops the UAV's Hardware-in-the-Loop simulation status **/
+    /**  Stops the UAV's Hardware-in-the-Loop simulation status **/
     void stopHil();
 
 
-    /** @brief Stops the robot system. If it is an MAV, the robot starts the emergency landing procedure **/
+    /**  Stops the robot system. If it is an MAV, the robot starts the emergency landing procedure **/
     void emergencySTOP();
 
-    /** @brief Kills the robot. All systems are immediately shut down (e.g. the main power line is cut). This might lead to a crash **/
+    /**  Kills the robot. All systems are immediately shut down (e.g. the main power line is cut). This might lead to a crash **/
     bool emergencyKILL();
 
-    /** @brief Shut the system cleanly down. Will shut down any onboard computers **/
+    /**  Shut the system cleanly down. Will shut down any onboard computers **/
     void shutdown();
 
-    /** @brief Set the target position for the robot to navigate to. */
+    /**  Set the target position for the robot to navigate to. */
     void setTargetPosition(float x, float y, float z, float yaw);
 
     void startLowBattAlarm();
     void stopLowBattAlarm();
 
-    /** @brief Arm system */
+    /**  Arm system */
     void armSystem();
-    /** @brief Disable the motors */
+    /**  Disable the motors */
     void disarmSystem();
 
-    /** @brief Set the values for the manual control of the vehicle */
+    /**  Set the values for the manual control of the vehicle */
     void setManualControlCommands(double roll, double pitch, double yaw, double thrust, int xHat, int yHat, int buttons);
-    /** @brief Receive a button pressed event from an input device, e.g. joystick */
+    /**  Receive a button pressed event from an input device, e.g. joystick */
     void receiveButton(int buttonIndex);
 
-    /** @brief Set the values for the 6dof manual control of the vehicle */
+    /**  Set the values for the 6dof manual control of the vehicle */
 //    void setManual6DOFControlCommands(double x, double y, double z, double roll, double pitch, double yaw);
 
-    /** @brief Add a link associated with this robot */
+    /**  Add a link associated with this robot */
     void addLink(LinkInterface* link);
-    /** @brief Remove a link associated with this robot */
+    /**  Remove a link associated with this robot */
     void removeLink(QObject* object);
 
-    /** @brief Receive a message from one of the communication links. */
+    /**  Receive a message from one of the communication links. */
     virtual void receiveMessage(LinkInterface* link, mavlink_message_t message);
 
-    /** @brief Send a message over this link (to this or to all UAS on this link) */
+    /**  Send a message over this link (to this or to all UAS on this link) */
     void sendMessage(LinkInterface* link, mavlink_message_t message);
-    /** @brief Send a message over all links this UAS can be reached with (!= all links) */
+    /**  Send a message over all links this UAS can be reached with (!= all links) */
     void sendMessage(mavlink_message_t message);
 
-    /** @brief Temporary Hack for sending packets to patch Antenna. Send a message over all serial links except for this UAS's */
+    /**  Temporary Hack for sending packets to patch Antenna. Send a message over all serial links except for this UAS's */
     void forwardMessage(mavlink_message_t message);
 
-    /** @brief Set this UAS as the system currently in focus, e.g. in the main display widgets */
+    /**  Set this UAS as the system currently in focus, e.g. in the main display widgets */
     void setSelected();
 
-    /** @brief Set current mode of operation, e.g. auto or manual */
+    /**  Set current mode of operation, e.g. auto or manual */
     void setMode(int mode);
 
-    /** @brief Request all parameters */
+    /**  Request all parameters */
     void requestParameters();
 
-    /** @brief Request a single parameter by name */
+    /**  Request a single parameter by name */
     void requestParameter(int component, const QString& parameter);
-    /** @brief Request a single parameter by index */
+    /**  Request a single parameter by index */
     void requestParameter(int component, int id);
 
-    /** @brief Set a system parameter */
+    /**  Set a system parameter */
     void setParameter(const int component, const QString& id, const QVariant& value);
 
-    /** @brief Write parameters to permanent storage */
+    /**  Write parameters to permanent storage */
     void writeParametersToStorage();
     void writeParametersToStorageAQ();
     void writeParametersToSDAQ();
@@ -518,7 +518,7 @@ public slots:
     void sendCommmandToAq(int command,int confirm, float para1=0,float para2=0,float para3=0,float para4=0,float para5=0,float para6=0,float para7=0);
     void sendCommmandToIMU(int command,int confirm, float para1=0,float para2=0,float para3=0,float para4=0,float para5=0,float para6=0,float para7=0);
 
-    /** @brief Read parameters from permanent storage */
+    /**  Read parameters from permanent storage */
     void readParametersFromStorage();
     void readParametersFromStorageAQ();
     void readParametersFromSDAQ();
@@ -526,10 +526,10 @@ public slots:
     void loadDefaultParametersAQ();
 
 
-    /** @brief Get the names of all parameters */
+    /**  Get the names of all parameters */
     QList<QString> getParameterNames(int component);
 
-    /** @brief Get the ids of all components */
+    /**  Get the ids of all components */
     QList<int> getComponentIds();
 
     void enableDataStream(const int streamId, const int rate);
@@ -544,16 +544,16 @@ public slots:
     void enableExtra2Transmission(int rate);
     void enableExtra3Transmission(int rate);
 
-    /** @brief Update the system state */
+    /**  Update the system state */
     void updateState();
 
-    /** @brief Set world frame origin at current GPS position */
+    /**  Set world frame origin at current GPS position */
     void setLocalOriginAtCurrentGPSPosition();
-    /** @brief Set world frame origin / home position at this GPS position */
+    /**  Set world frame origin / home position at this GPS position */
     void setHomePosition(double lat, double lon, double alt);
-    /** @brief Set local position setpoint */
+    /**  Set local position setpoint */
     void setLocalPositionSetpoint(float x, float y, float z, float yaw);
-    /** @brief Add an offset in body frame to the setpoint */
+    /**  Add an offset in body frame to the setpoint */
     void setLocalPositionOffset(float x, float y, float z, float yaw);
 
     void startRadioControlCalibration();
@@ -566,31 +566,31 @@ public slots:
     void deleteSettings();
 
 signals:
-    /** @brief The main/battery voltage has changed/was updated */
+    /**  The main/battery voltage has changed/was updated */
     //void voltageChanged(int uasId, double voltage); // Defined in UASInterface already
-    /** @brief An actuator value has changed */
+    /**  An actuator value has changed */
     //void actuatorChanged(UASInterface*, int actId, double value); // Defined in UASInterface already
-    /** @brief An actuator value has changed */
+    /**  An actuator value has changed */
     void actuatorChanged(UASInterface* uas, QString actuatorName, double min, double max, double value);
     void motorChanged(UASInterface* uas, QString motorName, double min, double max, double value);
-    /** @brief The system load (MCU/CPU usage) changed */
+    /**  The system load (MCU/CPU usage) changed */
     void loadChanged(UASInterface* uas, double load);
-    /** @brief Propagate a heartbeat received from the system */
+    /**  Propagate a heartbeat received from the system */
     //void heartbeat(UASInterface* uas); // Defined in UASInterface already
     void imageStarted(quint64 timestamp);
-    /** @brief A new camera image has arrived */
+    /**  A new camera image has arrived */
     void imageReady(UASInterface* uas);
-    /** @brief HIL controls have changed */
+    /**  HIL controls have changed */
     void hilControlsChanged(uint64_t time, float rollAilerons, float pitchElevator, float yawRudder, float throttle, uint8_t systemMode, uint8_t navMode);
-    /** @brief HIL actuator outputs have changed */
+    /**  HIL actuator outputs have changed */
     void hilActuatorsChanged(uint64_t time, float act1, float act2, float act3, float act4, float act5, float act6, float act7, float act8);
 
 protected:
-    /** @brief Get the UNIX timestamp in milliseconds, enter microseconds */
+    /**  Get the UNIX timestamp in milliseconds, enter microseconds */
     quint64 getUnixTime(quint64 time=0);
-    /** @brief Get the UNIX timestamp in milliseconds, enter milliseconds */
+    /**  Get the UNIX timestamp in milliseconds, enter milliseconds */
     quint64 getUnixTimeFromMs(quint64 time);
-    /** @brief Get the UNIX timestamp in milliseconds, ignore attitudeStamped mode */
+    /**  Get the UNIX timestamp in milliseconds, ignore attitudeStamped mode */
     quint64 getUnixReferenceTime(quint64 time);
 
     void parseTextMessage(QString *msg, int severity);
@@ -606,13 +606,13 @@ protected:
     bool hilEnabled;            ///< Set to true if HIL mode is enabled from GCS (UAS might be in HIL even if this flag is not set, this defines the GCS HIL setting)
 
 protected slots:
-    /** @brief Write settings to disk */
+    /**  Write settings to disk */
     void writeSettings();
-    /** @brief Read settings from disk */
+    /**  Read settings from disk */
     void readSettings();
 
 //    // MESSAGE RECEPTION
-//    /** @brief Receive a named value message */
+//    /**  Receive a named value message */
 //    void receiveMessageNamedValue(const mavlink_message_t& message);
 
 private:

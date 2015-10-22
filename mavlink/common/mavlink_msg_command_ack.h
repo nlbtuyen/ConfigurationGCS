@@ -26,7 +26,7 @@ typedef struct __mavlink_command_ack_t
 
 
 /**
- * @brief Pack a command_ack message
+ *  Pack a command_ack message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -61,7 +61,7 @@ static inline uint16_t mavlink_msg_command_ack_pack(uint8_t system_id, uint8_t c
 }
 
 /**
- * @brief Pack a command_ack message on a channel
+ *  Pack a command_ack message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -97,7 +97,7 @@ static inline uint16_t mavlink_msg_command_ack_pack_chan(uint8_t system_id, uint
 }
 
 /**
- * @brief Encode a command_ack struct
+ *  Encode a command_ack struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -110,7 +110,7 @@ static inline uint16_t mavlink_msg_command_ack_encode(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a command_ack struct on a channel
+ *  Encode a command_ack struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -124,7 +124,7 @@ static inline uint16_t mavlink_msg_command_ack_encode_chan(uint8_t system_id, ui
 }
 
 /**
- * @brief Send a command_ack message
+ *  Send a command_ack message
  * @param chan MAVLink channel to send the message
  *
  * @param command Command ID, as defined by MAV_CMD enum.
@@ -197,7 +197,7 @@ static inline void mavlink_msg_command_ack_send_buf(mavlink_message_t *msgbuf, m
 
 
 /**
- * @brief Get field command from command_ack message
+ *  Get field command from command_ack message
  *
  * @return Command ID, as defined by MAV_CMD enum.
  */
@@ -207,7 +207,7 @@ static inline uint16_t mavlink_msg_command_ack_get_command(const mavlink_message
 }
 
 /**
- * @brief Get field result from command_ack message
+ *  Get field result from command_ack message
  *
  * @return See MAV_RESULT enum
  */
@@ -217,7 +217,7 @@ static inline uint8_t mavlink_msg_command_ack_get_result(const mavlink_message_t
 }
 
 /**
- * @brief Decode a command_ack message into a struct
+ *  Decode a command_ack message into a struct
  *
  * @param msg The message to decode
  * @param command_ack C-struct to decode the message contents into

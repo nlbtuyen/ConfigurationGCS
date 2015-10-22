@@ -26,7 +26,7 @@
 /** What we really want is a mapping of every raw key on the keyboard.
  *  To support international keyboards, we use the range 0xA1 - 0xFF
  *  as international virtual keycodes.  We'll follow in the footsteps of X11...
- *  @brief The names of the keys
+ *   The names of the keys
  */
 typedef enum {
         /** @name ASCII mapped keysyms

@@ -26,7 +26,7 @@ typedef struct __mavlink_timesync_t
 
 
 /**
- * @brief Pack a timesync message
+ *  Pack a timesync message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -61,7 +61,7 @@ static inline uint16_t mavlink_msg_timesync_pack(uint8_t system_id, uint8_t comp
 }
 
 /**
- * @brief Pack a timesync message on a channel
+ *  Pack a timesync message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -97,7 +97,7 @@ static inline uint16_t mavlink_msg_timesync_pack_chan(uint8_t system_id, uint8_t
 }
 
 /**
- * @brief Encode a timesync struct
+ *  Encode a timesync struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -110,7 +110,7 @@ static inline uint16_t mavlink_msg_timesync_encode(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Encode a timesync struct on a channel
+ *  Encode a timesync struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -124,7 +124,7 @@ static inline uint16_t mavlink_msg_timesync_encode_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Send a timesync message
+ *  Send a timesync message
  * @param chan MAVLink channel to send the message
  *
  * @param tc1 Time sync timestamp 1
@@ -197,7 +197,7 @@ static inline void mavlink_msg_timesync_send_buf(mavlink_message_t *msgbuf, mavl
 
 
 /**
- * @brief Get field tc1 from timesync message
+ *  Get field tc1 from timesync message
  *
  * @return Time sync timestamp 1
  */
@@ -207,7 +207,7 @@ static inline int64_t mavlink_msg_timesync_get_tc1(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Get field ts1 from timesync message
+ *  Get field ts1 from timesync message
  *
  * @return Time sync timestamp 2
  */
@@ -217,7 +217,7 @@ static inline int64_t mavlink_msg_timesync_get_ts1(const mavlink_message_t* msg)
 }
 
 /**
- * @brief Decode a timesync message into a struct
+ *  Decode a timesync message into a struct
  *
  * @param msg The message to decode
  * @param timesync C-struct to decode the message contents into

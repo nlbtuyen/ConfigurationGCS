@@ -48,7 +48,7 @@ typedef struct __mavlink_sys_status_t
 
 
 /**
- * @brief Pack a sys_status message
+ *  Pack a sys_status message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -116,7 +116,7 @@ static inline uint16_t mavlink_msg_sys_status_pack(uint8_t system_id, uint8_t co
 }
 
 /**
- * @brief Pack a sys_status message on a channel
+ *  Pack a sys_status message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -185,7 +185,7 @@ static inline uint16_t mavlink_msg_sys_status_pack_chan(uint8_t system_id, uint8
 }
 
 /**
- * @brief Encode a sys_status struct
+ *  Encode a sys_status struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -198,7 +198,7 @@ static inline uint16_t mavlink_msg_sys_status_encode(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Encode a sys_status struct on a channel
+ *  Encode a sys_status struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -212,7 +212,7 @@ static inline uint16_t mavlink_msg_sys_status_encode_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Send a sys_status message
+ *  Send a sys_status message
  * @param chan MAVLink channel to send the message
  *
  * @param onboard_control_sensors_present Bitmask showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present. Indices defined by ENUM MAV_SYS_STATUS_SENSOR
@@ -340,7 +340,7 @@ static inline void mavlink_msg_sys_status_send_buf(mavlink_message_t *msgbuf, ma
 
 
 /**
- * @brief Get field onboard_control_sensors_present from sys_status message
+ *  Get field onboard_control_sensors_present from sys_status message
  *
  * @return Bitmask showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present. Indices defined by ENUM MAV_SYS_STATUS_SENSOR
  */
@@ -350,7 +350,7 @@ static inline uint32_t mavlink_msg_sys_status_get_onboard_control_sensors_presen
 }
 
 /**
- * @brief Get field onboard_control_sensors_enabled from sys_status message
+ *  Get field onboard_control_sensors_enabled from sys_status message
  *
  * @return Bitmask showing which onboard controllers and sensors are enabled:  Value of 0: not enabled. Value of 1: enabled. Indices defined by ENUM MAV_SYS_STATUS_SENSOR
  */
@@ -360,7 +360,7 @@ static inline uint32_t mavlink_msg_sys_status_get_onboard_control_sensors_enable
 }
 
 /**
- * @brief Get field onboard_control_sensors_health from sys_status message
+ *  Get field onboard_control_sensors_health from sys_status message
  *
  * @return Bitmask showing which onboard controllers and sensors are operational or have an error:  Value of 0: not enabled. Value of 1: enabled. Indices defined by ENUM MAV_SYS_STATUS_SENSOR
  */
@@ -370,7 +370,7 @@ static inline uint32_t mavlink_msg_sys_status_get_onboard_control_sensors_health
 }
 
 /**
- * @brief Get field load from sys_status message
+ *  Get field load from sys_status message
  *
  * @return Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
  */
@@ -380,7 +380,7 @@ static inline uint16_t mavlink_msg_sys_status_get_load(const mavlink_message_t* 
 }
 
 /**
- * @brief Get field voltage_battery from sys_status message
+ *  Get field voltage_battery from sys_status message
  *
  * @return Battery voltage, in millivolts (1 = 1 millivolt)
  */
@@ -390,7 +390,7 @@ static inline uint16_t mavlink_msg_sys_status_get_voltage_battery(const mavlink_
 }
 
 /**
- * @brief Get field current_battery from sys_status message
+ *  Get field current_battery from sys_status message
  *
  * @return Battery current, in 10*milliamperes (1 = 10 milliampere), -1: autopilot does not measure the current
  */
@@ -400,7 +400,7 @@ static inline int16_t mavlink_msg_sys_status_get_current_battery(const mavlink_m
 }
 
 /**
- * @brief Get field battery_remaining from sys_status message
+ *  Get field battery_remaining from sys_status message
  *
  * @return Remaining battery energy: (0%: 0, 100%: 100), -1: autopilot estimate the remaining battery
  */
@@ -410,7 +410,7 @@ static inline int8_t mavlink_msg_sys_status_get_battery_remaining(const mavlink_
 }
 
 /**
- * @brief Get field drop_rate_comm from sys_status message
+ *  Get field drop_rate_comm from sys_status message
  *
  * @return Communication drops in percent, (0%: 0, 100%: 10'000), (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)
  */
@@ -420,7 +420,7 @@ static inline uint16_t mavlink_msg_sys_status_get_drop_rate_comm(const mavlink_m
 }
 
 /**
- * @brief Get field errors_comm from sys_status message
+ *  Get field errors_comm from sys_status message
  *
  * @return Communication errors (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)
  */
@@ -430,7 +430,7 @@ static inline uint16_t mavlink_msg_sys_status_get_errors_comm(const mavlink_mess
 }
 
 /**
- * @brief Get field errors_count1 from sys_status message
+ *  Get field errors_count1 from sys_status message
  *
  * @return Autopilot-specific errors
  */
@@ -440,7 +440,7 @@ static inline uint16_t mavlink_msg_sys_status_get_errors_count1(const mavlink_me
 }
 
 /**
- * @brief Get field errors_count2 from sys_status message
+ *  Get field errors_count2 from sys_status message
  *
  * @return Autopilot-specific errors
  */
@@ -450,7 +450,7 @@ static inline uint16_t mavlink_msg_sys_status_get_errors_count2(const mavlink_me
 }
 
 /**
- * @brief Get field errors_count3 from sys_status message
+ *  Get field errors_count3 from sys_status message
  *
  * @return Autopilot-specific errors
  */
@@ -460,7 +460,7 @@ static inline uint16_t mavlink_msg_sys_status_get_errors_count3(const mavlink_me
 }
 
 /**
- * @brief Get field errors_count4 from sys_status message
+ *  Get field errors_count4 from sys_status message
  *
  * @return Autopilot-specific errors
  */
@@ -470,7 +470,7 @@ static inline uint16_t mavlink_msg_sys_status_get_errors_count4(const mavlink_me
 }
 
 /**
- * @brief Decode a sys_status message into a struct
+ *  Decode a sys_status message into a struct
  *
  * @param msg The message to decode
  * @param sys_status C-struct to decode the message contents into

@@ -32,7 +32,7 @@ typedef struct __mavlink_v2_extension_t
 
 
 /**
- * @brief Pack a v2_extension message
+ *  Pack a v2_extension message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -74,7 +74,7 @@ static inline uint16_t mavlink_msg_v2_extension_pack(uint8_t system_id, uint8_t 
 }
 
 /**
- * @brief Pack a v2_extension message on a channel
+ *  Pack a v2_extension message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -117,7 +117,7 @@ static inline uint16_t mavlink_msg_v2_extension_pack_chan(uint8_t system_id, uin
 }
 
 /**
- * @brief Encode a v2_extension struct
+ *  Encode a v2_extension struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -130,7 +130,7 @@ static inline uint16_t mavlink_msg_v2_extension_encode(uint8_t system_id, uint8_
 }
 
 /**
- * @brief Encode a v2_extension struct on a channel
+ *  Encode a v2_extension struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -144,7 +144,7 @@ static inline uint16_t mavlink_msg_v2_extension_encode_chan(uint8_t system_id, u
 }
 
 /**
- * @brief Send a v2_extension message
+ *  Send a v2_extension message
  * @param chan MAVLink channel to send the message
  *
  * @param target_network Network ID (0 for broadcast)
@@ -228,7 +228,7 @@ static inline void mavlink_msg_v2_extension_send_buf(mavlink_message_t *msgbuf, 
 
 
 /**
- * @brief Get field target_network from v2_extension message
+ *  Get field target_network from v2_extension message
  *
  * @return Network ID (0 for broadcast)
  */
@@ -238,7 +238,7 @@ static inline uint8_t mavlink_msg_v2_extension_get_target_network(const mavlink_
 }
 
 /**
- * @brief Get field target_system from v2_extension message
+ *  Get field target_system from v2_extension message
  *
  * @return System ID (0 for broadcast)
  */
@@ -248,7 +248,7 @@ static inline uint8_t mavlink_msg_v2_extension_get_target_system(const mavlink_m
 }
 
 /**
- * @brief Get field target_component from v2_extension message
+ *  Get field target_component from v2_extension message
  *
  * @return Component ID (0 for broadcast)
  */
@@ -258,7 +258,7 @@ static inline uint8_t mavlink_msg_v2_extension_get_target_component(const mavlin
 }
 
 /**
- * @brief Get field message_type from v2_extension message
+ *  Get field message_type from v2_extension message
  *
  * @return A code that identifies the software component that understands this message (analogous to usb device classes or mime type strings).  If this code is less than 32768, it is considered a 'registered' protocol extension and the corresponding entry should be added to https://github.com/mavlink/mavlink/extension-message-ids.xml.  Software creators can register blocks of message IDs as needed (useful for GCS specific metadata, etc...). Message_types greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase.
  */
@@ -268,7 +268,7 @@ static inline uint16_t mavlink_msg_v2_extension_get_message_type(const mavlink_m
 }
 
 /**
- * @brief Get field payload from v2_extension message
+ *  Get field payload from v2_extension message
  *
  * @return Variable length payload. The length is defined by the remaining message length when subtracting the header and other fields.  The entire content of this block is opaque unless you understand any the encoding message_type.  The particular encoding used can be extension specific and might not always be documented as part of the mavlink specification.
  */
@@ -278,7 +278,7 @@ static inline uint16_t mavlink_msg_v2_extension_get_payload(const mavlink_messag
 }
 
 /**
- * @brief Decode a v2_extension message into a struct
+ *  Decode a v2_extension message into a struct
  *
  * @param msg The message to decode
  * @param v2_extension C-struct to decode the message contents into

@@ -95,14 +95,14 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     delayedSendRCTimer.start(800);
 
-    //RC Charts
+    //RC Charts : Draw immediately after start
     if(ui->lineEdit_expoPitch && ui->lineEdit_ratePitch)
-        pitchCharts();
+        pitchChart();
 
     if (ui->lineEdit_TPA && ui->lineEdit_TPA_Breakpoint)
         TPAChart();
 
-    connect(ui->btn_OK_ExpoPitch, SIGNAL(clicked()), this, SLOT(pitchCharts()));
+    connect(ui->btn_OK_ExpoPitch, SIGNAL(clicked()), this, SLOT(pitchChart()));
     connect(ui->btn_OK_TPA, SIGNAL(clicked()), this, SLOT(TPAChart()));
 
     //update variable for RC Chart
@@ -154,86 +154,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), debugConsole, SLOT(receiveTextMessage(int, int, int, const QString)));
 
     // tab BLHeli
-    // Initialize current and default value
-    default_beep = ui->slide_beep->value();
-    default_beaconstr = ui->slide_beaconstr->value();
-    default_delay = ui->slide_delay->value();
-    default_demeg = ui->slide_demeg->value();
-    default_enable = ui->slide_enable->value();
-    default_motor = ui->slide_motor->value();
-    default_polarity = ui->slide_polarity->value();
-    default_pwm = ui->slide_PWM->value();
-    default_startup = ui->slide_startup->value();
-    default_tempe = ui->slide_tempe->value();
-
-    current_beep = default_beep;
-    current_beaconstr = default_beaconstr;
-    current_delay = default_delay;
-    current_demeg = default_demeg;
-    current_enable = default_enable;
-    current_motor = default_motor;
-    current_polarity = default_polarity;
-    current_pwm = default_pwm;
-    current_startup = default_startup;
-    current_tempe = default_tempe;
-
-    // Set invisible undo button and add connect
-    ui->undo_beep->setVisible(false);
-    connect(ui->slide_beep,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelBeep(int)));
-    ui->undo_delay->setVisible(false);
-    connect(ui->slide_delay,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelDelay(int)));
-    ui->undo_demeg->setVisible(false);
-    connect(ui->slide_demeg,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelDemeg(int)));
-    ui->undo_enable->setVisible(false);
-    connect(ui->slide_enable,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelEnable(int)));
-    ui->undo_motor->setVisible(false);
-    connect(ui->slide_motor,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelMotor(int)));
-    ui->undo_polarity->setVisible(false);
-    connect(ui->slide_polarity,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelPolarity(int)));
-    ui->undo_PWM->setVisible(false);
-    connect(ui->slide_PWM,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelPWM(int)));
-    ui->undo_startup->setVisible(false);
-    connect(ui->slide_startup,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelStartup(int)));
-    ui->undo_beaconstr->setVisible(false);
-    connect(ui->slide_beaconstr,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelBeaconStr(int)));
-    ui->undo_tempe->setVisible(false);
-    connect(ui->slide_tempe,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelTempe(int)));
-
-    // Invisible default button
-    ui->default_beep->setVisible(false);
-    ui->default_delay->setVisible(false);
-    ui->default_demeg->setVisible(false);
-    ui->default_enable->setVisible(false);
-    ui->default_motor->setVisible(false);
-    ui->default_polarity->setVisible(false);
-    ui->default_PWM->setVisible(false);
-    ui->default_startup->setVisible(false);
-    ui->default_beaconstr->setVisible(false);
-    ui->default_tempe->setVisible(false);
-
-    // Set alight left
-    ui->horizontalLayout_beep->setAlignment(Qt::AlignLeft);
-    ui->horizontalLayout_delay->setAlignment(Qt::AlignLeft);
-    ui->horizontalLayout_demeg->setAlignment(Qt::AlignLeft);
-    ui->horizontalLayout_enable->setAlignment(Qt::AlignLeft);
-    ui->horizontalLayout_motor->setAlignment(Qt::AlignLeft);
-    ui->horizontalLayout_polarity->setAlignment(Qt::AlignLeft);
-    ui->horizontalLayout_pwm->setAlignment(Qt::AlignLeft);
-    ui->horizontalLayout_startup->setAlignment(Qt::AlignLeft);
-    ui->horizontalLayout_beaconstr->setAlignment(Qt::AlignLeft);
-    ui->horizontalLayout_tempe->setAlignment(Qt::AlignLeft);
-
-    // connect undo and default button
-    connect(ui->default_beep, SIGNAL(clicked(bool)), this, SLOT(handle_default_beep(bool)));
-    connect(ui->default_beaconstr, SIGNAL(clicked(bool)), this, SLOT(handle_default_beaconstr(bool)));
-    connect(ui->default_delay, SIGNAL(clicked(bool)), this, SLOT(handle_default_delay(bool)));
-    connect(ui->default_demeg, SIGNAL(clicked(bool)), this, SLOT(handle_default_demeg(bool)));
-    connect(ui->default_enable, SIGNAL(clicked(bool)), this, SLOT(handle_default_enable(bool)));
-    connect(ui->default_motor, SIGNAL(clicked(bool)), this, SLOT(handle_default_motor(bool)));
-    connect(ui->default_polarity, SIGNAL(clicked(bool)), this, SLOT(handle_default_polarity(bool)));
-    connect(ui->default_PWM, SIGNAL(clicked(bool)), this, SLOT(handle_default_pwm(bool)));
-    connect(ui->default_startup, SIGNAL(clicked(bool)), this, SLOT(handle_default_startup(bool)));
-    connect(ui->default_tempe, SIGNAL(clicked(bool)), this, SLOT(handle_default_tempe(bool)));
+    BLHeliTab(); //@Trung
 }
 
 UAVConfig::~UAVConfig()
@@ -871,12 +792,14 @@ bool UAVConfig::checkAqSerialConnection(QString port)
 
 void UAVConfig::setValueLineEdit(QString str)
 {
+    Q_UNUSED(str);
     //    int val = str.toInt();
     //    ui->slider_CTRL_YAW_RTE_D->setValue((int)((val)*100/1000));
 }
 
 void UAVConfig::updateTextEdit(int i)
 {
+    Q_UNUSED(i);
     //    i = i*1000/100;
     //    QString str;
     //    str.setNum(i, 10);
@@ -935,7 +858,7 @@ void UAVConfig::updateButtonView()
     }
 }
 
-/**
+/*
  * ================= RC-Config ===============
  */
 //set min max for RCConfig
@@ -973,10 +896,12 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
     qDebug() << "channelID: " << channelId << "value: " << val;
 }
 
-//Main func of RC Tab
-void UAVConfig::pitchCharts()
+/*
+ * @bt Pitch Expo Chart Plot
+ */
+void UAVConfig::pitchChart()
 {
-    if (ui->lineEdit_expoPitch->text() == NULL || ui->lineEdit_ratePitch->text()==NULL)
+    if (ui->lineEdit_expoPitch->text() == NULL || ui->lineEdit_ratePitch->text() == NULL)
     {
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Empty value"));
     }
@@ -994,7 +919,7 @@ void UAVConfig::pitchCharts()
     {
         calculateResult1_RC(); //calculate result1
         calculateYLoca(); //calculate y location
-        drawCharts(); //Draw Pitch + Roll Chart
+        drawChart_Pitch(); //Draw Pitch + Roll Chart
     }
 }
 
@@ -1013,11 +938,10 @@ void UAVConfig::calculateYLoca()
     for (i = 0; i <= 7; i++)
     {
         y_loca[i] = (float)result1[i] + (x_loca[i] - i_const[i]*100)*(result1[i+1] - result1[i])/100;
-        //        qDebug() << "x: " << x_loca[i] << "y: " << y_loca[i];
     }
 }
 
-void UAVConfig::drawCharts()
+void UAVConfig::drawChart_Pitch()
 {
     QPolygonF poly;
     for (int i = 0; i<=7; i++)
@@ -1026,15 +950,12 @@ void UAVConfig::drawCharts()
     }
 
     QWidget *widget = new QWidget();
-
     QwtPlot *plot = new QwtPlot(widget);
 
     //Point Marker
     for (int i = 0; i<=7; i++)
     {
-        //        QwtSymbol *sym=new QwtSymbol(QwtSymbol::Triangle,QBrush(QColor(51,102,204)),QPen(QColor(0,51,153)),QSize(10,10));
-        QwtPlotMarker *mark=new QwtPlotMarker();
-        //        mark->setSymbol(sym);
+        QwtPlotMarker *mark = new QwtPlotMarker();
         mark->setValue(QPointF(x_loca[i], y_loca[i]));
         mark->attach(plot);
     }
@@ -1058,6 +979,65 @@ void UAVConfig::drawCharts()
     ui->scrollArea_Charts_PitchExpo->setWidget(widget);
 }
 
+/*
+ * @trung TPA Chart Plot
+ */
+
+void UAVConfig::TPAChart()
+{
+    if (ui->lineEdit_TPA->text() == NULL || ui->lineEdit_TPA_Breakpoint->text()==NULL)
+    {
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("TPA or TPA Breakpoint value is empty"));
+    }
+    TPA = ui->lineEdit_TPA->text().toDouble();
+
+    TPA_breakpoint = ui->lineEdit_TPA_Breakpoint->text().toInt();
+
+    if(TPA < 0 || TPA > 1)
+    {
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input TPA between 0 and 1"));
+    }
+    else if (TPA_breakpoint < 1000 || TPA_breakpoint > 2000){
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input TPA Breakpoint between 1000 and 2000"));
+    }
+    else
+    {
+        drawChart_TPA(); //Draw TPA Chart
+    }
+}
+
+void UAVConfig::drawChart_TPA()
+{
+    QPolygonF poly;
+    poly << QPointF(0, 100) << QPointF(TPA_breakpoint, 100) << QPointF(2000, ((1-TPA)*100));
+
+    QWidget *widget = new QWidget();
+    QwtPlot *plot = new QwtPlot(widget);
+    plot->setAxisScale(QwtPlot::yLeft, 0, 100, 10);
+    plot->setAxisScale(QwtPlot::xBottom, 1000, 2000, 250);
+
+    //Grid
+    QwtPlotGrid *grid = new QwtPlotGrid();
+    grid->attach(plot);
+    grid->setPen( Qt::gray, 0.0, Qt::DotLine );
+
+    //Curve
+    QwtPlotCurve *c = new QwtPlotCurve();
+    c->setPen( QPen(QColor(102,153,255), 4));
+    c->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+    c->setSamples(poly);
+    c->attach(plot);
+
+    plot->resize(480,255);
+    plot->replot();
+    plot->show();
+
+    ui->scrollArea_Charts_TPA->setWidget(widget);
+}
+
+/*
+ * 3DModel : not use
+ */
 void UAVConfig::load3DModel()
 {
     //3D Model: load qml and connect between QML & C++
@@ -1079,6 +1059,7 @@ void UAVConfig::load3DModel()
 
 void UAVConfig::radioType_changed(int idx)
 {
+    Q_UNUSED(idx);
     emit hardwareInfoUpdated();
 
     bool ok;
@@ -1127,56 +1108,89 @@ void UAVConfig::setupRadioTypes()
 
 }
 
-void UAVConfig::TPAChart()
+
+void UAVConfig::BLHeliTab()
 {
-    if (ui->lineEdit_TPA->text() == NULL || ui->lineEdit_TPA_Breakpoint->text()==NULL)
-    {
-        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("TPA or TPA Breakpoint value is empty"));
-    }
-    TPA = ui->lineEdit_TPA->text().toDouble();
+    // Initialize current and default value
+    default_beep = ui->slide_beep->value();
+    default_beaconstr = ui->slide_beaconstr->value();
+    default_delay = ui->slide_delay->value();
+    default_demeg = ui->slide_demeg->value();
+    default_enable = ui->slide_enable->value();
+    default_motor = ui->slide_motor->value();
+    default_polarity = ui->slide_polarity->value();
+    default_pwm = ui->slide_PWM->value();
+    default_startup = ui->slide_startup->value();
+    default_tempe = ui->slide_tempe->value();
 
-    TPA_breakpoint = ui->lineEdit_TPA_Breakpoint->text().toInt();
+    current_beep = default_beep;
+    current_beaconstr = default_beaconstr;
+    current_delay = default_delay;
+    current_demeg = default_demeg;
+    current_enable = default_enable;
+    current_motor = default_motor;
+    current_polarity = default_polarity;
+    current_pwm = default_pwm;
+    current_startup = default_startup;
+    current_tempe = default_tempe;
 
-    if(TPA < 0 || TPA > 1)
-    {
-        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input TPA between 0 and 1"));
-    }
-    else if (TPA_breakpoint < 1000 || TPA_breakpoint > 2000){
-        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Please input TPA Breakpoint between 1000 and 2000"));
-    }
-    else
-    {
-        drawChartTPA(); //Draw TPA Chart
-    }
-}
+    // Set invisible undo button and add connect
+    ui->undo_beep->setVisible(false);
+    connect(ui->slide_beep,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelBeep(int)));
+    ui->undo_delay->setVisible(false);
+    connect(ui->slide_delay,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelDelay(int)));
+    ui->undo_demeg->setVisible(false);
+    connect(ui->slide_demeg,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelDemeg(int)));
+    ui->undo_enable->setVisible(false);
+    connect(ui->slide_enable,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelEnable(int)));
+    ui->undo_motor->setVisible(false);
+    connect(ui->slide_motor,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelMotor(int)));
+    ui->undo_polarity->setVisible(false);
+    connect(ui->slide_polarity,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelPolarity(int)));
+    ui->undo_PWM->setVisible(false);
+    connect(ui->slide_PWM,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelPWM(int)));
+    ui->undo_startup->setVisible(false);
+    connect(ui->slide_startup,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelStartup(int)));
+    ui->undo_beaconstr->setVisible(false);
+    connect(ui->slide_beaconstr,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelBeaconStr(int)));
+    ui->undo_tempe->setVisible(false);
+    connect(ui->slide_tempe,SIGNAL(valueChanged(int)), this, SLOT(set_Value_Title_LabelTempe(int)));
 
-void UAVConfig::drawChartTPA()
-{
-    QPolygonF poly;
-    poly << QPointF(0, 100) << QPointF(TPA_breakpoint, 100) << QPointF(2000, ((1-TPA)*100));
+    // Invisible default button
+    ui->default_beep->setVisible(false);
+    ui->default_delay->setVisible(false);
+    ui->default_demeg->setVisible(false);
+    ui->default_enable->setVisible(false);
+    ui->default_motor->setVisible(false);
+    ui->default_polarity->setVisible(false);
+    ui->default_PWM->setVisible(false);
+    ui->default_startup->setVisible(false);
+    ui->default_beaconstr->setVisible(false);
+    ui->default_tempe->setVisible(false);
 
-    QWidget *widget = new QWidget();
-    QwtPlot *plot = new QwtPlot(widget);
-    plot->setAxisScale(QwtPlot::yLeft, 0, 100, 10);
-    plot->setAxisScale(QwtPlot::xBottom, 1000, 2000, 250);
+    // Set alight left
+    ui->horizontalLayout_beep->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_delay->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_demeg->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_enable->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_motor->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_polarity->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_pwm->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_startup->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_beaconstr->setAlignment(Qt::AlignLeft);
+    ui->horizontalLayout_tempe->setAlignment(Qt::AlignLeft);
 
-    //Grid
-    QwtPlotGrid *grid = new QwtPlotGrid();
-    grid->attach(plot);
-    grid->setPen( Qt::gray, 0.0, Qt::DotLine );
-
-    //Curve
-    QwtPlotCurve *c = new QwtPlotCurve();
-    c->setPen( QPen(QColor(102,153,255), 4));
-    c->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    c->setSamples(poly);
-    c->attach(plot);
-
-    plot->resize(480,255);
-    plot->replot();
-    plot->show();
-
-    ui->scrollArea_Charts_TPA->setWidget(widget);
+    // connect undo and default button
+    connect(ui->default_beep, SIGNAL(clicked(bool)), this, SLOT(handle_default_beep(bool)));
+    connect(ui->default_beaconstr, SIGNAL(clicked(bool)), this, SLOT(handle_default_beaconstr(bool)));
+    connect(ui->default_delay, SIGNAL(clicked(bool)), this, SLOT(handle_default_delay(bool)));
+    connect(ui->default_demeg, SIGNAL(clicked(bool)), this, SLOT(handle_default_demeg(bool)));
+    connect(ui->default_enable, SIGNAL(clicked(bool)), this, SLOT(handle_default_enable(bool)));
+    connect(ui->default_motor, SIGNAL(clicked(bool)), this, SLOT(handle_default_motor(bool)));
+    connect(ui->default_polarity, SIGNAL(clicked(bool)), this, SLOT(handle_default_polarity(bool)));
+    connect(ui->default_PWM, SIGNAL(clicked(bool)), this, SLOT(handle_default_pwm(bool)));
+    connect(ui->default_startup, SIGNAL(clicked(bool)), this, SLOT(handle_default_startup(bool)));
+    connect(ui->default_tempe, SIGNAL(clicked(bool)), this, SLOT(handle_default_tempe(bool)));
 }
 
 // tab BLHeli

@@ -1,5 +1,5 @@
 /** @file
- *	@brief MAVLink comm protocol generated from vskyline.xml
+ *	 MAVLink comm protocol generated from vskyline.xml
  *	@see http://mavlink.org
  */
 #ifndef MAVLINK_VSKYLINE_H
@@ -34,7 +34,7 @@ extern "C" {
 // ENUM DEFINITIONS
 
 
-/** @brief Available operating modes/statuses for AutoQuad flight controller. 
+/**  Available operating modes/statuses for AutoQuad flight controller. 
                 Bitmask up to 32 bits. Low side bits for base modes, high side for 
                 additional active features/modifiers/constraints. */
 #ifndef HAVE_ENUM_AUTOQUAD_NAV_STATUS
@@ -58,7 +58,7 @@ typedef enum AUTOQUAD_NAV_STATUS
 } AUTOQUAD_NAV_STATUS;
 #endif
 
-/** @brief  */
+/**   */
 #ifndef HAVE_ENUM_MAV_CMD
 #define HAVE_ENUM_MAV_CMD
 typedef enum MAV_CMD
@@ -131,7 +131,7 @@ typedef enum MAV_CMD
 } MAV_CMD;
 #endif
 
-/** @brief  */
+/**   */
 #ifndef HAVE_ENUM_MAV_DATA_STREAM
 #define HAVE_ENUM_MAV_DATA_STREAM
 typedef enum MAV_DATA_STREAM

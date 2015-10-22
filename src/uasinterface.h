@@ -14,7 +14,7 @@
 
 
 /**
- * @brief Interface for all robots.
+ *  Interface for all robots.
  *
  * This interface is abstract and thus cannot be instantiated. It serves only as type definition.
  * It represents an unmanned aerial vehicle, e.g. a micro air vehicle.
@@ -27,18 +27,18 @@ public:
 
     /* MANAGEMENT */
 
-    /** @brief The name of the robot **/
+    /**  The name of the robot **/
     virtual QString getUASName() const = 0;
-    /** @brief Get short state */
+    /**  Get short state */
     virtual const QString& getShortState() const = 0;
-    /** @brief Get short mode */
+    /**  Get short mode */
     virtual const QString& getShortMode() const = 0;
-    /** @brief Translate mode id into text */
+    /**  Translate mode id into text */
     static QString getShortModeTextFor(int id);
     virtual int getUASID() const = 0; ///< Get the ID of the connected UAS
-    /** @brief The time interval the robot is switched on **/
+    /**  The time interval the robot is switched on **/
     virtual quint64 getUptime() const = 0;
-    /** @brief Get the status flag for the communication **/
+    /**  Get the status flag for the communication **/
     virtual int getCommunicationStatus() const = 0;
 
     virtual double getLocalX() const = 0;
@@ -59,12 +59,12 @@ public:
 
     virtual bool isArmed() const = 0;
 
-    /** @brief Set the airframe of this MAV */
+    /**  Set the airframe of this MAV */
     virtual int getAirframe() const = 0;
 
 
     // TODO Will be removed
-    /** @brief Set reference to the param manager **/
+    /**  Set reference to the param manager **/
     virtual void setParamManager(UASParamManager* manager) = 0;
 
     /* COMMUNICATION FLAGS */
@@ -103,7 +103,7 @@ public:
     };
 
     /**
-         * @brief Get the links associated with this robot
+         *  Get the links associated with this robot
          *
          * @return List with all links this robot is associated with. Association is usually
          *         based on the fact that a message for this robot has been received through that
@@ -112,7 +112,7 @@ public:
     virtual QList<LinkInterface*>* getLinks() = 0;
 
     /**
-     * @brief Get the color for this UAS
+     *  Get the color for this UAS
      *
      * This static function holds a color map that allows to draw a new color for each robot
      *
@@ -154,10 +154,10 @@ public:
         return colors[nextColor];//return the next color
    }
 
-    /** @brief Get the type of the system (airplane, quadrotor, helicopter,..)*/
+    /**  Get the type of the system (airplane, quadrotor, helicopter,..)*/
     virtual int getSystemType() = 0;
     virtual QString getSystemTypeName() = 0;
-    /** @brief Get the type of the autopilot (PIXHAWK, APM, UDB, PPZ,..) */
+    /**  Get the type of the autopilot (PIXHAWK, APM, UDB, PPZ,..) */
     virtual int getAutopilotType() = 0;
     virtual QString getAutopilotTypeName() = 0;
     virtual void setAutopilotType(int apType) = 0;
@@ -171,68 +171,68 @@ public:
 
 public slots:
 
-    /** @brief Set a new name for the system */
+    /**  Set a new name for the system */
     virtual void setUASName(const QString& name) = 0;
-    /** @brief Execute command immediately **/
+    /**  Execute command immediately **/
     virtual void executeCommand(MAV_CMD command) = 0;
-    /** @brief Executes a command **/
+    /**  Executes a command **/
     virtual void executeCommand(MAV_CMD command, int confirmation, float param1, float param2, float param3, float param4, float param5, float param6, float param7, int component) = 0;
 
-    /** @brief Selects the airframe */
+    /**  Selects the airframe */
     virtual void setAirframe(int airframe) = 0;
 
-    /** @brief Launches the system/Liftof **/
+    /**  Launches the system/Liftof **/
     virtual void launch() = 0;
-    /** @brief Set a new waypoint **/
+    /**  Set a new waypoint **/
     //virtual void setWaypoint(Waypoint* wp) = 0;
-    /** @brief Set this waypoint as next waypoint to fly to */
+    /**  Set this waypoint as next waypoint to fly to */
     //virtual void setWaypointActive(int wp) = 0;
-    /** @brief Order the robot to return home / to land on the runway **/
+    /**  Order the robot to return home / to land on the runway **/
     virtual void home() = 0;
-    /** @brief Order the robot to land **/
+    /**  Order the robot to land **/
     virtual void land() = 0;
-    /** @brief Halt the system */
+    /**  Halt the system */
     virtual void halt() = 0;
-    /** @brief Start/continue the current robot action */
+    /**  Start/continue the current robot action */
     virtual void go() = 0;
-    /** @brief Set the current mode of operation */
+    /**  Set the current mode of operation */
     virtual void setMode(int mode) = 0;
     /** Stops the robot system. If it is an MAV, the robot starts the emergency landing procedure **/
     virtual void emergencySTOP() = 0;
     /** Kills the robot. All systems are immediately shut down (e.g. the main power line is cut). This might lead to a crash **/
     virtual bool emergencyKILL() = 0;
     /**
-     * @brief Shut down the system's computers
+     *  Shut down the system's computers
      *
      * Works only if already landed and will cleanly shut down all onboard computers.
      */
     virtual void shutdown() = 0;
-    /** @brief Set the target position for the robot to navigate to.
+    /**  Set the target position for the robot to navigate to.
      *  @param x x-coordinate of the target position
      *  @param y y-coordinate of the target position
      *  @param z z-coordinate of the target position
      *  @param yaw heading of the target position
      */
     virtual void setTargetPosition(float x, float y, float z, float yaw) = 0;
-    /** @brief Request the list of stored waypoints from the robot */
+    /**  Request the list of stored waypoints from the robot */
     //virtual void requestWaypoints() = 0;
-    /** @brief Clear all existing waypoints on the robot */
+    /**  Clear all existing waypoints on the robot */
     //virtual void clearWaypointList() = 0;
-    /** @brief Set world frame origin at current GPS position */
+    /**  Set world frame origin at current GPS position */
     virtual void setLocalOriginAtCurrentGPSPosition() = 0;
-    /** @brief Set world frame origin / home position at this GPS position */
+    /**  Set world frame origin / home position at this GPS position */
     virtual void setHomePosition(double lat, double lon, double alt) = 0;
-    /** @brief Request all onboard parameters of all components */
+    /**  Request all onboard parameters of all components */
     virtual void requestParameters() = 0;
-    /** @brief Request one specific onboard parameter */
+    /**  Request one specific onboard parameter */
     virtual void requestParameter(int component, const QString& parameter) = 0;
-    /** @brief Write parameter to permanent storage */
+    /**  Write parameter to permanent storage */
     virtual void writeParametersToStorage() = 0;
     virtual void writeParametersToStorageAQ() = 0;
     virtual void writeParametersToSDAQ() = 0;
     virtual void writeWaypointsToSDAQ() = 0;
     virtual void startStopTelemetry(bool enable, float frequenz, uint8_t dataset = 0) =0;
-    /** @brief Read parameter from permanent storage */
+    /**  Read parameter from permanent storage */
     virtual void readParametersFromStorage() = 0;
     virtual void readParametersFromStorageAQ() = 0;
     virtual void readParametersFromSDAQ() = 0;
@@ -241,7 +241,7 @@ public slots:
     virtual void sendCommmandToAq(int command,int confirm, float para1=0,float para2=0,float para3=0,float para4=0,float para5=0,float para6=0,float para7=0) = 0;
     virtual void sendCommmandToIMU(int command,int confirm, float para1=0,float para2=0,float para3=0,float para4=0,float para5=0,float para6=0,float para7=0) = 0;
 
-    /** @brief Set a system parameter
+    /**  Set a system parameter
      * @param component ID of the system component to write the parameter to
      * @param id String identifying the parameter
      * @warning The length of the ID string is limited by the MAVLink format! Take care to not exceed it
@@ -250,7 +250,7 @@ public slots:
     virtual void setParameter(const int component, const QString& id, const QVariant& value) = 0;
 
     /**
-     * @brief Add a link to the list of current links
+     *  Add a link to the list of current links
      *
      * Adding the link to the robot's internal link list will allow him so send its own messages
      * over all registered links. Usually a link is added once a message for this particular robot
@@ -261,7 +261,7 @@ public slots:
     virtual void addLink(LinkInterface* link) = 0;
 
     /**
-     * @brief Set the current robot as focused in the user interface
+     *  Set the current robot as focused in the user interface
      */
     virtual void setSelected() = 0;
 
@@ -285,9 +285,9 @@ public slots:
     virtual void startGyroscopeCalibration() = 0;
     virtual void startPressureCalibration() = 0;
 
-    /** @brief Set the current battery type and voltages */
+    /**  Set the current battery type and voltages */
     virtual void setBatterySpecs(const QString& specs) = 0;
-    /** @brief Get the current battery type and specs */
+    /**  Get the current battery type and specs */
     virtual QString getBatterySpecs() = 0;
     virtual float getBatteryEmptyVoltage() = 0;
     virtual float getBatteryWarnVoltage() = 0;
@@ -296,22 +296,22 @@ protected:
     QColor color;
 
 signals:
-    /** @brief The robot state has changed */
+    /**  The robot state has changed */
     void statusChanged(int stateFlag);
-    /** @brief A new component was detected or created */
+    /**  A new component was detected or created */
     void componentCreated(int uas, int component, const QString& name);
-    /** @brief The robot state has changed
+    /**  The robot state has changed
      *
      * @param uas this robot
      * @param status short description of status, e.g. "connected"
      * @param description longer textual description. Should be however limited to a short text, e.g. 200 chars.
      */
     void statusChanged(UASInterface* uas, QString status, QString description);
-    /** @brief System has been removed / disconnected / shutdown cleanly, remove */
+    /**  System has been removed / disconnected / shutdown cleanly, remove */
     void systemRemoved(UASInterface* uas);
     void systemRemoved();
     /**
-     * @brief Received a plain text message from the robot
+     *  Received a plain text message from the robot
      * This signal should NOT be used for standard communication, but rather for VERY IMPORTANT
      * messages like critical errors.
      *
@@ -324,23 +324,23 @@ signals:
     void poiFound(UASInterface* uas, int type, int colorIndex, QString message, float x, float y, float z);
     void poiConnectionFound(UASInterface* uas, int type, int colorIndex, QString message, float x1, float y1, float z1, float x2, float y2, float z2);
 
-    /** @brief A text message from the system has been received */
+    /**  A text message from the system has been received */
     void textMessageReceived(int uasid, int componentid, int severity, QString text);
 
-    /** @brief A command to the system has been acknowledged */
+    /**  A command to the system has been acknowledged */
     void commandAcked(int uasid, int componentid, uint16_t command, uint8_t result);
 
     void navModeChanged(int uasid, int mode, const QString& text);
 
-    /** @brief System is now armed */
+    /**  System is now armed */
     void armed();
-    /** @brief System is now disarmed */
+    /**  System is now disarmed */
     void disarmed();
-    /** @brief Arming mode changed */
+    /**  Arming mode changed */
     void armingChanged(bool armed);
 
     /**
-     * @brief Update the error count of a device
+     *  Update the error count of a device
      *
      * The error count indicates how many errors occured during the use of a device.
      * Usually a random error from time to time is acceptable, e.g. through electromagnetic
@@ -355,37 +355,37 @@ signals:
     void errCountChanged(int uasid, QString component, QString device, int count);
 
     /**
-     * @brief Drop rate of communication link updated
+     *  Drop rate of communication link updated
      *
      * @param systemId id of the air system
      * @param receiveDrop drop rate of packets this MAV receives (sent from GCS or other MAVs)
      */
     void dropRateChanged(int systemId,  float receiveDrop);
-    /** @brief Robot mode has changed */
+    /**  Robot mode has changed */
     void modeChanged(int sysId, QString status, QString description);
-    /** @brief Robot armed state has changed */
+    /**  Robot armed state has changed */
     void armingChanged(int sysId, QString armingState);
-    /** @brief A command has been issued **/
+    /**  A command has been issued **/
     void commandSent(int command);
-    /** @brief The connection status has changed **/
+    /**  The connection status has changed **/
     void connectionChanged(CommStatus connectionFlag);
-    /** @brief The robot is connecting **/
+    /**  The robot is connecting **/
     void connecting();
-    /** @brief The robot is connected **/
+    /**  The robot is connected **/
     void connected();
-    /** @brief The robot is disconnected **/
+    /**  The robot is disconnected **/
     void disconnected();
-    /** @brief The robot is active **/
+    /**  The robot is active **/
     void activated();
-    /** @brief The robot is inactive **/
+    /**  The robot is inactive **/
     void deactivated();
-    /** @brief The robot is manually controlled **/
+    /**  The robot is manually controlled **/
     void manualControl();
 
-    /** @brief DATA_STREAM message received from UAS **/
+    /**  DATA_STREAM message received from UAS **/
     void dataStreamAnnounced(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off);
 
-    /** @brief A value of the robot has changed.
+    /**  A value of the robot has changed.
       *
       * Typically this is used to send lowlevel information like the battery voltage to the plotting facilities of
       * the groundstation. The data here should be converted to human-readable values before being passed, so ideally
@@ -409,7 +409,7 @@ signals:
     void patternDetected(int uasId, QString patternPath, float confidence, bool detected);
     void letterDetected(int uasId, QString letter, float confidence, bool detected);
     /**
-     * @brief The battery status has been updated
+     *  The battery status has been updated
      *
      * @param uas sending system
      * @param voltage battery voltage
@@ -425,15 +425,15 @@ signals:
     void attitudeChanged(UASInterface*, int component, double roll, double pitch, double yaw, quint64 usec);
     void attitudeSpeedChanged(int uas, double rollspeed, double pitchspeed, double yawspeed, quint64 usec);
     void attitudeThrustSetPointChanged(UASInterface*, double rollDesired, double pitchDesired, double yawDesired, double thrustDesired, quint64 usec);
-    /** @brief The MAV set a new setpoint in the local (not body) NED X, Y, Z frame */
+    /**  The MAV set a new setpoint in the local (not body) NED X, Y, Z frame */
     void positionSetPointsChanged(int uasid, float xDesired, float yDesired, float zDesired, float yawDesired, quint64 usec);
-    /** @brief A user (or an autonomous mission or obstacle avoidance planner) requested to set a new setpoint */
+    /**  A user (or an autonomous mission or obstacle avoidance planner) requested to set a new setpoint */
     void userPositionSetPointsChanged(int uasid, float xDesired, float yDesired, float zDesired, float yawDesired);
     void localPositionChanged(UASInterface*, double x, double y, double z, quint64 usec);
     void localPositionChanged(UASInterface*, int component, double x, double y, double z, quint64 usec);
     void globalPositionChanged(UASInterface*, double lat, double lon, double alt, quint64 usec);
     void altitudeChanged(int uasid, double altitude);
-    /** @brief Update the status of one satellite used for localization */
+    /**  Update the status of one satellite used for localization */
     void gpsSatelliteStatusChanged(int uasid, int satid, float azimuth, float direction, float snr, bool used);
     void localSpeedChanged(UASInterface*, double x, double y, double z, quint64 usec);
     void gpsSpeedChanged(UASInterface*, double x, double y, double z, quint64 usec);
@@ -441,88 +441,88 @@ signals:
     void gpsSpeedChanged(UASInterface*, double grndspd, quint64 usec);
     void imageStarted(int imgid, int width, int height, int depth, int channels);
     void imageDataReceived(int imgid, const unsigned char* imageData, int length, int startIndex);
-    /** @brief Emit the new system type */
+    /**  Emit the new system type */
     void systemTypeSet(UASInterface* uas, unsigned int type);
 
-    /** @brief Attitude control enabled/disabled */
+    /**  Attitude control enabled/disabled */
     void attitudeControlEnabled(bool enabled);
-    /** @brief Position 2D control enabled/disabled */
+    /**  Position 2D control enabled/disabled */
     void positionXYControlEnabled(bool enabled);
-    /** @brief Altitude control enabled/disabled */
+    /**  Altitude control enabled/disabled */
     void positionZControlEnabled(bool enabled);
-    /** @brief Heading control enabled/disabled */
+    /**  Heading control enabled/disabled */
     void positionYawControlEnabled(bool enabled);
-    /** @brief Optical flow status changed */
+    /**  Optical flow status changed */
     void opticalFlowStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Vision based localization status changed */
+    /**  Vision based localization status changed */
     void visionLocalizationStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Infrared / Ultrasound status changed */
+    /**  Infrared / Ultrasound status changed */
     void distanceSensorStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Gyroscope status changed */
+    /**  Gyroscope status changed */
     void gyroStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Accelerometer status changed */
+    /**  Accelerometer status changed */
     void accelStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Magnetometer status changed */
+    /**  Magnetometer status changed */
     void magSensorStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Barometer status changed */
+    /**  Barometer status changed */
     void baroStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Differential pressure / airspeed status changed */
+    /**  Differential pressure / airspeed status changed */
     void airspeedStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Actuator status changed */
+    /**  Actuator status changed */
     void actuatorStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Laser scanner status changed */
+    /**  Laser scanner status changed */
     void laserStatusChanged(bool supported, bool enabled, bool ok);
-    /** @brief Vicon / Leica Geotracker status changed */
+    /**  Vicon / Leica Geotracker status changed */
     void groundTruthSensorStatusChanged(bool supported, bool enabled, bool ok);
 
 
-    /** @brief Value of a remote control channel (raw) */
+    /**  Value of a remote control channel (raw) */
     void remoteControlChannelRawChanged(int channelId, float raw);
-    /** @brief Value of a remote control channel (scaled)*/
+    /**  Value of a remote control channel (scaled)*/
     void remoteControlChannelScaledChanged(int channelId, float normalized);
-    /** @brief Remote control RSSI changed */
+    /**  Remote control RSSI changed */
     void remoteControlRSSIChanged(float rssi);
 
     /**
-     * @brief Localization quality changed
+     *  Localization quality changed
      * @param fix 0: lost, 1: 2D local position hold, 2: 2D localization, 3: 3D localization
      */
     void localizationChanged(UASInterface* uas, int fix);
     /**
-     * @brief GPS localization quality changed
+     *  GPS localization quality changed
      * @param fix 0: lost, 1: at least one satellite, but no GPS fix, 2: 2D localization, 3: 3D localization
      */
     void gpsLocalizationChanged(UASInterface* uas, int fix);
     /**
-     * @brief Vision localization quality changed
+     *  Vision localization quality changed
      * @param fix 0: lost, 1: 2D local position hold, 2: 2D localization, 3: 3D localization
      */
     void visionLocalizationChanged(UASInterface* uas, int fix);
     /**
-     * @brief IR/U localization quality changed
+     *  IR/U localization quality changed
      * @param fix 0: No IR/Ultrasound sensor, N > 0: Found N active sensors
      */
     void irUltraSoundLocalizationChanged(UASInterface* uas, int fix);
 
-    /** @brief AutoQuad custom telemetry messages */
+    /**  AutoQuad custom telemetry messages */
     void TelemetryChangedF(const int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value);
 
-    /** @brief Telemetry message from ESC */
+    /**  Telemetry message from ESC */
     void escTelemetryUpdate(uint8_t escId, uint8_t version, uint16_t age, uint8_t state, float volts, float amps, uint16_t rpm, float duty, float temp, uint16_t errCount, uint8_t errCode);
 
     // ERROR AND STATUS SIGNALS
-    /** @brief Heartbeat timed out or was regained */
+    /**  Heartbeat timed out or was regained */
     void heartbeatTimeout(bool timeout, unsigned int ms);
-    /** @brief Name of system changed */
+    /**  Name of system changed */
     void nameChanged(QString newName);
-    /** @brief System has been selected as focused system */
+    /**  System has been selected as focused system */
     void systemSelected(bool selected);
-    /** @brief Core specifications have changed */
+    /**  Core specifications have changed */
     void systemSpecsChanged(int uasId);
 
     void systemVersionChanged(int uasId, uint32_t fwVer, uint32_t hwVer, QString fwVerStr, QString hwVerStr);
 
-    /** @brief Object detected */
+    /**  Object detected */
     void objectDetected(unsigned int time, int id, int type, const QString& name, int quality, float bearing, float distance);
 
 

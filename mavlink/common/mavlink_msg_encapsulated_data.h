@@ -26,7 +26,7 @@ typedef struct __mavlink_encapsulated_data_t
 
 
 /**
- * @brief Pack a encapsulated_data message
+ *  Pack a encapsulated_data message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
@@ -59,7 +59,7 @@ static inline uint16_t mavlink_msg_encapsulated_data_pack(uint8_t system_id, uin
 }
 
 /**
- * @brief Pack a encapsulated_data message on a channel
+ *  Pack a encapsulated_data message on a channel
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
@@ -93,7 +93,7 @@ static inline uint16_t mavlink_msg_encapsulated_data_pack_chan(uint8_t system_id
 }
 
 /**
- * @brief Encode a encapsulated_data struct
+ *  Encode a encapsulated_data struct
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -106,7 +106,7 @@ static inline uint16_t mavlink_msg_encapsulated_data_encode(uint8_t system_id, u
 }
 
 /**
- * @brief Encode a encapsulated_data struct on a channel
+ *  Encode a encapsulated_data struct on a channel
  *
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -120,7 +120,7 @@ static inline uint16_t mavlink_msg_encapsulated_data_encode_chan(uint8_t system_
 }
 
 /**
- * @brief Send a encapsulated_data message
+ *  Send a encapsulated_data message
  * @param chan MAVLink channel to send the message
  *
  * @param seqnr sequence number (starting with 0 on every transmission)
@@ -189,7 +189,7 @@ static inline void mavlink_msg_encapsulated_data_send_buf(mavlink_message_t *msg
 
 
 /**
- * @brief Get field seqnr from encapsulated_data message
+ *  Get field seqnr from encapsulated_data message
  *
  * @return sequence number (starting with 0 on every transmission)
  */
@@ -199,7 +199,7 @@ static inline uint16_t mavlink_msg_encapsulated_data_get_seqnr(const mavlink_mes
 }
 
 /**
- * @brief Get field data from encapsulated_data message
+ *  Get field data from encapsulated_data message
  *
  * @return image data bytes
  */
@@ -209,7 +209,7 @@ static inline uint16_t mavlink_msg_encapsulated_data_get_data(const mavlink_mess
 }
 
 /**
- * @brief Decode a encapsulated_data message into a struct
+ *  Decode a encapsulated_data message into a struct
  *
  * @param msg The message to decode
  * @param encapsulated_data C-struct to decode the message contents into
