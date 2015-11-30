@@ -17,11 +17,11 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
 
     currentRefreshRate = 2;
     // add content combobox refresh rate
-    ui->combo_refreshRate->addItem("1 ms", 1000000);
-    ui->combo_refreshRate->addItem("50 ms", 100000); //20
-    ui->combo_refreshRate->addItem("100 ms", 50000); //10
-    ui->combo_refreshRate->addItem("200 ms", 20000); //5
-    ui->combo_refreshRate->setCurrentIndex(2);
+//    ui->combo_refreshRate->addItem("1 ms", 1000000);
+//    ui->combo_refreshRate->addItem("50 ms", 100000); //20
+//    ui->combo_refreshRate->addItem("100 ms", 50000); //10
+//    ui->combo_refreshRate->addItem("200 ms", 20000); //5
+//    ui->combo_refreshRate->setCurrentIndex(2);
 
     ui->combo_selectCurve->addItem("Pitch, Roll, Yaw");
     ui->combo_selectCurve->addItem("Pitch Rate, Roll Rate, Yaw Rate");
@@ -48,7 +48,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     //init after connect
     initChart(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);    
-    connect(ui->combo_refreshRate, SIGNAL(currentIndexChanged(int)), this, SLOT(chartReset(int)));
+//    connect(ui->combo_refreshRate, SIGNAL(currentIndexChanged(int)), this, SLOT(chartReset(int)));
 }
 
 AQTelemetryView::~AQTelemetryView()
@@ -130,11 +130,11 @@ void AQTelemetryView::chartReset(int f){
 
     // stop telemetry
     disconnect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)));
-    float freq = ui->combo_refreshRate->itemData(currentRefreshRate).toFloat();
+//    float freq = ui->combo_refreshRate->itemData(currentRefreshRate).toFloat();
 
     // start telemetry
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)));
-    uas->startStopTelemetry(true, freq, 0);
+//    uas->startStopTelemetry(true, freq, 0);
 }
 
 void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
