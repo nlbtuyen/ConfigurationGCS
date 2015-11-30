@@ -49,8 +49,8 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     initChart(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);    
 //    connect(ui->combo_refreshRate, SIGNAL(currentIndexChanged(int)), this, SLOT(chartReset(int)));
-    connect(ui->btn_Pass, SIGNAL(clicked()), this, SLOT(beginScreenshotPass()));
-    connect(ui->btn_Fail, SIGNAL(clicked()), this, SLOT(beginScreenshotFail()));
+    connect(ui->btn_pass, SIGNAL(clicked()), this, SLOT(beginScreenshotPass()));
+    connect(ui->btn_fail, SIGNAL(clicked()), this, SLOT(beginScreenshotFail()));
 }
 
 AQTelemetryView::~AQTelemetryView()
