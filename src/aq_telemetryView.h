@@ -55,6 +55,8 @@ private:
 
 public slots:
     void initChart(UASInterface *uav);
+    void beginScreenshotPass();
+    void beginScreenshotFail();
 
 private slots:
     void getNewTelemetry(int uasId, int valIdx);
