@@ -52,6 +52,7 @@ private:
     float getTelemValue(const int idx);
     void init(); //@Leo
     int currentCurvedList;
+    QPixmap originalPixmap;
 
 public slots:
     void initChart(UASInterface *uav);

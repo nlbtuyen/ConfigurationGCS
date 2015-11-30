@@ -2,6 +2,8 @@
 #include "ui_aq_telemetryView.h"
 #include "uasmanager.h"
 #include <QLineEdit>
+#include <QFileDialog>
+#include <QScreen>
 
 using namespace AUTOQUADMAV;
 
@@ -51,6 +53,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
 //    connect(ui->combo_refreshRate, SIGNAL(currentIndexChanged(int)), this, SLOT(chartReset(int)));
     connect(ui->btn_pass, SIGNAL(clicked()), this, SLOT(beginScreenshotPass()));
     connect(ui->btn_fail, SIGNAL(clicked()), this, SLOT(beginScreenshotFail()));
+
 }
 
 AQTelemetryView::~AQTelemetryView()
@@ -87,7 +90,18 @@ void AQTelemetryView::initChart(UASInterface *uav) {
 
 void AQTelemetryView::beginScreenshotPass()
 {
-    qDebug() << "ok pass";
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if(screen)
+        originalPixmap = screen->grabWindow(QApplication::activeWindow()->winId(), 50, 50, -1, -1);
+    QString format = "png";
+    QString initialPath = QDir::currentPath() + tr("/untitled.") + format;
+
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), initialPath,
+                                                   tr("%1 Files (*.%2);;All Files (*)")
+                                                   .arg(format.toUpper())
+                                                   .arg(format));
+    if (!fileName.isEmpty())
+       originalPixmap.save(fileName, format.toLatin1().constData());
 }
 
 void AQTelemetryView::beginScreenshotFail()
