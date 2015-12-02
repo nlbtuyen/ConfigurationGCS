@@ -4,6 +4,7 @@
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QScreen>
+#include <QDateTime>
 
 using namespace AUTOQUADMAV;
 
@@ -51,8 +52,8 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     initChart(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);    
 //    connect(ui->combo_refreshRate, SIGNAL(currentIndexChanged(int)), this, SLOT(chartReset(int)));
-    connect(ui->btn_pass, SIGNAL(clicked()), this, SLOT(beginScreenshotPass()));
-    connect(ui->btn_fail, SIGNAL(clicked()), this, SLOT(beginScreenshotFail()));
+    connect(ui->btn_pass, SIGNAL(clicked()), this, SLOT(btnPassClicked()));
+    connect(ui->btn_fail, SIGNAL(clicked()), this, SLOT(btnFailClicked()));
 
 }
 
@@ -88,25 +89,35 @@ void AQTelemetryView::initChart(UASInterface *uav) {
     setupCurves();
 }
 
-void AQTelemetryView::beginScreenshotPass()
+void AQTelemetryView::btnPassClicked()
+{
+    takeScreenshot("pass");
+}
+
+void AQTelemetryView::btnFailClicked()
+{
+    takeScreenshot("fail");
+}
+
+void AQTelemetryView::takeScreenshot(QString btnName)
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     if(screen)
         originalPixmap = screen->grabWindow(QApplication::activeWindow()->winId(), 50, 50, -1, -1);
     QString format = "png";
-    QString initialPath = QDir::currentPath() + tr("/untitled.") + format;
-
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), initialPath,
-                                                   tr("%1 Files (*.%2);;All Files (*)")
-                                                   .arg(format.toUpper())
-                                                   .arg(format));
-    if (!fileName.isEmpty())
-       originalPixmap.save(fileName, format.toLatin1().constData());
-}
-
-void AQTelemetryView::beginScreenshotFail()
-{
-    qDebug() << "ok fail";
+    QDateTime currentDate = QDateTime::currentDateTime();
+    QTime currentTime = QTime::currentTime();
+    QString filename = btnName + "_" + currentDate.toString("ddMMyyyy")
+            + "_" + currentTime.toString("hhmmss");
+    QString filePath = QDir::currentPath() + "/" + filename + "." + format;
+    qDebug() << "Save to " + filePath; //@trung
+//    QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), initialPath,
+//                                                   tr("%1 Files (*.%2);;All Files (*)")
+//                                                   .arg(format.toUpper())
+//                                                   .arg(format));
+//    qDebug() << fileName;
+//    if (!fileName.isEmpty())
+    originalPixmap.save(filePath, format.toLatin1().constData());
 }
 
 float AQTelemetryView::getTelemValue(const int idx) {

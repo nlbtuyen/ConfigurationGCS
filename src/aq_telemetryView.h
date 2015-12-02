@@ -53,11 +53,12 @@ private:
     void init(); //@Leo
     int currentCurvedList;
     QPixmap originalPixmap;
+    void takeScreenshot(QString btnName); //@trung
 
 public slots:
-    void initChart(UASInterface *uav);
-    void beginScreenshotPass();
-    void beginScreenshotFail();
+    void initChart(UASInterface *uav);    
+    void btnPassClicked();
+    void btnFailClicked();
 
 private slots:
     void getNewTelemetry(int uasId, int valIdx);
