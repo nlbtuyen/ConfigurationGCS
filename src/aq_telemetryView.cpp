@@ -103,7 +103,7 @@ void AQTelemetryView::takeScreenshot(QString btnName)
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     if(screen)
-        originalPixmap = screen->grabWindow(QApplication::activeWindow()->winId(), 50, 50, -1, -1);
+        originalPixmap = screen->grabWindow(QApplication::activeWindow()->winId(), 69, 59, 733, 402);
     QString format = "png";
     QDateTime currentDate = QDateTime::currentDateTime();
     QTime currentTime = QTime::currentTime();
