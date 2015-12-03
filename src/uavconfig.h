@@ -53,7 +53,19 @@ public:
     const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
     bool useRadioSetupParam;        // firmware uses newer RADIO_SETUP parameter
 
-    bool saveSettingsToAq(QWidget *parent, bool interactive = true);
+    int aqFirmwareRevision;
+    int aqHardwareVersion;
+    int aqHardwareRevision;
+    int aqBuildNumber;
+    QString aqFirmwareVersion;
+    bool motPortTypeCAN;            // is CAN bus available?
+    bool motPortTypeCAN_H;          // are CAN ports 17-32 available?
+    uint8_t maxPwmPorts;            // total number of output ports on current hardware
+    uint8_t maxMotorPorts;          // maximum possible motor outputs (PWM or CAN or ?)
+    QList<uint8_t> pwmPortTimers;   // table of timers corresponding to ports
+
+
+    bool saveSettingsToAq(QWidget *parent, bool interactive = true);    
     void indexHide(int i);
 
 signals:
@@ -65,11 +77,16 @@ private slots:
     //@Hai: update Param to UI
     QString paramNameGuiToOnboard(QString paraName);
     void loadParametersToUI();
-    void createAQParamWidget(UASInterface* uas);
-    void setRadioChannelDisplayValue(int channelId, float normalized);
+    void createAQParamWidget(UASInterface* uas); //setActiveUas
     void getGUIPara(QWidget *parent);
     int calcRadioSetting();
+
     void uasConnected();
+    void uasDeleted(UASInterface *mav);
+    void removeActiveUAS();
+    void handleStatusText(int uasId, int compid, int severity, QString text);
+    void setHardwareInfo();
+    void setFirmwareInfo();
 
     //@Leo: AQ FW Flashing
     void flashFW();
@@ -84,21 +101,25 @@ private slots:
     void prtstdout();
     QString extProcessError(QProcess::ProcessError err);
 
+    // Radio channels display
+    void toggleRadioValuesUpdate(bool enable);
+    void onToggleRadioValuesRefresh(const bool on);
+    void toggleRadioStream(int r);
+    void delayedSendRcRefreshFreq();
+    void sendRcRefreshFreq();
+    void setRadioChannelDisplayValue(int channelId, float normalized);
+    void setRssiDisplayValue(float normalized);
+
+
     //connect between QSlider & QLineEdit
     void setValueLineEdit(QString str);
     void updateTextEdit(int i);
 
-    //RC Config
-    void sendRcRefreshFreq();
     // Radio channels display
-    void toggleRadioValuesUpdate();
-    void toggleRadioStream(int r);
+    void updateImgForRC();
 
     //RC Chart
-    void pitchChart();
-    void calculateResult1_RC();
-    void calculateYLoca();
-    void drawChart_Pitch();
+    void drawChartRC(int id); //ID: 1: Pitch / 2: Roll / 3: Yaw
 
     //3D Model
     void load3DModel();
@@ -110,7 +131,6 @@ private slots:
 
     // @trung: RC Chart TPA
     void TPAChart();
-    void drawChart_TPA();
     void BLHeliTab();
 
     // @trung: tab BLHeli
@@ -136,9 +156,12 @@ private slots:
     void handle_default_startup(bool b);
     void handle_default_tempe(bool b);
 
+    //@Leo: PID
+    void updatePID(QWidget *parent, int pfID);
+
 public slots:
     void saveAQSetting();
-
+void refreshParam();
     void TabRadio();
     void TabMotor();
     void TabIMU();
@@ -155,9 +178,12 @@ private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
 
+    QRegExp filePF; //@Leo
+
     //RC Config
     QTimer delayedSendRCTimer;  // for setting radio channel refresh freq.
     QList<QProgressBar *> allRadioChanProgressBars;
+    QList<QLabel *> allRadioChanValueLabels;
     QList<QComboBox *> allRadioChanCombos; //contain all combobox type
 
     quint8 paramSaveType;
@@ -179,8 +205,8 @@ private:
     QMovie *movie_left_160;
 
     //RC Chart
-    int expo_pitch;
-    int rate_pitch;
+    int expo;
+    int rate;
     int rc_rate;
     static const int i_const[];
     static const int x_loca[];
@@ -203,6 +229,8 @@ private:
     int current_beaconstr, default_beaconstr;
     int current_tempe, default_tempe;
 
+
+    int pfID;
 
 protected:
     Ui::UAVConfig *ui;

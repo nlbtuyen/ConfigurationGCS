@@ -67,5 +67,8 @@
         <file>images/redpoint.png</file>
         <file>images/Undo-icon.png</file>
         <file>images/default.png</file>
+        <file>images/media-playback-pause.png</file>
+        <file>images/media-playback-start.png</file>
+        <file>images/media-playback-stop.png</file>
     </qresource>
 </RCC>
