@@ -1,8 +1,8 @@
-#ifndef AQLINECHARTWIDGET_H
-#define AQLINECHARTWIDGET_H
+#ifndef AQLINECHARTTESTWIDGET_H
+#define AQLINECHARTTESTWIDGET_H
 
-#include <QGridLayout>
 #include <QWidget>
+#include <QGridLayout>
 #include <QFrame>
 #include <QComboBox>
 #include <QVBoxLayout>
@@ -19,24 +19,23 @@
 #include <QTimer>
 #include <qwt_plot_curve.h>
 
-#include "LinechartPlot.h"
+#include "linechartplottest.h"
 #include "uasinterface.h"
-#include "ui_AQLinechart.h"
+#include "ui_aqlinecharttestwidget.h"
 
-class AQLinechartWidget : public QWidget
+class AQLinechartTestWidget : public QWidget
 {
     Q_OBJECT
-
 public:
-    AQLinechartWidget(int systemid, QWidget *parent = 0);
-    ~AQLinechartWidget();
+    AQLinechartTestWidget(int systemid, QWidget *parent = 0);
+    ~AQLinechartTestWidget();
     // @trung
     /** Set curve visible */
     void setCurveVisible(QString curve, bool visible);
     /** Set maxValue of left scale */
     double maxValue;
     /** Set minValue of left scale */
-    double minValue;    
+    double minValue;
 
     static const int MIN_TIME_SCROLLBAR_VALUE = 0;      ///< The minimum scrollbar value
     static const int MAX_TIME_SCROLLBAR_VALUE = 16383;  ///< The maximum scrollbar value
@@ -86,7 +85,7 @@ protected:
     QString getCurveName(const QString& key, bool shortEnabled);
 
     int sysid;                            ///< ID of the unmanned system this plot belongs to
-    LinechartPlot* activePlot;            ///< Plot for this system
+    LinechartPlotTest* activePlot;            ///< Plot for this system
     QReadWriteLock* curvesLock;           ///< A lock (mutex) for the concurrent access on the curves
     QReadWriteLock plotWindowLock;        ///< A lock (mutex) for the concurrent access on the window position
 
@@ -115,10 +114,10 @@ protected:
 
     QTimer* updateTimer;
     QCheckBox* selectAllCheckBox;
-    int selectedMAV; ///< The MAV for which plot items are accepted, -1 for all systems    
+    int selectedMAV; ///< The MAV for which plot items are accepted, -1 for all systems
 
 private:
-    Ui::AQLinechart ui;
+    Ui::AQLinechartTestWidget ui;
 
 signals:
     /**
@@ -148,4 +147,4 @@ signals:
     void plotWindowPositionUpdated(int position);
 };
 
-#endif // AQLINECHARTWIDGET_H
+#endif // AQLINECHARTTESTWIDGET_H

@@ -1,5 +1,5 @@
-#include "aq_telemetryView.h"
-#include "ui_aq_telemetryView.h"
+#include "aqtestview.h"
+#include "ui_aqtestview.h"
 #include "uasmanager.h"
 #include <QLineEdit>
 #include <QFileDialog>
@@ -8,9 +8,9 @@
 
 using namespace AUTOQUADMAV;
 
-AQTelemetryView::AQTelemetryView(QWidget *parent) :
+AQTestView::AQTestView(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::AQTelemetryView),
+    ui(new Ui::AQTestView),
     datasetFieldsSetup(-1),
     currentDataSet(TELEM_DATASET_DEFAULT),
     AqTeleChart(NULL),
@@ -50,19 +50,18 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     init();
     //init after connect
     initChart(UASManager::instance()->getActiveUAS());
-    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);    
+    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);
 //    connect(ui->combo_refreshRate, SIGNAL(currentIndexChanged(int)), this, SLOT(chartReset(int)));
-//    connect(ui->btn_pass, SIGNAL(clicked()), this, SLOT(btnPassClicked()));
-//    connect(ui->btn_fail, SIGNAL(clicked()), this, SLOT(btnFailClicked()));
-
+    connect(ui->btn_pass, SIGNAL(clicked()), this, SLOT(btnPassClicked()));
+    connect(ui->btn_fail, SIGNAL(clicked()), this, SLOT(btnFailClicked()));
 }
 
-AQTelemetryView::~AQTelemetryView()
+AQTestView::~AQTestView()
 {
     delete ui;
 }
 
-void AQTelemetryView::setupCurves() {
+void AQTestView::setupCurves() {
 
     if (!uas) return;
 
@@ -78,32 +77,32 @@ void AQTelemetryView::setupCurves() {
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)));
 }
 
-void AQTelemetryView::initChart(UASInterface *uav) {
+void AQTestView::initChart(UASInterface *uav) {
     if (!uav) return;
     uas = uav;
     if ( !AqTeleChart ) {
-        AqTeleChart = new AQLinechartWidget(uas->getUASID(), ui->plotFrameTele);
+        AqTeleChart = new AQLinechartTestWidget(uas->getUASID(), ui->plotFrameTele);
         linLayoutPlot = new QGridLayout( ui->plotFrameTele);
         linLayoutPlot->addWidget(AqTeleChart, 0, Qt::AlignCenter);
     }
     setupCurves();
 }
 
-void AQTelemetryView::btnPassClicked()
+void AQTestView::btnPassClicked()
 {
     takeScreenshot("pass");
 }
 
-void AQTelemetryView::btnFailClicked()
+void AQTestView::btnFailClicked()
 {
     takeScreenshot("fail");
 }
 
-void AQTelemetryView::takeScreenshot(QString btnName)
+void AQTestView::takeScreenshot(QString btnName)
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     if(screen)
-        originalPixmap = screen->grabWindow(QApplication::activeWindow()->winId(), 69, 59, 733, 402);
+        originalPixmap = screen->grabWindow(QApplication::activeWindow()->winId(), 10, 10, 720, 360);
     QString format = "png";
     QDateTime currentDate = QDateTime::currentDateTime();
     QTime currentTime = QTime::currentTime();
@@ -120,7 +119,7 @@ void AQTelemetryView::takeScreenshot(QString btnName)
     originalPixmap.save(filePath, format.toLatin1().constData());
 }
 
-float AQTelemetryView::getTelemValue(const int idx) {
+float AQTestView::getTelemValue(const int idx) {
     float ret = 0.0f;
     switch(idx) {
     case 1 : // @trung
@@ -145,10 +144,10 @@ float AQTelemetryView::getTelemValue(const int idx) {
     return ret;
 }
 
-void AQTelemetryView::init()
-{
+void AQTestView::init(){
+
     if ( !AqTeleChart ) {
-        AqTeleChart = new AQLinechartWidget(0, ui->plotFrameTele);
+        AqTeleChart = new AQLinechartTestWidget(0, ui->plotFrameTele);
         linLayoutPlot = new QGridLayout( ui->plotFrameTele);
         linLayoutPlot->addWidget(AqTeleChart, 0, Qt::AlignCenter);
     }
@@ -160,7 +159,7 @@ void AQTelemetryView::init()
     }
 }
 
-void AQTelemetryView::chartReset(int f){
+void AQTestView::chartReset(int f){
     Q_UNUSED(f);
     if (!uas)
         return;
@@ -174,7 +173,7 @@ void AQTelemetryView::chartReset(int f){
 //    uas->startStopTelemetry(true, freq, 0);
 }
 
-void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
+void AQTestView::getNewTelemetry(int uasId, int valIdx){
     float val;
     msec = 0;
 
@@ -203,15 +202,14 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
                 }else if (currentCurvedList == 0 && i >= 3 && i < 6){
                     AqTeleChart->setCurveVisible(telemDataFields[i].label, false);
                 }
-            }            
+            }
         }
     }
 }
 
-void AQTelemetryView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value){
+void AQTestView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value){
     currentValuesF = &values;
     testValue = &value;
     currentValueType = TELEM_VALUETYPE_FLOAT;
     getNewTelemetry(uasId, values.Index);
 }
-

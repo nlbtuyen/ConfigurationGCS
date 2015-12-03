@@ -40,6 +40,7 @@
 #include "aqpramwidget.h"
 #include "compasswidget.h"
 #include "hudwidget.h"
+#include "aqtestview.h"
 
 static MainWindow* _instance = NULL;   //MainWindow singleton
 
@@ -135,6 +136,17 @@ void MainWindow::initActionsConnections()
     parametersDockWidget->setObjectName("PARAMETER_INTERFACE_DOCKWIDGET");
     addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
     parametersDockWidget->hide();
+
+    // @trung
+    //Add Widget: Test Board
+    testWidget = new QDockWidget(tr("Test Board"), this);
+    testWidget->setWidget(new AQTestView(this));
+    testWidget->setObjectName("test_board_widget");
+    testWidget->setMinimumSize(740, 370);
+    testWidget->setMaximumSize(740, 370);
+    addTool(testWidget, tr("Test Board"), Qt::RightDockWidgetArea);
+    testWidget->hide();
+
 
 //    //Primary Flight Display on Pitch + Roll
 //    ui->scrollArea_heading->setWidget(new HUDWidget(this));

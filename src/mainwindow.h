@@ -85,6 +85,7 @@ protected:
     QPointer<QDockWidget> headDown1DockWidget;
     QPointer<QDockWidget> infoDockWidget;
     QPointer<QDockWidget> parametersDockWidget;
+    QPointer<QDockWidget> testWidget;
     QPointer<MAVLinkDecoder> mavlinkDecoder;
     QPointer<ToolBar> toolBar;
 

@@ -1,3 +1,9 @@
+#include "aqlinecharttestwidget.h"
+#include "ui_aqlinecharttestwidget.h"
+#include "mainwindow.h"
+#include "qgc.h"
+#include "mg.h"
+
 #include <QDebug>
 #include <QWidget>
 #include <QHBoxLayout>
@@ -15,12 +21,7 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 
-#include "aqlinechartwidget.h"
-#include "mainwindow.h"
-#include "qgc.h"
-#include "mg.h"
-
-AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(parent),
+AQLinechartTestWidget::AQLinechartTestWidget(int systemid, QWidget *parent) : QWidget(parent),
     sysid(systemid),
     activePlot(NULL),
     curvesLock(new QReadWriteLock()),
@@ -34,6 +35,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     selectedMAV(-1)
 {
     ui.setupUi(this);
+
     this->setMinimumSize(500, 210);
 
     maxValue = 5;
@@ -42,22 +44,22 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 //    ui.minValue->setText(QString("-5"));
 
     // Add and customize curve list elements (left side)
-//    curvesWidget = new QWidget(ui.curveListWidget);
-//    ui.curveListWidget->setWidget(curvesWidget);
-//    curvesWidgetLayout = new QGridLayout(curvesWidget);
-//    curvesWidgetLayout->setMargin(0);
-//    curvesWidgetLayout->setSpacing(2);
-//    curvesWidgetLayout->setAlignment(Qt::AlignTop);
+    curvesWidget = new QWidget(ui.curveListWidget);
+    ui.curveListWidget->setWidget(curvesWidget);
+    curvesWidgetLayout = new QGridLayout(curvesWidget);
+    curvesWidgetLayout->setMargin(0);
+    curvesWidgetLayout->setSpacing(2);
+    curvesWidgetLayout->setAlignment(Qt::AlignTop);
 
-//    curvesWidgetLayout->setColumnStretch(0, 0);
-//    curvesWidgetLayout->setColumnStretch(1, 80);
-//    curvesWidgetLayout->setColumnStretch(2, 80);
-//    curvesWidgetLayout->setColumnStretch(3, 0);
-//    curvesWidgetLayout->setColumnStretch(4, 0);
-//    curvesWidgetLayout->setColumnStretch(5, 0);
-//    curvesWidgetLayout->setColumnStretch(6, 0);
+    curvesWidgetLayout->setColumnStretch(0, 0);
+    curvesWidgetLayout->setColumnStretch(1, 80);
+    curvesWidgetLayout->setColumnStretch(2, 80);
+    curvesWidgetLayout->setColumnStretch(3, 0);
+    curvesWidgetLayout->setColumnStretch(4, 0);
+    curvesWidgetLayout->setColumnStretch(5, 0);
+    curvesWidgetLayout->setColumnStretch(6, 0);
 
-//    curvesWidget->setLayout(curvesWidgetLayout);
+    curvesWidget->setLayout(curvesWidgetLayout);
     ListItems = new QList<QString>;
 
     // Create the layout of chart
@@ -70,7 +72,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 //    connect(ui.maxValue, SIGNAL(textChanged(QString)), this, SLOT(checkMaxMin(QString)));
 }
 
-AQLinechartWidget::~AQLinechartWidget()
+AQLinechartTestWidget::~AQLinechartTestWidget()
 {
     writeSettings();
     if (activePlot) delete activePlot;
@@ -79,7 +81,7 @@ AQLinechartWidget::~AQLinechartWidget()
     listedCurves = NULL;
 }
 
-void AQLinechartWidget::selectActiveSystem(int mav)
+void AQLinechartTestWidget::selectActiveSystem(int mav)
 {
     // -1: Unitialized, 0: all
     if (mav != selectedMAV && (selectedMAV != -1))
@@ -90,7 +92,7 @@ void AQLinechartWidget::selectActiveSystem(int mav)
     selectedMAV = mav;
 }
 
-void AQLinechartWidget::writeSettings()
+void AQLinechartTestWidget::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("AQ_TELEMETRY_VIEW");
@@ -99,7 +101,7 @@ void AQLinechartWidget::writeSettings()
     settings.sync();
 }
 
-void AQLinechartWidget::readSettings()
+void AQLinechartTestWidget::readSettings()
 {
     QSettings settings;
     settings.sync();
@@ -110,7 +112,7 @@ void AQLinechartWidget::readSettings()
 }
 
 // create chart
-void AQLinechartWidget::createLayout()
+void AQLinechartTestWidget::createLayout()
 {
     int colIdx = 0;
 
@@ -121,7 +123,7 @@ void AQLinechartWidget::createLayout()
     layout->setMargin(2);
 
     // Create plot container widget
-    activePlot = new LinechartPlot(this, sysid);
+    activePlot = new LinechartPlotTest(this, sysid);
     // Activate automatic scrolling
     activePlot->setAutoScroll(true);
 
@@ -145,7 +147,7 @@ void AQLinechartWidget::createLayout()
     connect(this, SIGNAL(plotWindowPositionUpdated(quint64)), activePlot, SLOT(setWindowPosition(quint64)));
 }
 
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant,
+void AQLinechartTestWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant,
                                    quint64 usec)
 {
     QMetaType::Type type = static_cast<QMetaType::Type>(variant.type());
@@ -179,34 +181,34 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
  * Add a curve to the curve list
  * @param curve The id-string of the curve
  **/
-void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
+void AQLinechartTestWidget::addCurve(const QString& curve, const QString& unit)
 {
-//    QLabel* label;
-//    QLabel* value;
+    QLabel* label;
+    QLabel* value;
 
-//    curveNames.insert(curve+unit, curve);
-//    curveUnits.insert(curve, unit);
-//    ListItems->append(curve);
+    curveNames.insert(curve+unit, curve);
+    curveUnits.insert(curve, unit);
+    ListItems->append(curve);
 
-//    int labelRow = curvesWidgetLayout->rowCount();
+    int labelRow = curvesWidgetLayout->rowCount();
 
-//    label = new QLabel(this);
-//    label->setText(curve);
-//    label->setStyleSheet(QString("QLabel {font-family:\"Arial\";font-size:12px;}"));
-//    curvesWidgetLayout->addWidget(label, labelRow, 1);
+    label = new QLabel(this);
+    label->setText(curve);
+    label->setStyleSheet(QString("QLabel {font-family:\"Arial\";font-size:12px;}"));
+    curvesWidgetLayout->addWidget(label, labelRow, 1);
 
     // Label
-//    curveNameLabels.insert(curve+unit, label);
+    curveNameLabels.insert(curve+unit, label);
 
     // Value
-//    value = new QLabel(this);
-//    value->setNum(0.00);
-//    value->setStyleSheet(QString("QLabel {font-family:\"Arial\";font-size:12px;}"));
-//    curveLabels->insert(curve+unit, value);
-//    curvesWidgetLayout->addWidget(value, labelRow, 2);
+    value = new QLabel(this);
+    value->setNum(0.00);
+    value->setStyleSheet(QString("QLabel {font-family:\"Arial\";font-size:12px;}"));
+    curveLabels->insert(curve+unit, value);
+    curvesWidgetLayout->addWidget(value, labelRow, 2);
 }
 
-void AQLinechartWidget::refresh()
+void AQLinechartTestWidget::refresh()
 {
     setUpdatesEnabled(false);
     QString str;
@@ -238,7 +240,7 @@ void AQLinechartWidget::refresh()
  * Defines the width of the sliding average filter and the width of the sliding median filter.
  * @param windowSize with (in values) of the sliding average/median filter. Minimum is 2
  */
-void AQLinechartWidget::setAverageWindow(int windowSize)
+void AQLinechartTestWidget::setAverageWindow(int windowSize)
 {
     if (windowSize > 1) activePlot->setAverageWindow(windowSize);
 }
@@ -246,7 +248,7 @@ void AQLinechartWidget::setAverageWindow(int windowSize)
 /**
  * Remove the curve from the curve list.
  **/
-void AQLinechartWidget::removeCurve(QString curve)
+void AQLinechartTestWidget::removeCurve(QString curve)
 {
     QWidget* widget = NULL;
 
@@ -281,31 +283,31 @@ void AQLinechartWidget::removeCurve(QString curve)
     intData.remove(curve+unit);
 }
 
-void AQLinechartWidget::clearCurves()
+void AQLinechartTestWidget::clearCurves()
 {
     for (int i = 0; i < ListItems->size(); i++)
         removeCurve(ListItems->at(i));
 }
 
-QString AQLinechartWidget::getCurveName(const QString& key, bool shortEnabled)
+QString AQLinechartTestWidget::getCurveName(const QString& key, bool shortEnabled)
 {
     Q_UNUSED(shortEnabled);
     return curveNames.value(key);
 }
 
-void AQLinechartWidget::showEvent(QShowEvent* event)
+void AQLinechartTestWidget::showEvent(QShowEvent* event)
 {
     Q_UNUSED(event);
     setActive(true);
 }
 
-void AQLinechartWidget::hideEvent(QHideEvent* event)
+void AQLinechartTestWidget::hideEvent(QHideEvent* event)
 {
     Q_UNUSED(event);
     setActive(false);
 }
 
-void AQLinechartWidget::setActive(bool active)
+void AQLinechartTestWidget::setActive(bool active)
 {
     if (activePlot) {
         activePlot->setActive(active);
@@ -322,7 +324,7 @@ void AQLinechartWidget::setActive(bool active)
  * The scrollbar allows to select a window of the time series.
  * The right edge of the window is defined proportional to the position of the scrollbar.
  **/
-void AQLinechartWidget::setPlotWindowPosition(int scrollBarValue)
+void AQLinechartTestWidget::setPlotWindowPosition(int scrollBarValue)
 {
     plotWindowLock.lockForWrite();
     // Disable automatic scrolling immediately
@@ -356,7 +358,7 @@ void AQLinechartWidget::setPlotWindowPosition(int scrollBarValue)
  *
  * @param position The absolute position of the right edge of the plot window, in milliseconds
  **/
-void AQLinechartWidget::setPlotWindowPosition(quint64 position)
+void AQLinechartTestWidget::setPlotWindowPosition(quint64 position)
 {
     plotWindowLock.lockForWrite();
     // Calculate the relative position
@@ -380,7 +382,7 @@ void AQLinechartWidget::setPlotWindowPosition(quint64 position)
  *
  * @param interval The time interval to plot
  **/
-void AQLinechartWidget::setPlotInterval(int interval)
+void AQLinechartTestWidget::setPlotInterval(int interval)
 {
     if (interval < 1000) // convert to ms
         interval *= 1000;
@@ -390,7 +392,7 @@ void AQLinechartWidget::setPlotInterval(int interval)
 /**
  * Set the curve be visible or not
  **/
-void AQLinechartWidget::setCurveVisible(QString curve, bool visible){
+void AQLinechartTestWidget::setCurveVisible(QString curve, bool visible){
     activePlot->setVisibleById(curve, visible);
 }
 
@@ -401,7 +403,7 @@ void AQLinechartWidget::setCurveVisible(QString curve, bool visible){
  *
  * @param checked The visibility of the curve: true to display the curve, false otherwise
  **/
-void AQLinechartWidget::takeButtonClick(bool checked)
+void AQLinechartTestWidget::takeButtonClick(bool checked)
 {
 
     QCheckBox* button = qobject_cast<QCheckBox*>(QObject::sender());
@@ -430,7 +432,7 @@ void AQLinechartWidget::takeButtonClick(bool checked)
  * @param text The button text
  * @param parent The parent object (to ensure that the memory is freed after the deletion of the button)
  **/
-QToolButton* AQLinechartWidget::createButton(QWidget* parent)
+QToolButton* AQLinechartTestWidget::createButton(QWidget* parent)
 {
     QToolButton* button = new QToolButton(parent);
     button->setMinimumSize(QSize(20, 20));
@@ -439,7 +441,7 @@ QToolButton* AQLinechartWidget::createButton(QWidget* parent)
     return button;
 }
 
-//void AQLinechartWidget::checkMaxMin(QString str){
+//void AQLinechartTestWidget::checkMaxMin(QString str){
 //    Q_UNUSED(str);
 //    if (ui.maxValue->text().toDouble() != maxValue || ui.minValue->text().toDouble() != minValue){
 //        maxValue = ui.maxValue->text().toDouble();
