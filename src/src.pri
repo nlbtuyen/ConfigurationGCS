@@ -27,7 +27,16 @@ SOURCES +=  $$PWD/main.cpp\
             $$PWD/drone.cpp \
             $$PWD/compasswidget.cpp \
             $$PWD/hudwidget.cpp \
-    $$PWD/debugconsole.cpp
+    $$PWD/debugconsole.cpp \
+    $$PWD/scrollzoomer.cpp \
+    $$PWD/aqtestview.cpp \
+    $$PWD/aqlinecharttestwidget.cpp \
+    $$PWD/linechartplottest.cpp \
+    $$PWD/chartplottest.cpp \
+    $$PWD/aqtestview.cpp \
+    $$PWD/aqlinecharttestwidget.cpp \
+    $$PWD/linechartplottest.cpp \
+    $$PWD/chartplottest.cpp
 
 HEADERS  += $$PWD/mainwindow.h \
             $$PWD/uavconfig.h \
@@ -59,7 +68,16 @@ HEADERS  += $$PWD/mainwindow.h \
             $$PWD/drone.h \
             $$PWD/compasswidget.h \
             $$PWD/hudwidget.h \
-    $$PWD/debugconsole.h
+    $$PWD/debugconsole.h \
+    $$PWD/scrollzoomer.h \
+    $$PWD/aqtestview.h \
+    $$PWD/aqlinecharttestwidget.h \
+    $$PWD/linechartplottest.h \
+    $$PWD/chartplottest.h \
+    $$PWD/aqtestview.h \
+    $$PWD/aqlinecharttestwidget.h \
+    $$PWD/linechartplottest.h \
+    $$PWD/chartplottest.h
 
 FORMS    += $$PWD/mainwindow.ui \
             $$PWD/uasinfo.ui \
@@ -70,7 +88,9 @@ FORMS    += $$PWD/mainwindow.ui \
             $$PWD/linechart.ui \
             $$PWD/commsettings.ui \
             $$PWD/serialsettings.ui \
-    $$PWD/debugconsole.ui
+    $$PWD/debugconsole.ui \
+    $$PWD/aqtestview.ui \
+    $$PWD/aqlinecharttestwidget.ui
 
 DISTFILES += \
             $$PWD/main.qml \

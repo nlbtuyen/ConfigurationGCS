@@ -1,17 +1,17 @@
-#ifndef CHARTPLOT_H
-#define CHARTPLOT_H
+#ifndef CHARTPLOTTEST_H
+#define CHARTPLOTTEST_H
 
 #include <qwt_plot.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_curve.h>
 #include "scrollzoomer.h"
 
-class ChartPlot : public QwtPlot
+class ChartPlotTest : public QwtPlot
 {
     Q_OBJECT
 public:
-    ChartPlot(QWidget *parent = NULL);
-    virtual ~ChartPlot();
+    ChartPlotTest(QWidget *parent = NULL);
+    virtual ~ChartPlotTest();
 
     /** Get next color of color map */
     QColor getNextColor();
@@ -49,4 +49,4 @@ protected:
     float zoomerWidth; ///< Width of zoomer selection box   // @trung
 };
 
-#endif // CHARTPLOT_H
+#endif // CHARTPLOTTEST_H

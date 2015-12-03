@@ -1,16 +1,16 @@
-#include "ChartPlot.h"
+#include "chartplottest.h"
 #include "scrollbar.h"
 #include "mainwindow.h"
 #include <qwt/qwt_legend.h>
 #include <qwt_plot_canvas.h>
 #include <qmath.h>
 
-const QColor ChartPlot::baseColors[numColors] = {
+const QColor ChartPlotTest::baseColors[numColors] = {
     QColor(70,80,242),
     QColor(232,33,47),
     QColor(116,251,110),
     QColor(81,183,244),
-    QColor(234,38,107),    
+    QColor(234,38,107),
     QColor(151,59,239),
     QColor(242,255,128),
     QColor(231,72,28),
@@ -28,7 +28,7 @@ const QColor ChartPlot::baseColors[numColors] = {
     QColor(92,247,217)
 };
 
-ChartPlot::ChartPlot(QWidget *parent):
+ChartPlotTest::ChartPlotTest(QWidget *parent):
     QwtPlot(parent),
     nextColorIndex(0),
     symbolWidth(4.0f),
@@ -70,12 +70,12 @@ ChartPlot::ChartPlot(QWidget *parent):
     styleChanged();
 }
 
-ChartPlot::~ChartPlot()
+ChartPlotTest::~ChartPlotTest()
 {
 
 }
 
-QColor ChartPlot::getNextColor()
+QColor ChartPlotTest::getNextColor()
 {
     if(nextColorIndex >= colors.count())
     {
@@ -84,12 +84,12 @@ QColor ChartPlot::getNextColor()
     return colors[nextColorIndex++];
 }
 
-QColor ChartPlot::getColorForCurve(const QString &id)
+QColor ChartPlotTest::getColorForCurve(const QString &id)
 {
     return curves.value(id)->pen().color();
 }
 
-void ChartPlot::shuffleColors()
+void ChartPlotTest::shuffleColors()
 {
     foreach (QwtPlotCurve* curve, curves)
     {
@@ -101,8 +101,8 @@ void ChartPlot::shuffleColors()
     }
 }
 
-void ChartPlot::styleChanged()
-{    
+void ChartPlotTest::styleChanged()
+{
     QColor minPen(0x8C, 0x8C, 0x8C, 150);
     QColor majPen(0xB7, 0xB7, 0xB7, 150);
     QColor bgColor(255,255,255);
@@ -123,7 +123,7 @@ void ChartPlot::styleChanged()
     replot();
 }
 
-void ChartPlot::changeMaxMinValue(double max, double min){
+void ChartPlotTest::changeMaxMinValue(double max, double min){
 //    if ((max - min) <= 2){
 //        this->setAxisScale(QwtPlot::yLeft, min, max, 0.1);
 //    }else if ((max - min) >= 20 && (max - min) < 50){
@@ -136,3 +136,4 @@ void ChartPlot::changeMaxMinValue(double max, double min){
 //        this->setAxisScale(QwtPlot::yLeft, min, max, 50);
 //    }
 }
+
