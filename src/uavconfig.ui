@@ -127,7 +127,7 @@ margin: 10px 0 0 10px;
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab_aq_setting_Radio">
     <property name="focusPolicy">
@@ -210,7 +210,7 @@ margin: 10px 0 0 10px;
        </font>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tab_RADIO">
        <property name="acceptDrops">
@@ -2673,7 +2673,7 @@ padding: 1px 5px;</string>
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -5215,7 +5215,7 @@ padding: 1px 5px;</string>
          <x>179</x>
          <y>22</y>
          <width>491</width>
-         <height>73</height>
+         <height>51</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -5234,6 +5234,18 @@ padding: 1px 5px;</string>
         </item>
         <item>
          <widget class="QPlainTextEdit" name="plainTextEdit">
+          <property name="minimumSize">
+           <size>
+            <width>417</width>
+            <height>45</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>45</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <family>Arial</family>

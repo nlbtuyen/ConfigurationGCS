@@ -99,7 +99,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     //Update UI stylesheet
     updateButtonView();
-    load3DModel(); //3D model in IMU Tab
+//    load3DModel(); //3D model in IMU Tab
     loadSettings();
     updateImgForRC(); //RC Tabs
     BLHeliTab(); //@Trung BLHeli Tab
@@ -573,7 +573,6 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
     if (channelId == 0)
         val += 750;
 
-
     if (lbl) {
         lblTxt.sprintf("%+d", val);
         lbl->setText(lblTxt);
@@ -585,10 +584,7 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
             val = bar->minimum();
 
         bar->setValue(val);
-
-        qDebug() << "channelID: " << channelId << "value: " << bar->value();
     }
-
 }
 
 void UAVConfig::setRssiDisplayValue(float normalized)
