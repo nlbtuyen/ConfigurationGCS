@@ -13,6 +13,8 @@
 #include "debugconsole.h"
 #include "mavlinkprotocol.h"
 #include "mavlinkdecoder.h"
+#include "compasswidget.h"
+#include "hudwidget.h"
 
 #include <QDebug>
 #include <QWidget>
@@ -103,6 +105,12 @@ UAVConfig::UAVConfig(QWidget *parent) :
     loadSettings();
     updateImgForRC(); //RC Tabs
     BLHeliTab(); //@Trung BLHeli Tab
+
+        //Primary Flight Display on Pitch + Roll
+        ui->scrollArea_heading->setWidget(new HUDWidget(this));
+
+        //Compass Display on Yaw
+        ui->scrollArea_Compass->setWidget(new CompassWidget(this));
 
     //Communication Console
     ui->scrollArea_debugConsole->setWidget(new DebugConsole(this));
@@ -1386,7 +1394,7 @@ void UAVConfig::load3DModel()
     view.engine()->clearComponentCache();
     view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
     view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
-    ui->scrollArea_3D->setWidget(container);
+//    ui->scrollArea_3D->setWidget(container);
 
 }
 
