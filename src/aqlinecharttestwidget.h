@@ -23,6 +23,7 @@
 #include "uasinterface.h"
 #include "ui_aqlinecharttestwidget.h"
 
+
 class AQLinechartTestWidget : public QWidget
 {
     Q_OBJECT

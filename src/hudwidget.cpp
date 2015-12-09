@@ -496,7 +496,7 @@ void HUDWidget::doPaint()
     painter.drawEllipse(area);
 
     ///@Leo: circle of widget
-    QBrush color(QColor(228,219,191));
+    QBrush color(QColor(240,240,240));
     QPointF top = QPoint(0,-85);
     QPointF right = QPoint(85,0);
     QPointF bottom = QPoint(0,85);
