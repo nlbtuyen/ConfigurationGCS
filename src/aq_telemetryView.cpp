@@ -183,24 +183,30 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
         currentCurvedList = ui->combo_selectCurve->currentIndex();
     }
 
-
+//    qDebug() << "ok getnew";
     for (int i=0; i < telemDataFields.size(); i++) {
+//        qDebug() << "valIdx=" << valIdx << ", telemDataFields[" << i << "].msgValueIndex=" << telemDataFields[i].msgValueIndex;
         if (valIdx == telemDataFields[i].msgValueIndex) {
             val = getTelemValue(telemDataFields[i].valueIndex);
             if (ui->plotFrameTele->isVisible()) {
+//                qDebug() << "i=" << i;
                 if (currentCurvedList == 0 && i < 3){
+//                    qDebug() << "ok";
                     QVariant var = QVariant::fromValue(val);
                     AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec);
                     AqTeleChart->setCurveVisible(telemDataFields[i].label, true);
                 }else if (currentCurvedList == 1 && i >= 3 && i < 6){
+//                    qDebug() << "ok1";
                     QVariant var = QVariant::fromValue(val);
                     AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec);
                     AqTeleChart->setCurveVisible(telemDataFields[i].label, true);
                 }
                 // Set visible curve
                 if (currentCurvedList == 1 && i < 3){
+//                    qDebug() << "ok2";
                     AqTeleChart->setCurveVisible(telemDataFields[i].label, false);
                 }else if (currentCurvedList == 0 && i >= 3 && i < 6){
+//                    qDebug() << "ok3";
                     AqTeleChart->setCurveVisible(telemDataFields[i].label, false);
                 }
             }            
@@ -209,9 +215,10 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
 }
 
 void AQTelemetryView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value){
+//    qDebug() << "ok emit";
     currentValuesF = &values;
     testValue = &value;
     currentValueType = TELEM_VALUETYPE_FLOAT;
-    getNewTelemetry(uasId, values.Index);
+    getNewTelemetry(uasId, 0);
 }
 

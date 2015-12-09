@@ -281,9 +281,9 @@ void QwtPlotZoomer::zoom( const QRectF &rect )
 */
 void QwtPlotZoomer::zoom( int offset )
 {
-    if ( offset == 0 )
+    if ( offset == 0 ){
         d_data->zoomRectIndex = 0;
-    else
+    }else
     {
         int newIndex = d_data->zoomRectIndex + offset;
         newIndex = qMax( 0, newIndex );

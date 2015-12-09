@@ -5,6 +5,7 @@
 #include <qwt_plot_grid.h>
 #include <qwt_plot_curve.h>
 #include "scrollzoomer.h"
+#include <QMouseEvent>
 
 class ChartPlot : public QwtPlot
 {
@@ -26,7 +27,8 @@ public:
 
     // @trung
     /** Change max and min value of left scale */
-    void changeMaxMinValue(double max, double min);
+    void changeMaxMinValue(double max, double min); // @trung
+    bool checkResetZoom(QMouseEvent *event);
 
 public slots:
 
