@@ -110,6 +110,8 @@ private slots:
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void setRssiDisplayValue(float normalized);
 
+    ////////
+    void maxLengthDesc();
 
     //connect between QSlider & QLineEdit
     void setValueLineEdit(QString str);

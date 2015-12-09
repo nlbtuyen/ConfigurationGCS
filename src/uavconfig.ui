@@ -127,7 +127,7 @@ margin: 10px 0 0 10px;
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tab_aq_setting_Radio">
     <property name="focusPolicy">
@@ -210,7 +210,7 @@ margin: 10px 0 0 10px;
        </font>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_RADIO">
        <property name="acceptDrops">
@@ -5324,15 +5324,27 @@ padding: 1px 5px;</string>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>179</x>
-         <y>22</y>
-         <width>491</width>
-         <height>51</height>
+         <x>180</x>
+         <y>10</y>
+         <width>504</width>
+         <height>73</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label_12">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <family>Arial</family>
@@ -5345,16 +5357,16 @@ padding: 1px 5px;</string>
          </widget>
         </item>
         <item>
-         <widget class="QPlainTextEdit" name="plainTextEdit">
+         <widget class="QTextEdit" name="textEdit_desc">
           <property name="minimumSize">
            <size>
-            <width>417</width>
+            <width>390</width>
             <height>45</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
+            <width>390</width>
             <height>45</height>
            </size>
           </property>
@@ -5363,6 +5375,9 @@ padding: 1px 5px;</string>
             <family>Arial</family>
             <pointsize>9</pointsize>
            </font>
+          </property>
+          <property name="acceptRichText">
+           <bool>false</bool>
           </property>
          </widget>
         </item>

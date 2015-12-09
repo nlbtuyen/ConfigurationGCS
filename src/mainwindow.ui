@@ -625,6 +625,7 @@ border-bottom: 1px solid;
     <property name="title">
      <string>Widgets</string>
     </property>
+    <addaction name="actionTest_Board"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -706,6 +707,11 @@ border-bottom: 1px solid;
    </property>
    <property name="toolTip">
     <string>Read  Parameters</string>
+   </property>
+  </action>
+  <action name="actionTest_Board">
+   <property name="text">
+    <string>Test Board</string>
    </property>
   </action>
  </widget>

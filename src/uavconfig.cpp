@@ -44,7 +44,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
     fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC|PF|OSD)_[A-Z0-9_]+$");
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
     // strict field name matching of profile parameter
-    filePF.setPattern("^(KP|KI|KD|KRATE|P|H|D|RATE)_(PITCH|ROLL|YAW|CUT|LEVEL).*");
+    filePF.setPattern("^(KP|KI|KD|KRATE|P|H|D|RATE|PID)_(PITCH|ROLL|YAW|CUT|LEVEL|TYPE).*");
     ui->setupUi(this);
 
     //location of update firmware program
@@ -70,7 +70,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
 
     //new USA created
-    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
+    //    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(uasDeleted(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)), Qt::UniqueConnection);
 
@@ -101,16 +101,16 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     //Update UI stylesheet
     updateButtonView();
-//    load3DModel(); //3D model in IMU Tab
+    //    load3DModel(); //3D model in IMU Tab
     loadSettings();
     updateImgForRC(); //RC Tabs
     BLHeliTab(); //@Trung BLHeli Tab
 
-        //Primary Flight Display on Pitch + Roll
-        ui->scrollArea_heading->setWidget(new HUDWidget(this));
+    //Primary Flight Display on Pitch + Roll
+    ui->scrollArea_heading->setWidget(new HUDWidget(this));
 
-        //Compass Display on Yaw
-        ui->scrollArea_Compass->setWidget(new CompassWidget(this));
+    //Compass Display on Yaw
+    ui->scrollArea_Compass->setWidget(new CompassWidget(this));
 
     //Communication Console
     ui->scrollArea_debugConsole->setWidget(new DebugConsole(this));
@@ -133,6 +133,9 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(ui->btn_Read_TPA, SIGNAL(clicked()), this, SLOT(refreshParam()));
     connect(ui->btn_Read_IMU, SIGNAL(clicked()), this, SLOT(refreshParam()));
     connect(ui->btn_Read_PIDTurning, SIGNAL(clicked()), this, SLOT(refreshParam()));
+
+    connect(ui->textEdit_desc, SIGNAL(textChanged()), this, SLOT(maxLengthDesc()));
+
 
 }
 
@@ -257,6 +260,7 @@ void UAVConfig::getGUIPara(QWidget *parent)
     //update PID tab with profile ID
     updatePID(parent, ID);
 
+
     //RC Charts : Draw immediately after start
     if(ui->RADIO_P_EXPO && ui->RADIO_P_RATE)
         drawChartRC(1);
@@ -276,6 +280,7 @@ void UAVConfig::updatePID(QWidget *parent, int pfID)
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(filePF);
     QString valstr;
     QString pf;
+    bool ok = true;
     if (pfID == 1)
     {
         pf = "PF1_";
@@ -321,6 +326,10 @@ void UAVConfig::updatePID(QWidget *parent, int pfID)
             valstr.setNum(val.toFloat(), 'g', 6);
             le->setText(valstr);
             le->setValidator(new QDoubleValidator(-1000000.0, 1000000.0, 8, le));
+        }
+        else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
+        {
+            cb->setCurrentIndex(abs(val.toInt(&ok)));
         }
     }
 }
@@ -523,11 +532,11 @@ void UAVConfig::toggleRadioValuesUpdate(bool enable)
         if (pb->objectName().contains("chan_0")) {
             pb->setMaximum(tmax);
             pb->setMinimum(tmin);
-            qDebug() << "channel 0: " << pb->maximum() << pb->minimum();
+            //            qDebug() << "channel 0: " << pb->maximum() << pb->minimum();
         } else {
             pb->setMaximum(max);
             pb->setMinimum(min);
-            qDebug() << "channel: " << pb->maximum() << pb->minimum();
+            //            qDebug() << "channel: " << pb->maximum() << pb->minimum();
 
         }
     }
@@ -602,6 +611,14 @@ void UAVConfig::setRssiDisplayValue(float normalized)
 
     if (bar && val <= bar->maximum() && val >= bar->minimum())
         bar->setValue(val);
+}
+
+void UAVConfig::maxLengthDesc()
+{
+    if(ui->textEdit_desc->toPlainText().length() > 30){
+        QMessageBox::critical(this,  "Error",
+                              "Please be sure that you keep the description under 31 characters.");
+    }
 }
 
 /*
@@ -682,11 +699,11 @@ void UAVConfig::handleStatusText(int uasId, int compid, int severity, QString te
 
                 //                ui->lbl_aq_fw_version->setText(verStr);
             }
-//            else
-                //                ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
-                //        }
-                //        else if (text.contains("Quatos enabled", Qt::CaseInsensitive)) {
-                //            setAqHasQuatos(true);
+            //            else
+            //                ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
+            //        }
+            //        else if (text.contains("Quatos enabled", Qt::CaseInsensitive)) {
+            //            setAqHasQuatos(true);
         }
     }
 }
@@ -746,7 +763,7 @@ void UAVConfig::createAQParamWidget(UASInterface *uastmp)
 
     //RC message
     connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
-    connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
+    //    connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
 
     connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
@@ -1033,10 +1050,10 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
             message->setAcceptRichText(true);
 
             QDialogButtonBox* bbox = new QDialogButtonBox(Qt::Horizontal, dialog);
-            QPushButton *btn_saveToRam = bbox->addButton(tr("Save to RAM"), QDialogButtonBox::AcceptRole);
-            btn_saveToRam->setToolTip(tr("The settings will be immediately active and persist UNTIL the flight controller is restarted."));
-            btn_saveToRam->setObjectName("btn_saveToRam");
-            btn_saveToRam->setAutoDefault(false);
+            //            QPushButton *btn_saveToRam = bbox->addButton(tr("Save to RAM"), QDialogButtonBox::AcceptRole);
+            //            btn_saveToRam->setToolTip(tr("The settings will be immediately active and persist UNTIL the flight controller is restarted."));
+            //            btn_saveToRam->setObjectName("btn_saveToRam");
+            //            btn_saveToRam->setAutoDefault(false);
             QPushButton *btn_saveToRom = bbox->addButton(tr("Save to ROM"), QDialogButtonBox::AcceptRole);
             btn_saveToRom->setToolTip(tr("The settings will be immediately active and persist AFTER flight controller is restarted."));
             btn_saveToRom->setObjectName("btn_saveToRom");
@@ -1058,7 +1075,7 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
             dialog->setLayout(dlgLayout);
 
             connect(btn_cancel, SIGNAL(clicked()), dialog, SLOT(reject()));
-            connect(btn_saveToRam, SIGNAL(clicked()), dialog, SLOT(accept()));
+            //            connect(btn_saveToRam, SIGNAL(clicked()), dialog, SLOT(accept()));
             connect(btn_saveToRom, SIGNAL(clicked()), dialog, SLOT(accept()));
             connect(bbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(saveDialogButtonClicked(QAbstractButton*)));
 
@@ -1394,12 +1411,13 @@ void UAVConfig::load3DModel()
     view.engine()->clearComponentCache();
     view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
     view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
-//    ui->scrollArea_3D->setWidget(container);
+    //    ui->scrollArea_3D->setWidget(container);
 
 }
 
 void UAVConfig::radioType_changed(int idx)
 {
+
     //    Q_UNUSED(idx);
     //    emit hardwareInfoUpdated();
 

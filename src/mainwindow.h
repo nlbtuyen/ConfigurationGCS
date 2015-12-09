@@ -141,6 +141,9 @@ public slots:
     void updateToolBarView();
     void updateUIButton(int i);
 
+    // Test Board Dialog
+    void addTestBoardDialog();
+
 public:
     Ui::MainWindow *ui;
 };

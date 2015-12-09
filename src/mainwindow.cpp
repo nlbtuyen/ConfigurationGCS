@@ -99,6 +99,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //First init with Tab_Index(0)
     updateUIButton(0);
+
+    //Test Board Dialog
+    connect(ui->actionTest_Board, SIGNAL(triggered()), this, SLOT(addTestBoardDialog()));
 }
 
 MainWindow::~MainWindow()
@@ -139,13 +142,13 @@ void MainWindow::initActionsConnections()
 
     // @trung
     //Add Widget: Test Board
-    testWidget = new QDockWidget(tr("Test Board"), this);
-    testWidget->setWidget(new AQTestView(this));
-    testWidget->setObjectName("test_board_widget");
-    testWidget->setMinimumSize(740, 370);
-    testWidget->setMaximumSize(740, 370);
-    addTool(testWidget, tr("Test Board"), Qt::RightDockWidgetArea);
-    testWidget->hide();
+//    testWidget = new QDockWidget(tr("Test Board"), this);
+//    testWidget->setWidget(new AQTestView(this));
+//    testWidget->setObjectName("test_board_widget");
+//    testWidget->setMinimumSize(740, 370);
+//    testWidget->setMaximumSize(740, 370);
+//    addTool(testWidget, tr("Test Board"), Qt::RightDockWidgetArea);
+//    testWidget->hide();
 
 
 //    //Primary Flight Display on Pitch + Roll
@@ -375,13 +378,16 @@ void MainWindow::closeSerialPort()
                 ui->menuWidgets->removeAction(act);
         }
 
-        link->disconnect();
-        //if (link->isRunning()) link->terminate();
-        //link->wait();
-        //LinkManager::instance()->removeLink(link);
-        //link->deleteLater();
+        if (link) {
+            link->disconnect();
+            link->wait(); // wait() until thread is stoped before deleting
+            LinkManager::instance()->removeLink(link); //remove link from LinkManager list
+//            link->deleteLater();
+        }
     }
     ui->actionConfigure->setEnabled(true);
+    ui->actionConnect->setEnabled(false);
+//    connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
 }
 
 /*
@@ -395,6 +401,7 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
     {
         if (ms > 10000)
         {
+            ui->actionConnect->setEnabled(true);
             toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
             toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: white; }"));
             return;
@@ -575,6 +582,15 @@ void MainWindow::updateUIButton(int i)
         break;
     }
 
+}
+
+void MainWindow::addTestBoardDialog()
+{
+    AQTestView *aq = new AQTestView();
+    aq->setMaximumSize(740,370);
+    aq->setMinimumSize(740,370);
+    aq->setWindowTitle("Test Board");
+    aq->show();
 }
 
 void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)
