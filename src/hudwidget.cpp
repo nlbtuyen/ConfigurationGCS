@@ -235,7 +235,7 @@ inline qreal max4(qreal a, qreal b, qreal c, qreal d) {
 void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF paintArea)
 {
     painter.resetTransform();
-    painter.translate(QPointF(85,85)); //@Leo: old: painter.translate(mainArea.center() );
+    painter.translate(QPointF(125,125)); //@Leo: old: painter.translate(mainArea.center() );
 
     qreal pitchPixels = pitchAngleToTranslation_HUD(mainArea.height(), pitch);
     qreal gradientEnd = pitchAngleToTranslation_HUD(mainArea.height(), 60);
@@ -299,7 +299,7 @@ void HUDWidget::drawAIGlobalFeatures(QPainter &painter, QRectF mainArea, QRectF 
 void HUDWidget::drawAIAirframeFixedFeatures(QPainter &painter, QRectF area)
 {
     painter.resetTransform();
-    painter.translate(QPointF(85,85)); //@Leo: old: painter.translate(mainArea.center() );
+    painter.translate(QPointF(125,125)); //@Leo: old: painter.translate(mainArea.center() );
 
     qreal w = area.width();
     qreal h = area.height();
@@ -334,7 +334,7 @@ void HUDWidget::drawPitchScale(QPainter &painter, QRectF area, float intrusion, 
     Q_UNUSED(area);
     Q_UNUSED(intrusion);
     // The area should be quadratic but if not width is the major size.
-    qreal w = 170;
+    qreal w = 250;
 
     QPen pen;
     pen.setWidthF(lineWidth);
@@ -428,7 +428,7 @@ void HUDWidget::drawAIAttitudeScales(QPainter &painter, QRectF area, float intru
 {
     // To save computations, we do these transformations once for both scales:
     painter.resetTransform();
-    painter.translate(QPointF(85,85)); //@Leo: old: painter.translate(mainArea.center() );
+    painter.translate(QPointF(125,125)); //@Leo: old: painter.translate(mainArea.center() );
     painter.rotate(-roll);
     QTransform saved = painter.transform();
 
@@ -491,42 +491,42 @@ void HUDWidget::doPaint()
     drawAIAttitudeScales(painter, AIMainArea, compassAIIntrusion);
     drawAIAirframeFixedFeatures(painter, AIMainArea);
 
-    QRectF area = QRectF(-85,-85,170,170);
+    QRectF area = QRectF(-125,-125,250,250);
     painter.setPen(instrumentEdgePen);
     painter.drawEllipse(area);
 
     ///@Leo: circle of widget
     QBrush color(QColor(240,240,240));
-    QPointF top = QPoint(0,-85);
-    QPointF right = QPoint(85,0);
-    QPointF bottom = QPoint(0,85);
-    QPointF left = QPoint(-85,0);
-    QRectF rect = QRect(-85,-85,170,170);
+    QPointF top = QPoint(0,-125);
+    QPointF right = QPoint(125,0);
+    QPointF bottom = QPoint(0,125);
+    QPointF left = QPoint(-125,0);
+    QRectF rect = QRect(-125,-125,250,250);
 
     //Top Right
     QPainterPath topRight(top);
-    topRight.lineTo(85,-85);
+    topRight.lineTo(125,-125);
     topRight.lineTo(right);
     topRight.arcTo(rect,0,90.0);
     painter.fillPath(topRight,color);
 
     //Top Left
     QPainterPath topLeft(left);
-    topLeft.lineTo(-85,-85);
+    topLeft.lineTo(-125,-125);
     topLeft.lineTo(top);
     topLeft.arcTo(rect,90,90);
     painter.fillPath(topLeft,color);
 
     //Bottom Left
     QPainterPath bottomLeft(bottom);
-    bottomLeft.lineTo(-85,85);
+    bottomLeft.lineTo(-125,125);
     bottomLeft.lineTo(left);
     bottomLeft.arcTo(rect,180.0,90.0);
     painter.fillPath(bottomLeft,color);
 
     //Bottom Right
     QPainterPath bottomRight(right);
-    bottomRight.lineTo(85,85);
+    bottomRight.lineTo(125,125);
     bottomRight.lineTo(bottom);
     bottomRight.arcTo(rect,270,90);
     painter.fillPath(bottomRight,color);

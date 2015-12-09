@@ -133,30 +133,6 @@ private slots:
 
     // @trung: RC Chart TPA
     void TPAChart();
-    void BLHeliTab();
-
-    // @trung: tab BLHeli
-    void set_Value_Title_LabelBeep(int value);
-    void set_Value_Title_LabelDelay(int value);
-    void set_Value_Title_LabelDemeg(int value);
-    void set_Value_Title_LabelEnable(int value);
-    void set_Value_Title_LabelMotor(int value);
-    void set_Value_Title_LabelPolarity(int value);
-    void set_Value_Title_LabelPWM(int value);
-    void set_Value_Title_LabelStartup(int value);
-    void set_Value_Title_LabelBeaconStr(int value);
-    void set_Value_Title_LabelTempe(int value);
-
-    void handle_default_beep(bool b);
-    void handle_default_beaconstr(bool b);
-    void handle_default_delay(bool b);
-    void handle_default_demeg(bool b);
-    void handle_default_enable(bool b);
-    void handle_default_motor(bool b);
-    void handle_default_polarity(bool b);
-    void handle_default_pwm(bool b);
-    void handle_default_startup(bool b);
-    void handle_default_tempe(bool b);
 
     //@Leo: PID
     void updatePID(QWidget *parent, int pfID);
@@ -165,7 +141,7 @@ public slots:
     void saveAQSetting();
 void refreshParam();
     void TabRadio();
-    void TabMotor();
+    void TabAdvanced();
     void TabIMU();
     void TabPID();
     void TabChart();
