@@ -134,5 +134,15 @@ void ChartPlot::changeMaxMinValue(double max, double min){
 //        this->setAxisScale(QwtPlot::yLeft, min, max, 10);
 //    }else{
 //        this->setAxisScale(QwtPlot::yLeft, min, max, 50);
-//    }
+    //    }
 }
+
+bool ChartPlot::checkResetZoom(QMouseEvent *event)
+{
+    if (event->button()==Qt::RightButton){
+        qDebug() << "right button is pressed";
+        return true;
+    }
+}
+
+

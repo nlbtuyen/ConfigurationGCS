@@ -11,6 +11,7 @@
 #include "mg.h"
 #include <QPaintEngine>
 #include "ChartPlot.h"
+#include <QMouseEvent>
 
 #include "qgc.h"
 
@@ -192,6 +193,8 @@ void LinechartPlot::appendData(QString dataname, quint64 ms, double value)
     curve->setRawSamples(dataset->getPlotX(), dataset->getPlotY(), dataset->getPlotCount());
 
     datalock.unlock();
+//    QMouseEvent *e = new QMouseEvent();
+//    checkResetZoom(e);
 }
 
 /**

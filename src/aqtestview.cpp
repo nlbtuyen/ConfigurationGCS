@@ -14,7 +14,8 @@ AQTestView::AQTestView(QWidget *parent) :
     datasetFieldsSetup(-1),
     currentDataSet(TELEM_DATASET_DEFAULT),
     AqTeleChart(NULL),
-    uas(NULL)
+    uas(NULL),
+    testPassOrFail(false)
 {
     ui->setupUi(this);
 
@@ -52,8 +53,7 @@ AQTestView::AQTestView(QWidget *parent) :
     initChart(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);
 //    connect(ui->combo_refreshRate, SIGNAL(currentIndexChanged(int)), this, SLOT(chartReset(int)));
-    connect(ui->btn_pass, SIGNAL(clicked()), this, SLOT(btnPassClicked()));
-    connect(ui->btn_fail, SIGNAL(clicked()), this, SLOT(btnFailClicked()));
+    connect(ui->btn_start_stop, SIGNAL(clicked()), this, SLOT(btnStartStopClicked()));
 }
 
 AQTestView::~AQTestView()
@@ -88,14 +88,19 @@ void AQTestView::initChart(UASInterface *uav) {
     setupCurves();
 }
 
-void AQTestView::btnPassClicked()
+void AQTestView::btnStartStopClicked()
 {
-    takeScreenshot("pass");
-}
-
-void AQTestView::btnFailClicked()
-{
-    takeScreenshot("fail");
+    if (ui->btn_start_stop->text() == "Start"){
+        ui->btn_start_stop->setText("Stop");
+        testPassOrFail = checkTestMessage();
+    }else{
+        ui->btn_start_stop->setText("Start");
+        // check pass or fail then take screenshot
+        if (testPassOrFail)
+            takeScreenshot("pass");
+        else
+            takeScreenshot("fail");
+    }
 }
 
 void AQTestView::takeScreenshot(QString btnName)
@@ -117,6 +122,11 @@ void AQTestView::takeScreenshot(QString btnName)
 //    qDebug() << fileName;
 //    if (!fileName.isEmpty())
     originalPixmap.save(filePath, format.toLatin1().constData());
+}
+
+bool AQTestView::checkTestMessage()
+{
+    return true;
 }
 
 float AQTestView::getTelemValue(const int idx) {
@@ -211,5 +221,5 @@ void AQTestView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, ma
     currentValuesF = &values;
     testValue = &value;
     currentValueType = TELEM_VALUETYPE_FLOAT;
-    getNewTelemetry(uasId, values.Index);
+    getNewTelemetry(uasId, 0);
 }

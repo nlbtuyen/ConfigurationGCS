@@ -144,7 +144,6 @@ QRectF QwtPlotPicker::scaleRect() const
     {
         const QwtScaleDiv &xs = plot()->axisScaleDiv( xAxis() );
         const QwtScaleDiv &ys = plot()->axisScaleDiv( yAxis() );
-
         rect = QRectF( xs.lowerBound(), ys.lowerBound(),
             xs.range(), ys.range() );
         rect = rect.normalized();

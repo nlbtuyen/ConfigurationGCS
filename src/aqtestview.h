@@ -56,11 +56,12 @@ private:
     int currentCurvedList;
     QPixmap originalPixmap;
     void takeScreenshot(QString btnName); //@trung
+    bool testPassOrFail;
+    bool checkTestMessage();
 
 public slots:
     void initChart(UASInterface *uav);
-    void btnPassClicked();
-    void btnFailClicked();
+    void btnStartStopClicked();
 
 private slots:
     void getNewTelemetry(int uasId, int valIdx);

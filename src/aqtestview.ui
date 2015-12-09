@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -53,16 +53,9 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="btn_pass">
+     <widget class="QPushButton" name="btn_start_stop">
       <property name="text">
-       <string>Pass</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="btn_fail">
-      <property name="text">
-       <string>Fail</string>
+       <string>Start</string>
       </property>
      </widget>
     </item>

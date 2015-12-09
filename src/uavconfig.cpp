@@ -99,7 +99,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     //Update UI stylesheet
     updateButtonView();
-    load3DModel(); //3D model in IMU Tab
+//    load3DModel(); //3D model in IMU Tab
     loadSettings();
     updateImgForRC(); //RC Tabs
     BLHeliTab(); //@Trung BLHeli Tab
@@ -519,7 +519,7 @@ void UAVConfig::toggleRadioValuesUpdate(bool enable)
         } else {
             pb->setMaximum(max);
             pb->setMinimum(min);
-            qDebug() << "channel: " << pb->maximum() << pb->minimum();
+//            qDebug() << "channel: " << pb->maximum() << pb->minimum();
 
         }
     }
@@ -586,7 +586,7 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
 
         bar->setValue(val);
 
-        qDebug() << "channelID: " << channelId << "value: " << bar->value();
+//        qDebug() << "channelID: " << channelId << "value: " << bar->value();
     }
 
 }
@@ -1390,7 +1390,7 @@ void UAVConfig::load3DModel()
     view.engine()->clearComponentCache();
     view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
     view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
-    ui->scrollArea_3D->setWidget(container);
+//    ui->scrollArea_3D->setWidget(container);
 
 }
 

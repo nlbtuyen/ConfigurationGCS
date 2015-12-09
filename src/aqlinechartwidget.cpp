@@ -159,7 +159,7 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
     {
         // Order matters here, first append to plot, then update curve list
         activePlot->appendData(curve+unit, usec, value);
-
+//        qDebug() << "append linechart ok";
         // Store data
         QLabel* label = curveLabels->value(curve+unit, NULL);
         // Make sure the curve will be created if it does not yet exist
