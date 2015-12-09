@@ -83,5 +83,15 @@ double limitAngleToPMPId(double angle)
     return angle;
 }
 
+float changeAngleToDegreeF(float angle)
+{
+    return (angle*180)/M_PI;
+}
+
+double changeAngleToDegreeD(double angle)
+{
+    return (angle*180)/M_PI;
+}
+
 
 }

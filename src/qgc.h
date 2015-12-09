@@ -58,6 +58,10 @@ float limitAngleToPMPIf(float angle);
 /**  Returns the angle limited to -pi - pi */
 double limitAngleToPMPId(double angle);
 
+/**  Returns the angle into degree */
+float changeAngleToDegreeF(float angle);
+double changeAngleToDegreeD(double angle);
+
 const static int MAX_FLIGHT_TIME = 60 * 60 * 24 * 21;
 
 class SLEEP : public QThread
