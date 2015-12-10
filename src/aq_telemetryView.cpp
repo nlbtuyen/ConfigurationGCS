@@ -125,21 +125,27 @@ float AQTelemetryView::getTelemValue(const int idx) {
     switch(idx) {
     case 1 : // @trung
         ret = testValue->pitch;
+        ret = QGC::changeAngleToDegreeF(ret);
         break;
     case 2 :
         ret = testValue->roll;
+        ret = QGC::changeAngleToDegreeF(ret);
         break;
     case 3 :
         ret = testValue->yaw;
+        ret = QGC::changeAngleToDegreeF(ret);
         break;
     case 4 :
         ret = testValue->pitchspeed;
+        ret = QGC::changeAngleToDegreeF(ret);
         break;
     case 5 :
         ret = testValue->rollspeed;
+        ret = QGC::changeAngleToDegreeF(ret);
         break;
     case 6 :
         ret = testValue->yawspeed;
+        ret = QGC::changeAngleToDegreeF(ret);
         break;
     }
     return ret;

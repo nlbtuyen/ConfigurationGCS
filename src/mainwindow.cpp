@@ -162,12 +162,12 @@ void MainWindow::initActionsConnections()
      */
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status."));
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: white; }"));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: red; font-weight: bold;}"));
     ui->mainToolBar->addWidget(toolBarTimeoutLabel);
 
     toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
     toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
-    toolBarSafetyLabel->setStyleSheet(QString("QLabel { padding: 2px; color: white; }"));
+    toolBarSafetyLabel->setStyleSheet(QString("QLabel { padding: 2px; color: green; }"));
     ui->mainToolBar->addWidget(toolBarSafetyLabel);
 
     toolBarBatteryBar = new QProgressBar(this);
@@ -184,6 +184,12 @@ void MainWindow::initActionsConnections()
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
     toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel { padding: 2px; color: white; }"));
     ui->mainToolBar->addWidget(toolBarBatteryVoltageLabel);
+
+    toolBarCurrentAmpeLabel = new QLabel("0 A");
+    toolBarCurrentAmpeLabel->setToolTip(tr("Current Ampe"));
+    toolBarCurrentAmpeLabel->setObjectName("toolBarCurrentAmpeLabel");
+    toolBarCurrentAmpeLabel->setStyleSheet(QString("QLabel {padding: 2px; color: red;}"));
+    ui->mainToolBar->addWidget(toolBarCurrentAmpeLabel);
 
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
@@ -266,6 +272,7 @@ void MainWindow::addLinkImmediately()
             {
                 ui->actionConfigure->setEnabled(false);
                 connect(&updateAddLinkImm, SIGNAL(timeout()), this, SLOT(updateBattery()));
+                connect(&updateAddLinkImm, SIGNAL(timeout()), this, SLOT(updateCurrentAmpe()));
                 updateAddLinkImm.start(500);
                 connectFlag = false;
             }
@@ -297,6 +304,7 @@ void MainWindow::addLink()
     {
         ui->actionConfigure->setEnabled(false);
         connect(&updateAddLink, SIGNAL(timeout()), this, SLOT(updateBattery()));
+        connect(&updateAddLink, SIGNAL(timeout()), this, SLOT(updateCurrentAmpe()));
         updateAddLink.start(500);
     }
 }
@@ -324,6 +332,7 @@ void MainWindow::setActiveUAS(UASInterface *uas)
 
     connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*, QString,QString)));
     connect(uas, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
+    connect(uas, SIGNAL(currentAmpeChanged(UASInterface*,double)), this, SLOT(updateCurrentAmpeRunning(UASInterface*,double)));
     connect(uas, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
     connect(uas,SIGNAL(heartbeatTimeout(bool,uint)),this,SLOT(heartbeatTimeout(bool,uint)));
     systemArmed = uas->isArmed();
@@ -403,27 +412,30 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
         {
             ui->actionConnect->setEnabled(true);
             toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: white; }"));
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: red; font-weight: bold;}"));
+            toolBarBatteryBar->hide();
             return;
         }
         else
         {
             if ((ms / 1000) % 2 == 0)
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: white; }"));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: red; font-weight: bold;}"));
             }
             else
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: white; }"));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: red; font-weight: bold;}"));
             }
             toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
+            toolBarBatteryBar->hide();
         }
     }
     else
     {
 
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: white; }"));
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: yellow; font-weight: bold;}"));
         toolBarTimeoutLabel->setText(tr("CONNECTED"));
+        toolBarBatteryBar->show();
     }
 }
 
@@ -436,6 +448,12 @@ void MainWindow::updateBatteryRemaining(UASInterface *uas, double voltage, doubl
     batteryVoltage = voltage;
 }
 
+void MainWindow::updateCurrentAmpeRunning(UASInterface *uas, double ampe)
+{
+    Q_UNUSED(uas);
+    currentAmpe = ampe;
+}
+
 void MainWindow::updateArmingState(bool armed)
 {
     systemArmed = armed;
@@ -446,6 +464,11 @@ void MainWindow::updateArmingState(bool armed)
 void MainWindow::updateBattery()
 {
     toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
+}
+
+void MainWindow::updateCurrentAmpe()
+{
+    toolBarCurrentAmpeLabel->setText(tr("%1 A").arg(currentAmpe, 4, 'f', 1, ' '));
 }
 
 /*
@@ -621,13 +644,13 @@ void MainWindow::showCriticalMessage(const QString& title, const QString& messag
 void MainWindow::updateState(UASInterface *system, QString name, QString description)
 {
     connect(system, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
-
+    connect(system, SIGNAL(currentAmpeChanged(UASInterface*,double)), this, SLOT(updateCurrentAmpeRunning(UASInterface*,double)));
     Q_UNUSED(description);
 
     if (state != name)
         changed = true;
     state = name;
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: white; }"));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: yellow; font-weight: bold;}"));
     toolBarTimeoutLabel->setText(tr("CONNECTION"));
 
     // immediately update toolbar
@@ -646,15 +669,16 @@ void MainWindow::updateToolBarView()
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 
     toolBarBatteryBar->setValue(batteryPercent);
+    toolBarBatteryBar->show();
 
     if (systemArmed)
     {
-        toolBarSafetyLabel->setStyleSheet(QString("QLabel {padding: 2px; color: white; }").arg(QGC::colorRed.name()));
+        toolBarSafetyLabel->setStyleSheet(QString("QLabel {padding: 2px; color: yellow; }").arg(QGC::colorRed.name()));
         toolBarSafetyLabel->setText(tr("ARMED"));
     }
     else
     {
-        toolBarSafetyLabel->setStyleSheet(QString("QLabel {padding: 2px; color: white; }"));
+        toolBarSafetyLabel->setStyleSheet(QString("QLabel {padding: 2px; color: green; }"));
         toolBarSafetyLabel->setText(tr("SAFE"));
     }
     changed = false;

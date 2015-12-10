@@ -4,6 +4,7 @@
 #include "aqlinechartwidget.h"
 #include "autoquadMAV.h"
 #include <QTabWidget>
+#include "qgc.h"
 
 namespace Ui {
 class AQTelemetryView;

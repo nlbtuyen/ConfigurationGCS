@@ -72,8 +72,10 @@ protected:
     QLabel* toolBarMessageLabel;
     QProgressBar* toolBarBatteryBar;
     QLabel* toolBarBatteryVoltageLabel;
+    QLabel* toolBarCurrentAmpeLabel;
     float batteryPercent;
     float batteryVoltage;
+    float currentAmpe;
     bool changed;
     bool systemArmed;
     QTimer updateViewTimer;
@@ -124,6 +126,7 @@ public slots:
     // Set the system state
     void updateState(UASInterface* system, QString name, QString description);
     void updateBattery();
+    void updateCurrentAmpe();
 
     // Control UAS
     void UASCreated(UASInterface* uas);
@@ -134,6 +137,7 @@ public slots:
     // Status
     void heartbeatTimeout(bool timeout, unsigned int ms); // Update connection timeout time
     void updateBatteryRemaining(UASInterface* uas, double voltage, double percent, int seconds); // Update battery charge state
+    void updateCurrentAmpeRunning(UASInterface* uas, double ampe);
     void updateArmingState(bool armed);
 
     // Style
