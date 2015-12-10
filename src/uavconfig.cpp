@@ -63,7 +63,6 @@ UAVConfig::UAVConfig(QWidget *parent) :
     }
     // connect some things only after settings are loaded to prevent erroneous signals
     connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq()));
-    connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
     //RC Config
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     delayedSendRCTimer.start(800);
@@ -71,8 +70,12 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     //new USA created
     //    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
+//    createAQParamWidget(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(uasDeleted(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)), Qt::UniqueConnection);
+    ui->groupBox_Radio_Values->setVisible(true);
+    connect(ui->toolButton_toggleRadioGraph, SIGNAL(clicked(bool)),this,SLOT(onToggleRadioValuesRefresh(bool)));
+
 
     //Flash Firmware event
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
@@ -120,7 +123,6 @@ UAVConfig::UAVConfig(QWidget *parent) :
     connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), debugConsole, SLOT(receiveTextMessage(int, int, int, const QString)));
 
     connect(ui->textEdit_desc, SIGNAL(textChanged()), this, SLOT(maxLengthDesc()));
-
 
 }
 
@@ -326,6 +328,14 @@ int UAVConfig::calcRadioSetting()
     return radioSetup;
 }
 
+void UAVConfig::getMessage(int id, int component, int severity, QString text)
+{
+    qDebug() << "id: " << id;
+    qDebug() << "component: " << component;
+    qDebug() << "severity: " << severity;
+    qDebug() << "text: " << text;
+}
+
 /*
  * ========= Update FW ==========
  */
@@ -495,6 +505,7 @@ void UAVConfig::toggleRadioValuesUpdate(bool enable)
 
     ui->toolButton_toggleRadioGraph->setChecked(enable);
     ui->conatiner_radioGraphValues->setEnabled(enable);
+    ui->conatiner_radioGraphValues_2->setEnabled(enable);
 
     if (!enable)
         return;
@@ -502,26 +513,26 @@ void UAVConfig::toggleRadioValuesUpdate(bool enable)
     int min, max, tmin, tmax;
 
     //    if ( ui->checkBox_raw_value->isChecked() ){
-    //        tmax = 1500;
-    //        tmin = -100;
-    //        max = 1024;
-    //        min = -1024;
+            tmax = 1500;
+            tmin = -100;
+            max = 1024;
+            min = -1024;
     //    } else {
-    tmax = -500;
-    tmin = 1500;
-    max = -1500;
-    min = 1500;
+//    tmax = -500;
+//    tmin = 1500;
+//    max = -1500;
+//    min = 1500;
     //    }
 
     foreach (QProgressBar* pb, allRadioChanProgressBars) {
         if (pb->objectName().contains("chan_0")) {
             pb->setMaximum(tmax);
             pb->setMinimum(tmin);
-            //            qDebug() << "channel 0: " << pb->maximum() << pb->minimum();
+//                        qDebug() << "channel 0: " << pb->maximum() << pb->minimum();
         } else {
             pb->setMaximum(max);
             pb->setMinimum(min);
-            //            qDebug() << "channel: " << pb->maximum() << pb->minimum();
+//                        qDebug() << "channel: " << pb->maximum() << pb->minimum();
 
         }
     }
@@ -570,10 +581,12 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
     QProgressBar* bar = allRadioChanProgressBars.at(channelId);
     QLabel* lbl = allRadioChanValueLabels.at(channelId);
 
-    // Scaled values
-    val = (int)((normalized*10000.0f)/13);
-    if (channelId == 0)
-        val += 750;
+//    // Scaled values
+//    val = (int)((normalized*10000.0f)/13);
+//    if (channelId == 0)
+//        val += 750;
+
+    val = (int)(normalized-1024);
 
     if (lbl) {
         lblTxt.sprintf("%+d", val);
@@ -586,6 +599,8 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
             val = bar->minimum();
 
         bar->setValue(val);
+//        qDebug() << "channelID: " << channelId << "value: " << bar->value();
+
     }
 }
 
@@ -746,9 +761,12 @@ void UAVConfig::createAQParamWidget(UASInterface *uastmp)
     uas = uastmp;
     paramaq = new AQParamWidget(uas, this);
 
+    // do this before we recieve any data stream announcements or messages
+    onToggleRadioValuesRefresh(ui->toolButton_toggleRadioGraph->isChecked());
+
     //RC message
     connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
-    //    connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
+    connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
 
     connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
@@ -757,6 +775,9 @@ void UAVConfig::createAQParamWidget(UASInterface *uastmp)
     paramaq->requestParameterList();
     if (DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(ui->scrollArea_debugConsole->widget()))
         connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), debugConsole, SLOT(receiveTextMessage(int,int,int,QString)));
+
+    connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(getMessage(int,int,int,QString)));
+
 
 }
 

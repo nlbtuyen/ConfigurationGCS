@@ -127,7 +127,7 @@ margin: 10px 0 0 10px;
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_aq_setting_Radio">
     <property name="focusPolicy">
@@ -3874,12 +3874,21 @@ padding: 1px 5px;</string>
           <property name="editable">
            <bool>false</bool>
           </property>
+          <property name="currentText">
+           <string>Select Profile</string>
+          </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
+          <property name="maxVisibleItems">
+           <number>7</number>
+          </property>
+          <property name="duplicatesEnabled">
+           <bool>false</bool>
+          </property>
           <item>
            <property name="text">
-            <string/>
+            <string>Select Profile</string>
            </property>
           </item>
           <item>

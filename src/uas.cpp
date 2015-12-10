@@ -543,17 +543,17 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message) //@Leo 
             {
                 lastAttitude = time;
 //                qDebug() << "att roll: " << attitude.rollspeed << " att pitch: " << attitude.pitchspeed << " att yaw: " << attitude.yawspeed;
-                roll = QGC::changeAngleToDegreeF(attitude.roll);//QGC::limitAngleToPMPIf(attitude.roll);
-                pitch = QGC::changeAngleToDegreeF(attitude.pitch);//QGC::limitAngleToPMPIf(attitude.pitch);
-                yaw = QGC::changeAngleToDegreeF(attitude.yaw);//QGC::limitAngleToPMPIf(attitude.yaw);
+                roll = QGC::limitAngleToPMPIf(attitude.roll);
+                pitch =QGC::limitAngleToPMPIf(attitude.pitch);
+                yaw = QGC::limitAngleToPMPIf(attitude.yaw);
 //                qDebug() << "roll: " << roll << "pitch: " << pitch << " yaw: " << yaw;
-                attitude.roll = roll; // @trung
-                attitude.pitch = pitch;
-                attitude.yaw = yaw;
+//                attitude.roll = roll; // @trung
+//                attitude.pitch = pitch;
+//                attitude.yaw = yaw;
                 attitudeKnown = true;
-                attitude.rollspeed = QGC::changeAngleToDegreeF(attitude.rollspeed);
-                attitude.pitchspeed = QGC::changeAngleToDegreeF(attitude.pitchspeed);
-                attitude.yawspeed = QGC::changeAngleToDegreeF(attitude.yawspeed);
+//                attitude.rollspeed = QGC::changeAngleToDegreeF(attitude.rollspeed);
+//                attitude.pitchspeed = QGC::changeAngleToDegreeF(attitude.pitchspeed);
+//                attitude.yawspeed = QGC::changeAngleToDegreeF(attitude.yawspeed);
                 emit attitudeChanged(this, roll, pitch, yaw, time);
                 emit attitudeSpeedChanged(uasId, attitude.rollspeed, attitude.pitchspeed, attitude.yawspeed, time);
             }

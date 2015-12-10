@@ -77,10 +77,16 @@ private slots:
     //@Hai: update Param to UI
     QString paramNameGuiToOnboard(QString paraName);
     void loadParametersToUI();
-    void createAQParamWidget(UASInterface* uas); //setActiveUas
+
+    //setActiveUAS
+    void createAQParamWidget(UASInterface* uas);
     void getGUIPara(QWidget *parent);
     int calcRadioSetting();
 
+    ///////
+    void getMessage(int id, int component, int severity, QString text);
+
+    //UAS Setup
     void uasConnected();
     void uasDeleted(UASInterface *mav);
     void removeActiveUAS();
