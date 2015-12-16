@@ -70,5 +70,11 @@
         <file>images/media-playback-pause.png</file>
         <file>images/media-playback-start.png</file>
         <file>images/media-playback-stop.png</file>
+        <file>images/blheli.PNG</file>
+        <file>images/testboard.jpg</file>
+        <file>images/help.ico</file>
+        <file>images/default-document-icon.png</file>
+        <file>images/restart.ico</file>
+        <file>images/vskyline.PNG</file>
     </qresource>
 </RCC>

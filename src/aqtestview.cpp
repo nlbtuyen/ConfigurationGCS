@@ -1,6 +1,7 @@
 #include "aqtestview.h"
 #include "ui_aqtestview.h"
 #include "uasmanager.h"
+#include "uavconfig.h"
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QScreen>
@@ -21,11 +22,11 @@ AQTestView::AQTestView(QWidget *parent) :
 
     currentRefreshRate = 2;
     // add content combobox refresh rate
-//    ui->combo_refreshRate->addItem("1 ms", 1000000);
-//    ui->combo_refreshRate->addItem("50 ms", 100000); //20
-//    ui->combo_refreshRate->addItem("100 ms", 50000); //10
-//    ui->combo_refreshRate->addItem("200 ms", 20000); //5
-//    ui->combo_refreshRate->setCurrentIndex(2);
+    //    ui->combo_refreshRate->addItem("1 ms", 1000000);
+    //    ui->combo_refreshRate->addItem("50 ms", 100000); //20
+    //    ui->combo_refreshRate->addItem("100 ms", 50000); //10
+    //    ui->combo_refreshRate->addItem("200 ms", 20000); //5
+    //    ui->combo_refreshRate->setCurrentIndex(2);
 
     ui->combo_selectCurve->addItem("Pitch, Roll, Yaw");
     ui->combo_selectCurve->addItem("Pitch Rate, Roll Rate, Yaw Rate");
@@ -52,8 +53,11 @@ AQTestView::AQTestView(QWidget *parent) :
     //init after connect
     initChart(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);
-//    connect(ui->combo_refreshRate, SIGNAL(currentIndexChanged(int)), this, SLOT(chartReset(int)));
+    //    connect(ui->combo_refreshRate, SIGNAL(currentIndexChanged(int)), this, SLOT(chartReset(int)));
     connect(ui->btn_start_stop, SIGNAL(clicked()), this, SLOT(btnStartStopClicked()));
+
+
+
 }
 
 AQTestView::~AQTestView()
@@ -85,6 +89,8 @@ void AQTestView::initChart(UASInterface *uav) {
         linLayoutPlot = new QGridLayout( ui->plotFrameTele);
         linLayoutPlot->addWidget(AqTeleChart, 0, Qt::AlignCenter);
     }
+    connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(updateID(int,int,int,QString)));
+
     setupCurves();
 }
 
@@ -115,18 +121,17 @@ void AQTestView::takeScreenshot(QString btnName)
             + "_" + currentTime.toString("hhmmss");
     QString filePath = QDir::currentPath() + "/" + filename + "." + format;
     qDebug() << "Save to " + filePath; //@trung
-//    QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), initialPath,
-//                                                   tr("%1 Files (*.%2);;All Files (*)")
-//                                                   .arg(format.toUpper())
-//                                                   .arg(format));
-//    qDebug() << fileName;
-//    if (!fileName.isEmpty())
+
     originalPixmap.save(filePath, format.toLatin1().constData());
 }
 
 bool AQTestView::checkTestMessage()
 {
-    return true;
+    if (ui->label_Pass->text() == "PASS"){
+        return true;
+    }
+    else
+        return false;
 }
 
 float AQTestView::getTelemValue(const int idx) {
@@ -176,11 +181,29 @@ void AQTestView::chartReset(int f){
 
     // stop telemetry
     disconnect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)));
-//    float freq = ui->combo_refreshRate->itemData(currentRefreshRate).toFloat();
+    //    float freq = ui->combo_refreshRate->itemData(currentRefreshRate).toFloat();
 
     // start telemetry
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t,mavlink_attitude_t)));
-//    uas->startStopTelemetry(true, freq, 0);
+    //    uas->startStopTelemetry(true, freq, 0);
+}
+
+void AQTestView::updateID(int id, int component, int severity, QString text)
+{
+    Q_UNUSED(id);
+    Q_UNUSED(component);
+    Q_UNUSED(severity);
+
+    if(text.contains("VSK S/N", Qt::CaseInsensitive))
+    {
+        QString str;
+        QStringList list;
+        str = text;
+        str = str.simplified();
+        list = str.split(": ");
+        qDebug() << "here is s/n" << list[1];
+        ui->label_ID->setText("ID: " + list[1]);
+    }
 }
 
 void AQTestView::getNewTelemetry(int uasId, int valIdx){

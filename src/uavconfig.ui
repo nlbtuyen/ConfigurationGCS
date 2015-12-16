@@ -1807,6 +1807,18 @@ padding: 1px 5px;</string>
           </item>
           <item row="1" column="0" colspan="3">
            <widget class="QProgressBar" name="progressBar_chan_0">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Arial</family>
@@ -1901,6 +1913,18 @@ padding: 1px 5px;</string>
           </item>
           <item row="4" column="0" colspan="3">
            <widget class="QProgressBar" name="progressBar_chan_1">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Arial</family>
@@ -1942,6 +1966,18 @@ padding: 1px 5px;</string>
           </item>
           <item row="7" column="0" colspan="3">
            <widget class="QProgressBar" name="progressBar_chan_2">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Arial</family>
@@ -1964,6 +2000,18 @@ padding: 1px 5px;</string>
           </item>
           <item row="10" column="0" colspan="3">
            <widget class="QProgressBar" name="progressBar_chan_3">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Arial</family>
@@ -2134,6 +2182,18 @@ padding: 1px 5px;</string>
           </item>
           <item row="8" column="0" colspan="3">
            <widget class="QProgressBar" name="progressBar_chan_6">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Arial</family>
@@ -2169,6 +2229,18 @@ padding: 1px 5px;</string>
           </item>
           <item row="1" column="0" colspan="3">
            <widget class="QProgressBar" name="progressBar_chan_4">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Arial</family>
@@ -2387,6 +2459,18 @@ padding: 1px 5px;</string>
           </item>
           <item row="4" column="0" colspan="3">
            <widget class="QProgressBar" name="progressBar_chan_5">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Arial</family>
@@ -2471,6 +2555,18 @@ padding: 1px 5px;</string>
           </item>
           <item row="12" column="0" colspan="3">
            <widget class="QProgressBar" name="progressBar_chan_7">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>170</width>
+              <height>15</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Arial</family>
@@ -2595,91 +2691,13 @@ padding: 1px 5px;</string>
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="layoutWidget_4">
-         <property name="geometry">
-          <rect>
-           <x>270</x>
-           <y>240</y>
-           <width>91</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item>
-           <widget class="QSpinBox" name="spinBox_rcGraphRefreshFreq">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <family>Arial</family>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh frequency of channels graph (higher frequencies consume more computer CPU power)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="suffix">
-             <string> Hz</string>
-            </property>
-            <property name="maximum">
-             <number>50</number>
-            </property>
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="toolButton_toggleRadioGraph">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toggle radio channel graph updates on/off (they can consume a lot of CPU resouces on your computer)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="../terminal.qrc">
-              <normaloff>:/images/media-playback-start.png</normaloff>
-              <normalon>:/images/media-playback-stop.png</normalon>
-              <disabledon>:/images/media-playback-stop.png</disabledon>
-              <activeoff>:/images/media-playback-start.png</activeoff>
-              <activeon>:/images/media-playback-stop.png</activeon>
-              <selectedoff>:/images/media-playback-start.png</selectedoff>
-              <selectedon>:/images/media-playback-stop.png</selectedon>:/images/media-playback-start.png</iconset>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-            <property name="autoRaise">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
         <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>20</x>
            <y>240</y>
-           <width>241</width>
-           <height>20</height>
+           <width>341</width>
+           <height>21</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -2707,9 +2725,15 @@ padding: 1px 5px;</string>
           </item>
           <item>
            <widget class="QProgressBar" name="progressBar_rssi">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>16777215</width>
+              <width>130</width>
               <height>15</height>
              </size>
             </property>
@@ -4414,7 +4438,7 @@ padding: 1px 5px;</string>
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>9</pointsize>
            </font>
           </property>
          </widget>
@@ -4588,100 +4612,6 @@ padding: 1px 5px;</string>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>500</x>
-         <y>126</y>
-         <width>170</width>
-         <height>52</height>
-        </rect>
-       </property>
-       <layout class="QFormLayout" name="formLayout_9">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_H_LEVEL">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Level Mode:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_D_CUT_HZ">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>D CUT OFF:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="D_CUT_HZ">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>60</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="H_LEVEL">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>60</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="geometry">
-        <rect>
          <x>180</x>
          <y>10</y>
          <width>504</width>
@@ -4738,6 +4668,113 @@ padding: 1px 5px;</string>
            <bool>false</bool>
           </property>
          </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_4">
+       <property name="geometry">
+        <rect>
+         <x>490</x>
+         <y>100</y>
+         <width>190</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="title">
+        <string>Additional</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout_10">
+        <item row="0" column="0">
+         <layout class="QFormLayout" name="formLayout_9">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_H_LEVEL">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Level Mode:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_D_CUT_HZ">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>D CUT OFF:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="D_CUT_HZ">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>90</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="H_LEVEL">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>90</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -4908,7 +4945,7 @@ padding: 1px 5px;</string>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QPushButton" name="pushButton_7">
+         <widget class="QPushButton" name="btn_calibIMU">
           <property name="font">
            <font>
             <family>Arial</family>
@@ -4916,124 +4953,22 @@ padding: 1px 5px;</string>
            </font>
           </property>
           <property name="text">
-           <string>Calib Gyrometer</string>
+           <string>Calib IMU</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_8">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-           </font>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
-          <property name="text">
-           <string>Calib Accelerometer</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_IMU_MPU_LPF">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>IMU LPF:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="IMU_MPU_LPF">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-          <property name="currentIndex">
-           <number>-1</number>
-          </property>
-          <item>
-           <property name="text">
-            <string>0</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>4</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>6</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_14">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>GYRO LPF CUT OFF:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="GYRO_CUT_HZ">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
+          <property name="sizeHint" stdset="0">
            <size>
-            <width>0</width>
-            <height>22</height>
+            <width>40</width>
+            <height>20</height>
            </size>
           </property>
-          <property name="maximumSize">
-           <size>
-            <width>9999</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </widget>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -5492,14 +5427,13 @@ padding: 10px;</string>
      </widget>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_aq_setting_BLHeli"/>
   </widget>
   <widget class="QScrollArea" name="scrollArea_debugConsole">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>-1</x>
      <y>400</y>
-     <width>730</width>
+     <width>732</width>
      <height>150</height>
     </rect>
    </property>
@@ -5511,15 +5445,13 @@ padding: 10px;</string>
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>728</width>
+      <width>730</width>
       <height>148</height>
      </rect>
     </property>
    </widget>
   </widget>
  </widget>
- <resources>
-  <include location="../terminal.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

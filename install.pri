@@ -22,6 +22,8 @@ WinBuild {
 
         QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\*.qrc" "$$TARGETDIR_WIN" $$escape_expand(\\n\\t))
 
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\blheli\\*" "$$TARGETDIR_WIN\\blheli" $$escape_expand(\\n))
+
         ReleaseBuild {
 
                 COPY_DLL_LIST = \

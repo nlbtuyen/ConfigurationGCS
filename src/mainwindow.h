@@ -23,6 +23,7 @@
 #include "compasswidget.h"
 #include "hudwidget.h"
 #include "uavconfig.h"
+#include "aqtestview.h"
 
 
 namespace Ui {
@@ -102,6 +103,7 @@ protected:
     AQParamWidget* paramaq;
     UAVConfig *config; //main tab configuration VSK
     QSettings setting;
+    AQTestView *aq;
 
 signals:
     void connected();
@@ -118,6 +120,8 @@ public slots:
     void addLink(LinkInterface* link);
     void addLinkImmediately();
     void closeSerialPort();
+    void openBLHeli();
+    void openHelpDoc();
 
     // Shows an info or warning message
     void showMessage(const QString &title, const QString &message, const QString &details, const QString severity = "info");

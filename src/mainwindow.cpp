@@ -14,6 +14,7 @@
 #include <QDesktopServices>
 #include <QVariant>
 #include <QToolBar>
+#include <QWebView>
 
 #include <Qt3DRenderer/qrenderaspect.h>
 #include <Qt3DInput/QInputAspect>
@@ -94,7 +95,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btn_PID, SIGNAL(clicked()), config, SLOT(TabPID()));
     connect(ui->btn_UPGRADE, SIGNAL(clicked()), config, SLOT(TabUpgrade()));
     connect(ui->btn_CHART, SIGNAL(clicked()), config, SLOT(TabChart()));
-    connect(ui->btn_BLHeli, SIGNAL(clicked()), config, SLOT(TabBLHeli()));
     connect(config, SIGNAL(TabClicked(int)), this, SLOT(updateUIButton(int)));
 
     //First init with Tab_Index(0)
@@ -102,6 +102,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Test Board Dialog
     connect(ui->actionTest_Board, SIGNAL(triggered()), this, SLOT(addTestBoardDialog()));
+
+    aq = new AQTestView();
 }
 
 MainWindow::~MainWindow()
@@ -114,7 +116,7 @@ MainWindow::~MainWindow()
         foreach (QAction* act, listLinkMenuActions())
         {
             if (act->data().toInt() == linkID)
-                ui->menuWidgets->removeAction(act);
+                ui->menuTools->removeAction(act);
         }
         link->disconnect();
         LinkManager::instance()->removeLink(link);
@@ -162,12 +164,12 @@ void MainWindow::initActionsConnections()
      */
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status."));
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: red; font-weight: bold;}"));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 150px; padding: 2px; color: red; font-weight: bold;}"));
     ui->mainToolBar->addWidget(toolBarTimeoutLabel);
 
     toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
     toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
-    toolBarSafetyLabel->setStyleSheet(QString("QLabel { padding: 2px; color: green; }"));
+    toolBarSafetyLabel->setStyleSheet(QString("QLabel { padding: 2px; color: green; font-weight: bold;}"));
     ui->mainToolBar->addWidget(toolBarSafetyLabel);
 
     toolBarBatteryBar = new QProgressBar(this);
@@ -176,7 +178,7 @@ void MainWindow::initActionsConnections()
     toolBarBatteryBar->setMinimumWidth(20);
     toolBarBatteryBar->setMaximumWidth(100);
     toolBarBatteryBar->setToolTip(tr("Battery charge level"));
-    toolBarBatteryBar->setStyleSheet(QString("QLabel { padding: 2px; color:white; }"));
+    toolBarBatteryBar->setStyleSheet(QString("QProgressBar {border: 2px solid grey; border-radius: 5px;text-align: center;} QProgressBar::chunk {width: 20px; }"));
     ui->mainToolBar->addWidget(toolBarBatteryBar);
 
     toolBarBatteryVoltageLabel = new QLabel("0.0 V");
@@ -188,7 +190,7 @@ void MainWindow::initActionsConnections()
     toolBarCurrentAmpeLabel = new QLabel("0 A");
     toolBarCurrentAmpeLabel->setToolTip(tr("Current Ampe"));
     toolBarCurrentAmpeLabel->setObjectName("toolBarCurrentAmpeLabel");
-    toolBarCurrentAmpeLabel->setStyleSheet(QString("QLabel {padding: 2px; color: red; font-weight: bold;}"));
+    toolBarCurrentAmpeLabel->setStyleSheet(QString("QLabel {padding: 2px; color: white; font-weight: bold;}"));
     ui->mainToolBar->addWidget(toolBarCurrentAmpeLabel);
 
     setActiveUAS(UASManager::instance()->getActiveUAS());
@@ -197,7 +199,7 @@ void MainWindow::initActionsConnections()
 
 void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidgetArea area)
 {
-    QAction* tempAction = ui->menuWidgets->addAction(title);
+    QAction* tempAction = ui->menuTools->addAction(title);
 
     tempAction->setCheckable(true);
     QVariant var;
@@ -221,11 +223,17 @@ void MainWindow::showTool(bool show)
 //Connect common actions
 void MainWindow::connectCommonActionsWidgets()
 {    
-//    connect(ui->actionReadParam, SIGNAL(triggered()), config, SLOT(loadParametersToUI()));
+    connect(ui->actionReadParam, SIGNAL(triggered()), config, SLOT(loadParametersToUI()));
     connect(ui->actionSave, SIGNAL(triggered()),config, SLOT(saveAQSetting()));
     connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(addLinkImmediately()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionConfigure, SIGNAL(triggered()), this, SLOT(addLink()));
+    connect(ui->actionDefault, SIGNAL(triggered()), config, SLOT(loadOnboardDefaults()));
+    connect(ui->actionRestart, SIGNAL(triggered()), config, SLOT(restartUasWithPrompt()));
+
+    connect(ui->actionVSKConfigUAV_Document, SIGNAL(triggered()), this, SLOT(openHelpDoc()));
+
+    connect(ui->actionBLHeli, SIGNAL(triggered()), this, SLOT(openBLHeli()));
 
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UASCreated(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
@@ -238,7 +246,7 @@ void MainWindow::connectCommonActionsWidgets()
 
 QList<QAction *> MainWindow::listLinkMenuActions()
 {
-    return ui->menuWidgets->actions();
+    return ui->menuTools->actions();
 }
 
 QAction *MainWindow::getActionByLink(LinkInterface *link)
@@ -318,7 +326,7 @@ void MainWindow::addLink(LinkInterface *link)
     {
         CommConfigurationWindow* commWidget = new CommConfigurationWindow(link, mavlink, this);
         QAction* action = commWidget->getAction();
-        ui->menuWidgets->addAction(action);
+        ui->menuTools->addAction(action);
 
         // Error handling
         connect(link, SIGNAL(communicationError(QString,QString)), this, SLOT(showCriticalMessage(QString,QString)), Qt::QueuedConnection);
@@ -345,14 +353,14 @@ void MainWindow::UASSpecsChanged(int uas)
     {
         if (activeUAS->getUASID() == uas)
         {
-            ui->menuWidgets->setTitle(activeUAS->getUASName());
+            ui->menuTools->setTitle(activeUAS->getUASName());
         }
     }
     else
     {
         // Last system deleted
-        ui->menuWidgets->setTitle(tr("No System"));
-        ui->menuWidgets->setEnabled(false);
+        ui->menuTools->setTitle(tr("No System"));
+        ui->menuTools->setEnabled(false);
     }
 }
 
@@ -367,10 +375,10 @@ void MainWindow::UASCreated(UASInterface* uas)
 void MainWindow::UASDeleted(UASInterface *uas)
 {
     QAction* act;
-    QList<QAction*> actions = ui->menuWidgets->actions();
+    QList<QAction*> actions = ui->menuTools->actions();
     foreach (act, actions) {
         if (act->text().contains(uas->getUASName()))
-            ui->menuWidgets->removeAction(act);
+            ui->menuTools->removeAction(act);
     }
 }
 
@@ -384,7 +392,7 @@ void MainWindow::closeSerialPort()
         foreach (QAction* act, listLinkMenuActions())
         {
             if (act->data().toInt() == linkID)
-                ui->menuWidgets->removeAction(act);
+                ui->menuTools->removeAction(act);
         }
 
         if (link) {
@@ -396,7 +404,21 @@ void MainWindow::closeSerialPort()
     }
     ui->actionConfigure->setEnabled(true);
     ui->actionConnect->setEnabled(false);
-//    connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
+    //    connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
+}
+
+void MainWindow::openBLHeli()
+{
+    QString file = QCoreApplication::applicationDirPath() + "/blheli/BLHeliSuite.exe";
+    qDebug() << file;
+    QProcess::execute(file);
+}
+
+void MainWindow::openHelpDoc()
+{
+    QWebView *view = new QWebView();
+       view->load(QUrl("http://google.com"));
+       view->show();
 }
 
 /*
@@ -412,28 +434,28 @@ void MainWindow::heartbeatTimeout(bool timeout, unsigned int ms)
         {
             ui->actionConnect->setEnabled(true);
             toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: red; font-weight: bold;}"));
-//            toolBarBatteryBar->hide();
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 150px; padding: 2px; color: red; font-weight: bold;}"));
             return;
         }
         else
         {
             if ((ms / 1000) % 2 == 0)
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: red; font-weight: bold;}"));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 150px; padding: 2px; color: red; font-weight: bold;}"));
             }
             else
             {
-                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: red; font-weight: bold;}"));
+                toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 150px; padding: 2px; color: red; font-weight: bold;}"));
             }
             toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
-//            toolBarBatteryBar->hide();
         }
+        toolBarBatteryBar->hide();
+
     }
     else
     {
 
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: yellow; font-weight: bold;}"));
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 150px; padding: 2px; color: yellow; font-weight: bold;}"));
         toolBarTimeoutLabel->setText(tr("CONNECTED"));
 //        toolBarBatteryBar->show();
     }
@@ -468,7 +490,7 @@ void MainWindow::updateBattery()
 
 void MainWindow::updateCurrentAmpe()
 {
-    toolBarCurrentAmpeLabel->setText(tr("%1 A").arg(currentAmpe, 4, 'f', 1, ' '));
+    toolBarCurrentAmpeLabel->setText(tr("%1 A").arg(currentAmpe/1000, 4, 'f', 1, ' '));
 }
 
 /*
@@ -505,14 +527,13 @@ void MainWindow::updateUIButton(int i)
     switch (i) {
     case 0:
     {
-        ui->btn_RADIO->setStyleSheet(QString("QToolButton {background-color: #E7E7E7; color: #000000;border-right: 1px solid; border-bottom: 1px solid;}"));
+        ui->btn_RADIO->setStyleSheet(QString("QToolButton {background-color: #E7E7E7; color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_PID->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_IMU->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_ADVANCED->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_CHART->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_OSD->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_UPGRADE->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_BLHeli->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         break;
     }
     case 1:
@@ -524,7 +545,6 @@ void MainWindow::updateUIButton(int i)
         ui->btn_CHART->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_OSD->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_UPGRADE->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_BLHeli->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         break;
     }
     case 2:
@@ -536,7 +556,6 @@ void MainWindow::updateUIButton(int i)
         ui->btn_CHART->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_OSD->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_UPGRADE->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_BLHeli->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         break;
     }
     case 3:
@@ -548,8 +567,8 @@ void MainWindow::updateUIButton(int i)
         ui->btn_CHART->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_OSD->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_UPGRADE->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_BLHeli->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         break;
+
     }
     case 4:
     {
@@ -560,7 +579,6 @@ void MainWindow::updateUIButton(int i)
         ui->btn_RADIO->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_OSD->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_UPGRADE->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_BLHeli->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         break;
     }
     case 5:
@@ -572,7 +590,6 @@ void MainWindow::updateUIButton(int i)
         ui->btn_CHART->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid;}"));
         ui->btn_RADIO->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_UPGRADE->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_BLHeli->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         break;
     }
     case 6:
@@ -584,19 +601,7 @@ void MainWindow::updateUIButton(int i)
         ui->btn_CHART->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
         ui->btn_OSD->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid;}"));
         ui->btn_RADIO->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_BLHeli->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000; border-right: 1px solid; border-bottom: 1px solid;}"));
         break;
-    }
-    case 7:
-    {
-        ui->btn_BLHeli->setStyleSheet(QString("QToolButton {background-color: #E7E7E7; color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_PID->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_IMU->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_ADVANCED->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_CHART->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_OSD->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_RADIO->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid;}"));
-        ui->btn_UPGRADE->setStyleSheet(QString("QToolButton {background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 89, 89, 255), stop:0.693182 rgba(129, 129, 129, 255), stop:0.98 rgba(185, 185, 185, 255), stop:1 rgba(0, 0, 0, 0)); color: #FFFFFF; border: 0px;} QToolButton:hover{ background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.0113636 rgba(172, 172, 172, 255), stop:0.539773 rgba(255, 255, 255, 255), stop:0.977273 rgba(172, 172, 172, 255));color: #000000;border-top: 1px solid; border-right: 1px solid;}"));
     }
     default:
     {
@@ -609,7 +614,7 @@ void MainWindow::updateUIButton(int i)
 
 void MainWindow::addTestBoardDialog()
 {
-    AQTestView *aq = new AQTestView();
+//    AQTestView *aq = new AQTestView();
     aq->setMaximumSize(740,370);
     aq->setMinimumSize(740,370);
     aq->setWindowTitle("Test Board");
@@ -650,7 +655,7 @@ void MainWindow::updateState(UASInterface *system, QString name, QString descrip
     if (state != name)
         changed = true;
     state = name;
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 300px; padding: 2px; color: yellow; font-weight: bold;}"));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin-left: 150px; padding: 2px; color: yellow; font-weight: bold;}"));
     toolBarTimeoutLabel->setText(tr("CONNECTION"));
 
     // immediately update toolbar

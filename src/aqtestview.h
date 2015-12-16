@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "aqlinecharttestwidget.h"
 #include "autoquadMAV.h"
+#include "uavconfig.h"
 #include <QTabWidget>
 
 namespace Ui {
@@ -67,6 +68,7 @@ private slots:
     void getNewTelemetry(int uasId, int valIdx);
     void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values, mavlink_attitude_t value);
     void chartReset(int);
+    void updateID(int id, int component, int severity, QString text);
 
 protected:
     AQLinechartTestWidget* AqTeleChart;

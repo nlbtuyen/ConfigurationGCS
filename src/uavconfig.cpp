@@ -41,7 +41,7 @@ UAVConfig::UAVConfig(QWidget *parent) :
     ui(new Ui::UAVConfig)
 {
     // strict field name matching of common parameter
-    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC|PF|OSD)_[A-Z0-9_]+$");
+    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC|PF|OSD|KP|KI|KD|KRATE|P|H|D|RATE|PID)_[A-Z0-9_]+$");
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
     // strict field name matching of profile parameter
     filePF.setPattern("^(KP|KI|KD|KRATE|P|H|D|RATE|PID)_(PITCH|ROLL|YAW|CUT|LEVEL|TYPE).*");
@@ -61,8 +61,6 @@ UAVConfig::UAVConfig(QWidget *parent) :
     foreach (QComboBox* cb, allRadioChanCombos){
         connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
     }
-    // connect some things only after settings are loaded to prevent erroneous signals
-    connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq()));
     //RC Config
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     delayedSendRCTimer.start(800);
@@ -70,11 +68,10 @@ UAVConfig::UAVConfig(QWidget *parent) :
 
     //new USA created
     //    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)));
-//    createAQParamWidget(UASManager::instance()->getActiveUAS());
+    //    createAQParamWidget(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(uasDeleted(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(createAQParamWidget(UASInterface*)), Qt::UniqueConnection);
     ui->groupBox_Radio_Values->setVisible(true);
-    connect(ui->toolButton_toggleRadioGraph, SIGNAL(clicked(bool)),this,SLOT(onToggleRadioValuesRefresh(bool)));
 
 
     //Flash Firmware event
@@ -122,8 +119,31 @@ UAVConfig::UAVConfig(QWidget *parent) :
     DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(ui->scrollArea_debugConsole->widget());
     connect(mavlinkDecoder, SIGNAL(textMessageReceived(int, int, int, const QString)), debugConsole, SLOT(receiveTextMessage(int, int, int, const QString)));
 
+    connect(ui->btn_calibIMU, SIGNAL(clicked()), this, SLOT(calibIMU()));
+
+
     connect(ui->textEdit_desc, SIGNAL(textChanged()), this, SLOT(maxLengthDesc()));
 
+    connect(ui->PF_USING, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePID(int)));
+
+    connect(ui->KP_PITCH,SIGNAL(textChanged(QString)), this, SLOT(maxLength_KP_PITCH(QString)));
+    connect(ui->KI_PITCH,SIGNAL(textChanged(QString)), this, SLOT(maxLength_KI_PITCH(QString)));
+    connect(ui->KD_PITCH,SIGNAL(textChanged(QString)), this, SLOT(maxLength_KD_PITCH(QString)));
+    connect(ui->KP_ROLL,SIGNAL(textChanged(QString)), this, SLOT(maxLength_KP_ROLL(QString)));
+    connect(ui->KI_ROLL,SIGNAL(textChanged(QString)), this, SLOT(maxLength_KI_ROLL(QString)));
+    connect(ui->KD_ROLL,SIGNAL(textChanged(QString)), this, SLOT(maxLength_KD_ROLL(QString)));
+    connect(ui->KP_YAW,SIGNAL(textChanged(QString)), this, SLOT(maxLength_KP_YAW(QString)));
+    connect(ui->KI_YAW,SIGNAL(textChanged(QString)), this, SLOT(maxLength_KI_YAW(QString)));
+    connect(ui->KD_YAW,SIGNAL(textChanged(QString)), this, SLOT(maxLength_KD_YAW(QString)));
+    connect(ui->RATE_PITCH,SIGNAL(textChanged(QString)), this, SLOT(maxLength_RATE_PITCH(QString)));
+    connect(ui->RATE_ROLL,SIGNAL(textChanged(QString)), this, SLOT(maxLength_RATE_ROLL(QString)));
+    connect(ui->RATE_YAW,SIGNAL(textChanged(QString)), this, SLOT(maxLength_RATE_YAW(QString)));
+    connect(ui->P_CUT_HZ, SIGNAL(textChanged(QString)), this, SLOT(maxLength_P_CUTOFF(QString)));
+    connect(ui->D_CUT_HZ, SIGNAL(textChanged(QString)), this, SLOT(maxLength_D_CUTOFF(QString)));
+    connect(ui->H_LEVEL, SIGNAL(textChanged(QString)), this, SLOT(maxLength_LEVEL(QString)));
+
+    connect(ui->RADIO_DYN_THROT, SIGNAL(textChanged(QString)), this, SLOT(maxLength_TPA(QString)));
+    connect(ui->RADIO_THROT_TPA, SIGNAL(textChanged(QString)), this, SLOT(maxLength_TPA_Br(QString)));
 }
 
 UAVConfig::~UAVConfig()
@@ -165,7 +185,70 @@ void UAVConfig::loadParametersToUI()
     getGUIPara(ui->tab_aq_setting);
 }
 
+void UAVConfig::loadOnboardDefaults()
+{
+    if(!uas)
+        return;
 
+    uas->sendCommmandToIMU(MAV_CMD_PREFLIGHT_STORAGE, 1, 0.0f);
+    connect(uas, SIGNAL(commandAcked(int,int,uint16_t,uint8_t)), this, SLOT(commandAckReceived(int,int,uint16_t,uint8_t)));
+
+}
+
+void UAVConfig::commandAckReceived(int uasid, int compid, uint16_t command, uint8_t result)
+{
+    Q_UNUSED(compid)
+    if (uas && uas->getUASID() == uasid) {
+        switch (command) {
+        case MAV_CMD_PREFLIGHT_STORAGE :
+            disconnect(uas, SIGNAL(commandAcked(int,int,uint16_t,uint8_t)), this, SLOT(commandAckReceived(int,int,uint16_t,uint8_t)));
+            if (result == MAV_CMD_ACK_OK)
+                getGUIPara(ui->tab_aq_setting);
+            break;
+        }
+    }
+}
+
+void UAVConfig::requestParameterList()
+{
+    if (!uas) return;
+
+    uas->requestParameters();
+
+}
+
+void UAVConfig::restartUasWithPrompt()
+{
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.setText(tr("Restarting the UAS"));
+    msgBox.setInformativeText(tr("Are you sure you want to restart the remote system?"));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+
+    // Close the message box shortly after opening to prevent accidental clicks
+    QTimer::singleShot(8000, &msgBox, SLOT(reject()));
+
+    int ret = msgBox.exec();
+
+    if (ret == QMessageBox::Yes)
+    {
+        if (uas)
+        {
+            uas->sendCommmandToAq(MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, 0, 1.0f);
+        }
+    }
+
+}
+
+void UAVConfig::calibIMU()
+{
+
+    if (!uas)
+        return;
+
+    uas->sendCommmandToAq(MAV_CMD_PREFLIGHT_CALIBRATION, 1, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+}
 
 /**
  * @Leo: update UI
@@ -245,7 +328,7 @@ void UAVConfig::getGUIPara(QWidget *parent)
     }
 
     //update PID tab with profile ID
-    updatePID(parent, ID);
+    updatePID(ID);
 
 
     //RC Charts : Draw immediately after start
@@ -260,8 +343,11 @@ void UAVConfig::getGUIPara(QWidget *parent)
 }
 
 
-void UAVConfig::updatePID(QWidget *parent, int pfID)
+void UAVConfig::updatePID(int pfID)
 {
+    if(!uas)
+        return;
+    QWidget *parent = ui->tab_aq_setting;
     QString paraName;
     QVariant val;
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(filePF);
@@ -299,18 +385,36 @@ void UAVConfig::updatePID(QWidget *parent, int pfID)
     else {
         MainWindow::instance()->showCriticalMessage("Error", "Profile ID must between 1 and 7");
     }
+    ID_pro = pf;
+
     foreach (QWidget* w, wdgtList)
     {
         //get param name
         QString ap = pf + w->objectName();
+
         paraName = paramNameGuiToOnboard(ap);
 
         //get param value
         val = paramaq->getParaAQ(paraName);
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
         {
-            //change Float to String
-            valstr.setNum(val.toFloat(), 'g', 6);
+            if (ui->PID_TYPE->currentIndex() == 1) //Luv Float
+            {
+                if(paraName.contains("KI_PITCH") || paraName.contains("KI_ROLL") || paraName.contains("KI_YAW"))
+                {
+                    valstr.setNum((val.toFloat())*100, 'g', 6);
+                }
+                else if (paraName.contains("KD_PITCH") || paraName.contains("KD_ROLL") || paraName.contains("KD_YAW"))
+                {
+                    valstr.setNum((val.toFloat())*1000, 'g', 6);
+                }
+                else
+                    valstr.setNum(val.toFloat(), 'g', 6);
+            }
+            else {
+                //change Float to String
+                valstr.setNum(val.toFloat(), 'g', 6);
+            }
             le->setText(valstr);
             le->setValidator(new QDoubleValidator(-1000000.0, 1000000.0, 8, le));
         }
@@ -330,10 +434,24 @@ int UAVConfig::calcRadioSetting()
 
 void UAVConfig::getMessage(int id, int component, int severity, QString text)
 {
-    qDebug() << "id: " << id;
-    qDebug() << "component: " << component;
-    qDebug() << "severity: " << severity;
-    qDebug() << "text: " << text;
+    //    qDebug() << "id: " << id;
+    //    qDebug() << "component: " << component;
+    //    qDebug() << "severity: " << severity;
+    //    qDebug() << "text: " << text;
+
+    //    if(text.contains("VSK S/N", Qt::CaseInsensitive))
+    //    {
+    //        QString str;
+    //        QStringList list;
+    //        str = text;
+    //        str = str.simplified();
+    //        list = str.split(": ");
+    //        qDebug() << "here is s/n" << list[1];
+    //    }
+    Q_UNUSED(id);
+    Q_UNUSED(component);
+    Q_UNUSED(severity);
+    Q_UNUSED(text);
 }
 
 /*
@@ -503,7 +621,6 @@ void UAVConfig::toggleRadioValuesUpdate(bool enable)
     if (!uas)
         enable = false;
 
-    ui->toolButton_toggleRadioGraph->setChecked(enable);
     ui->conatiner_radioGraphValues->setEnabled(enable);
     ui->conatiner_radioGraphValues_2->setEnabled(enable);
 
@@ -513,26 +630,26 @@ void UAVConfig::toggleRadioValuesUpdate(bool enable)
     int min, max, tmin, tmax;
 
     //    if ( ui->checkBox_raw_value->isChecked() ){
-            tmax = 1500;
-            tmin = -100;
-            max = 1024;
-            min = -1024;
+    tmax = 1500;
+    tmin = -100;
+    max = 1024;
+    min = -1024;
     //    } else {
-//    tmax = -500;
-//    tmin = 1500;
-//    max = -1500;
-//    min = 1500;
+    //    tmax = -500;
+    //    tmin = 1500;
+    //    max = -1500;
+    //    min = 1500;
     //    }
 
     foreach (QProgressBar* pb, allRadioChanProgressBars) {
         if (pb->objectName().contains("chan_0")) {
             pb->setMaximum(tmax);
             pb->setMinimum(tmin);
-//                        qDebug() << "channel 0: " << pb->maximum() << pb->minimum();
+            //                        qDebug() << "channel 0: " << pb->maximum() << pb->minimum();
         } else {
             pb->setMaximum(max);
             pb->setMinimum(min);
-//                        qDebug() << "channel: " << pb->maximum() << pb->minimum();
+            //                        qDebug() << "channel: " << pb->maximum() << pb->minimum();
 
         }
     }
@@ -542,8 +659,6 @@ void UAVConfig::onToggleRadioValuesRefresh(const bool on)
 {
     if (!on || !uas)
         toggleRadioValuesUpdate(false);
-    else if (!ui->spinBox_rcGraphRefreshFreq->value())
-        ui->spinBox_rcGraphRefreshFreq->setValue(1);
 
     toggleRadioStream(on);
 }
@@ -563,8 +678,8 @@ void UAVConfig::delayedSendRcRefreshFreq()
 void UAVConfig::sendRcRefreshFreq()
 {
     delayedSendRCTimer.stop();
-    toggleRadioValuesUpdate(ui->spinBox_rcGraphRefreshFreq->value());
-    toggleRadioStream(ui->spinBox_rcGraphRefreshFreq->value());
+    toggleRadioValuesUpdate(true);
+    toggleRadioStream(5);
 }
 
 void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
@@ -581,10 +696,10 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
     QProgressBar* bar = allRadioChanProgressBars.at(channelId);
     QLabel* lbl = allRadioChanValueLabels.at(channelId);
 
-//    // Scaled values
-//    val = (int)((normalized*10000.0f)/13);
-//    if (channelId == 0)
-//        val += 750;
+    //    // Scaled values
+    //    val = (int)((normalized*10000.0f)/13);
+    //    if (channelId == 0)
+    //        val += 750;
 
     val = (int)(normalized-1024);
 
@@ -599,7 +714,7 @@ void UAVConfig::setRadioChannelDisplayValue(int channelId, float normalized)
             val = bar->minimum();
 
         bar->setValue(val);
-//        qDebug() << "channelID: " << channelId << "value: " << bar->value();
+        //        qDebug() << "channelID: " << channelId << "value: " << bar->value();
 
     }
 }
@@ -618,6 +733,262 @@ void UAVConfig::maxLengthDesc()
     if(ui->textEdit_desc->toPlainText().length() > 30){
         QMessageBox::critical(this,  "Error",
                               "Please be sure that you keep the description under 31 characters.");
+    }
+}
+
+//PITCH
+void UAVConfig::maxLength_KP_PITCH(QString str)
+{
+    if(ui->PID_TYPE->currentIndex() == 1) //Luv Float
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 10)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the P_Pitch value between 0 and 10");
+        }
+    }
+    else if(ui->PID_TYPE->currentIndex() == 0) //Rewrite
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the P_Pitch value between 0 and 999");
+        }
+    }
+}
+
+void UAVConfig::maxLength_KI_PITCH(QString str)
+{
+    if(ui->PID_TYPE->currentIndex() == 1) //Luv Float
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the I_Pitch value between 0 and 1000");
+        }
+    }
+    else if(ui->PID_TYPE->currentIndex() == 0) //Rewrite
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the I_Pitch value between 0 and 999");
+        }
+    }
+}
+
+void UAVConfig::maxLength_KD_PITCH(QString str)
+{
+    if(ui->PID_TYPE->currentIndex() == 1) //Luv Float
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the D_Pitch value between 0 and 1000");
+        }
+    }
+    else if(ui->PID_TYPE->currentIndex() == 0) //Rewrite
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the D_Pitch value between 0 and 999");
+        }
+    }
+}
+
+//ROLL
+void UAVConfig::maxLength_KP_ROLL(QString str)
+{
+    if(ui->PID_TYPE->currentIndex() == 1) //Luv Float
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 10)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the P_Roll value between 0 and 10");
+        }
+    }
+    else if(ui->PID_TYPE->currentIndex() == 0) //Rewrite
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the P_Roll value between 0 and 999");
+        }
+    }
+}
+
+void UAVConfig::maxLength_KI_ROLL(QString str)
+{
+    if(ui->PID_TYPE->currentIndex() == 1) //Luv Float
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the I_Roll value between 0 and 1000");
+        }
+    }
+    else if(ui->PID_TYPE->currentIndex() == 0) //Rewrite
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the I_Roll value between 0 and 999");
+        }
+    }
+}
+
+void UAVConfig::maxLength_KD_ROLL(QString str)
+{
+    if(ui->PID_TYPE->currentIndex() == 1) //Luv Float
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the D_Roll value between 0 and 1000");
+        }
+    }
+    else if(ui->PID_TYPE->currentIndex() == 0) //Rewrite
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the D_Roll value between 0 and 999");
+        }
+    }
+}
+
+//YAW
+void UAVConfig::maxLength_KP_YAW(QString str)
+{
+    if(ui->PID_TYPE->currentIndex() == 1) //Luv Float
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 10)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the P_Yaw value between 0 and 10");
+        }
+    }
+    else if(ui->PID_TYPE->currentIndex() == 0) //Rewrite
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the P_Yaw value between 0 and 999");
+        }
+    }
+}
+
+void UAVConfig::maxLength_KI_YAW(QString str)
+{
+    if(ui->PID_TYPE->currentIndex() == 1) //Luv Float
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the I_Yaw value between 0 and 1000");
+        }
+    }
+    else if(ui->PID_TYPE->currentIndex() == 0) //Rewrite
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the I_Yaw value between 0 and 999");
+        }
+    }
+}
+
+void UAVConfig::maxLength_KD_YAW(QString str)
+{
+    if(ui->PID_TYPE->currentIndex() == 1) //Luv Float
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the D_Yaw value between 0 and 1000");
+        }
+    }
+    else if(ui->PID_TYPE->currentIndex() == 0) //Rewrite
+    {
+        int val = str.toInt();
+        if((val < 0) || (val > 1000)){
+            QMessageBox::critical(this,  "Error",
+                                  "Please be sure that you keep the D_Yaw value between 0 and 999");
+        }
+    }
+}
+
+
+void UAVConfig::maxLength_P_CUTOFF(QString str)
+{
+    int val = str.toInt();
+    if((val < 0) || (val > 200)){
+        QMessageBox::critical(this,  "Error",
+                              "Please be sure that you keep the P CUTT OFF value between 0 and 200");
+    }
+}
+
+void UAVConfig::maxLength_D_CUTOFF(QString str)
+{
+    int val = str.toInt();
+    if((val < 0) || (val > 200)){
+        QMessageBox::critical(this,  "Error",
+                              "Please be sure that you keep the D CUTT OFF value between 0 and 200");
+    }
+}
+
+void UAVConfig::maxLength_RATE_PITCH(QString str)
+{
+    float val = str.toFloat();
+    if((val < 0) || (val > 1)){
+        QMessageBox::critical(this,  "Error",
+                              "Please be sure that you keep the Pitch RATE value between 0 and 1");
+    }
+}
+
+void UAVConfig::maxLength_RATE_ROLL(QString str)
+{
+    float val = str.toFloat();
+    if((val < 0) || (val > 1)){
+        QMessageBox::critical(this,  "Error",
+                              "Please be sure that you keep the Roll RATE value between 0 and 1");
+    }
+}
+
+void UAVConfig::maxLength_RATE_YAW(QString str)
+{
+    float val = str.toFloat();
+    if((val < 0) || (val > 1)){
+        QMessageBox::critical(this,  "Error",
+                              "Please be sure that you keep the Yaw RATE value between 0 and 1");
+    }
+}
+
+void UAVConfig::maxLength_LEVEL(QString str)
+{
+    int val = str.toInt();
+    if((val < 0) || (val > 100)){
+        QMessageBox::critical(this,  "Error",
+                              "Please be sure that you keep the Level Mode value between 0 and 100");
+    }
+}
+
+void UAVConfig::maxLength_TPA(QString str)
+{
+    float val = str.toFloat();
+    if((val < 0) || (val > 1)){
+        QMessageBox::critical(this,  "Error",
+                              "Please be sure that you keep the TPA value between 0 and 1");
+    }
+}
+
+void UAVConfig::maxLength_TPA_Br(QString str)
+{
+    int val = str.toInt();
+    if((val < 1000) || (val > 2000)){
+        QMessageBox::critical(this,  "Error",
+                              "Please be sure that you keep the TPA Breakpoint value between 1000 and 2000");
     }
 }
 
@@ -762,7 +1133,7 @@ void UAVConfig::createAQParamWidget(UASInterface *uastmp)
     paramaq = new AQParamWidget(uas, this);
 
     // do this before we recieve any data stream announcements or messages
-    onToggleRadioValuesRefresh(ui->toolButton_toggleRadioGraph->isChecked());
+    onToggleRadioValuesRefresh(true);
 
     //RC message
     connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
@@ -870,12 +1241,6 @@ void UAVConfig::TabUpgrade()
     updateButtonView();
 }
 
-void UAVConfig::TabBLHeli()
-{
-    ui->tab_aq_setting->setCurrentIndex(7);
-    updateButtonView();
-}
-
 bool UAVConfig::validateRadioSettings(int)
 {
     QList<QString> conflictPorts, portsUsed, essentialPorts;
@@ -946,6 +1311,10 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
     foreach (QObject* w, objList) {
         paraName = paramNameGuiToOnboard(w->objectName());
 
+        if(paraName.contains("KI_PITCH") || paraName.contains("KI_ROLL") || paraName.contains("KI_YAW") || paraName.contains("KD_PITCH") || paraName.contains("KD_ROLL") || paraName.contains("KD_YAW") || paraName.contains("KP_PITCH") || paraName.contains("KP_ROLL") || paraName.contains("KP_YAW") || paraName.contains("RATE_PITCH") || paraName.contains("RATE_ROLL") || paraName.contains("RATE_YAW") || paraName.contains("P_CUT_HZ") || paraName.contains("H_LEVEL") || paraName.contains("D_CUT_HZ") || paraName.contains("PID_TYPE")){
+            paraName = ID_pro + paraName;
+        }
+
         if (!paramaq->paramExistsAQ(paraName))
             continue;
 
@@ -953,7 +1322,23 @@ bool UAVConfig::saveSettingsToAq(QWidget *parent, bool interactive)
         val_uas = paramaq->getParaAQ(paraName).toFloat(&ok);
 
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
-            val_local = le->text().toFloat(&ok);
+        {
+            if (ui->PID_TYPE->currentIndex() == 1) {
+                if(paraName.contains("KI_PITCH") || paraName.contains("KI_ROLL") || paraName.contains("KI_YAW"))
+                {
+                    val_local = (le->text().toFloat(&ok))/100;
+                }
+                else if (paraName.contains("KD_PITCH") || paraName.contains("KD_ROLL") || paraName.contains("KD_YAW"))
+                {
+                    val_local = (le->text().toFloat(&ok))/1000;
+                }
+                else
+                    val_local = le->text().toFloat(&ok);
+            }
+            else
+                val_local = le->text().toFloat(&ok);
+
+        }
         else if (QComboBox* cb = qobject_cast<QComboBox *>(w)) {
             if (cb->isEditable()) {
                 val_local = cb->currentText().toFloat(&ok);
@@ -1191,11 +1576,6 @@ void UAVConfig::updateButtonView()
         emit TabClicked(6);
         break;
     }
-    case 7:
-    {
-        emit TabClicked(7);
-        break;
-    }
     default:
     {
         break;
@@ -1403,20 +1783,20 @@ void UAVConfig::TPAChart()
  */
 void UAVConfig::load3DModel()
 {
-    //3D Model: load qml and connect between QML & C++
-    view.releaseResources();
-    QWidget *container = QWidget::createWindowContainer(&view);
-    QSurfaceFormat format;
-    format.setMajorVersion(3);
-    format.setMinorVersion(3);
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setDepthBufferSize(24);
-    view.setFormat(format);
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.clearBeforeRendering();
-    view.engine()->clearComponentCache();
-    view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
-    view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
+    //    //3D Model: load qml and connect between QML & C++
+    //    view.releaseResources();
+    //    QWidget *container = QWidget::createWindowContainer(&view);
+    //    QSurfaceFormat format;
+    //    format.setMajorVersion(3);
+    //    format.setMinorVersion(3);
+    //    format.setProfile(QSurfaceFormat::CoreProfile);
+    //    format.setDepthBufferSize(24);
+    //    view.setFormat(format);
+    //    view.setResizeMode(QQuickView::SizeRootObjectToView);
+    //    view.clearBeforeRendering();
+    //    view.engine()->clearComponentCache();
+    //    view.rootContext()->setContextProperty("drone",&drone); //connect QML & C++
+    //    view.setSource(QUrl("qrc:/src/main.qml")); //load QML file
     //    ui->scrollArea_3D->setWidget(container);
 
 }
@@ -1424,7 +1804,7 @@ void UAVConfig::load3DModel()
 void UAVConfig::radioType_changed(int idx)
 {
 
-    //    Q_UNUSED(idx);
+    Q_UNUSED(idx);
     //    emit hardwareInfoUpdated();
 
     //    bool ok;

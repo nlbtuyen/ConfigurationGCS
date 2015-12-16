@@ -64,6 +64,7 @@ public:
     uint8_t maxMotorPorts;          // maximum possible motor outputs (PWM or CAN or ?)
     QList<uint8_t> pwmPortTimers;   // table of timers corresponding to ports
 
+    QString ID_pro;
 
     bool saveSettingsToAq(QWidget *parent, bool interactive = true);    
     void indexHide(int i);
@@ -72,11 +73,17 @@ signals:
     void hardwareInfoUpdated(void);
     void firmwareInfoUpdated();
     void TabClicked(int i);
+    void boardID(QString text);
 
 private slots:
     //@Hai: update Param to UI
     QString paramNameGuiToOnboard(QString paraName);
     void loadParametersToUI();
+    void loadOnboardDefaults();
+    void commandAckReceived(int uasid, int compid, uint16_t command, uint8_t result);
+    void requestParameterList();
+    void restartUasWithPrompt();
+    void calibIMU();
 
     //setActiveUAS
     void createAQParamWidget(UASInterface* uas);
@@ -118,6 +125,26 @@ private slots:
 
     ////////
     void maxLengthDesc();
+    void maxLength_KP_PITCH(QString str);
+    void maxLength_KI_PITCH(QString str);
+    void maxLength_KD_PITCH(QString str);
+    void maxLength_KP_ROLL(QString str);
+    void maxLength_KI_ROLL(QString str);
+    void maxLength_KD_ROLL(QString str);
+    void maxLength_KP_YAW(QString str);
+    void maxLength_KI_YAW(QString str);
+    void maxLength_KD_YAW(QString str);
+    void maxLength_P_CUTOFF(QString str);
+    void maxLength_D_CUTOFF(QString str);
+    void maxLength_RATE_PITCH(QString str);
+    void maxLength_RATE_ROLL(QString str);
+    void maxLength_RATE_YAW(QString str);
+    void maxLength_LEVEL(QString str);
+
+    void maxLength_TPA(QString str);
+    void maxLength_TPA_Br(QString str);
+
+
 
     //connect between QSlider & QLineEdit
     void setValueLineEdit(QString str);
@@ -141,11 +168,11 @@ private slots:
     void TPAChart();
 
     //@Leo: PID
-    void updatePID(QWidget *parent, int pfID);
+    void updatePID(int pfID);
 
 public slots:
     void saveAQSetting();
-void refreshParam();
+    void refreshParam();
     void TabRadio();
     void TabAdvanced();
     void TabIMU();
@@ -153,7 +180,6 @@ void refreshParam();
     void TabChart();
     void TabOSD();
     void TabUpgrade();
-    void TabBLHeli();
 
 //    void receiveTextMessage(int uasid, int componentid, int severity, QString text);
 

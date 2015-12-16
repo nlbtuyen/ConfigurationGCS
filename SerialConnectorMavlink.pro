@@ -1,6 +1,6 @@
 message(Qt version $$[QT_VERSION])
 
-TARGET = SerialConnectorMavlink
+TARGET = UAVConfiguration
 TEMPLATE = app
 
 win* {
@@ -37,6 +37,7 @@ MOC_DIR = $${BUILDDIR}/moc
 UI_DIR = $${BUILDDIR}/ui
 RCC_DIR = $${BUILDDIR}/rcc
 MOC_DIR = $${BUILDDIR}/moc
+
 # root of project files
 BASEDIR = $$_PRO_FILE_PWD_
 
