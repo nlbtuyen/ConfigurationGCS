@@ -439,11 +439,11 @@ QToolButton* AQLinechartWidget::createButton(QWidget* parent)
     return button;
 }
 
-//void AQLinechartWidget::checkMaxMin(QString str){
+void AQLinechartWidget::checkMaxMin(int currentListCurve){
 //    Q_UNUSED(str);
 //    if (ui.maxValue->text().toDouble() != maxValue || ui.minValue->text().toDouble() != minValue){
 //        maxValue = ui.maxValue->text().toDouble();
 //        minValue = ui.minValue->text().toDouble();
-//        activePlot->changeMaxMin(maxValue, minValue);
+        activePlot->changeMaxMin(currentListCurve);
 //    }
-//}
+}

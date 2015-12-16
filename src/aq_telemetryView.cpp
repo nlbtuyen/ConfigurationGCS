@@ -99,6 +99,11 @@ void AQTelemetryView::btnFailClicked()
     takeScreenshot("fail");
 }
 
+void AQTelemetryView::setDefaultScaleChart()
+{
+    AqTeleChart->checkMaxMin(ui->combo_selectCurve->currentIndex());
+}
+
 void AQTelemetryView::takeScreenshot(QString btnName)
 {
     QScreen *screen = QGuiApplication::primaryScreen();
@@ -164,6 +169,7 @@ void AQTelemetryView::init()
             AqTeleChart->appendData(0, telemDataFields[i].label, "", var, 0);
         }
     }
+    connect(ui->btn_default, SIGNAL(clicked()), this, SLOT(setDefaultScaleChart()));
 }
 
 void AQTelemetryView::chartReset(int f){

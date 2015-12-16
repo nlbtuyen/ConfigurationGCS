@@ -75,7 +75,7 @@ public slots:
     /** Read the current configuration from disk */
     void readSettings();
     /** Check max and min value change */
-//    void checkMaxMin(QString str);
+    void checkMaxMin(int currentListCurve);
 
 protected:
     void removeCurveFromList(QString curve);

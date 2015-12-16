@@ -6,6 +6,7 @@
 #include <qwt_plot_curve.h>
 #include "scrollzoomer.h"
 #include <QMouseEvent>
+#include <qwt_scale_engine.h>
 
 class ChartPlot : public QwtPlot
 {
@@ -27,7 +28,7 @@ public:
 
     // @trung
     /** Change max and min value of left scale */
-    void changeMaxMinValue(double max, double min); // @trung
+    void changeMaxMinValue(int currentListCurve); // @trung
     bool checkResetZoom(QMouseEvent *event);
 
 public slots:
@@ -49,6 +50,7 @@ protected:
 
     ScrollZoomer* zoomer;  ///< Zoomer class for widget     // @trung
     float zoomerWidth; ///< Width of zoomer selection box   // @trung
+    QwtScaleEngine* yScaleEngine;
 };
 
 #endif // CHARTPLOT_H

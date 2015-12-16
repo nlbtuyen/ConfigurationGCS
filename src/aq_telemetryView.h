@@ -59,7 +59,8 @@ private:
 public slots:
     void initChart(UASInterface *uav);    
     void btnPassClicked();
-    void btnFailClicked();
+    void btnFailClicked();    
+    void setDefaultScaleChart();
 
 private slots:
     void getNewTelemetry(int uasId, int valIdx);

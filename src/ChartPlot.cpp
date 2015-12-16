@@ -123,7 +123,7 @@ void ChartPlot::styleChanged()
     replot();
 }
 
-void ChartPlot::changeMaxMinValue(double max, double min){
+void ChartPlot::changeMaxMinValue(int currentListCurve){
 //    if ((max - min) <= 2){
 //        this->setAxisScale(QwtPlot::yLeft, min, max, 0.1);
 //    }else if ((max - min) >= 20 && (max - min) < 50){
@@ -135,6 +135,13 @@ void ChartPlot::changeMaxMinValue(double max, double min){
 //    }else{
 //        this->setAxisScale(QwtPlot::yLeft, min, max, 50);
     //    }
+    if (currentListCurve == 0)
+        this->setAxisScale(QwtPlot::yLeft, -180, 180, 30);
+    else
+        this->setAxisScale(QwtPlot::yLeft, -20, 20, 5);
+//    this->axisScaleEngine(QwtPlot::yLeft)->setAttribute(QwtScaleEngine::Floating,true);
+    yScaleEngine = new QwtLinearScaleEngine();
+    this->setAxisScaleEngine(QwtPlot::yLeft, yScaleEngine);
 }
 
 bool ChartPlot::checkResetZoom(QMouseEvent *event)

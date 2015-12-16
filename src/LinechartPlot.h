@@ -143,7 +143,7 @@ public:
 
     // @trung
     /** Change max and min value of left scale */
-    void changeMaxMin(double max, double min);
+    void changeMaxMin(int currentListCurve);
 
 public slots:    
     void appendData(QString dataname, quint64 ms, double value);
